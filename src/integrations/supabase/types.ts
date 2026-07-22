@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_rollups: {
+        Row: {
+          active_campaigns: number
+          avg_engagement: number
+          campaign_count: number
+          org_id: string
+          total_reach: number
+          total_spend: number
+          updated_at: string
+        }
+        Insert: {
+          active_campaigns?: number
+          avg_engagement?: number
+          campaign_count?: number
+          org_id: string
+          total_reach?: number
+          total_spend?: number
+          updated_at?: string
+        }
+        Update: {
+          active_campaigns?: number
+          avg_engagement?: number
+          campaign_count?: number
+          org_id?: string
+          total_reach?: number
+          total_spend?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_rollups_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
           brief: string
@@ -464,7 +502,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      refresh_analytics_rollups: {
+        Args: { _org_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "brand" | "creator" | "admin"
