@@ -1,5 +1,6 @@
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Home,
   Megaphone,
@@ -11,7 +12,10 @@ import {
   Bell,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 
 const nav = [
   { to: "/app", label: "Home", Icon: Home },
@@ -26,6 +30,21 @@ const nav = [
 export function AppShell({ children }: { children?: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { user, role } = useAuth();
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth/sign-in", replace: true });
+  }
+
+  const initials = (user?.user_metadata?.full_name ?? user?.email ?? "?")
+    .split(/[\s@]/)[0]
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <div className="flex min-h-screen bg-canvas">
