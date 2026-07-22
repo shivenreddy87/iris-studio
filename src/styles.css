@@ -26,8 +26,8 @@
   --color-midnight: #171A2B;
   --color-violet: #7657FF;
   --color-rose: #F0647D;
-  --color-canvas: #F7F7FB;
-  --color-ink: #262838;
+  --color-canvas: hsl(260 87% 3%);
+  --color-ink: #F5F3FA;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -191,7 +191,7 @@
   html { font-family: var(--font-sans); }
   body {
     background-color: var(--color-canvas);
-    color: var(--color-ink);
+    color: hsl(40 6% 95%);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
