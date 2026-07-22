@@ -240,7 +240,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                         key={n.id}
                         to={n.link ?? "/app"}
                         onClick={() => setNotifOpen(false)}
-                        className={`block border-b border-midnight/5 p-3 text-sm hover:bg-canvas ${
+                        className={`block border-b border-midnight/5 p-3 text-sm hover:bg-midnight/5 ${
                           n.read_at ? "opacity-60" : ""
                         }`}
                       >
