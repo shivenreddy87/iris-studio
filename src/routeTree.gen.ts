@@ -19,7 +19,6 @@ import { Route as AppMessagesRouteImport } from './routes/app.messages'
 import { Route as AppListsRouteImport } from './routes/app.lists'
 import { Route as AppIrisRouteImport } from './routes/app.iris'
 import { Route as AppDiscoverRouteImport } from './routes/app.discover'
-import { Route as AppCampaignsRouteImport } from './routes/app.campaigns'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
@@ -78,11 +77,6 @@ const AppDiscoverRoute = AppDiscoverRouteImport.update({
   path: '/discover',
   getParentRoute: () => AppRoute,
 } as any)
-const AppCampaignsRoute = AppCampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -94,9 +88,9 @@ const ApiChatRoute = ApiChatRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppCampaignsRoute,
+  id: '/campaigns/',
+  path: '/campaigns/',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppDealsIdRoute = AppDealsIdRouteImport.update({
   id: '/deals/$id',
@@ -109,14 +103,14 @@ const AppCreatorsIdRoute = AppCreatorsIdRouteImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 const AppCampaignsNewRoute = AppCampaignsNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => AppCampaignsRoute,
+  id: '/campaigns/new',
+  path: '/campaigns/new',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppCampaignsIdRoute = AppCampaignsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AppCampaignsRoute,
+  id: '/campaigns/$id',
+  path: '/campaigns/$id',
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -124,7 +118,6 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/iris': typeof AppIrisRoute
   '/app/lists': typeof AppListsRoute
@@ -163,7 +156,6 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/iris': typeof AppIrisRoute
   '/app/lists': typeof AppListsRoute
@@ -185,7 +177,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/api/chat'
     | '/app/analytics'
-    | '/app/campaigns'
     | '/app/discover'
     | '/app/iris'
     | '/app/lists'
@@ -223,7 +214,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/api/chat'
     | '/app/analytics'
-    | '/app/campaigns'
     | '/app/discover'
     | '/app/iris'
     | '/app/lists'
@@ -320,13 +310,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDiscoverRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/campaigns': {
-      id: '/app/campaigns'
-      path: '/campaigns'
-      fullPath: '/app/campaigns'
-      preLoaderRoute: typeof AppCampaignsRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/analytics': {
       id: '/app/analytics'
       path: '/analytics'
@@ -343,10 +326,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/campaigns/': {
       id: '/app/campaigns/'
-      path: '/'
+      path: '/campaigns'
       fullPath: '/app/campaigns/'
       preLoaderRoute: typeof AppCampaignsIndexRouteImport
-      parentRoute: typeof AppCampaignsRoute
+      parentRoute: typeof AppRoute
     }
     '/app/deals/$id': {
       id: '/app/deals/$id'
@@ -364,59 +347,47 @@ declare module '@tanstack/react-router' {
     }
     '/app/campaigns/new': {
       id: '/app/campaigns/new'
-      path: '/new'
+      path: '/campaigns/new'
       fullPath: '/app/campaigns/new'
       preLoaderRoute: typeof AppCampaignsNewRouteImport
-      parentRoute: typeof AppCampaignsRoute
+      parentRoute: typeof AppRoute
     }
     '/app/campaigns/$id': {
       id: '/app/campaigns/$id'
-      path: '/$id'
+      path: '/campaigns/$id'
       fullPath: '/app/campaigns/$id'
       preLoaderRoute: typeof AppCampaignsIdRouteImport
-      parentRoute: typeof AppCampaignsRoute
+      parentRoute: typeof AppRoute
     }
   }
 }
 
-interface AppCampaignsRouteChildren {
-  AppCampaignsIdRoute: typeof AppCampaignsIdRoute
-  AppCampaignsNewRoute: typeof AppCampaignsNewRoute
-  AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
-}
-
-const AppCampaignsRouteChildren: AppCampaignsRouteChildren = {
-  AppCampaignsIdRoute: AppCampaignsIdRoute,
-  AppCampaignsNewRoute: AppCampaignsNewRoute,
-  AppCampaignsIndexRoute: AppCampaignsIndexRoute,
-}
-
-const AppCampaignsRouteWithChildren = AppCampaignsRoute._addFileChildren(
-  AppCampaignsRouteChildren,
-)
-
 interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
-  AppCampaignsRoute: typeof AppCampaignsRouteWithChildren
   AppDiscoverRoute: typeof AppDiscoverRoute
   AppIrisRoute: typeof AppIrisRoute
   AppListsRoute: typeof AppListsRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppCampaignsIdRoute: typeof AppCampaignsIdRoute
+  AppCampaignsNewRoute: typeof AppCampaignsNewRoute
   AppCreatorsIdRoute: typeof AppCreatorsIdRoute
   AppDealsIdRoute: typeof AppDealsIdRoute
+  AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
-  AppCampaignsRoute: AppCampaignsRouteWithChildren,
   AppDiscoverRoute: AppDiscoverRoute,
   AppIrisRoute: AppIrisRoute,
   AppListsRoute: AppListsRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppIndexRoute: AppIndexRoute,
+  AppCampaignsIdRoute: AppCampaignsIdRoute,
+  AppCampaignsNewRoute: AppCampaignsNewRoute,
   AppCreatorsIdRoute: AppCreatorsIdRoute,
   AppDealsIdRoute: AppDealsIdRoute,
+  AppCampaignsIndexRoute: AppCampaignsIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
