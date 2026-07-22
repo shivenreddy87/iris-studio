@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Users, Link2, ShieldCheck, ArrowRight } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -6,8 +7,8 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/app/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — Project Eros" },
-      { name: "description", content: "Account settings." },
+      { title: "Settings — Iris AI" },
+      { name: "description", content: "Manage your account, team, and connected accounts on Iris AI." },
     ],
   }),
   component: SettingsPage,
@@ -37,16 +38,44 @@ function SettingsPage() {
           <Row label="Email" value={user?.email ?? "—"} />
           <Row label="Role" value={role ?? "—"} />
         </Section>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <NavCard to="/app/team" Icon={Users} title={role === "creator" ? "Collaborators" : "Team"} desc="Invite and manage members" />
+          <NavCard to="/app/connections" Icon={Link2} title="Connected accounts" desc="Link social platforms" />
+        </div>
+
         <Section title="Security">
-          <button
-            onClick={handleReset}
-            className="rounded-full bg-midnight px-5 py-2.5 text-sm font-semibold text-white hover:bg-violet"
-          >
-            Send password reset email
-          </button>
+          <div className="flex items-center gap-3">
+            <ShieldCheck className="h-5 w-5 text-emerald-400" />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-ink">Password reset</p>
+              <p className="text-xs text-ink-mute">We'll send a secure link to your email.</p>
+            </div>
+            <button
+              onClick={handleReset}
+              className="rounded-full bg-violet px-4 py-2 text-sm font-semibold text-white hover:opacity-90"
+            >
+              Send email
+            </button>
+          </div>
         </Section>
       </div>
     </div>
+  );
+}
+
+function NavCard({ to, Icon, title, desc }: { to: string; Icon: any; title: string; desc: string }) {
+  return (
+    <Link to={to} className="group flex items-center gap-3 rounded-3xl border border-hairline bg-surface-2 p-5 transition hover:border-violet/50 hover:bg-surface-3">
+      <div className="grid h-10 w-10 place-items-center rounded-2xl bg-violet/20 text-violet">
+        <Icon className="h-5 w-5" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="font-display text-sm font-bold text-ink">{title}</p>
+        <p className="truncate text-xs text-ink-mute">{desc}</p>
+      </div>
+      <ArrowRight className="h-4 w-4 text-ink-mute transition group-hover:translate-x-0.5 group-hover:text-ink" />
+    </Link>
   );
 }
 
