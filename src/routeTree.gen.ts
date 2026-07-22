@@ -22,6 +22,7 @@ import { Route as AppDiscoverRouteImport } from './routes/app.discover'
 import { Route as AppCampaignsRouteImport } from './routes/app.campaigns'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
 import { Route as AppDealsIdRouteImport } from './routes/app.deals.$id'
 import { Route as AppCreatorsIdRouteImport } from './routes/app.creators.$id'
 import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
@@ -92,6 +93,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppCampaignsRoute,
+} as any)
 const AppDealsIdRoute = AppDealsIdRouteImport.update({
   id: '/deals/$id',
   path: '/deals/$id',
@@ -131,12 +137,12 @@ export interface FileRoutesByFullPath {
   '/app/campaigns/new': typeof AppCampaignsNewRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/iris': typeof AppIrisRoute
   '/app/lists': typeof AppListsRoute
@@ -149,6 +155,7 @@ export interface FileRoutesByTo {
   '/app/campaigns/new': typeof AppCampaignsNewRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/campaigns': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -169,6 +176,7 @@ export interface FileRoutesById {
   '/app/campaigns/new': typeof AppCampaignsNewRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -190,12 +198,12 @@ export interface FileRouteTypes {
     | '/app/campaigns/new'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/campaigns/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/api/chat'
     | '/app/analytics'
-    | '/app/campaigns'
     | '/app/discover'
     | '/app/iris'
     | '/app/lists'
@@ -208,6 +216,7 @@ export interface FileRouteTypes {
     | '/app/campaigns/new'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/campaigns'
   id:
     | '__root__'
     | '/'
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/app/campaigns/new'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/campaigns/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -331,6 +341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/campaigns/': {
+      id: '/app/campaigns/'
+      path: '/'
+      fullPath: '/app/campaigns/'
+      preLoaderRoute: typeof AppCampaignsIndexRouteImport
+      parentRoute: typeof AppCampaignsRoute
+    }
     '/app/deals/$id': {
       id: '/app/deals/$id'
       path: '/deals/$id'
@@ -365,11 +382,13 @@ declare module '@tanstack/react-router' {
 interface AppCampaignsRouteChildren {
   AppCampaignsIdRoute: typeof AppCampaignsIdRoute
   AppCampaignsNewRoute: typeof AppCampaignsNewRoute
+  AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
 }
 
 const AppCampaignsRouteChildren: AppCampaignsRouteChildren = {
   AppCampaignsIdRoute: AppCampaignsIdRoute,
   AppCampaignsNewRoute: AppCampaignsNewRoute,
+  AppCampaignsIndexRoute: AppCampaignsIndexRoute,
 }
 
 const AppCampaignsRouteWithChildren = AppCampaignsRoute._addFileChildren(
