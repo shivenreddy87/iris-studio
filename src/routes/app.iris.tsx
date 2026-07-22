@@ -22,8 +22,22 @@ const SUGGESTIONS = [
   "How should I negotiate a 30% counter-offer?",
 ];
 
+const STORAGE_KEY = "iris-chat-messages-v1";
+
+function loadPersisted(): UIMessage[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as UIMessage[]) : [];
+  } catch {
+    return [];
+  }
+}
+
 function IrisPage() {
+  const [initialMessages] = useState<UIMessage[]>(() => loadPersisted());
   const { messages, sendMessage, status } = useChat({
+    messages: initialMessages,
     transport: new DefaultChatTransport({ api: "/api/chat" }),
   });
   const [input, setInput] = useState("");
@@ -33,6 +47,13 @@ function IrisPage() {
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length > 0) {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+      } catch {
+        /* quota exceeded — silently skip */
+      }
+    }
   }, [messages]);
 
   useEffect(() => {
