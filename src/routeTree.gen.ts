@@ -26,7 +26,9 @@ import { Route as AppIrisRouteImport } from './routes/app.iris'
 import { Route as AppDiscoverRouteImport } from './routes/app.discover'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AppIrisIndexRouteImport } from './routes/app.iris.index'
 import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
+import { Route as AppIrisThreadIdRouteImport } from './routes/app.iris.$threadId'
 import { Route as AppDealsIdRouteImport } from './routes/app.deals.$id'
 import { Route as AppCreatorsIdRouteImport } from './routes/app.creators.$id'
 import { Route as AppCreatorOpportunitiesRouteImport } from './routes/app.creator.opportunities'
@@ -123,10 +125,20 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIrisIndexRoute = AppIrisIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppIrisRoute,
+} as any)
 const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
   id: '/campaigns/',
   path: '/campaigns/',
   getParentRoute: () => AppRoute,
+} as any)
+const AppIrisThreadIdRoute = AppIrisThreadIdRouteImport.update({
+  id: '/$threadId',
+  path: '/$threadId',
+  getParentRoute: () => AppIrisRoute,
 } as any)
 const AppDealsIdRoute = AppDealsIdRouteImport.update({
   id: '/deals/$id',
@@ -188,7 +200,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/discover': typeof AppDiscoverRoute
-  '/app/iris': typeof AppIrisRoute
+  '/app/iris': typeof AppIrisRouteWithChildren
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/settings': typeof AppSettingsRoute
@@ -207,7 +219,9 @@ export interface FileRoutesByFullPath {
   '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/campaigns/': typeof AppCampaignsIndexRoute
+  '/app/iris/': typeof AppIrisIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -217,7 +231,6 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/discover': typeof AppDiscoverRoute
-  '/app/iris': typeof AppIrisRoute
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/settings': typeof AppSettingsRoute
@@ -236,7 +249,9 @@ export interface FileRoutesByTo {
   '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/campaigns': typeof AppCampaignsIndexRoute
+  '/app/iris': typeof AppIrisIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -248,7 +263,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/discover': typeof AppDiscoverRoute
-  '/app/iris': typeof AppIrisRoute
+  '/app/iris': typeof AppIrisRouteWithChildren
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/settings': typeof AppSettingsRoute
@@ -267,7 +282,9 @@ export interface FileRoutesById {
   '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/campaigns/': typeof AppCampaignsIndexRoute
+  '/app/iris/': typeof AppIrisIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -299,7 +316,9 @@ export interface FileRouteTypes {
     | '/app/creator/opportunities'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/iris/$threadId'
     | '/app/campaigns/'
+    | '/app/iris/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -309,7 +328,6 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/app/analytics'
     | '/app/discover'
-    | '/app/iris'
     | '/app/lists'
     | '/app/messages'
     | '/app/settings'
@@ -328,7 +346,9 @@ export interface FileRouteTypes {
     | '/app/creator/opportunities'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/iris/$threadId'
     | '/app/campaigns'
+    | '/app/iris'
   id:
     | '__root__'
     | '/'
@@ -358,7 +378,9 @@ export interface FileRouteTypes {
     | '/app/creator/opportunities'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/iris/$threadId'
     | '/app/campaigns/'
+    | '/app/iris/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -497,12 +519,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/iris/': {
+      id: '/app/iris/'
+      path: '/'
+      fullPath: '/app/iris/'
+      preLoaderRoute: typeof AppIrisIndexRouteImport
+      parentRoute: typeof AppIrisRoute
+    }
     '/app/campaigns/': {
       id: '/app/campaigns/'
       path: '/campaigns'
       fullPath: '/app/campaigns/'
       preLoaderRoute: typeof AppCampaignsIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/iris/$threadId': {
+      id: '/app/iris/$threadId'
+      path: '/$threadId'
+      fullPath: '/app/iris/$threadId'
+      preLoaderRoute: typeof AppIrisThreadIdRouteImport
+      parentRoute: typeof AppIrisRoute
     }
     '/app/deals/$id': {
       id: '/app/deals/$id'
@@ -577,10 +613,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppIrisRouteChildren {
+  AppIrisThreadIdRoute: typeof AppIrisThreadIdRoute
+  AppIrisIndexRoute: typeof AppIrisIndexRoute
+}
+
+const AppIrisRouteChildren: AppIrisRouteChildren = {
+  AppIrisThreadIdRoute: AppIrisThreadIdRoute,
+  AppIrisIndexRoute: AppIrisIndexRoute,
+}
+
+const AppIrisRouteWithChildren =
+  AppIrisRoute._addFileChildren(AppIrisRouteChildren)
+
 interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppDiscoverRoute: typeof AppDiscoverRoute
-  AppIrisRoute: typeof AppIrisRoute
+  AppIrisRoute: typeof AppIrisRouteWithChildren
   AppListsRoute: typeof AppListsRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppSettingsRoute: typeof AppSettingsRoute
@@ -599,7 +648,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
   AppDiscoverRoute: AppDiscoverRoute,
-  AppIrisRoute: AppIrisRoute,
+  AppIrisRoute: AppIrisRouteWithChildren,
   AppListsRoute: AppListsRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppSettingsRoute: AppSettingsRoute,
