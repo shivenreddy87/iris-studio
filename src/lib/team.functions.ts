@@ -50,13 +50,22 @@ export const removeOrgMember = createServerFn({ method: "POST" })
 export const listCreatorCollaborators = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data, error } = await context.supabase
+    const { data: rows, error } = await context.supabase
       .from("creator_collaborators")
-      .select("id, role, collaborator_user_id, created_at, profiles:profiles!creator_collaborators_collaborator_user_id_fkey(full_name, email, avatar_url)")
+      .select("id, role, collaborator_user_id, created_at")
       .eq("creator_user_id", context.userId)
       .order("created_at");
     if (error) throw new Error(error.message);
-    return data ?? [];
+    const ids = (rows ?? []).map((r) => r.collaborator_user_id);
+    const profileMap = new Map<string, any>();
+    if (ids.length) {
+      const { data: profiles } = await context.supabase
+        .from("profiles")
+        .select("id, full_name, email, avatar_url")
+        .in("id", ids);
+      (profiles ?? []).forEach((p: any) => profileMap.set(p.id, p));
+    }
+    return (rows ?? []).map((r) => ({ ...r, user_id: r.collaborator_user_id, profile: profileMap.get(r.collaborator_user_id) ?? null }));
   });
 
 export const removeCreatorCollaborator = createServerFn({ method: "POST" })
