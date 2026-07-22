@@ -18,11 +18,11 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface-1 px-4">
       <div className="max-w-md text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Error 404</p>
-        <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight text-primary">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-mute">Error 404</p>
+        <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight text-ink">
           Off the map.
         </h1>
-        <p className="mt-3 text-sm text-secondary">
+        <p className="mt-3 text-sm text-ink-dim">
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-8">
@@ -48,10 +48,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface-1 px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-display text-2xl font-bold text-primary">
+        <h1 className="font-display text-2xl font-bold text-ink">
           This page didn't load
         </h1>
-        <p className="mt-2 text-sm text-secondary">
+        <p className="mt-2 text-sm text-ink-dim">
           Something went wrong. Try again or head back home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -63,7 +63,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           </button>
           <a
             href="/"
-            className="rounded-full border border-hairline bg-surface-2 px-5 py-2.5 text-sm font-medium text-primary hover:bg-surface-2/5 transition-colors"
+            className="rounded-full border border-hairline bg-surface-2 px-5 py-2.5 text-sm font-medium text-ink hover:bg-surface-2/5 transition-colors"
           >
             Go home
           </a>

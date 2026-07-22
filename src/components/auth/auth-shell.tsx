@@ -16,17 +16,17 @@ export function AuthShell({
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* Left: form */}
       <div className="flex flex-col bg-surface-2 px-6 py-10 lg:px-16">
-        <Link to="/" className="font-display text-xl font-extrabold tracking-tighter text-primary">
+        <Link to="/" className="font-display text-xl font-extrabold tracking-tighter text-ink">
           EROS.
         </Link>
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
-          <h1 className="mb-3 font-display text-4xl font-extrabold tracking-tight text-primary">
+          <h1 className="mb-3 font-display text-4xl font-extrabold tracking-tight text-ink">
             {title}
           </h1>
-          {subtitle ? <p className="mb-10 text-secondary">{subtitle}</p> : null}
+          {subtitle ? <p className="mb-10 text-ink-dim">{subtitle}</p> : null}
           {children}
         </div>
-        {footer ? <div className="mx-auto w-full max-w-md text-sm text-secondary">{footer}</div> : null}
+        {footer ? <div className="mx-auto w-full max-w-md text-sm text-ink-dim">{footer}</div> : null}
       </div>
 
       {/* Right: editorial panel */}

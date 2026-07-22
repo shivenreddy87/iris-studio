@@ -79,11 +79,11 @@ function MessagesPage() {
     <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-7xl">
       <aside className="w-80 shrink-0 overflow-y-auto border-r border-hairline bg-surface-2">
         <div className="border-b border-hairline p-4">
-          <h1 className="font-display text-2xl font-extrabold text-primary">Messages</h1>
+          <h1 className="font-display text-2xl font-extrabold text-ink">Messages</h1>
         </div>
         {conversations.length === 0 ? (
-          <div className="p-6 text-center text-sm text-muted">
-            <MessageSquare className="mx-auto mb-2 size-8 text-primary/30" />
+          <div className="p-6 text-center text-sm text-ink-mute">
+            <MessageSquare className="mx-auto mb-2 size-8 text-ink/30" />
             No conversations yet.
           </div>
         ) : (
@@ -95,8 +95,8 @@ function MessagesPage() {
                 onClick={() => setActiveId(c.id)}
                 className={`block w-full border-b border-hairline p-4 text-left hover:bg-surface-2 ${activeId === c.id ? "bg-surface-2" : ""}`}
               >
-                <p className="font-semibold text-sm text-primary">{other ?? "Conversation"}</p>
-                <p className="mt-1 truncate text-xs text-muted">{c.campaign?.name ?? ""}</p>
+                <p className="font-semibold text-sm text-ink">{other ?? "Conversation"}</p>
+                <p className="mt-1 truncate text-xs text-ink-mute">{c.campaign?.name ?? ""}</p>
               </button>
             );
           })
@@ -107,19 +107,19 @@ function MessagesPage() {
         {active ? (
           <>
             <div className="border-b border-hairline bg-surface-2 p-4">
-              <p className="font-display text-lg font-bold text-primary">
+              <p className="font-display text-lg font-bold text-ink">
                 {user?.id === active.brand_user_id ? active.creator?.display_name : active.brand?.full_name ?? active.brand?.email}
               </p>
-              <p className="text-xs text-muted">{active.campaign?.name ?? ""}</p>
+              <p className="text-xs text-ink-mute">{active.campaign?.name ?? ""}</p>
             </div>
             <div className="flex-1 space-y-3 overflow-y-auto p-6">
               {messages.map((m) => {
                 const mine = m.sender_id === user?.id;
                 return (
                   <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-md rounded-2xl px-4 py-2.5 text-sm ${mine ? "bg-midnight text-white" : "bg-surface-2 text-primary shadow-sm"}`}>
+                    <div className={`max-w-md rounded-2xl px-4 py-2.5 text-sm ${mine ? "bg-midnight text-white" : "bg-surface-2 text-ink shadow-sm"}`}>
                       {m.body}
-                      <div className={`mt-1 text-[10px] ${mine ? "text-white/60" : "text-muted"}`}>
+                      <div className={`mt-1 text-[10px] ${mine ? "text-white/60" : "text-ink-mute"}`}>
                         {new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                       </div>
                     </div>
@@ -151,7 +151,7 @@ function MessagesPage() {
             </form>
           </>
         ) : (
-          <div className="grid flex-1 place-items-center text-sm text-muted">
+          <div className="grid flex-1 place-items-center text-sm text-ink-mute">
             Select a conversation to start.
           </div>
         )}

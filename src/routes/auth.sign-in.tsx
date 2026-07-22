@@ -75,7 +75,7 @@ function SignIn() {
         </button>
       </form>
 
-      <div className="my-8 flex items-center gap-3 text-xs uppercase tracking-widest text-primary/30">
+      <div className="my-8 flex items-center gap-3 text-xs uppercase tracking-widest text-ink/30">
         <div className="h-px flex-1 bg-surface-2/10" />
         or
         <div className="h-px flex-1 bg-surface-2/10" />
@@ -84,7 +84,7 @@ function SignIn() {
       <button
         type="button"
         onClick={handleGoogle}
-        className="w-full rounded-full border border-hairline bg-surface-2 px-6 py-3.5 text-sm font-semibold text-primary transition-colors hover:bg-surface-2/5"
+        className="w-full rounded-full border border-hairline bg-surface-2 px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-surface-2/5"
       >
         Continue with Google
       </button>
@@ -95,10 +95,10 @@ function SignIn() {
 function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-sm font-medium text-primary">{label}</span>
+      <span className="mb-2 block text-sm font-medium text-ink">{label}</span>
       <input
         {...props}
-        className="w-full rounded-2xl border border-hairline bg-surface-2 px-4 py-3 text-primary placeholder:text-primary/30 focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
+        className="w-full rounded-2xl border border-hairline bg-surface-2 px-4 py-3 text-ink placeholder:text-ink/30 focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
       />
     </label>
   );

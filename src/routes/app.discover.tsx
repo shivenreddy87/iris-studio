@@ -27,19 +27,19 @@ function DiscoverPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <div className="mb-8">
-        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-muted">Discover</p>
-        <h1 className="font-display text-4xl font-extrabold text-primary">Find your creators</h1>
+        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-mute">Discover</p>
+        <h1 className="font-display text-4xl font-extrabold text-ink">Find your creators</h1>
       </div>
 
       <div className="mb-6 rounded-3xl border border-hairline bg-surface-2 p-4 shadow-sm">
         <div className="flex flex-wrap gap-3">
           <div className="relative min-w-0 flex-1">
-            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
+            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-ink-mute" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search by name, handle, or vibe…"
-              className="w-full rounded-full border border-hairline bg-surface-2 py-3 pl-11 pr-4 text-sm placeholder:text-muted focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
+              className="w-full rounded-full border border-hairline bg-surface-2 py-3 pl-11 pr-4 text-sm placeholder:text-ink-mute focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
             />
           </div>
           <select
@@ -59,12 +59,12 @@ function DiscoverPage() {
       </div>
 
       {isLoading ? (
-        <div className="p-10 text-center text-muted">Loading…</div>
+        <div className="p-10 text-center text-ink-mute">Loading…</div>
       ) : creators.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-hairline bg-surface-2/50 p-16 text-center">
-          <Sparkles className="mx-auto mb-4 size-10 text-primary/30" />
-          <h3 className="font-display text-xl font-bold text-primary">No creators yet</h3>
-          <p className="mx-auto mt-2 max-w-sm text-sm text-secondary">
+          <Sparkles className="mx-auto mb-4 size-10 text-ink/30" />
+          <h3 className="font-display text-xl font-bold text-ink">No creators yet</h3>
+          <p className="mx-auto mt-2 max-w-sm text-sm text-ink-dim">
             When creators sign up, their profiles appear here. Try broadening your filters.
           </p>
         </div>
@@ -82,22 +82,22 @@ function DiscoverPage() {
                   {(c.display_name ?? "?").slice(0, 2)}
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate font-display text-lg font-bold text-primary group-hover:text-violet">{c.display_name}</p>
-                  <p className="truncate text-xs text-muted">{c.handle} · {c.niche}</p>
+                  <p className="truncate font-display text-lg font-bold text-ink group-hover:text-violet">{c.display_name}</p>
+                  <p className="truncate text-xs text-ink-mute">{c.handle} · {c.niche}</p>
                 </div>
               </div>
-              {c.bio ? <p className="mb-4 line-clamp-2 text-sm text-secondary">{c.bio}</p> : null}
+              {c.bio ? <p className="mb-4 line-clamp-2 text-sm text-ink-dim">{c.bio}</p> : null}
               <div className="flex justify-between border-t border-hairline pt-3 text-xs">
                 <div>
-                  <p className="font-mono uppercase tracking-wider text-muted">Followers</p>
-                  <p className="font-semibold text-primary">{(c.followers ?? 0).toLocaleString()}</p>
+                  <p className="font-mono uppercase tracking-wider text-ink-mute">Followers</p>
+                  <p className="font-semibold text-ink">{(c.followers ?? 0).toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="font-mono uppercase tracking-wider text-muted">Eng.</p>
-                  <p className="font-semibold text-primary">{(c.engagement_rate ?? 0).toFixed(1)}%</p>
+                  <p className="font-mono uppercase tracking-wider text-ink-mute">Eng.</p>
+                  <p className="font-semibold text-ink">{(c.engagement_rate ?? 0).toFixed(1)}%</p>
                 </div>
                 <div>
-                  <p className="font-mono uppercase tracking-wider text-muted">Match</p>
+                  <p className="font-mono uppercase tracking-wider text-ink-mute">Match</p>
                   <p className="font-semibold text-violet">{c.match_score ?? "—"}</p>
                 </div>
               </div>

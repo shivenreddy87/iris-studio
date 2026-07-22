@@ -32,7 +32,7 @@ function ResetPasswordPage() {
         }}
         className="w-full max-w-md space-y-4 rounded-3xl border border-hairline bg-surface-2 p-8 shadow-sm"
       >
-        <h1 className="font-display text-2xl font-extrabold text-primary">Set new password</h1>
+        <h1 className="font-display text-2xl font-extrabold text-ink">Set new password</h1>
         <input
           type="password"
           required

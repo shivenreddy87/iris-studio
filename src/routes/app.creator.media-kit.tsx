@@ -61,8 +61,8 @@ function MediaKitPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 lg:px-8">
       <div className="mb-8">
-        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-muted">Creator</p>
-        <h1 className="font-display text-4xl font-extrabold text-primary">Media kit</h1>
+        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-mute">Creator</p>
+        <h1 className="font-display text-4xl font-extrabold text-ink">Media kit</h1>
       </div>
 
       <div className="space-y-4 rounded-3xl border border-hairline bg-surface-2 p-8 shadow-sm">
@@ -71,7 +71,7 @@ function MediaKitPage() {
         <Field label="Niche" value={form.niche} onChange={(v) => setForm({ ...form, niche: v })} />
         <Field label="Location" value={form.location} onChange={(v) => setForm({ ...form, location: v })} />
         <div>
-          <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-muted">Bio</label>
+          <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-ink-mute">Bio</label>
           <textarea
             value={form.bio}
             onChange={(e) => setForm({ ...form, bio: e.target.value })}
@@ -99,7 +99,7 @@ function MediaKitPage() {
 function Field({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div>
-      <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-muted">{label}</label>
+      <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-ink-mute">{label}</label>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -111,7 +111,7 @@ function Field({ label, value, onChange }: { label: string; value: string; onCha
 function NumField({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
   return (
     <div>
-      <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-muted">{label}</label>
+      <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-ink-mute">{label}</label>
       <input
         type="number"
         value={value}

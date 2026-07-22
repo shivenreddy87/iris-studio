@@ -58,7 +58,7 @@ function NewCampaignPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="e.g. Diwali Hydration Launch"
-          className="w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-lg placeholder:text-muted focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
+          className="w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-lg placeholder:text-ink-mute focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
         />
       ),
       canNext: name.length >= 2,
@@ -71,7 +71,7 @@ function NewCampaignPage() {
           onChange={(e) => setBrief(e.target.value)}
           placeholder="What are you launching? What story do you want creators to tell?"
           rows={6}
-          className="w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-base placeholder:text-muted focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
+          className="w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-base placeholder:text-ink-mute focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
         />
       ),
       canNext: brief.length >= 10,
@@ -80,7 +80,7 @@ function NewCampaignPage() {
       label: "Budget",
       content: (
         <div>
-          <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted">INR (₹)</div>
+          <div className="mb-2 font-mono text-xs uppercase tracking-widest text-ink-mute">INR (₹)</div>
           <input
             type="number"
             value={budget}
@@ -99,7 +99,7 @@ function NewCampaignPage() {
           onChange={(e) => setAudience(e.target.value)}
           placeholder="e.g. Metro women 22–35 interested in fitness and clean beauty"
           rows={4}
-          className="w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-base placeholder:text-muted focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
+          className="w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-base placeholder:text-ink-mute focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
         />
       ),
       canNext: true,
@@ -115,10 +115,10 @@ function NewCampaignPage() {
           <Sparkles className="size-5" />
         </div>
         <div>
-          <p className="font-mono text-xs uppercase tracking-widest text-muted">
+          <p className="font-mono text-xs uppercase tracking-widest text-ink-mute">
             Step {step + 1} of {steps.length}
           </p>
-          <h1 className="font-display text-3xl font-extrabold text-primary">
+          <h1 className="font-display text-3xl font-extrabold text-ink">
             Compose with Iris
           </h1>
         </div>
@@ -134,7 +134,7 @@ function NewCampaignPage() {
       </div>
 
       <div className="rounded-3xl border border-hairline bg-surface-2 p-8 shadow-sm">
-        <label className="mb-3 block font-display text-lg font-bold text-primary">
+        <label className="mb-3 block font-display text-lg font-bold text-ink">
           {current.label}
         </label>
         {current.content}
@@ -143,7 +143,7 @@ function NewCampaignPage() {
           <button
             onClick={() => setStep((s) => Math.max(0, s - 1))}
             disabled={step === 0}
-            className="text-sm font-semibold text-muted hover:text-primary disabled:opacity-40"
+            className="text-sm font-semibold text-ink-mute hover:text-ink disabled:opacity-40"
           >
             Back
           </button>

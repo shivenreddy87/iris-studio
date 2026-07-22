@@ -53,14 +53,14 @@ function CreatorProfilePage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  if (isLoading) return <div className="p-10 text-center text-muted">Loading…</div>;
-  if (!creator) return <div className="p-10 text-center text-muted">Creator not found.</div>;
+  if (isLoading) return <div className="p-10 text-center text-ink-mute">Loading…</div>;
+  if (!creator) return <div className="p-10 text-center text-ink-mute">Creator not found.</div>;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 lg:px-8">
       <Link
         to="/app/discover"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-violet"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-ink-dim hover:text-violet"
       >
         <ArrowLeft className="size-4" /> Back to discover
       </Link>
@@ -71,9 +71,9 @@ function CreatorProfilePage() {
             {(creator.display_name ?? "?").slice(0, 2)}
           </div>
           <div className="min-w-0 flex-1">
-            <h1 className="font-display text-4xl font-extrabold text-primary">{creator.display_name}</h1>
-            <p className="mt-1 text-sm text-secondary">{creator.handle} · {creator.niche} · {creator.location ?? ""}</p>
-            {creator.bio ? <p className="mt-4 max-w-2xl text-sm text-secondary">{creator.bio}</p> : null}
+            <h1 className="font-display text-4xl font-extrabold text-ink">{creator.display_name}</h1>
+            <p className="mt-1 text-sm text-ink-dim">{creator.handle} · {creator.niche} · {creator.location ?? ""}</p>
+            {creator.bio ? <p className="mt-4 max-w-2xl text-sm text-ink-dim">{creator.bio}</p> : null}
           </div>
         </div>
 
@@ -86,7 +86,7 @@ function CreatorProfilePage() {
       </div>
 
       <div className="mt-6 rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
-        <h2 className="mb-4 font-display text-lg font-bold text-primary">Invite to a campaign</h2>
+        <h2 className="mb-4 font-display text-lg font-bold text-ink">Invite to a campaign</h2>
         <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
           <select
             value={selectedCampaign}
@@ -121,8 +121,8 @@ function CreatorProfilePage() {
 function Stat({ label, value, accent }: { label: string; value: string | number; accent?: boolean }) {
   return (
     <div className="rounded-2xl border border-hairline bg-surface-2 p-4">
-      <p className="font-mono text-xs uppercase tracking-widest text-muted">{label}</p>
-      <p className={`mt-1 font-display text-xl font-bold ${accent ? "text-violet" : "text-primary"}`}>{value}</p>
+      <p className="font-mono text-xs uppercase tracking-widest text-ink-mute">{label}</p>
+      <p className={`mt-1 font-display text-xl font-bold ${accent ? "text-violet" : "text-ink"}`}>{value}</p>
     </div>
   );
 }

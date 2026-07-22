@@ -22,7 +22,7 @@ function AnalyticsPage() {
   });
 
   if (isLoading || !data) {
-    return <div className="p-10 text-center text-muted">Loading…</div>;
+    return <div className="p-10 text-center text-ink-mute">Loading…</div>;
   }
 
   const { totals, topCreators, weeks } = data;
@@ -30,8 +30,8 @@ function AnalyticsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <div className="mb-8">
-        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-muted">Analytics</p>
-        <h1 className="font-display text-4xl font-extrabold text-primary">Performance</h1>
+        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-mute">Analytics</p>
+        <h1 className="font-display text-4xl font-extrabold text-ink">Performance</h1>
       </div>
 
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -42,7 +42,7 @@ function AnalyticsPage() {
       </div>
 
       <div className="mb-6 rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
-        <h2 className="mb-4 font-display text-lg font-bold text-primary">Reach over time</h2>
+        <h2 className="mb-4 font-display text-lg font-bold text-ink">Reach over time</h2>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={weeks}>
@@ -58,17 +58,17 @@ function AnalyticsPage() {
       </div>
 
       <div className="rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
-        <h2 className="mb-4 font-display text-lg font-bold text-primary">Top creators</h2>
+        <h2 className="mb-4 font-display text-lg font-bold text-ink">Top creators</h2>
         {topCreators.length === 0 ? (
-          <p className="text-sm text-muted">No creator data yet.</p>
+          <p className="text-sm text-ink-mute">No creator data yet.</p>
         ) : (
           <ul className="space-y-2">
             {topCreators.map((c) => (
               <li key={c.id} className="flex items-center justify-between rounded-xl bg-surface-2 p-3">
-                <span className="font-semibold text-sm text-primary">{c.name}</span>
+                <span className="font-semibold text-sm text-ink">{c.name}</span>
                 <div className="flex gap-6 text-xs">
-                  <span className="text-secondary">{c.count} deals</span>
-                  <span className="font-mono text-primary">₹{c.total.toLocaleString()}</span>
+                  <span className="text-ink-dim">{c.count} deals</span>
+                  <span className="font-mono text-ink">₹{c.total.toLocaleString()}</span>
                 </div>
               </li>
             ))}
@@ -82,8 +82,8 @@ function AnalyticsPage() {
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="rounded-2xl border border-hairline bg-surface-2 p-5">
-      <p className="font-mono text-xs uppercase tracking-widest text-muted">{label}</p>
-      <p className="mt-1 font-display text-2xl font-bold text-primary">{value}</p>
+      <p className="font-mono text-xs uppercase tracking-widest text-ink-mute">{label}</p>
+      <p className="mt-1 font-display text-2xl font-bold text-ink">{value}</p>
     </div>
   );
 }

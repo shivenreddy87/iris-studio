@@ -32,10 +32,10 @@ function CampaignDetailPage() {
   });
 
   if (isLoading) {
-    return <div className="p-10 text-center text-muted">Loading…</div>;
+    return <div className="p-10 text-center text-ink-mute">Loading…</div>;
   }
   if (!data?.campaign) {
-    return <div className="p-10 text-center text-muted">Campaign not found.</div>;
+    return <div className="p-10 text-center text-ink-mute">Campaign not found.</div>;
   }
 
   const { campaign, deals } = data;
@@ -44,7 +44,7 @@ function CampaignDetailPage() {
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <Link
         to="/app/campaigns"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-violet"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-ink-dim hover:text-violet"
       >
         <ArrowLeft className="size-4" /> Back to campaigns
       </Link>
@@ -52,33 +52,33 @@ function CampaignDetailPage() {
       <div className="mb-8 rounded-3xl border border-hairline bg-surface-2 p-8 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="mb-1 font-mono text-xs uppercase tracking-widest text-muted">
+            <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-mute">
               {campaign.status}
             </p>
-            <h1 className="font-display text-3xl font-extrabold text-primary">{campaign.name}</h1>
+            <h1 className="font-display text-3xl font-extrabold text-ink">{campaign.name}</h1>
             {campaign.brief ? (
-              <p className="mt-3 max-w-2xl text-sm text-secondary">{campaign.brief}</p>
+              <p className="mt-3 max-w-2xl text-sm text-ink-dim">{campaign.brief}</p>
             ) : null}
           </div>
           <div className="flex gap-6 text-sm">
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-muted">Budget</p>
-              <p className="font-display text-xl font-bold text-primary">₹{((campaign.budget ?? 0) / 100000).toFixed(1)}L</p>
+              <p className="font-mono text-xs uppercase tracking-widest text-ink-mute">Budget</p>
+              <p className="font-display text-xl font-bold text-ink">₹{((campaign.budget ?? 0) / 100000).toFixed(1)}L</p>
             </div>
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-muted">Reach</p>
-              <p className="font-display text-xl font-bold text-primary">{(campaign.reach ?? 0).toLocaleString()}</p>
+              <p className="font-mono text-xs uppercase tracking-widest text-ink-mute">Reach</p>
+              <p className="font-display text-xl font-bold text-ink">{(campaign.reach ?? 0).toLocaleString()}</p>
             </div>
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-muted">Engagement</p>
-              <p className="font-display text-xl font-bold text-primary">{(campaign.engagement_rate ?? 0).toFixed(1)}%</p>
+              <p className="font-mono text-xs uppercase tracking-widest text-ink-mute">Engagement</p>
+              <p className="font-display text-xl font-bold text-ink">{(campaign.engagement_rate ?? 0).toFixed(1)}%</p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="font-display text-xl font-bold text-primary">Deals</h2>
+        <h2 className="font-display text-xl font-bold text-ink">Deals</h2>
         <Link
           to="/app/discover"
           className="rounded-full bg-midnight px-4 py-2 text-xs font-semibold text-white hover:bg-violet"
@@ -89,8 +89,8 @@ function CampaignDetailPage() {
 
       {deals.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-hairline bg-surface-2/50 p-16 text-center">
-          <Users className="mx-auto mb-4 size-10 text-primary/30" />
-          <p className="text-sm text-secondary">No creators yet. Invite some from Discover.</p>
+          <Users className="mx-auto mb-4 size-10 text-ink/30" />
+          <p className="text-sm text-ink-dim">No creators yet. Invite some from Discover.</p>
         </div>
       ) : (
         <div className="grid gap-3">
@@ -106,16 +106,16 @@ function CampaignDetailPage() {
                   {(d.creator?.display_name ?? "?").slice(0, 2)}
                 </div>
                 <div>
-                  <p className="font-semibold text-primary">{d.creator?.display_name ?? "Creator"}</p>
-                  <p className="text-xs text-muted">{d.creator?.handle ?? ""} · {d.creator?.niche ?? ""}</p>
+                  <p className="font-semibold text-ink">{d.creator?.display_name ?? "Creator"}</p>
+                  <p className="text-xs text-ink-mute">{d.creator?.handle ?? ""} · {d.creator?.niche ?? ""}</p>
                 </div>
               </div>
               <div className="flex items-center gap-6 text-sm">
                 <div className="text-right">
-                  <p className="font-mono text-[10px] uppercase tracking-widest text-muted">Offer</p>
-                  <p className="font-semibold text-primary">₹{(d.offer ?? 0).toLocaleString()}</p>
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">Offer</p>
+                  <p className="font-semibold text-ink">₹{(d.offer ?? 0).toLocaleString()}</p>
                 </div>
-                <span className="rounded-full bg-surface-2 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-secondary">
+                <span className="rounded-full bg-surface-2 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ink-dim">
                   {stageLabel[d.stage] ?? d.stage}
                 </span>
               </div>

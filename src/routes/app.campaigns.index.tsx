@@ -15,7 +15,7 @@ export const Route = createFileRoute("/app/campaigns/")({
 });
 
 const statusColor: Record<string, string> = {
-  draft: "bg-surface-2/10 text-secondary",
+  draft: "bg-surface-2/10 text-ink-dim",
   live: "bg-emerald-100 text-emerald-700",
   paused: "bg-amber-100 text-amber-700",
   completed: "bg-violet/10 text-violet",
@@ -36,8 +36,8 @@ function CampaignsPage() {
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="mb-1 font-mono text-xs uppercase tracking-widest text-muted">Campaigns</p>
-          <h1 className="font-display text-4xl font-extrabold text-primary">All campaigns</h1>
+          <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-mute">Campaigns</p>
+          <h1 className="font-display text-4xl font-extrabold text-ink">All campaigns</h1>
         </div>
         <Link
           to="/app/campaigns/new"
@@ -55,14 +55,14 @@ function CampaignsPage() {
       </div>
 
       {isLoading ? (
-        <div className="rounded-3xl border border-hairline bg-surface-2 p-10 text-center text-muted">
+        <div className="rounded-3xl border border-hairline bg-surface-2 p-10 text-center text-ink-mute">
           Loading…
         </div>
       ) : campaigns.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-hairline bg-surface-2/50 p-16 text-center">
-          <Megaphone className="mx-auto mb-4 size-10 text-primary/30" />
-          <h3 className="font-display text-xl font-bold text-primary">No campaigns yet</h3>
-          <p className="mx-auto mt-2 max-w-sm text-sm text-secondary">
+          <Megaphone className="mx-auto mb-4 size-10 text-ink/30" />
+          <h3 className="font-display text-xl font-bold text-ink">No campaigns yet</h3>
+          <p className="mx-auto mt-2 max-w-sm text-sm text-ink-dim">
             Compose your first brief with Iris and go live in minutes.
           </p>
           <Link
@@ -85,24 +85,24 @@ function CampaignsPage() {
                 <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest ${statusColor[c.status] ?? statusColor.draft}`}>
                   {c.status}
                 </span>
-                <span className="font-mono text-xs text-muted">
+                <span className="font-mono text-xs text-ink-mute">
                   {new Date(c.created_at).toLocaleDateString()}
                 </span>
               </div>
-              <h3 className="font-display text-xl font-bold text-primary group-hover:text-violet">{c.name}</h3>
-              {c.brief ? <p className="mt-2 line-clamp-2 text-sm text-secondary">{c.brief}</p> : null}
+              <h3 className="font-display text-xl font-bold text-ink group-hover:text-violet">{c.name}</h3>
+              {c.brief ? <p className="mt-2 line-clamp-2 text-sm text-ink-dim">{c.brief}</p> : null}
               <div className="mt-4 flex gap-6 text-xs">
                 <div>
-                  <p className="font-mono uppercase tracking-wider text-muted">Budget</p>
-                  <p className="font-semibold text-primary">₹{((c.budget ?? 0) / 100000).toFixed(1)}L</p>
+                  <p className="font-mono uppercase tracking-wider text-ink-mute">Budget</p>
+                  <p className="font-semibold text-ink">₹{((c.budget ?? 0) / 100000).toFixed(1)}L</p>
                 </div>
                 <div>
-                  <p className="font-mono uppercase tracking-wider text-muted">Reach</p>
-                  <p className="font-semibold text-primary">{(c.reach ?? 0).toLocaleString()}</p>
+                  <p className="font-mono uppercase tracking-wider text-ink-mute">Reach</p>
+                  <p className="font-semibold text-ink">{(c.reach ?? 0).toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="font-mono uppercase tracking-wider text-muted">Eng.</p>
-                  <p className="font-semibold text-primary">{(c.engagement_rate ?? 0).toFixed(1)}%</p>
+                  <p className="font-mono uppercase tracking-wider text-ink-mute">Eng.</p>
+                  <p className="font-semibold text-ink">{(c.engagement_rate ?? 0).toFixed(1)}%</p>
                 </div>
               </div>
             </Link>
@@ -116,8 +116,8 @@ function CampaignsPage() {
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="rounded-2xl border border-hairline bg-surface-2 p-5">
-      <p className="font-mono text-xs uppercase tracking-widest text-muted">{label}</p>
-      <p className="mt-1 font-display text-2xl font-bold text-primary">{value}</p>
+      <p className="font-mono text-xs uppercase tracking-widest text-ink-mute">{label}</p>
+      <p className="mt-1 font-display text-2xl font-bold text-ink">{value}</p>
     </div>
   );
 }

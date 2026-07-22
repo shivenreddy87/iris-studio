@@ -49,22 +49,22 @@ function AppHome() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <div className="mb-10">
-        <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-ink-mute">
           {new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}
         </p>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight text-primary">
+        <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink">
           Good to see you, {firstName}.
         </h1>
       </div>
 
       <div className="mb-10 rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
-        <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-primary">
+        <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-ink">
           <Sparkles className="size-4 text-violet" />
           Ask Iris
         </div>
         <Link
           to="/app/iris"
-          className="block w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-base text-muted hover:border-violet/40"
+          className="block w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-base text-ink-mute hover:border-violet/40"
         >
           {role === "creator"
             ? "e.g. Help me pitch to a new wellness brand…"
@@ -91,8 +91,8 @@ function StatCard({ icon: Icon, label, value, to }: { icon: typeof Sparkles; lab
       <div className="mb-4 grid size-10 place-items-center rounded-xl bg-violet/10 text-violet">
         <Icon className="size-5" />
       </div>
-      <p className="font-mono text-xs uppercase tracking-wider text-muted">{label}</p>
-      <p className="mt-1 font-display text-3xl font-bold text-primary">{value}</p>
+      <p className="font-mono text-xs uppercase tracking-wider text-ink-mute">{label}</p>
+      <p className="mt-1 font-display text-3xl font-bold text-ink">{value}</p>
     </Link>
   );
 }
