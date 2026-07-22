@@ -152,8 +152,8 @@ function MembersList({ scope }: { scope: "organization" | "creator" }) {
           {data.map((m: any) => (
             <li key={m.id} className="flex items-center justify-between rounded-2xl border border-hairline bg-surface-1 px-4 py-3">
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-ink">{m.profiles?.full_name ?? m.profiles?.email ?? "Unknown"}</p>
-                <p className="truncate text-xs text-ink-mute">{m.profiles?.email} · <span className="capitalize">{m.role}</span></p>
+                <p className="truncate text-sm font-semibold text-ink">{m.profile?.full_name ?? m.profile?.email ?? "Unknown"}</p>
+                <p className="truncate text-xs text-ink-mute">{m.profile?.email} · <span className="capitalize">{m.role}</span></p>
               </div>
               <button onClick={() => rm.mutate(m.id)} className="rounded-full p-2 text-ink-mute hover:bg-surface-3 hover:text-rose-400">
                 <Trash2 className="h-4 w-4" />
