@@ -14,6 +14,403 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaigns: {
+        Row: {
+          brief: string
+          budget: number
+          created_at: string
+          created_by: string
+          currency: string
+          ends_at: string | null
+          engagement_rate: number
+          goal: string | null
+          id: string
+          name: string
+          org_id: string
+          reach: number
+          spend: number
+          starts_at: string | null
+          status: Database["public"]["Enums"]["campaign_status"]
+          updated_at: string
+        }
+        Insert: {
+          brief?: string
+          budget?: number
+          created_at?: string
+          created_by: string
+          currency?: string
+          ends_at?: string | null
+          engagement_rate?: number
+          goal?: string | null
+          id?: string
+          name: string
+          org_id: string
+          reach?: number
+          spend?: number
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["campaign_status"]
+          updated_at?: string
+        }
+        Update: {
+          brief?: string
+          budget?: number
+          created_at?: string
+          created_by?: string
+          currency?: string
+          ends_at?: string | null
+          engagement_rate?: number
+          goal?: string | null
+          id?: string
+          name?: string
+          org_id?: string
+          reach?: number
+          spend?: number
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["campaign_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          brand_last_read_at: string | null
+          brand_user_id: string
+          campaign_id: string | null
+          created_at: string
+          creator_last_read_at: string | null
+          creator_user_id: string
+          deal_id: string | null
+          id: string
+          last_message_at: string | null
+        }
+        Insert: {
+          brand_last_read_at?: string | null
+          brand_user_id: string
+          campaign_id?: string | null
+          created_at?: string
+          creator_last_read_at?: string | null
+          creator_user_id: string
+          deal_id?: string | null
+          id?: string
+          last_message_at?: string | null
+        }
+        Update: {
+          brand_last_read_at?: string | null
+          brand_user_id?: string
+          campaign_id?: string | null
+          created_at?: string
+          creator_last_read_at?: string | null
+          creator_user_id?: string
+          deal_id?: string | null
+          id?: string
+          last_message_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_list_items: {
+        Row: {
+          added_at: string
+          creator_user_id: string
+          list_id: string
+        }
+        Insert: {
+          added_at?: string
+          creator_user_id: string
+          list_id: string
+        }
+        Update: {
+          added_at?: string
+          creator_user_id?: string
+          list_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_list_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "creator_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_lists: {
+        Row: {
+          accent: Database["public"]["Enums"]["creator_accent"]
+          created_at: string
+          id: string
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          accent?: Database["public"]["Enums"]["creator_accent"]
+          created_at?: string
+          id?: string
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          accent?: Database["public"]["Enums"]["creator_accent"]
+          created_at?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      creator_profiles: {
+        Row: {
+          accent: Database["public"]["Enums"]["creator_accent"]
+          avg_rate: number
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          engagement_rate: number
+          followers: number
+          handle: string | null
+          location: string | null
+          match_score: number
+          niche: string | null
+          socials: Json
+          tags: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          accent?: Database["public"]["Enums"]["creator_accent"]
+          avg_rate?: number
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          engagement_rate?: number
+          followers?: number
+          handle?: string | null
+          location?: string | null
+          match_score?: number
+          niche?: string | null
+          socials?: Json
+          tags?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          accent?: Database["public"]["Enums"]["creator_accent"]
+          avg_rate?: number
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          engagement_rate?: number
+          followers?: number
+          handle?: string | null
+          location?: string | null
+          match_score?: number
+          niche?: string | null
+          socials?: Json
+          tags?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      deal_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          deal_id: string
+          id: string
+          kind: string
+          payload: Json
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          deal_id: string
+          id?: string
+          kind: string
+          payload?: Json
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          deal_id?: string
+          id?: string
+          kind?: string
+          payload?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deal_events_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deals: {
+        Row: {
+          campaign_id: string
+          contract_status: Database["public"]["Enums"]["contract_status"]
+          counter: number | null
+          created_at: string
+          creator_user_id: string
+          deliverables: Json
+          id: string
+          offer: number
+          stage: Database["public"]["Enums"]["deal_stage"]
+          updated_at: string
+        }
+        Insert: {
+          campaign_id: string
+          contract_status?: Database["public"]["Enums"]["contract_status"]
+          counter?: number | null
+          created_at?: string
+          creator_user_id: string
+          deliverables?: Json
+          id?: string
+          offer?: number
+          stage?: Database["public"]["Enums"]["deal_stage"]
+          updated_at?: string
+        }
+        Update: {
+          campaign_id?: string
+          contract_status?: Database["public"]["Enums"]["contract_status"]
+          counter?: number | null
+          created_at?: string
+          creator_user_id?: string
+          deliverables?: Json
+          id?: string
+          offer?: number
+          stage?: Database["public"]["Enums"]["deal_stage"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deals_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          created_at: string
+          id: string
+          sender_id: string | null
+          sender_role: Database["public"]["Enums"]["msg_sender_role"]
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          sender_id?: string | null
+          sender_role: Database["public"]["Enums"]["msg_sender_role"]
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          sender_id?: string | null
+          sender_role?: Database["public"]["Enums"]["msg_sender_role"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: Database["public"]["Enums"]["notification_kind"]
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind: Database["public"]["Enums"]["notification_kind"]
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: Database["public"]["Enums"]["notification_kind"]
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -74,9 +471,33 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_conversation_party: {
+        Args: { _conversation_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_deal_party: {
+        Args: { _deal_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_org_owner: {
+        Args: { _org_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "brand" | "creator" | "admin"
+      campaign_status: "draft" | "live" | "review" | "completed" | "archived"
+      contract_status: "none" | "draft" | "sent" | "signed"
+      creator_accent: "violet" | "rose"
+      deal_stage:
+        | "invited"
+        | "negotiating"
+        | "agreed"
+        | "in_production"
+        | "delivered"
+        | "cancelled"
+      msg_sender_role: "brand" | "creator" | "iris"
+      notification_kind: "message" | "deal_update" | "invitation" | "system"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -205,6 +626,19 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["brand", "creator", "admin"],
+      campaign_status: ["draft", "live", "review", "completed", "archived"],
+      contract_status: ["none", "draft", "sent", "signed"],
+      creator_accent: ["violet", "rose"],
+      deal_stage: [
+        "invited",
+        "negotiating",
+        "agreed",
+        "in_production",
+        "delivered",
+        "cancelled",
+      ],
+      msg_sender_role: ["brand", "creator", "iris"],
+      notification_kind: ["message", "deal_update", "invitation", "system"],
     },
   },
 } as const
