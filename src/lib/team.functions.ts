@@ -14,14 +14,23 @@ export const listOrgMembers = createServerFn({ method: "GET" })
       .select("id")
       .eq("owner_id", context.userId)
       .maybeSingle();
-    if (!org) return [];
-    const { data, error } = await context.supabase
+    if (!org) return [] as Array<{ id: string; role: string; user_id: string; created_at: string; profile: any }>;
+    const { data: members, error } = await context.supabase
       .from("organization_members")
-      .select("id, role, user_id, created_at, profiles:profiles!organization_members_user_id_fkey(full_name, email, avatar_url)")
+      .select("id, role, user_id, created_at")
       .eq("org_id", org.id)
       .order("created_at");
     if (error) throw new Error(error.message);
-    return data ?? [];
+    const ids = (members ?? []).map((m) => m.user_id);
+    const profileMap = new Map<string, any>();
+    if (ids.length) {
+      const { data: profiles } = await context.supabase
+        .from("profiles")
+        .select("id, full_name, email, avatar_url")
+        .in("id", ids);
+      (profiles ?? []).forEach((p: any) => profileMap.set(p.id, p));
+    }
+    return (members ?? []).map((m) => ({ ...m, profile: profileMap.get(m.user_id) ?? null }));
   });
 
 export const removeOrgMember = createServerFn({ method: "POST" })
