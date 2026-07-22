@@ -52,7 +52,7 @@ export const Route = createFileRoute("/api/chat")({
             await supabaseAdmin.from("iris_messages").insert({
               thread_id: ownedThreadId,
               role: "user",
-              parts: last.parts as unknown as any,
+              parts: JSON.parse(JSON.stringify(last.parts)),
             });
             // Auto-title from first user message.
             const text = last.parts
@@ -131,7 +131,7 @@ Be concise, warm, and actionable. Use markdown. Keep responses under 250 words u
               await supabaseAdmin.from("iris_messages").insert({
                 thread_id: ownedThreadId,
                 role: "assistant",
-                parts: last.parts as unknown as any,
+                parts: JSON.parse(JSON.stringify(last.parts)),
               });
               await supabaseAdmin
                 .from("iris_threads")
