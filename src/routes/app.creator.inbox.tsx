@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-export { MessagesPage as component } from "./app.messages";
-import { MessagesPage } from "./app.messages";
+import { Route as MessagesRoute } from "./app.messages";
+
+// Reuse the messages page component for the creator inbox.
+const MessagesComponent = MessagesRoute.options.component!;
 
 export const Route = createFileRoute("/app/creator/inbox")({
   head: () => ({
@@ -9,5 +11,5 @@ export const Route = createFileRoute("/app/creator/inbox")({
       { name: "description", content: "Your creator inbox." },
     ],
   }),
-  component: MessagesPage,
+  component: MessagesComponent,
 });

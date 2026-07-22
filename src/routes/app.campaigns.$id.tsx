@@ -126,6 +126,3 @@ function CampaignDetailPage() {
     </div>
   );
 }
-
-// avoid unused var warning
-void stageOrder;
