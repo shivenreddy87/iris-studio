@@ -16,14 +16,17 @@ const campaignQuery = (id: string) =>
   });
 
 export const Route = createFileRoute("/app/campaigns/$id")({
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData?.campaign.name ?? "Campaign"} — Project Eros` },
-      { name: "description", content: loaderData?.campaign.brief ?? "Campaign detail." },
-      { property: "og:title", content: `${loaderData?.campaign.name ?? "Campaign"} — Project Eros` },
-      { property: "og:description", content: loaderData?.campaign.brief ?? "Campaign detail." },
-    ],
-  }),
+  head: ({ loaderData }) => {
+    const d = loaderData as { campaign: { name: string; brief: string } } | undefined;
+    return {
+      meta: [
+        { title: `${d?.campaign.name ?? "Campaign"} — Project Eros` },
+        { name: "description", content: d?.campaign.brief ?? "Campaign detail." },
+        { property: "og:title", content: `${d?.campaign.name ?? "Campaign"} — Project Eros` },
+        { property: "og:description", content: d?.campaign.brief ?? "Campaign detail." },
+      ],
+    };
+  },
   loader: ({ context, params }) => context.queryClient.ensureQueryData(campaignQuery(params.id)),
   component: CampaignDetail,
   errorComponent: ({ error }) => <div className="p-10 text-sm text-rose">{(error as Error).message}</div>,

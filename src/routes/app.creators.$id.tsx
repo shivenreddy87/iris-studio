@@ -14,14 +14,17 @@ const creatorQuery = (id: string) =>
   });
 
 export const Route = createFileRoute("/app/creators/$id")({
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData?.name ?? "Creator"} — Project Eros` },
-      { name: "description", content: loaderData?.bio ?? "Creator profile." },
-      { property: "og:title", content: `${loaderData?.name ?? "Creator"} — Project Eros` },
-      { property: "og:description", content: loaderData?.bio ?? "Creator profile." },
-    ],
-  }),
+  head: ({ loaderData }) => {
+    const c = loaderData as { name: string; bio: string } | undefined;
+    return {
+      meta: [
+        { title: `${c?.name ?? "Creator"} — Project Eros` },
+        { name: "description", content: c?.bio ?? "Creator profile." },
+        { property: "og:title", content: `${c?.name ?? "Creator"} — Project Eros` },
+        { property: "og:description", content: c?.bio ?? "Creator profile." },
+      ],
+    };
+  },
   loader: ({ context, params }) => context.queryClient.ensureQueryData(creatorQuery(params.id)),
   component: CreatorProfile,
   notFoundComponent: () => (
