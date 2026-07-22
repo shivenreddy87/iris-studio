@@ -1,117 +1,89 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { TrendingUp, Users, DollarSign, Eye, Sparkles } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
+import { getBrandAnalytics } from "@/lib/analytics.functions";
 
 export const Route = createFileRoute("/app/analytics")({
   head: () => ({
     meta: [
       { title: "Analytics — Project Eros" },
-      { name: "description", content: "Reach, engagement, spend — Iris connects the dots." },
-      { property: "og:title", content: "Analytics — Project Eros" },
-      { property: "og:description", content: "Campaign analytics with narrative insights." },
+      { name: "description", content: "Campaign performance." },
     ],
   }),
   component: AnalyticsPage,
 });
 
 function AnalyticsPage() {
+  const fetchFn = useServerFn(getBrandAnalytics);
+  const { data, isLoading } = useQuery({
+    queryKey: ["analytics"],
+    queryFn: () => fetchFn(),
+  });
+
+  if (isLoading || !data) {
+    return <div className="p-10 text-center text-midnight/50">Loading…</div>;
+  }
+
+  const { totals, topCreators, weeks } = data;
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <div className="mb-10">
-        <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-midnight/40">Analytics</p>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight text-midnight">
-          The numbers, told as a story.
-        </h1>
+      <div className="mb-8">
+        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-midnight/40">Analytics</p>
+        <h1 className="font-display text-4xl font-extrabold text-midnight">Performance</h1>
       </div>
 
-      <div className="mb-8 grid gap-4 md:grid-cols-4">
-        <KPI Icon={Eye} label="Total reach" value="1.66M" delta="+22%" />
-        <KPI Icon={Users} label="Engagements" value="98.4k" delta="+14%" />
-        <KPI Icon={DollarSign} label="Spend" value="$68.4k" delta="+8%" />
-        <KPI Icon={TrendingUp} label="ROAS" value="4.2×" delta="+0.6×" />
+      <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Active campaigns" value={totals.activeCampaigns} />
+        <Stat label="Total reach" value={totals.totalReach.toLocaleString()} />
+        <Stat label="Engagements" value={totals.engagements.toLocaleString()} />
+        <Stat label="Spend" value={`₹${(totals.totalSpend / 100000).toFixed(1)}L`} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <section className="lg:col-span-2 rounded-3xl border border-midnight/5 bg-white p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="font-display text-xl font-bold text-midnight">Reach vs engagement</h2>
-            <div className="flex gap-2 text-xs">
-              {["7d", "30d", "90d"].map((r, i) => (
-                <button
-                  key={r}
-                  className={`rounded-full px-3 py-1 font-semibold ${
-                    i === 1 ? "bg-midnight text-white" : "text-midnight/50 hover:bg-canvas"
-                  }`}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="flex h-56 items-end gap-2">
-            {[40, 55, 48, 62, 72, 68, 84, 78, 92, 88, 96, 90].map((h, i) => (
-              <div key={i} className="flex flex-1 flex-col items-center gap-2">
-                <div className="flex w-full items-end gap-1">
-                  <div className="flex-1 rounded-t-md bg-violet" style={{ height: `${h * 1.8}px` }} />
-                  <div className="flex-1 rounded-t-md bg-rose/70" style={{ height: `${h * 1.2}px` }} />
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 flex gap-6 text-xs text-midnight/60">
-            <span className="inline-flex items-center gap-1.5"><span className="size-2 rounded-full bg-violet" /> Reach</span>
-            <span className="inline-flex items-center gap-1.5"><span className="size-2 rounded-full bg-rose/70" /> Engagement</span>
-          </div>
-        </section>
+      <div className="mb-6 rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
+        <h2 className="mb-4 font-display text-lg font-bold text-midnight">Reach over time</h2>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={weeks}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="label" stroke="#94a3b8" fontSize={11} />
+              <YAxis stroke="#94a3b8" fontSize={11} />
+              <Tooltip />
+              <Line type="monotone" dataKey="reach" stroke="#7657FF" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="engagement" stroke="#F0647D" strokeWidth={2} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
-        <section className="rounded-3xl border border-violet/10 bg-gradient-to-br from-violet/5 via-white to-rose/5 p-6">
-          <div className="mb-3 flex items-center gap-2 text-violet">
-            <Sparkles className="size-4" />
-            <span className="font-mono text-xs uppercase tracking-widest">Iris story</span>
-          </div>
-          <h3 className="font-display text-lg font-bold text-midnight">
-            Your micro-creators outperformed macros by 3.2×.
-          </h3>
-          <p className="mt-2 text-sm text-midnight/60">
-            Aria and Nia drove 42% of total engagement at 18% of the spend. Consider expanding your
-            micro roster for Q1.
-          </p>
-          <div className="mt-5 space-y-2">
-            {[
-              { name: "Aria Vance", v: "38.4k", pct: 88 },
-              { name: "Nia Okafor", v: "22.1k", pct: 62 },
-              { name: "Julian Chen", v: "18.9k", pct: 48 },
-              { name: "Elena Rossi", v: "11.2k", pct: 32 },
-            ].map((c) => (
-              <div key={c.name}>
-                <div className="mb-1 flex justify-between text-xs">
-                  <span className="text-midnight/70">{c.name}</span>
-                  <span className="font-semibold text-midnight">{c.v}</span>
+      <div className="rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
+        <h2 className="mb-4 font-display text-lg font-bold text-midnight">Top creators</h2>
+        {topCreators.length === 0 ? (
+          <p className="text-sm text-midnight/50">No creator data yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {topCreators.map((c) => (
+              <li key={c.id} className="flex items-center justify-between rounded-xl bg-canvas p-3">
+                <span className="font-semibold text-sm text-midnight">{c.name}</span>
+                <div className="flex gap-6 text-xs">
+                  <span className="text-midnight/60">{c.count} deals</span>
+                  <span className="font-mono text-midnight">₹{c.total.toLocaleString()}</span>
                 </div>
-                <div className="h-1.5 rounded-full bg-white">
-                  <div className="h-1.5 rounded-full bg-gradient-to-r from-violet to-rose" style={{ width: `${c.pct}%` }} />
-                </div>
-              </div>
+              </li>
             ))}
-          </div>
-        </section>
+          </ul>
+        )}
       </div>
     </div>
   );
 }
 
-function KPI({ Icon, label, value, delta }: { Icon: React.ComponentType<{ className?: string }>; label: string; value: string; delta: string }) {
+function Stat({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-3xl border border-midnight/5 bg-white p-5">
-      <div className="mb-3 flex items-center justify-between">
-        <div className="grid size-9 place-items-center rounded-xl bg-canvas text-midnight/70">
-          <Icon className="size-4" />
-        </div>
-        <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-700">
-          {delta}
-        </span>
-      </div>
-      <div className="font-display text-3xl font-extrabold text-midnight">{value}</div>
-      <div className="mt-1 text-xs text-midnight/50">{label}</div>
+    <div className="rounded-2xl border border-midnight/5 bg-white p-5">
+      <p className="font-mono text-xs uppercase tracking-widest text-midnight/40">{label}</p>
+      <p className="mt-1 font-display text-2xl font-bold text-midnight">{value}</p>
     </div>
   );
 }
