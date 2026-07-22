@@ -128,9 +128,9 @@ function MembersList({ scope }: { scope: "organization" | "creator" }) {
   const removeOrg = useServerFn(removeOrgMember);
   const removeCreator = useServerFn(removeCreatorCollaborator);
 
-  const { data = [] } = useQuery({
+  const { data = [] } = useQuery<any[]>({
     queryKey: ["members", scope],
-    queryFn: () => (scope === "organization" ? fetchOrg() : fetchCreator()),
+    queryFn: () => (scope === "organization" ? fetchOrg() : fetchCreator()) as Promise<any[]>,
   });
 
   const rm = useMutation({
