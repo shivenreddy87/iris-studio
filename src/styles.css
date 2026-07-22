@@ -1,6 +1,10 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "@fontsource/geist-sans/400.css";
+@import "@fontsource/geist-sans/500.css";
+@import "@fontsource/geist-sans/600.css";
+@import "@fontsource/geist-sans/700.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -16,6 +20,8 @@
   --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-hero: "General Sans", "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-geist: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
 
   --color-midnight: #171A2B;
   --color-violet: #7657FF;
@@ -25,6 +31,7 @@
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-hero-sub: hsl(40 6% 82%);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -94,6 +101,13 @@
   --sidebar-ring: oklch(0.56 0.22 290);
 }
 
+.hero-dark {
+  --background: hsl(260 87% 3%);
+  --foreground: hsl(40 6% 95%);
+  background-color: hsl(260 87% 3%);
+  color: hsl(40 6% 95%);
+}
+
 .dark {
   --background: oklch(0.19 0.03 275);
   --foreground: oklch(0.97 0.005 285);
@@ -132,6 +146,10 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes marquee-x {
+  from { transform: translateX(0%); }
+  to { transform: translateX(-50%); }
+}
 
 @utility animate-stream {
   overflow: hidden;
@@ -140,6 +158,32 @@
 }
 @utility animate-reveal {
   animation: slide-up-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@utility animate-marquee {
+  animation: marquee-x 20s linear infinite;
+}
+
+@utility liquid-glass {
+  background: rgba(255, 255, 255, 0.01);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
 }
 
 @layer base {
