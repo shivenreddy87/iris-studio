@@ -21,6 +21,7 @@ import { Route as AppIrisRouteImport } from './routes/app.iris'
 import { Route as AppDiscoverRouteImport } from './routes/app.discover'
 import { Route as AppCampaignsRouteImport } from './routes/app.campaigns'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AppDealsIdRouteImport } from './routes/app.deals.$id'
 import { Route as AppCreatorsIdRouteImport } from './routes/app.creators.$id'
 import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
@@ -86,6 +87,11 @@ const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppDealsIdRoute = AppDealsIdRouteImport.update({
   id: '/deals/$id',
   path: '/deals/$id',
@@ -110,6 +116,7 @@ const AppCampaignsIdRoute = AppCampaignsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
+    | '/api/chat'
     | '/app/analytics'
     | '/app/campaigns'
     | '/app/discover'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/chat'
     | '/app/analytics'
     | '/app/campaigns'
     | '/app/discover'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
+    | '/api/chat'
     | '/app/analytics'
     | '/app/campaigns'
     | '/app/discover'
@@ -220,6 +232,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  ApiChatRoute: typeof ApiChatRoute
   AuthRoleRoute: typeof AuthRoleRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
@@ -311,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/deals/$id': {
       id: '/app/deals/$id'
       path: '/deals/$id'
@@ -385,6 +405,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  ApiChatRoute: ApiChatRoute,
   AuthRoleRoute: AuthRoleRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
