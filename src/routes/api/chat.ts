@@ -47,7 +47,7 @@ Be concise, warm, and actionable. Use markdown. Keep responses under 250 words u
                 }),
                 execute: async ({ query }) => {
                   const q = query.trim();
-                  let builder = sb.from("creator_profiles").select(
+                  let builder = supabaseAdmin.from("creator_profiles").select(
                     "user_id, display_name, handle, niche, location, followers, engagement_rate, avg_rate, tags, match_score",
                   ).limit(8);
                   if (q) {
