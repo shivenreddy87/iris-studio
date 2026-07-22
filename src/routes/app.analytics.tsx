@@ -46,10 +46,10 @@ function AnalyticsPage() {
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={weeks}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="label" stroke="#94a3b8" fontSize={11} />
-              <YAxis stroke="#94a3b8" fontSize={11} />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
+              <XAxis dataKey="label" stroke="rgba(255,255,255,0.5)" fontSize={11} />
+              <YAxis stroke="rgba(255,255,255,0.5)" fontSize={11} />
+              <Tooltip contentStyle={{ background: "hsl(260 50% 9%)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#fff" }} />
               <Line type="monotone" dataKey="reach" stroke="#7657FF" strokeWidth={2} dot={false} />
               <Line type="monotone" dataKey="engagement" stroke="#F0647D" strokeWidth={2} dot={false} />
             </LineChart>
