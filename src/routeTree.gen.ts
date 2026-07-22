@@ -15,14 +15,21 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth.sign-in'
 import { Route as AuthRoleRouteImport } from './routes/auth.role'
+import { Route as AuthResetPasswordRouteImport } from './routes/auth.reset-password'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
 import { Route as AppListsRouteImport } from './routes/app.lists'
 import { Route as AppIrisRouteImport } from './routes/app.iris'
 import { Route as AppDiscoverRouteImport } from './routes/app.discover'
-import { Route as AppCampaignsRouteImport } from './routes/app.campaigns'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
 import { Route as AppDealsIdRouteImport } from './routes/app.deals.$id'
 import { Route as AppCreatorsIdRouteImport } from './routes/app.creators.$id'
+import { Route as AppCreatorOpportunitiesRouteImport } from './routes/app.creator.opportunities'
+import { Route as AppCreatorMediaKitRouteImport } from './routes/app.creator.media-kit'
+import { Route as AppCreatorInboxRouteImport } from './routes/app.creator.inbox'
+import { Route as AppCreatorEarningsRouteImport } from './routes/app.creator.earnings'
 import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
 import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
 
@@ -56,6 +63,16 @@ const AuthRoleRoute = AuthRoleRouteImport.update({
   path: '/auth/role',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
+  id: '/auth/reset-password',
+  path: '/auth/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppMessagesRoute = AppMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
@@ -76,14 +93,19 @@ const AppDiscoverRoute = AppDiscoverRouteImport.update({
   path: '/discover',
   getParentRoute: () => AppRoute,
 } as any)
-const AppCampaignsRoute = AppCampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
+  id: '/campaigns/',
+  path: '/campaigns/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppDealsIdRoute = AppDealsIdRouteImport.update({
@@ -96,130 +118,194 @@ const AppCreatorsIdRoute = AppCreatorsIdRouteImport.update({
   path: '/creators/$id',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCreatorOpportunitiesRoute = AppCreatorOpportunitiesRouteImport.update({
+  id: '/creator/opportunities',
+  path: '/creator/opportunities',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCreatorMediaKitRoute = AppCreatorMediaKitRouteImport.update({
+  id: '/creator/media-kit',
+  path: '/creator/media-kit',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCreatorInboxRoute = AppCreatorInboxRouteImport.update({
+  id: '/creator/inbox',
+  path: '/creator/inbox',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCreatorEarningsRoute = AppCreatorEarningsRouteImport.update({
+  id: '/creator/earnings',
+  path: '/creator/earnings',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppCampaignsNewRoute = AppCampaignsNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => AppCampaignsRoute,
+  id: '/campaigns/new',
+  path: '/campaigns/new',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppCampaignsIdRoute = AppCampaignsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AppCampaignsRoute,
+  id: '/campaigns/$id',
+  path: '/campaigns/$id',
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/iris': typeof AppIrisRoute
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/app/': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creator/earnings': typeof AppCreatorEarningsRoute
+  '/app/creator/inbox': typeof AppCreatorInboxRoute
+  '/app/creator/media-kit': typeof AppCreatorMediaKitRoute
+  '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/iris': typeof AppIrisRoute
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/app': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creator/earnings': typeof AppCreatorEarningsRoute
+  '/app/creator/inbox': typeof AppCreatorInboxRoute
+  '/app/creator/media-kit': typeof AppCreatorMediaKitRoute
+  '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/campaigns': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/campaigns': typeof AppCampaignsRouteWithChildren
   '/app/discover': typeof AppDiscoverRoute
   '/app/iris': typeof AppIrisRoute
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/app/': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creator/earnings': typeof AppCreatorEarningsRoute
+  '/app/creator/inbox': typeof AppCreatorInboxRoute
+  '/app/creator/media-kit': typeof AppCreatorMediaKitRoute
+  '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
+  '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/app'
+    | '/api/chat'
     | '/app/analytics'
-    | '/app/campaigns'
     | '/app/discover'
     | '/app/iris'
     | '/app/lists'
     | '/app/messages'
+    | '/app/settings'
+    | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/app/'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
+    | '/app/creator/earnings'
+    | '/app/creator/inbox'
+    | '/app/creator/media-kit'
+    | '/app/creator/opportunities'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/campaigns/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/chat'
     | '/app/analytics'
-    | '/app/campaigns'
     | '/app/discover'
     | '/app/iris'
     | '/app/lists'
     | '/app/messages'
+    | '/app/settings'
+    | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/app'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
+    | '/app/creator/earnings'
+    | '/app/creator/inbox'
+    | '/app/creator/media-kit'
+    | '/app/creator/opportunities'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/campaigns'
   id:
     | '__root__'
     | '/'
     | '/app'
+    | '/api/chat'
     | '/app/analytics'
-    | '/app/campaigns'
     | '/app/discover'
     | '/app/iris'
     | '/app/lists'
     | '/app/messages'
+    | '/app/settings'
+    | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/app/'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
+    | '/app/creator/earnings'
+    | '/app/creator/inbox'
+    | '/app/creator/media-kit'
+    | '/app/creator/opportunities'
     | '/app/creators/$id'
     | '/app/deals/$id'
+    | '/app/campaigns/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  ApiChatRoute: typeof ApiChatRoute
+  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthRoleRoute: typeof AuthRoleRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
@@ -269,6 +355,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRoleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/reset-password': {
+      id: '/auth/reset-password'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/messages': {
       id: '/app/messages'
       path: '/messages'
@@ -297,18 +397,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDiscoverRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/campaigns': {
-      id: '/app/campaigns'
-      path: '/campaigns'
-      fullPath: '/app/campaigns'
-      preLoaderRoute: typeof AppCampaignsRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/analytics': {
       id: '/app/analytics'
       path: '/analytics'
       fullPath: '/app/analytics'
       preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/campaigns/': {
+      id: '/app/campaigns/'
+      path: '/campaigns'
+      fullPath: '/app/campaigns/'
+      preLoaderRoute: typeof AppCampaignsIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/deals/$id': {
@@ -325,59 +432,87 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCreatorsIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/creator/opportunities': {
+      id: '/app/creator/opportunities'
+      path: '/creator/opportunities'
+      fullPath: '/app/creator/opportunities'
+      preLoaderRoute: typeof AppCreatorOpportunitiesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/creator/media-kit': {
+      id: '/app/creator/media-kit'
+      path: '/creator/media-kit'
+      fullPath: '/app/creator/media-kit'
+      preLoaderRoute: typeof AppCreatorMediaKitRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/creator/inbox': {
+      id: '/app/creator/inbox'
+      path: '/creator/inbox'
+      fullPath: '/app/creator/inbox'
+      preLoaderRoute: typeof AppCreatorInboxRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/creator/earnings': {
+      id: '/app/creator/earnings'
+      path: '/creator/earnings'
+      fullPath: '/app/creator/earnings'
+      preLoaderRoute: typeof AppCreatorEarningsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/campaigns/new': {
       id: '/app/campaigns/new'
-      path: '/new'
+      path: '/campaigns/new'
       fullPath: '/app/campaigns/new'
       preLoaderRoute: typeof AppCampaignsNewRouteImport
-      parentRoute: typeof AppCampaignsRoute
+      parentRoute: typeof AppRoute
     }
     '/app/campaigns/$id': {
       id: '/app/campaigns/$id'
-      path: '/$id'
+      path: '/campaigns/$id'
       fullPath: '/app/campaigns/$id'
       preLoaderRoute: typeof AppCampaignsIdRouteImport
-      parentRoute: typeof AppCampaignsRoute
+      parentRoute: typeof AppRoute
     }
   }
 }
 
-interface AppCampaignsRouteChildren {
-  AppCampaignsIdRoute: typeof AppCampaignsIdRoute
-  AppCampaignsNewRoute: typeof AppCampaignsNewRoute
-}
-
-const AppCampaignsRouteChildren: AppCampaignsRouteChildren = {
-  AppCampaignsIdRoute: AppCampaignsIdRoute,
-  AppCampaignsNewRoute: AppCampaignsNewRoute,
-}
-
-const AppCampaignsRouteWithChildren = AppCampaignsRoute._addFileChildren(
-  AppCampaignsRouteChildren,
-)
-
 interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
-  AppCampaignsRoute: typeof AppCampaignsRouteWithChildren
   AppDiscoverRoute: typeof AppDiscoverRoute
   AppIrisRoute: typeof AppIrisRoute
   AppListsRoute: typeof AppListsRoute
   AppMessagesRoute: typeof AppMessagesRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppCampaignsIdRoute: typeof AppCampaignsIdRoute
+  AppCampaignsNewRoute: typeof AppCampaignsNewRoute
+  AppCreatorEarningsRoute: typeof AppCreatorEarningsRoute
+  AppCreatorInboxRoute: typeof AppCreatorInboxRoute
+  AppCreatorMediaKitRoute: typeof AppCreatorMediaKitRoute
+  AppCreatorOpportunitiesRoute: typeof AppCreatorOpportunitiesRoute
   AppCreatorsIdRoute: typeof AppCreatorsIdRoute
   AppDealsIdRoute: typeof AppDealsIdRoute
+  AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
-  AppCampaignsRoute: AppCampaignsRouteWithChildren,
   AppDiscoverRoute: AppDiscoverRoute,
   AppIrisRoute: AppIrisRoute,
   AppListsRoute: AppListsRoute,
   AppMessagesRoute: AppMessagesRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppIndexRoute: AppIndexRoute,
+  AppCampaignsIdRoute: AppCampaignsIdRoute,
+  AppCampaignsNewRoute: AppCampaignsNewRoute,
+  AppCreatorEarningsRoute: AppCreatorEarningsRoute,
+  AppCreatorInboxRoute: AppCreatorInboxRoute,
+  AppCreatorMediaKitRoute: AppCreatorMediaKitRoute,
+  AppCreatorOpportunitiesRoute: AppCreatorOpportunitiesRoute,
   AppCreatorsIdRoute: AppCreatorsIdRoute,
   AppDealsIdRoute: AppDealsIdRoute,
+  AppCampaignsIndexRoute: AppCampaignsIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -385,6 +520,8 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  ApiChatRoute: ApiChatRoute,
+  AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthRoleRoute: AuthRoleRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,

@@ -1,6 +1,7 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Home,
   Megaphone,
@@ -13,11 +14,17 @@ import {
   Menu,
   X,
   LogOut,
+  Inbox,
+  Briefcase,
+  UserCircle,
+  Wallet,
+  Settings,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { listNotifications, markAllNotificationsRead } from "@/lib/notifications.functions";
 
-const nav = [
+const brandNav = [
   { to: "/app", label: "Home", Icon: Home },
   { to: "/app/campaigns", label: "Campaigns", Icon: Megaphone },
   { to: "/app/discover", label: "Discover Creators", Icon: Search },
@@ -27,12 +34,50 @@ const nav = [
   { to: "/app/iris", label: "Iris", Icon: Sparkles },
 ] as const;
 
+const creatorNav = [
+  { to: "/app", label: "Home", Icon: Home },
+  { to: "/app/creator/opportunities", label: "Opportunities", Icon: Briefcase },
+  { to: "/app/creator/inbox", label: "Inbox", Icon: Inbox },
+  { to: "/app/creator/media-kit", label: "Media Kit", Icon: UserCircle },
+  { to: "/app/creator/earnings", label: "Earnings", Icon: Wallet },
+  { to: "/app/iris", label: "Iris", Icon: Sparkles },
+] as const;
+
 export function AppShell({ children }: { children?: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user, role } = useAuth();
+  const fetchNotifs = useServerFn(listNotifications);
+  const markAllRead = useServerFn(markAllNotificationsRead);
+
+  const nav = role === "creator" ? creatorNav : brandNav;
+
+  const { data: notifications = [] } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: () => fetchNotifs(),
+    enabled: !!user,
+    refetchInterval: 30000,
+  });
+  const unreadCount = notifications.filter((n) => !n.read_at).length;
+
+  // Realtime notifications
+  useEffect(() => {
+    if (!user) return;
+    const channel = supabase
+      .channel(`notif-${user.id}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },
+        () => queryClient.invalidateQueries({ queryKey: ["notifications"] }),
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user, queryClient]);
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -48,7 +93,6 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen bg-canvas">
-      {/* Mobile overlay */}
       {open ? (
         <div
           className="fixed inset-0 z-30 bg-midnight/50 backdrop-blur-sm lg:hidden"
@@ -56,7 +100,6 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
         />
       ) : null}
 
-      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-midnight/5 bg-white transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
@@ -115,23 +158,36 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
               </Link>
             );
           })}
+          <Link
+            to="/app/settings"
+            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
+              pathname === "/app/settings"
+                ? "bg-midnight text-white"
+                : "text-midnight/70 hover:bg-midnight/5 hover:text-midnight"
+            }`}
+          >
+            <Settings className="size-4" />
+            Settings
+          </Link>
         </nav>
 
         <div className="p-4">
-          <div className="rounded-2xl bg-gradient-to-br from-midnight to-violet p-5 text-white">
+          <Link
+            to="/app/iris"
+            className="block rounded-2xl bg-gradient-to-br from-midnight to-violet p-5 text-white"
+          >
             <Sparkles className="mb-3 size-5" />
             <p className="mb-1 font-display text-sm font-bold">Ask Iris anything</p>
             <p className="mb-4 text-xs text-white/70">
               Your embedded strategist is one keystroke away.
             </p>
-            <button className="w-full rounded-full bg-white/10 py-2 text-xs font-semibold ring-1 ring-white/20 hover:bg-white/20">
+            <div className="w-full rounded-full bg-white/10 py-2 text-center text-xs font-semibold ring-1 ring-white/20 hover:bg-white/20">
               Open Iris
-            </button>
-          </div>
+            </div>
+          </Link>
         </div>
       </aside>
 
-      {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-midnight/5 bg-canvas/80 px-4 backdrop-blur-md lg:px-8">
           <button
@@ -147,10 +203,62 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
               className="w-full rounded-full border border-midnight/10 bg-white py-2 pl-10 pr-4 text-sm placeholder:text-midnight/40 focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/10"
             />
           </div>
-          <button className="rounded-full p-2 text-midnight/60 hover:bg-midnight/5">
-            <Bell className="size-5" />
-          </button>
-          <div className="size-9 rounded-full bg-gradient-to-tr from-violet to-rose" />
+          <div className="relative">
+            <button
+              onClick={() => setNotifOpen((v) => !v)}
+              className="relative rounded-full p-2 text-midnight/60 hover:bg-midnight/5"
+            >
+              <Bell className="size-5" />
+              {unreadCount > 0 ? (
+                <span className="absolute right-1 top-1 grid size-4 place-items-center rounded-full bg-rose text-[9px] font-bold text-white">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
+              ) : null}
+            </button>
+            {notifOpen ? (
+              <div className="absolute right-0 top-12 z-40 w-80 overflow-hidden rounded-2xl border border-midnight/10 bg-white shadow-2xl">
+                <div className="flex items-center justify-between border-b border-midnight/5 p-3">
+                  <span className="font-semibold text-sm text-midnight">Notifications</span>
+                  {unreadCount > 0 ? (
+                    <button
+                      onClick={async () => {
+                        await markAllRead();
+                        queryClient.invalidateQueries({ queryKey: ["notifications"] });
+                      }}
+                      className="text-xs text-violet hover:underline"
+                    >
+                      Mark all read
+                    </button>
+                  ) : null}
+                </div>
+                <div className="max-h-96 overflow-y-auto">
+                  {notifications.length === 0 ? (
+                    <div className="p-6 text-center text-sm text-midnight/50">No notifications yet.</div>
+                  ) : (
+                    notifications.map((n) => (
+                      <Link
+                        key={n.id}
+                        to={n.link ?? "/app"}
+                        onClick={() => setNotifOpen(false)}
+                        className={`block border-b border-midnight/5 p-3 text-sm hover:bg-canvas ${
+                          n.read_at ? "opacity-60" : ""
+                        }`}
+                      >
+                        <div className="font-semibold text-midnight">{n.title}</div>
+                        {n.body ? <div className="text-xs text-midnight/60 line-clamp-2">{n.body}</div> : null}
+                        <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-midnight/40">
+                          {new Date(n.created_at).toLocaleString()}
+                        </div>
+                      </Link>
+                    ))
+                  )}
+                </div>
+              </div>
+            ) : null}
+          </div>
+          <div className="grid size-9 place-items-center rounded-full bg-gradient-to-tr from-violet to-rose text-xs font-bold text-white">
+            {initials}
+          </div>
         </header>
         <main className="flex-1">{children ?? <Outlet />}</main>
       </div>

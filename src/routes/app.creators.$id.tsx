@@ -1,147 +1,128 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, Sparkles, TrendingUp } from "lucide-react";
-import { creatorsApi } from "@/lib/api/adapters";
-
-const creatorQuery = (id: string) =>
-  queryOptions({
-    queryKey: ["creator", id],
-    queryFn: async () => {
-      const c = await creatorsApi.get(id);
-      if (!c) throw notFound();
-      return c;
-    },
-  });
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { ArrowLeft, MessageSquare } from "lucide-react";
+import { toast } from "sonner";
+import { getCreator } from "@/lib/creators.functions";
+import { listCampaigns } from "@/lib/campaigns.functions";
+import { createDeal } from "@/lib/deals.functions";
+import { useState } from "react";
 
 export const Route = createFileRoute("/app/creators/$id")({
-  head: ({ loaderData }) => {
-    const c = loaderData as { name: string; bio: string } | undefined;
-    return {
-      meta: [
-        { title: `${c?.name ?? "Creator"} — Project Eros` },
-        { name: "description", content: c?.bio ?? "Creator profile." },
-        { property: "og:title", content: `${c?.name ?? "Creator"} — Project Eros` },
-        { property: "og:description", content: c?.bio ?? "Creator profile." },
-      ],
-    };
-  },
-  loader: ({ context, params }) => context.queryClient.ensureQueryData(creatorQuery(params.id)),
-  component: CreatorProfile,
-  notFoundComponent: () => (
-    <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-      <h1 className="font-display text-3xl font-bold text-midnight">Creator not found.</h1>
-      <Link to="/app/discover" className="mt-4 inline-block text-violet hover:underline">← Back to Discover</Link>
-    </div>
-  ),
+  head: () => ({
+    meta: [
+      { title: "Creator — Project Eros" },
+      { name: "description", content: "Creator profile." },
+    ],
+  }),
+  component: CreatorProfilePage,
 });
 
-function CreatorProfile() {
-  const { id } = Route.useParams();
-  const { data: c } = useSuspenseQuery(creatorQuery(id));
+function CreatorProfilePage() {
+  const { id } = useParams({ from: "/app/creators/$id" });
+  const queryClient = useQueryClient();
+  const fetchCreator = useServerFn(getCreator);
+  const fetchCampaigns = useServerFn(listCampaigns);
+  const invite = useServerFn(createDeal);
+
+  const [selectedCampaign, setSelectedCampaign] = useState<string>("");
+  const [offer, setOffer] = useState("100000");
+
+  const { data: creator, isLoading } = useQuery({
+    queryKey: ["creator", id],
+    queryFn: () => fetchCreator({ data: { user_id: id } }),
+  });
+  const { data: campaigns = [] } = useQuery({
+    queryKey: ["campaigns"],
+    queryFn: () => fetchCampaigns(),
+  });
+
+  const inviteMutation = useMutation({
+    mutationFn: () =>
+      invite({
+        data: {
+          campaign_id: selectedCampaign,
+          creator_user_id: id,
+          offer: Number(offer) || 0,
+        },
+      }),
+    onSuccess: () => {
+      toast.success("Invitation sent");
+      queryClient.invalidateQueries({ queryKey: ["my-deals"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  if (isLoading) return <div className="p-10 text-center text-midnight/50">Loading…</div>;
+  if (!creator) return <div className="p-10 text-center text-midnight/50">Creator not found.</div>;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 lg:px-8">
-      <Link to="/app/discover" className="mb-6 inline-flex items-center gap-2 text-sm text-midnight/60 hover:text-midnight">
-        <ArrowLeft className="size-4" /> Discover
+      <Link
+        to="/app/discover"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-midnight/60 hover:text-violet"
+      >
+        <ArrowLeft className="size-4" /> Back to discover
       </Link>
 
-      <div className="relative mb-8 overflow-hidden rounded-3xl bg-gradient-to-br from-midnight via-violet to-rose p-10 text-white">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="flex items-center gap-5">
-            <div className="size-24 rounded-3xl bg-white/20 ring-4 ring-white/20 backdrop-blur" />
-            <div>
-              <div className="font-mono text-xs uppercase tracking-widest text-white/60">{c.handle}</div>
-              <h1 className="font-display text-4xl font-extrabold tracking-tight">{c.name}</h1>
-              <div className="mt-2 inline-flex items-center gap-1.5 text-sm text-white/80">
-                <MapPin className="size-3.5" /> {c.location}
-              </div>
-            </div>
+      <div className="rounded-3xl border border-midnight/5 bg-white p-8 shadow-sm">
+        <div className="flex flex-wrap items-start gap-6">
+          <div className={`grid size-24 place-items-center rounded-3xl ${creator.accent === "rose" ? "bg-rose/10 text-rose" : "bg-violet/10 text-violet"} font-display text-3xl font-bold`}>
+            {(creator.display_name ?? "?").slice(0, 2)}
           </div>
-          <div className="flex items-center gap-3">
-            <div className="rounded-2xl bg-white/10 px-4 py-2 text-center backdrop-blur">
-              <div className="font-mono text-xs uppercase tracking-widest text-white/60">Iris match</div>
-              <div className="font-display text-2xl font-extrabold">{c.matchScore}%</div>
-            </div>
-            <button className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-midnight hover:bg-canvas">
-              Invite to campaign
-            </button>
+          <div className="min-w-0 flex-1">
+            <h1 className="font-display text-4xl font-extrabold text-midnight">{creator.display_name}</h1>
+            <p className="mt-1 text-sm text-midnight/60">{creator.handle} · {creator.niche} · {creator.location ?? ""}</p>
+            {creator.bio ? <p className="mt-4 max-w-2xl text-sm text-midnight/70">{creator.bio}</p> : null}
           </div>
+        </div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-4">
+          <Stat label="Followers" value={(creator.followers ?? 0).toLocaleString()} />
+          <Stat label="Engagement" value={`${(creator.engagement_rate ?? 0).toFixed(1)}%`} />
+          <Stat label="Avg rate" value={`₹${(creator.avg_rate ?? 0).toLocaleString()}`} />
+          <Stat label="Match score" value={creator.match_score ?? "—"} accent />
         </div>
       </div>
 
-      <div className="mb-8 grid gap-4 md:grid-cols-4">
-        <Stat label="Followers" value={`${(c.followers / 1000).toFixed(0)}k`} />
-        <Stat label="Engagement" value={`${c.engagementRate}%`} />
-        <Stat label="Avg rate" value={`$${c.price.toLocaleString()}`} />
-        <Stat label="Niche" value={c.niche} />
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
-          <section className="rounded-3xl border border-midnight/5 bg-white p-6">
-            <h2 className="mb-3 font-display text-xl font-bold text-midnight">About</h2>
-            <p className="text-midnight/70 leading-relaxed">{c.bio}</p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {c.tags.map((t) => (
-                <span key={t} className="rounded-full bg-canvas px-3 py-1 text-xs font-medium text-midnight/70">
-                  {t}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-3xl border border-midnight/5 bg-white p-6">
-            <h2 className="mb-5 font-display text-xl font-bold text-midnight">Recent work</h2>
-            <div className="grid grid-cols-3 gap-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`aspect-square rounded-2xl bg-gradient-to-br ${
-                    i % 2 ? "from-rose/30 to-violet/30" : "from-violet/30 to-midnight/30"
-                  }`}
-                />
-              ))}
-            </div>
-          </section>
-        </div>
-
-        <div className="space-y-6">
-          <section className="rounded-3xl border border-violet/10 bg-gradient-to-br from-violet/5 via-white to-rose/5 p-6">
-            <div className="mb-3 flex items-center gap-2 text-violet">
-              <Sparkles className="size-4" />
-              <span className="font-mono text-xs uppercase tracking-widest">Iris analysis</span>
-            </div>
-            <p className="text-sm leading-relaxed text-midnight/70">
-              {c.name.split(" ")[0]}'s audience overlaps 84% with your Diwali target. Engagement trend
-              is up 12% MoM. Best content type: 45-second Reels with product ritual.
-            </p>
-            <button className="mt-4 w-full rounded-full bg-midnight py-2.5 text-xs font-semibold text-white hover:bg-violet">
-              Draft outreach
-            </button>
-          </section>
-
-          <section className="rounded-3xl border border-midnight/5 bg-white p-6">
-            <h2 className="mb-4 flex items-center gap-2 font-display text-sm font-bold text-midnight">
-              <TrendingUp className="size-4 text-violet" /> Growth
-            </h2>
-            <div className="flex h-24 items-end gap-1.5">
-              {[40, 55, 50, 62, 70, 68, 78, 82, 90].map((h, i) => (
-                <div key={i} className="flex-1 rounded-t bg-gradient-to-t from-violet to-rose" style={{ height: `${h}%` }} />
-              ))}
-            </div>
-            <p className="mt-3 text-xs text-midnight/50">Last 9 months</p>
-          </section>
+      <div className="mt-6 rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
+        <h2 className="mb-4 font-display text-lg font-bold text-midnight">Invite to a campaign</h2>
+        <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
+          <select
+            value={selectedCampaign}
+            onChange={(e) => setSelectedCampaign(e.target.value)}
+            className="rounded-full border border-midnight/10 bg-canvas px-4 py-2.5 text-sm"
+          >
+            <option value="">Select campaign…</option>
+            {campaigns.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+          <input
+            type="number"
+            value={offer}
+            onChange={(e) => setOffer(e.target.value)}
+            placeholder="Offer"
+            className="w-40 rounded-full border border-midnight/10 bg-canvas px-4 py-2.5 text-sm"
+          />
+          <button
+            onClick={() => inviteMutation.mutate()}
+            disabled={!selectedCampaign || inviteMutation.isPending}
+            className="inline-flex items-center gap-2 rounded-full bg-midnight px-5 py-2.5 text-sm font-semibold text-white hover:bg-violet disabled:opacity-40"
+          >
+            <MessageSquare className="size-4" /> {inviteMutation.isPending ? "Sending…" : "Send invite"}
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value, accent }: { label: string; value: string | number; accent?: boolean }) {
   return (
-    <div className="rounded-2xl border border-midnight/5 bg-white p-4">
-      <div className="font-mono text-xs uppercase tracking-widest text-midnight/40">{label}</div>
-      <div className="mt-1 font-display text-xl font-extrabold text-midnight">{value}</div>
+    <div className="rounded-2xl border border-midnight/5 bg-canvas p-4">
+      <p className="font-mono text-xs uppercase tracking-widest text-midnight/40">{label}</p>
+      <p className={`mt-1 font-display text-xl font-bold ${accent ? "text-violet" : "text-midnight"}`}>{value}</p>
     </div>
   );
 }
