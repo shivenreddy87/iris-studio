@@ -117,6 +117,54 @@ export type Database = {
           },
         ]
       }
+      connected_accounts: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          engagement_rate: number | null
+          followers: number | null
+          handle: string | null
+          id: string
+          last_synced_at: string | null
+          metadata: Json
+          platform: string
+          profile_url: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          engagement_rate?: number | null
+          followers?: number | null
+          handle?: string | null
+          id?: string
+          last_synced_at?: string | null
+          metadata?: Json
+          platform: string
+          profile_url?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          engagement_rate?: number | null
+          followers?: number | null
+          handle?: string | null
+          id?: string
+          last_synced_at?: string | null
+          metadata?: Json
+          platform?: string
+          profile_url?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           brand_last_read_at: string | null
@@ -167,6 +215,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      creator_collaborators: {
+        Row: {
+          collaborator_user_id: string
+          created_at: string
+          creator_user_id: string
+          id: string
+          role: string
+        }
+        Insert: {
+          collaborator_user_id: string
+          created_at?: string
+          creator_user_id: string
+          id?: string
+          role?: string
+        }
+        Update: {
+          collaborator_user_id?: string
+          created_at?: string
+          creator_user_id?: string
+          id?: string
+          role?: string
+        }
+        Relationships: []
       }
       creator_list_items: {
         Row: {
@@ -357,6 +429,59 @@ export type Database = {
           },
         ]
       }
+      invitations: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          creator_user_id: string | null
+          expires_at: string
+          id: string
+          invited_by: string
+          invited_email: string
+          org_id: string | null
+          role: string
+          scope: string
+          status: string
+          token: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          creator_user_id?: string | null
+          expires_at?: string
+          id?: string
+          invited_by: string
+          invited_email: string
+          org_id?: string | null
+          role: string
+          scope: string
+          status?: string
+          token?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          creator_user_id?: string | null
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          invited_email?: string
+          org_id?: string | null
+          role?: string
+          scope?: string
+          status?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invitations_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       iris_messages: {
         Row: {
           created_at: string
@@ -481,6 +606,38 @@ export type Database = {
         }
         Relationships: []
       }
+      organization_members: {
+        Row: {
+          created_at: string
+          id: string
+          org_id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          org_id: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          org_id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_members_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           created_at: string
@@ -512,6 +669,7 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          last_seen_at: string | null
           updated_at: string
         }
         Insert: {
@@ -520,6 +678,7 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
+          last_seen_at?: string | null
           updated_at?: string
         }
         Update: {
@@ -528,6 +687,7 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          last_seen_at?: string | null
           updated_at?: string
         }
         Relationships: []

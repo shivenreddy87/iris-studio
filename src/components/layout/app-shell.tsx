@@ -32,6 +32,7 @@ const brandNav = [
   { to: "/app/messages", label: "Messages", Icon: MessageSquare },
   { to: "/app/analytics", label: "Analytics", Icon: BarChart3 },
   { to: "/app/iris", label: "Iris", Icon: Sparkles },
+  { to: "/app/team", label: "Team", Icon: UserCircle },
 ] as const;
 
 const creatorNav = [
@@ -39,7 +40,9 @@ const creatorNav = [
   { to: "/app/creator/opportunities", label: "Opportunities", Icon: Briefcase },
   { to: "/app/creator/inbox", label: "Inbox", Icon: Inbox },
   { to: "/app/creator/media-kit", label: "Media Kit", Icon: UserCircle },
+  { to: "/app/connections", label: "Connections", Icon: Sparkles },
   { to: "/app/creator/earnings", label: "Earnings", Icon: Wallet },
+  { to: "/app/team", label: "Collaborators", Icon: Users },
   { to: "/app/iris", label: "Iris", Icon: Sparkles },
 ] as const;
 

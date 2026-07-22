@@ -15,15 +15,18 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth.sign-in'
 import { Route as AuthRoleRouteImport } from './routes/auth.role'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth.reset-password'
+import { Route as AppTeamRouteImport } from './routes/app.team'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
 import { Route as AppListsRouteImport } from './routes/app.lists'
 import { Route as AppIrisRouteImport } from './routes/app.iris'
 import { Route as AppDiscoverRouteImport } from './routes/app.discover'
+import { Route as AppConnectionsRouteImport } from './routes/app.connections'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AppIrisIndexRouteImport } from './routes/app.iris.index'
@@ -70,6 +73,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
   id: '/auth/sign-up',
   path: '/auth/sign-up',
@@ -89,6 +97,11 @@ const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
   id: '/auth/reset-password',
   path: '/auth/reset-password',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppTeamRoute = AppTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
@@ -113,6 +126,11 @@ const AppIrisRoute = AppIrisRouteImport.update({
 const AppDiscoverRoute = AppDiscoverRouteImport.update({
   id: '/discover',
   path: '/discover',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppConnectionsRoute = AppConnectionsRouteImport.update({
+  id: '/connections',
+  path: '/connections',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
@@ -199,15 +217,18 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/connections': typeof AppConnectionsRoute
   '/app/discover': typeof AppDiscoverRoute
   '/app/iris': typeof AppIrisRouteWithChildren
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/app/': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
@@ -230,14 +251,17 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/connections': typeof AppConnectionsRoute
   '/app/discover': typeof AppDiscoverRoute
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/app': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
@@ -262,15 +286,18 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/connections': typeof AppConnectionsRoute
   '/app/discover': typeof AppDiscoverRoute
   '/app/iris': typeof AppIrisRouteWithChildren
   '/app/lists': typeof AppListsRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/app/': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
@@ -296,15 +323,18 @@ export interface FileRouteTypes {
     | '/terms'
     | '/api/chat'
     | '/app/analytics'
+    | '/app/connections'
     | '/app/discover'
     | '/app/iris'
     | '/app/lists'
     | '/app/messages'
     | '/app/settings'
+    | '/app/team'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
+    | '/invite/$token'
     | '/app/'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
@@ -327,14 +357,17 @@ export interface FileRouteTypes {
     | '/terms'
     | '/api/chat'
     | '/app/analytics'
+    | '/app/connections'
     | '/app/discover'
     | '/app/lists'
     | '/app/messages'
     | '/app/settings'
+    | '/app/team'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
+    | '/invite/$token'
     | '/app'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
@@ -358,15 +391,18 @@ export interface FileRouteTypes {
     | '/terms'
     | '/api/chat'
     | '/app/analytics'
+    | '/app/connections'
     | '/app/discover'
     | '/app/iris'
     | '/app/lists'
     | '/app/messages'
     | '/app/settings'
+    | '/app/team'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
+    | '/invite/$token'
     | '/app/'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
@@ -394,6 +430,7 @@ export interface RootRouteChildren {
   AuthRoleRoute: typeof AuthRoleRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
+  InviteTokenRoute: typeof InviteTokenRoute
   ApiPublicRobotsDottxtRoute: typeof ApiPublicRobotsDottxtRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
 }
@@ -442,6 +479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/sign-up': {
       id: '/auth/sign-up'
       path: '/auth/sign-up'
@@ -469,6 +513,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/reset-password'
       preLoaderRoute: typeof AuthResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/team': {
+      id: '/app/team'
+      path: '/team'
+      fullPath: '/app/team'
+      preLoaderRoute: typeof AppTeamRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/settings': {
       id: '/app/settings'
@@ -503,6 +554,13 @@ declare module '@tanstack/react-router' {
       path: '/discover'
       fullPath: '/app/discover'
       preLoaderRoute: typeof AppDiscoverRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/connections': {
+      id: '/app/connections'
+      path: '/connections'
+      fullPath: '/app/connections'
+      preLoaderRoute: typeof AppConnectionsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/analytics': {
@@ -628,11 +686,13 @@ const AppIrisRouteWithChildren =
 
 interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppConnectionsRoute: typeof AppConnectionsRoute
   AppDiscoverRoute: typeof AppDiscoverRoute
   AppIrisRoute: typeof AppIrisRouteWithChildren
   AppListsRoute: typeof AppListsRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppTeamRoute: typeof AppTeamRoute
   AppIndexRoute: typeof AppIndexRoute
   AppCampaignsIdRoute: typeof AppCampaignsIdRoute
   AppCampaignsNewRoute: typeof AppCampaignsNewRoute
@@ -647,11 +707,13 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
+  AppConnectionsRoute: AppConnectionsRoute,
   AppDiscoverRoute: AppDiscoverRoute,
   AppIrisRoute: AppIrisRouteWithChildren,
   AppListsRoute: AppListsRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppTeamRoute: AppTeamRoute,
   AppIndexRoute: AppIndexRoute,
   AppCampaignsIdRoute: AppCampaignsIdRoute,
   AppCampaignsNewRoute: AppCampaignsNewRoute,
@@ -677,6 +739,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoleRoute: AuthRoleRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
+  InviteTokenRoute: InviteTokenRoute,
   ApiPublicRobotsDottxtRoute: ApiPublicRobotsDottxtRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
 }
