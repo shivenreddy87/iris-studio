@@ -15,6 +15,16 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth.sign-in'
 import { Route as AuthRoleRouteImport } from './routes/auth.role'
+import { Route as AppMessagesRouteImport } from './routes/app.messages'
+import { Route as AppListsRouteImport } from './routes/app.lists'
+import { Route as AppIrisRouteImport } from './routes/app.iris'
+import { Route as AppDiscoverRouteImport } from './routes/app.discover'
+import { Route as AppCampaignsRouteImport } from './routes/app.campaigns'
+import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as AppDealsIdRouteImport } from './routes/app.deals.$id'
+import { Route as AppCreatorsIdRouteImport } from './routes/app.creators.$id'
+import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
+import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
 
 const AppRoute = AppRouteImport.update({
   id: '/app',
@@ -46,50 +56,165 @@ const AuthRoleRoute = AuthRoleRouteImport.update({
   path: '/auth/role',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppMessagesRoute = AppMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppListsRoute = AppListsRouteImport.update({
+  id: '/lists',
+  path: '/lists',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppIrisRoute = AppIrisRouteImport.update({
+  id: '/iris',
+  path: '/iris',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDiscoverRoute = AppDiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCampaignsRoute = AppCampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDealsIdRoute = AppDealsIdRouteImport.update({
+  id: '/deals/$id',
+  path: '/deals/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCreatorsIdRoute = AppCreatorsIdRouteImport.update({
+  id: '/creators/$id',
+  path: '/creators/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCampaignsNewRoute = AppCampaignsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AppCampaignsRoute,
+} as any)
+const AppCampaignsIdRoute = AppCampaignsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppCampaignsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/campaigns': typeof AppCampaignsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/iris': typeof AppIrisRoute
+  '/app/lists': typeof AppListsRoute
+  '/app/messages': typeof AppMessagesRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/app/': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creators/$id': typeof AppCreatorsIdRoute
+  '/app/deals/$id': typeof AppDealsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/campaigns': typeof AppCampaignsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/iris': typeof AppIrisRoute
+  '/app/lists': typeof AppListsRoute
+  '/app/messages': typeof AppMessagesRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/app': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creators/$id': typeof AppCreatorsIdRoute
+  '/app/deals/$id': typeof AppDealsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/campaigns': typeof AppCampaignsRouteWithChildren
+  '/app/discover': typeof AppDiscoverRoute
+  '/app/iris': typeof AppIrisRoute
+  '/app/lists': typeof AppListsRoute
+  '/app/messages': typeof AppMessagesRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/app/': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creators/$id': typeof AppCreatorsIdRoute
+  '/app/deals/$id': typeof AppDealsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/app'
+    | '/app/analytics'
+    | '/app/campaigns'
+    | '/app/discover'
+    | '/app/iris'
+    | '/app/lists'
+    | '/app/messages'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/app/'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/creators/$id'
+    | '/app/deals/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/role' | '/auth/sign-in' | '/auth/sign-up' | '/app'
+  to:
+    | '/'
+    | '/app/analytics'
+    | '/app/campaigns'
+    | '/app/discover'
+    | '/app/iris'
+    | '/app/lists'
+    | '/app/messages'
+    | '/auth/role'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
+    | '/app'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/creators/$id'
+    | '/app/deals/$id'
   id:
     | '__root__'
     | '/'
     | '/app'
+    | '/app/analytics'
+    | '/app/campaigns'
+    | '/app/discover'
+    | '/app/iris'
+    | '/app/lists'
+    | '/app/messages'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/app/'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/creators/$id'
+    | '/app/deals/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -144,15 +269,115 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRoleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/messages': {
+      id: '/app/messages'
+      path: '/messages'
+      fullPath: '/app/messages'
+      preLoaderRoute: typeof AppMessagesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/lists': {
+      id: '/app/lists'
+      path: '/lists'
+      fullPath: '/app/lists'
+      preLoaderRoute: typeof AppListsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/iris': {
+      id: '/app/iris'
+      path: '/iris'
+      fullPath: '/app/iris'
+      preLoaderRoute: typeof AppIrisRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/discover': {
+      id: '/app/discover'
+      path: '/discover'
+      fullPath: '/app/discover'
+      preLoaderRoute: typeof AppDiscoverRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/campaigns': {
+      id: '/app/campaigns'
+      path: '/campaigns'
+      fullPath: '/app/campaigns'
+      preLoaderRoute: typeof AppCampaignsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/analytics': {
+      id: '/app/analytics'
+      path: '/analytics'
+      fullPath: '/app/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/deals/$id': {
+      id: '/app/deals/$id'
+      path: '/deals/$id'
+      fullPath: '/app/deals/$id'
+      preLoaderRoute: typeof AppDealsIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/creators/$id': {
+      id: '/app/creators/$id'
+      path: '/creators/$id'
+      fullPath: '/app/creators/$id'
+      preLoaderRoute: typeof AppCreatorsIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/campaigns/new': {
+      id: '/app/campaigns/new'
+      path: '/new'
+      fullPath: '/app/campaigns/new'
+      preLoaderRoute: typeof AppCampaignsNewRouteImport
+      parentRoute: typeof AppCampaignsRoute
+    }
+    '/app/campaigns/$id': {
+      id: '/app/campaigns/$id'
+      path: '/$id'
+      fullPath: '/app/campaigns/$id'
+      preLoaderRoute: typeof AppCampaignsIdRouteImport
+      parentRoute: typeof AppCampaignsRoute
+    }
   }
 }
 
+interface AppCampaignsRouteChildren {
+  AppCampaignsIdRoute: typeof AppCampaignsIdRoute
+  AppCampaignsNewRoute: typeof AppCampaignsNewRoute
+}
+
+const AppCampaignsRouteChildren: AppCampaignsRouteChildren = {
+  AppCampaignsIdRoute: AppCampaignsIdRoute,
+  AppCampaignsNewRoute: AppCampaignsNewRoute,
+}
+
+const AppCampaignsRouteWithChildren = AppCampaignsRoute._addFileChildren(
+  AppCampaignsRouteChildren,
+)
+
 interface AppRouteChildren {
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppCampaignsRoute: typeof AppCampaignsRouteWithChildren
+  AppDiscoverRoute: typeof AppDiscoverRoute
+  AppIrisRoute: typeof AppIrisRoute
+  AppListsRoute: typeof AppListsRoute
+  AppMessagesRoute: typeof AppMessagesRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppCreatorsIdRoute: typeof AppCreatorsIdRoute
+  AppDealsIdRoute: typeof AppDealsIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAnalyticsRoute: AppAnalyticsRoute,
+  AppCampaignsRoute: AppCampaignsRouteWithChildren,
+  AppDiscoverRoute: AppDiscoverRoute,
+  AppIrisRoute: AppIrisRoute,
+  AppListsRoute: AppListsRoute,
+  AppMessagesRoute: AppMessagesRoute,
   AppIndexRoute: AppIndexRoute,
+  AppCreatorsIdRoute: AppCreatorsIdRoute,
+  AppDealsIdRoute: AppDealsIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
