@@ -14,14 +14,13 @@ export const Route = createFileRoute("/app/campaigns/$id")({
   component: CampaignDetailPage,
 });
 
-const stageOrder = ["invited", "negotiating", "agreed", "in_production", "delivered", "declined"];
 const stageLabel: Record<string, string> = {
   invited: "Invited",
   negotiating: "Negotiating",
   agreed: "Agreed",
   in_production: "In production",
   delivered: "Delivered",
-  declined: "Declined",
+  cancelled: "Cancelled",
 };
 
 function CampaignDetailPage() {
