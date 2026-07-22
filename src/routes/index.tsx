@@ -95,7 +95,14 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className="pb-10" />
+        <footer className="relative z-10 mt-auto flex flex-col items-center gap-3 border-t border-white/8 px-8 py-8 text-xs text-foreground/50 sm:flex-row sm:justify-between">
+          <p>© {new Date().getFullYear()} Project Eros. All rights reserved.</p>
+          <nav className="flex items-center gap-6">
+            <Link to="/pricing" className="hover:text-foreground">Pricing</Link>
+            <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
+            <Link to="/terms" className="hover:text-foreground">Terms</Link>
+          </nav>
+        </footer>
       </div>
     </section>
   );
