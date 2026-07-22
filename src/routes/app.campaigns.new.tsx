@@ -31,7 +31,7 @@ function NewCampaignPage() {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const org = await ensureOrg({ data: { name: name || "My Studio" } });
+      const org = await ensureOrg();
       return createFn({
         data: {
           org_id: org.id,

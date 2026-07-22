@@ -27,9 +27,9 @@ function AppHome() {
   // For brands, ensure they have an org
   useEffect(() => {
     if (role === "brand") {
-      ensureOrg({ data: { name: user?.user_metadata?.full_name ? `${user.user_metadata.full_name}'s Studio` : "My Studio" } }).catch(() => {});
+      ensureOrg().catch(() => {});
     }
-  }, [role, user, ensureOrg]);
+  }, [role, ensureOrg]);
 
   const { data: campaigns = [] } = useQuery({
     queryKey: ["campaigns"],
@@ -44,7 +44,7 @@ function AppHome() {
 
   const firstName = (user?.user_metadata?.full_name ?? user?.email ?? "there").split(/[\s@]/)[0];
   const activeCampaigns = campaigns.filter((c) => c.status === "live").length;
-  const openDeals = deals.filter((d) => d.stage !== "declined" && d.stage !== "delivered").length;
+  const openDeals = deals.filter((d) => d.stage !== "cancelled" && d.stage !== "delivered").length;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
