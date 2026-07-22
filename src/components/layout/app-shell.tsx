@@ -1,5 +1,6 @@
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Home,
   Megaphone,
@@ -11,7 +12,10 @@ import {
   Bell,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 
 const nav = [
   { to: "/app", label: "Home", Icon: Home },
@@ -26,6 +30,21 @@ const nav = [
 export function AppShell({ children }: { children?: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { user, role } = useAuth();
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth/sign-in", replace: true });
+  }
+
+  const initials = (user?.user_metadata?.full_name ?? user?.email ?? "?")
+    .split(/[\s@]/)[0]
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <div className="flex min-h-screen bg-canvas">
@@ -56,15 +75,26 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
         </div>
 
         <div className="border-y border-midnight/5 p-4">
-          <button className="flex w-full items-center gap-3 rounded-xl border border-midnight/5 bg-canvas p-2.5 text-left transition-colors hover:bg-midnight/5">
+          <div className="flex w-full items-center gap-3 rounded-xl border border-midnight/5 bg-canvas p-2.5 text-left">
             <div className="grid size-8 place-items-center rounded-lg bg-gradient-to-tr from-violet to-rose text-xs font-bold text-white">
-              EV
+              {initials}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="truncate text-sm font-semibold text-midnight">Everglow</div>
-              <div className="truncate text-xs text-midnight/50">Brand workspace</div>
+              <div className="truncate text-sm font-semibold text-midnight">
+                {user?.user_metadata?.full_name ?? user?.email ?? "Signed in"}
+              </div>
+              <div className="truncate text-xs text-midnight/50 capitalize">
+                {role ? `${role} workspace` : "Workspace"}
+              </div>
             </div>
-          </button>
+            <button
+              onClick={handleSignOut}
+              title="Sign out"
+              className="rounded-lg p-1.5 text-midnight/50 transition-colors hover:bg-midnight/5 hover:text-midnight"
+            >
+              <LogOut className="size-4" />
+            </button>
+          </div>
         </div>
 
         <nav className="flex-1 space-y-1 p-4">
