@@ -105,21 +105,21 @@ function SignUp() {
         </button>
       </form>
 
-      <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-widest text-midnight/30">
-        <div className="h-px flex-1 bg-midnight/10" />
+      <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-widest text-ink/30">
+        <div className="h-px flex-1 bg-surface-2/10" />
         or
-        <div className="h-px flex-1 bg-midnight/10" />
+        <div className="h-px flex-1 bg-surface-2/10" />
       </div>
 
       <button
         type="button"
         onClick={handleGoogle}
-        className="w-full rounded-full border border-midnight/10 bg-white px-6 py-3.5 text-sm font-semibold text-midnight transition-colors hover:bg-midnight/5"
+        className="w-full rounded-full border border-hairline bg-surface-2 px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-surface-2/5"
       >
         Continue with Google
       </button>
 
-      <p className="mt-4 text-xs leading-relaxed text-midnight/50">
+      <p className="mt-4 text-xs leading-relaxed text-ink-mute">
         By signing up you agree to our Terms and acknowledge our Privacy Policy.
       </p>
     </AuthShell>
@@ -129,10 +129,10 @@ function SignUp() {
 function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-sm font-medium text-midnight">{label}</span>
+      <span className="mb-2 block text-sm font-medium text-ink">{label}</span>
       <input
         {...props}
-        className="w-full rounded-2xl border border-midnight/10 bg-white px-4 py-3 text-midnight placeholder:text-midnight/30 focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/10"
+        className="w-full rounded-2xl border border-hairline bg-surface-2 px-4 py-3 text-ink placeholder:text-ink/30 focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
       />
     </label>
   );

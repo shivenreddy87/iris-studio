@@ -49,22 +49,22 @@ function AppHome() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <div className="mb-10">
-        <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-midnight/40">
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-ink-mute">
           {new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}
         </p>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight text-midnight">
+        <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink">
           Good to see you, {firstName}.
         </h1>
       </div>
 
-      <div className="mb-10 rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
-        <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-midnight">
+      <div className="mb-10 rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
+        <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-ink">
           <Sparkles className="size-4 text-violet" />
           Ask Iris
         </div>
         <Link
           to="/app/iris"
-          className="block w-full rounded-2xl border border-midnight/10 bg-canvas px-5 py-4 text-base text-midnight/40 hover:border-violet/40"
+          className="block w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-base text-ink-mute hover:border-violet/40"
         >
           {role === "creator"
             ? "e.g. Help me pitch to a new wellness brand…"
@@ -87,12 +87,12 @@ function AppHome() {
 
 function StatCard({ icon: Icon, label, value, to }: { icon: typeof Sparkles; label: string; value: number; to: string }) {
   return (
-    <Link to={to} className="group rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm hover:border-violet/30">
+    <Link to={to} className="group rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm hover:border-violet/30">
       <div className="mb-4 grid size-10 place-items-center rounded-xl bg-violet/10 text-violet">
         <Icon className="size-5" />
       </div>
-      <p className="font-mono text-xs uppercase tracking-wider text-midnight/40">{label}</p>
-      <p className="mt-1 font-display text-3xl font-bold text-midnight">{value}</p>
+      <p className="font-mono text-xs uppercase tracking-wider text-ink-mute">{label}</p>
+      <p className="mt-1 font-display text-3xl font-bold text-ink">{value}</p>
     </Link>
   );
 }

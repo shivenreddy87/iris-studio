@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundVideo } from "@/components/hero/BackgroundVideo";
 import logoUrl from "@/assets/logo.png";
@@ -23,12 +22,6 @@ export const Route = createFileRoute("/")({
   component: LandingPage,
 });
 
-const NAV_ITEMS: { label: string; hasCaret?: boolean }[] = [
-  { label: "Features", hasCaret: true },
-  { label: "Solutions" },
-  { label: "Plans" },
-  { label: "Learning", hasCaret: true },
-];
 
 function LandingPage() {
   return (
@@ -49,25 +42,14 @@ function LandingPage() {
               <img
                 src={logoUrl}
                 alt="Iris AI"
-                height={32}
-                width={110}
-                style={{ height: 32, width: "auto" }}
+                height={56}
+                width={190}
+                style={{ height: 56, width: "auto" }}
               />
             </Link>
-            <div className="hidden items-center gap-8 md:flex">
-              {NAV_ITEMS.map((item) => (
-                <button
-                  key={item.label}
-                  className="flex items-center gap-1 text-sm text-foreground/90 transition-colors hover:text-foreground"
-                >
-                  {item.label}
-                  {item.hasCaret && <ChevronDown className="size-4 opacity-70" />}
-                </button>
-              ))}
-            </div>
-            <Link to="/auth/role" search={{ role: "brand" }}>
-              <Button variant="heroSecondary" className="rounded-full px-4 py-2">
-                Sign Up
+            <Link to="/auth/sign-in">
+              <Button variant="heroSecondary" className="rounded-full px-5 py-2">
+                Sign In
               </Button>
             </Link>
           </nav>

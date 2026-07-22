@@ -22,7 +22,7 @@ function AnalyticsPage() {
   });
 
   if (isLoading || !data) {
-    return <div className="p-10 text-center text-midnight/50">Loading…</div>;
+    return <div className="p-10 text-center text-ink-mute">Loading…</div>;
   }
 
   const { totals, topCreators, weeks } = data;
@@ -30,8 +30,8 @@ function AnalyticsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <div className="mb-8">
-        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-midnight/40">Analytics</p>
-        <h1 className="font-display text-4xl font-extrabold text-midnight">Performance</h1>
+        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-mute">Analytics</p>
+        <h1 className="font-display text-4xl font-extrabold text-ink">Performance</h1>
       </div>
 
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -41,15 +41,15 @@ function AnalyticsPage() {
         <Stat label="Spend" value={`₹${(totals.totalSpend / 100000).toFixed(1)}L`} />
       </div>
 
-      <div className="mb-6 rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 font-display text-lg font-bold text-midnight">Reach over time</h2>
+      <div className="mb-6 rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
+        <h2 className="mb-4 font-display text-lg font-bold text-ink">Reach over time</h2>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={weeks}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="label" stroke="#94a3b8" fontSize={11} />
-              <YAxis stroke="#94a3b8" fontSize={11} />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
+              <XAxis dataKey="label" stroke="rgba(255,255,255,0.5)" fontSize={11} />
+              <YAxis stroke="rgba(255,255,255,0.5)" fontSize={11} />
+              <Tooltip contentStyle={{ background: "hsl(260 50% 9%)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#fff" }} />
               <Line type="monotone" dataKey="reach" stroke="#7657FF" strokeWidth={2} dot={false} />
               <Line type="monotone" dataKey="engagement" stroke="#F0647D" strokeWidth={2} dot={false} />
             </LineChart>
@@ -57,18 +57,18 @@ function AnalyticsPage() {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 font-display text-lg font-bold text-midnight">Top creators</h2>
+      <div className="rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
+        <h2 className="mb-4 font-display text-lg font-bold text-ink">Top creators</h2>
         {topCreators.length === 0 ? (
-          <p className="text-sm text-midnight/50">No creator data yet.</p>
+          <p className="text-sm text-ink-mute">No creator data yet.</p>
         ) : (
           <ul className="space-y-2">
             {topCreators.map((c) => (
-              <li key={c.id} className="flex items-center justify-between rounded-xl bg-canvas p-3">
-                <span className="font-semibold text-sm text-midnight">{c.name}</span>
+              <li key={c.id} className="flex items-center justify-between rounded-xl bg-surface-2 p-3">
+                <span className="font-semibold text-sm text-ink">{c.name}</span>
                 <div className="flex gap-6 text-xs">
-                  <span className="text-midnight/60">{c.count} deals</span>
-                  <span className="font-mono text-midnight">₹{c.total.toLocaleString()}</span>
+                  <span className="text-ink-dim">{c.count} deals</span>
+                  <span className="font-mono text-ink">₹{c.total.toLocaleString()}</span>
                 </div>
               </li>
             ))}
@@ -81,9 +81,9 @@ function AnalyticsPage() {
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-2xl border border-midnight/5 bg-white p-5">
-      <p className="font-mono text-xs uppercase tracking-widest text-midnight/40">{label}</p>
-      <p className="mt-1 font-display text-2xl font-bold text-midnight">{value}</p>
+    <div className="rounded-2xl border border-hairline bg-surface-2 p-5">
+      <p className="font-mono text-xs uppercase tracking-widest text-ink-mute">{label}</p>
+      <p className="mt-1 font-display text-2xl font-bold text-ink">{value}</p>
     </div>
   );
 }

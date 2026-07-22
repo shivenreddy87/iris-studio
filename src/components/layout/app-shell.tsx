@@ -216,9 +216,9 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
               ) : null}
             </button>
             {notifOpen ? (
-              <div className="absolute right-0 top-12 z-40 w-80 overflow-hidden rounded-2xl border border-midnight/10 bg-white shadow-2xl">
-                <div className="flex items-center justify-between border-b border-midnight/5 p-3">
-                  <span className="font-semibold text-sm text-midnight">Notifications</span>
+              <div className="absolute right-0 top-12 z-40 w-80 overflow-hidden rounded-2xl border border-hairline bg-[hsl(260_50%_9%)] shadow-2xl">
+                <div className="flex items-center justify-between border-b border-white/5 p-3">
+                  <span className="font-semibold text-sm text-white">Notifications</span>
                   {unreadCount > 0 ? (
                     <button
                       onClick={async () => {
@@ -233,20 +233,20 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                 </div>
                 <div className="max-h-96 overflow-y-auto">
                   {notifications.length === 0 ? (
-                    <div className="p-6 text-center text-sm text-midnight/50">No notifications yet.</div>
+                    <div className="p-6 text-center text-sm text-white/50">No notifications yet.</div>
                   ) : (
                     notifications.map((n) => (
                       <Link
                         key={n.id}
                         to={n.link ?? "/app"}
                         onClick={() => setNotifOpen(false)}
-                        className={`block border-b border-midnight/5 p-3 text-sm hover:bg-midnight/5 ${
+                        className={`block border-b border-white/5 p-3 text-sm hover:bg-white/5 ${
                           n.read_at ? "opacity-60" : ""
                         }`}
                       >
-                        <div className="font-semibold text-midnight">{n.title}</div>
-                        {n.body ? <div className="text-xs text-midnight/60 line-clamp-2">{n.body}</div> : null}
-                        <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-midnight/40">
+                        <div className="font-semibold text-white">{n.title}</div>
+                        {n.body ? <div className="text-xs text-white/60 line-clamp-2">{n.body}</div> : null}
+                        <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-white/40">
                           {new Date(n.created_at).toLocaleString()}
                         </div>
                       </Link>
