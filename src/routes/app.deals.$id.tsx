@@ -38,7 +38,7 @@ function DealPage() {
   const [counter, setCounter] = useState("");
 
   const stageMutation = useMutation({
-    mutationFn: (stage: (typeof stages)[number]["key"] | "declined") =>
+    mutationFn: (stage: (typeof stages)[number]["key"] | "cancelled") =>
       updateStage({ data: { id, stage } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deal", id] });
@@ -122,7 +122,7 @@ function DealPage() {
             </button>
           ))}
           <button
-            onClick={() => stageMutation.mutate("declined")}
+            onClick={() => stageMutation.mutate("cancelled")}
             className="rounded-full border border-rose/20 bg-rose/5 px-3 py-1.5 text-xs font-semibold text-rose hover:bg-rose/10"
           >
             Decline
