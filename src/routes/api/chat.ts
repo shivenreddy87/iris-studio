@@ -27,7 +27,7 @@ Be concise, warm, and actionable. Use markdown. Keep responses under 200 words u
           const result = streamText({
             model,
             system,
-            messages: convertToModelMessages(body.messages),
+            messages: await convertToModelMessages(body.messages),
           });
           return result.toUIMessageStreamResponse();
         } catch (err) {

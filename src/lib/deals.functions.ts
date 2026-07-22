@@ -139,7 +139,7 @@ export const updateDealOffer = createServerFn({ method: "POST" })
     z.object({ id: z.string().uuid(), offer: z.number().int().min(0).optional(), counter: z.number().int().min(0).nullable().optional() }).parse(d),
   )
   .handler(async ({ context, data }) => {
-    const updates: Record<string, unknown> = {};
+    const updates: { offer?: number; counter?: number | null } = {};
     if (typeof data.offer === "number") updates.offer = data.offer;
     if (data.counter !== undefined) updates.counter = data.counter;
     const { data: deal, error } = await context.supabase
@@ -153,7 +153,7 @@ export const updateDealOffer = createServerFn({ method: "POST" })
       deal_id: data.id,
       actor_id: context.userId,
       kind: "offer_updated",
-      payload: updates,
+      payload: updates as Record<string, number | null>,
     });
     return deal;
   });

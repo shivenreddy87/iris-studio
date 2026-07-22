@@ -85,7 +85,9 @@ export const markConversationRead = createServerFn({ method: "POST" })
       .eq("id", data.conversation_id)
       .maybeSingle();
     if (!convo) return null;
-    const field = convo.brand_user_id === userId ? "brand_last_read_at" : "creator_last_read_at";
-    await supabase.from("conversations").update({ [field]: new Date().toISOString() }).eq("id", data.conversation_id);
+    const now = new Date().toISOString();
+    const patch =
+      convo.brand_user_id === userId ? { brand_last_read_at: now } : { creator_last_read_at: now };
+    await supabase.from("conversations").update(patch).eq("id", data.conversation_id);
     return { ok: true };
   });
