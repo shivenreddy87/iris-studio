@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Iris AI — Embedded intelligence for influencer marketing" },
       {
         property: "og:description",
-        content: "The most powerful AI ever deployed in talent acquisition.",
+        content: "An embedded AI strategist that plans campaigns, discovers creators, and negotiates deals.",
       },
     ],
   }),
@@ -97,9 +97,9 @@ function LandingPage() {
               </span>
             </h1>
             <p className="mt-[9px] max-w-md text-lg leading-8 text-hero-sub opacity-80">
-              The most powerful AI ever deployed
+              An embedded strategist that plans campaigns,
               <br />
-              in talent acquisition
+              discovers creators, and negotiates deals for you.
             </p>
             <Link to="/auth/role" search={{ role: "brand" }} className="mt-[25px]">
               <Button
