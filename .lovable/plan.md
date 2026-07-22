@@ -1,67 +1,80 @@
-# New landing hero + next-step suggestions
+# Project Eros — Production Readiness Plan
 
-## Part A — Rebuild the landing hero to spec
+The app is feature-complete (landing, auth, campaigns, discovery, deals, messaging, analytics, Iris AI) with real Cloud auth + Postgres. Now we make it feel and behave like a shipped product.
 
-Replace the current `/` hero (in `src/routes/index.tsx`) with a full-screen dark hero matching the exact specs you provided. Keep the rest of the landing (trust bar, discovery preview, split section, footer) as-is for now — the request is scoped to the hero.
+## Phase 1 — Palette & UX pass (finish what we started)
+- Sweep any remaining light-theme leftovers (modals, popovers, empty states, toasts, sonner, dropdowns, dialogs, command palette).
+- Recolor all Recharts across analytics/deals to use the new tokens.
+- Add loading skeletons and empty states for every list route (campaigns, discover, deals, messages, opportunities, inbox, media kit, earnings).
+- Add error boundaries per route with a friendly "Something broke" card + retry.
+- Motion polish: page enter fades, list item stagger, subtle hover elevation.
 
-### Files touched
-- `src/styles.css` — add dark tokens, fonts, `.liquid-glass` utility, marquee keyframes.
-- `src/routes/__root.tsx` — add General Sans `<link>` (Fontshare); Geist Sans via `@fontsource/geist-sans` package.
-- `src/routes/index.tsx` — new hero section (navbar + headline + subtitle + CTA + marquee) with background video loop.
-- `src/components/hero/BackgroundVideo.tsx` — client-only component with the JS-controlled fade loop (rAF, 0.5s in / 0.5s out, reset + 100ms delay before replay).
-- `src/components/hero/LogoMarquee.tsx` — duplicated logo strip with `translateX(0 → -50%)` 20s linear infinite.
-- `src/components/ui/button.tsx` — add `heroSecondary` variant (rounded-full, subtle glass border, foreground text).
-- `src/assets/logo.png` — placeholder logo (generate small mark, height 32px use).
+## Phase 2 — Social account linking & portfolio auto-fill (requested last turn)
+Let creators and brands connect Instagram, TikTok, YouTube via App User Connectors, then hydrate their creator profile from the provider.
+- Onboarding step after role selection prompts creator to link ≥1 social.
+- Store per-user connection keys encrypted (`app_user_connections` table + AES-GCM helpers).
+- Server functions call each provider through the connector gateway to fetch: handle, follower count, avg engagement, recent posts, category tags → write into `creator_profiles`.
+- Nightly re-sync via a TanStack server route + `pg_net` cron.
+- Media Kit page renders live provider metrics with "Last synced X min ago" + manual re-sync button.
 
-### Design tokens (added to `src/styles.css`)
-- `--background: 260 87% 3%` (HSL), `--foreground: 40 6% 95%`, `--hero-sub: 40 6% 82%` mapped via `@theme inline` so `bg-background`, `text-foreground`, `text-hero-sub` work.
-- `--font-sans: "Geist Sans"`, `--font-display: "General Sans"`.
-- `.liquid-glass` utility written exactly as specified (with `::before` gradient border via mask-composite).
+## Phase 3 — Brand onboarding & workspace polish
+- First-run checklist card on `/app` (create org, invite teammate, launch first campaign, connect payment reference).
+- Organization settings page (name, logo upload to `avatars` bucket, members list).
+- Invite-by-email flow (magic link token stored in `org_invites`).
 
-### Structure
+## Phase 4 — Iris AI upgrades
+- Persist chat threads (per user) in a `iris_threads` + `iris_messages` table so conversations survive reload.
+- Add tools: `createCampaignDraft`, `shortlistCreators`, `draftOutreachMessage`, `summarizeDealPipeline`.
+- Streaming token counter + graceful rate-limit / credit-exhausted toasts.
+- Suggested-prompt chips per role (brand vs creator).
+
+## Phase 5 — Notifications, email, and real-time
+- Deliver in-app notifications for: new message, deal stage change, campaign invite, payout event.
+- Transactional emails via the built-in email domain: welcome, password reset (already scaffolded), invite, deal accepted.
+- Realtime presence indicator in Messages ("typing…", "online").
+
+## Phase 6 — Media, uploads, and storage hardening
+- Avatar + media-kit uploads with client-side resize, allowed MIME + size caps, signed URL access.
+- RLS review on both buckets; add owner-only delete policy.
+
+## Phase 7 — Search, filtering, and performance
+- Postgres full-text + trigram on creator name/handle/bio; category and follower-range facets in `/app/discover`.
+- Cursor pagination on campaigns, deals, messages.
+- Add DB indexes on hot filter columns.
+- TanStack Query: set sensible `staleTime`, prefetch on hover for `Link`s to detail routes.
+
+## Phase 8 — Security & compliance
+- Re-run the security scan; fix any new findings before publish.
+- Add HIBP password protection (`configure_auth`).
+- Rate-limit sensitive server fns (Iris chat, invite send) via a `rate_limits` table.
+- Add a public `/privacy` and `/terms` route with real copy placeholders and updated OG meta.
+- CSP/robots/sitemap: verify head metadata is unique per route and add `/robots.txt` + basic `/sitemap.xml` route.
+
+## Phase 9 — Observability & error reporting
+- Server-fn error logging table (`app_errors`) with a lightweight admin view at `/app/admin/errors` (role-gated).
+- Client `window.onerror` + Query `onError` funneling into that same table via a public API route with a shared secret.
+- Analytics event stream (page view, campaign created, deal accepted) into `analytics_events`.
+
+## Phase 10 — Billing surface (display-only)
+Payments are out of scope per your note; we still show plans/quotas so the product feels complete.
+- `/pricing` public route.
+- Workspace-level "Plan: Free / Studio / Scale" badge with feature-gate copy (no Stripe hook).
+
+## Phase 11 — Launch prep
+- Seed a "Demo mode" toggle that fills a new brand workspace with sample campaigns/creators so a first-time visitor sees a populated app.
+- Full pass on unique per-route `head()` metadata (title, description, og:image where a hero exists).
+- Manual QA checklist: sign-up (brand + creator), Google OAuth, forgot password, create campaign, invite creator, message thread, Iris chat, analytics loads.
+- Run security scan → publish to Lovable URL → verify prod URL end-to-end.
+
+## Technical notes
+- New tables: `app_user_connections`, `iris_threads`, `iris_messages`, `org_invites`, `rate_limits`, `app_errors`, `analytics_events`. Every one ships with GRANTs + RLS in the same migration.
+- New server functions live in `src/lib/*.functions.ts`; nightly sync + error ingest use `src/routes/api/public/*` routes with HMAC verification.
+- New Iris tools use the existing Lovable AI Gateway; no extra secrets.
+- Provider OAuth uses App User Connectors — Instagram, TikTok, YouTube each need a workspace client configured; I'll prompt for those inside the phase.
+
+```text
+Order of execution
+Phase 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 ```
-<section class="min-h-screen flex flex-col relative overflow-hidden bg-background">
-  <BackgroundVideo />                  {/* absolute inset-0, z-0 */}
-  <div class="blur-shape" />           {/* 984x527, gray-950, blur-82, centered */}
-  <div class="relative z-10 flex flex-col flex-1">
-    <Navbar />                          {/* py-5 px-8 + gradient divider */}
-    <div class="flex-1 flex items-center justify-center overflow-visible">
-      <Headline + Subtitle + CTA />
-    </div>
-    <LogoMarquee class="pb-10" />
-  </div>
-</section>
-```
 
-### Fonts
-- Geist Sans → `bun add @fontsource/geist-sans` and `@import "@fontsource/geist-sans";` at top of `src/styles.css`.
-- General Sans → `<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap">` in `__root.tsx` head (never `@import` a URL in CSS on this stack).
-
-### Video loop (rAF)
-Client component: `useEffect` starts an rAF loop that reads `video.currentTime` / `video.duration` and sets `video.style.opacity` — ramp up over first 0.5s, ramp down over last 0.5s. On `ended`: opacity → 0, `setTimeout(100)`, `currentTime = 0`, `play()`. Muted + playsInline + autoplay (required for autoplay policies).
-
-### Notes / trade-offs
-- Landing page currently uses the light "canvas" theme. Applying the dark tokens globally would flip the whole app. I'll scope the dark palette to the landing hero section only (local CSS vars on the section) so the authenticated app stays on its current light theme. Confirm if you'd rather flip the whole site dark.
-- Logo image doesn't exist yet — I'll generate a simple wordmark PNG.
-
-## Part B — Suggestions for next work (not built yet, pick what you want)
-
-### Frontend
-1. **Onboarding**: brand empty-state CTAs on `/app`; creator media-kit completeness meter with checklist.
-2. **Loading skeletons** on Discover, Campaigns, Analytics (blank flashes today).
-3. **Per-route error boundaries** with retry — root has one, leaves don't.
-4. **404 page** with a link back to `/app`.
-5. **Toasts** on campaign create, deal accept, list add (some paths silent).
-6. **Command palette** (⌘K) for quick nav + creator search.
-7. **Dark mode toggle** for the authenticated app.
-
-### Backend
-1. **Seed migration** with 8–12 realistic creator profiles + 2 example lists so new signups see a populated Discover/Lists.
-2. **Storage bucket** for avatars & media-kit portfolio images (RLS: owner-write, public-read).
-3. **Transactional email** (verification, deal invites, password reset) via an email connector.
-4. **Iris tools**: give the AI real function-calling (search creators, draft brief, propose deal terms) instead of just chat.
-5. **Stripe payouts** for creators (deal → escrow → release).
-6. **Analytics rollups**: nightly aggregation job (pg_cron → `/api/public/rollup`) so `/app/analytics` doesn't scan raw rows.
-7. **Webhook receivers** under `/api/public/*` for Instagram/TikTok metrics ingestion.
-
-Approve and I'll build Part A. Tell me which items from Part B to queue next.
+Tell me if you want to trim, reorder, or skip anything (e.g. defer social linking, skip billing display) before I start building.
