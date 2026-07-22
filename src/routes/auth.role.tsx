@@ -79,7 +79,7 @@ function RolePicker() {
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className={`group relative overflow-hidden rounded-3xl border bg-surface-2 p-8 text-left transition-all ${
                   isSelected
-                    ? "border-midnight shadow-2xl shadow-midnight/10"
+                    ? "border-violet shadow-2xl shadow-violet/20"
                     : "border-hairline hover:border-hairline hover:shadow-xl"
                 }`}
               >
