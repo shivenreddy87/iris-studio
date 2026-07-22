@@ -33,9 +33,9 @@
   --color-surface-2: hsl(260 40% 8%);
   --color-surface-3: hsl(260 35% 12%);
   --color-hairline: rgba(255, 255, 255, 0.08);
-  --color-text-primary: hsl(40 6% 95%);
-  --color-text-secondary: hsl(40 6% 72%);
-  --color-text-muted: hsl(40 6% 55%);
+  --color-ink: hsl(40 6% 95%);
+  --color-ink-dim: hsl(40 6% 72%);
+  --color-ink-mute: hsl(40 6% 55%);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
