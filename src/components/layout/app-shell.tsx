@@ -217,7 +217,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
             </button>
             {notifOpen ? (
               <div className="absolute right-0 top-12 z-40 w-80 overflow-hidden rounded-2xl border border-hairline bg-[hsl(260_50%_9%)] shadow-2xl">
-                <div className="flex items-center justify-between border-b border-midnight/5 p-3">
+                <div className="flex items-center justify-between border-b border-white/5 p-3">
                   <span className="font-semibold text-sm text-white">Notifications</span>
                   {unreadCount > 0 ? (
                     <button
