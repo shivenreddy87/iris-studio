@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, stepCountIs, tool, type UIMessage } from "ai";
 import { z } from "zod";
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/integrations/supabase/types";
 import { createLovableAiGateway } from "@/lib/ai-gateway.server";
 
 export const Route = createFileRoute("/api/chat")({
@@ -16,24 +14,9 @@ export const Route = createFileRoute("/api/chat")({
         const key = process.env.LOVABLE_API_KEY;
         if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
 
-        // Authenticated Supabase client for tool execution
-        const authHeader = request.headers.get("authorization") ?? undefined;
-        const supabaseUrl = process.env.SUPABASE_URL!;
-        const supabaseKey = process.env.SUPABASE_PUBLISHABLE_KEY!;
-        const sb = createClient<Database>(supabaseUrl, supabaseKey, {
-          auth: { persistSession: false },
-          global: {
-            fetch: (input, init) => {
-              const h = new Headers(init?.headers);
-              if (supabaseKey.startsWith("sb_") && h.get("Authorization") === `Bearer ${supabaseKey}`) {
-                h.delete("Authorization");
-              }
-              h.set("apikey", supabaseKey);
-              if (authHeader && !h.has("Authorization")) h.set("Authorization", authHeader);
-              return fetch(input, { ...init, headers: h });
-            },
-          },
-        });
+        // Admin client for the search tool — used only to read a whitelisted
+        // set of creator_profiles columns; never returned raw to callers.
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
         const system =
           body.system ??
