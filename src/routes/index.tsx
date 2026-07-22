@@ -2,19 +2,18 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundVideo } from "@/components/hero/BackgroundVideo";
-import { LogoMarquee } from "@/components/hero/LogoMarquee";
 import logoUrl from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Project Eros — The most powerful AI in talent acquisition" },
+      { title: "Iris AI — The most powerful AI in talent acquisition" },
       {
         name: "description",
         content:
-          "Power AI. The most powerful AI ever deployed in talent acquisition. Plan campaigns, discover creators, and collaborate with Iris.",
+          "Meet Iris AI — the most powerful AI ever deployed in talent acquisition. Plan campaigns, discover creators, and negotiate deals with an embedded strategist.",
       },
-      { property: "og:title", content: "Project Eros — Power AI" },
+      { property: "og:title", content: "Iris AI — Embedded intelligence for influencer marketing" },
       {
         property: "og:description",
         content: "The most powerful AI ever deployed in talent acquisition.",
@@ -34,26 +33,22 @@ const NAV_ITEMS: { label: string; hasCaret?: boolean }[] = [
 function LandingPage() {
   return (
     <section className="hero-dark relative flex min-h-screen flex-col overflow-hidden font-geist">
-      {/* Background video */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <BackgroundVideo />
       </div>
 
-      {/* Centered blur shape */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 z-[1] h-[527px] w-[984px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-950 opacity-90 blur-[82px]"
       />
 
-      {/* Foreground */}
       <div className="relative z-10 flex min-h-screen flex-col">
-        {/* Navbar */}
         <header className="relative">
           <nav className="flex items-center justify-between px-8 py-5">
             <Link to="/" className="flex items-center">
               <img
                 src={logoUrl}
-                alt="Project Eros"
+                alt="Iris AI"
                 height={32}
                 width={110}
                 style={{ height: 32, width: "auto" }}
@@ -79,7 +74,6 @@ function LandingPage() {
           <div className="mt-[3px] h-px w-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
         </header>
 
-        {/* Hero content */}
         <div className="flex flex-1 items-center justify-center overflow-visible px-8">
           <div className="flex flex-col items-center text-center">
             <h1
@@ -91,7 +85,7 @@ function LandingPage() {
                 letterSpacing: "-0.024em",
               }}
             >
-              Power{" "}
+              Iris{" "}
               <span
                 className="bg-clip-text text-transparent"
                 style={{
@@ -102,9 +96,7 @@ function LandingPage() {
                 AI
               </span>
             </h1>
-            <p
-              className="mt-[9px] max-w-md text-lg leading-8 text-hero-sub opacity-80"
-            >
+            <p className="mt-[9px] max-w-md text-lg leading-8 text-hero-sub opacity-80">
               The most powerful AI ever deployed
               <br />
               in talent acquisition
@@ -115,14 +107,13 @@ function LandingPage() {
                 className="rounded-full text-base"
                 style={{ paddingLeft: 29, paddingRight: 29, paddingTop: 24, paddingBottom: 24 }}
               >
-                Schedule a Consult
+                Sign up to access
               </Button>
             </Link>
           </div>
         </div>
 
-        {/* Marquee */}
-        <LogoMarquee />
+        <div className="pb-10" />
       </div>
     </section>
   );
