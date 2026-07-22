@@ -1,5 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { toast } from "sonner";
 import { AuthShell } from "@/components/auth/auth-shell";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 
 export const Route = createFileRoute("/auth/sign-in")({
   head: () => ({
@@ -14,6 +18,38 @@ export const Route = createFileRoute("/auth/sign-in")({
 });
 
 function SignIn() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const email = String(form.get("email") ?? "");
+    const password = String(form.get("password") ?? "");
+
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    navigate({ to: "/app" });
+  }
+
+  async function handleGoogle() {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      toast.error(result.error.message ?? "Google sign-in failed.");
+      return;
+    }
+    if (result.redirected) return;
+    navigate({ to: "/app" });
+  }
+
   return (
     <AuthShell
       title="Welcome back."
@@ -27,29 +63,15 @@ function SignIn() {
         </p>
       }
     >
-      <form
-        className="space-y-5"
-        onSubmit={(e) => {
-          e.preventDefault();
-          // TODO: adapters/auth.ts → signIn(email, password)
-        }}
-      >
+      <form className="space-y-5" onSubmit={handleSubmit}>
         <Field label="Email" type="email" name="email" placeholder="you@brand.com" required />
         <Field label="Password" type="password" name="password" placeholder="••••••••" required />
-        <div className="flex items-center justify-between text-sm">
-          <label className="flex items-center gap-2 text-midnight/60">
-            <input type="checkbox" className="rounded border-midnight/20" />
-            Remember me
-          </label>
-          <a href="#" className="font-semibold text-violet hover:underline">
-            Forgot password?
-          </a>
-        </div>
         <button
           type="submit"
-          className="w-full rounded-full bg-midnight px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-midnight/20 transition-colors hover:bg-violet"
+          disabled={loading}
+          className="w-full rounded-full bg-midnight px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-midnight/20 transition-colors hover:bg-violet disabled:opacity-60"
         >
-          Sign in
+          {loading ? "Signing in…" : "Sign in"}
         </button>
       </form>
 
@@ -59,7 +81,11 @@ function SignIn() {
         <div className="h-px flex-1 bg-midnight/10" />
       </div>
 
-      <button className="w-full rounded-full border border-midnight/10 bg-white px-6 py-3.5 text-sm font-semibold text-midnight transition-colors hover:bg-midnight/5">
+      <button
+        type="button"
+        onClick={handleGoogle}
+        className="w-full rounded-full border border-midnight/10 bg-white px-6 py-3.5 text-sm font-semibold text-midnight transition-colors hover:bg-midnight/5"
+      >
         Continue with Google
       </button>
     </AuthShell>

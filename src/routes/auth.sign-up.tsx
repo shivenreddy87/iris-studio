@@ -1,6 +1,10 @@
-import { createFileRoute, Link, useSearch } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useState } from "react";
 import { z } from "zod";
+import { toast } from "sonner";
 import { AuthShell } from "@/components/auth/auth-shell";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 
 const searchSchema = z.object({
   role: z.enum(["brand", "creator"]).optional(),
@@ -21,7 +25,52 @@ export const Route = createFileRoute("/auth/sign-up")({
 
 function SignUp() {
   const { role } = useSearch({ from: "/auth/sign-up" });
+  const navigate = useNavigate();
   const roleLabel = role === "creator" ? "Creator" : role === "brand" ? "Brand" : "Account";
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const full_name = String(form.get("name") ?? "");
+    const email = String(form.get("email") ?? "");
+    const password = String(form.get("password") ?? "");
+
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters.");
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/app`,
+        data: { full_name, role: role ?? "brand" },
+      },
+    });
+    setLoading(false);
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Welcome to Eros. Iris is warming up.");
+    navigate({ to: "/app" });
+  }
+
+  async function handleGoogle() {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      toast.error(result.error.message ?? "Google sign-in failed.");
+      return;
+    }
+    if (result.redirected) return;
+    navigate({ to: "/app" });
+  }
 
   return (
     <AuthShell
@@ -43,23 +92,33 @@ function SignUp() {
         </div>
       ) : null}
 
-      <form
-        className="space-y-5"
-        onSubmit={(e) => {
-          e.preventDefault();
-          // TODO: adapters/auth.ts → signUp({ name, email, password, role })
-        }}
-      >
+      <form className="space-y-5" onSubmit={handleSubmit}>
         <Field label="Full name" name="name" placeholder="Ada Lovelace" required />
         <Field label="Email" name="email" type="email" placeholder="you@brand.com" required />
         <Field label="Password" name="password" type="password" placeholder="At least 8 characters" required />
         <button
           type="submit"
-          className="w-full rounded-full bg-midnight px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-midnight/20 transition-colors hover:bg-violet"
+          disabled={loading}
+          className="w-full rounded-full bg-midnight px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-midnight/20 transition-colors hover:bg-violet disabled:opacity-60"
         >
-          Create account
+          {loading ? "Creating account…" : "Create account"}
         </button>
       </form>
+
+      <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-widest text-midnight/30">
+        <div className="h-px flex-1 bg-midnight/10" />
+        or
+        <div className="h-px flex-1 bg-midnight/10" />
+      </div>
+
+      <button
+        type="button"
+        onClick={handleGoogle}
+        className="w-full rounded-full border border-midnight/10 bg-white px-6 py-3.5 text-sm font-semibold text-midnight transition-colors hover:bg-midnight/5"
+      >
+        Continue with Google
+      </button>
+
       <p className="mt-4 text-xs leading-relaxed text-midnight/50">
         By signing up you agree to our Terms and acknowledge our Privacy Policy.
       </p>
