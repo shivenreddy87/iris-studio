@@ -46,18 +46,18 @@ function RolePicker() {
   const navigate = useNavigate({ from: "/auth/role" });
 
   return (
-    <div className="min-h-screen bg-canvas px-6 py-10">
-      <Link to="/" className="mx-auto block max-w-6xl font-display text-xl font-extrabold tracking-tighter text-midnight">
+    <div className="min-h-screen bg-surface-2 px-6 py-10">
+      <Link to="/" className="mx-auto block max-w-6xl font-display text-xl font-extrabold tracking-tighter text-primary">
         EROS.
       </Link>
 
       <div className="mx-auto mt-16 max-w-6xl">
         <div className="mb-14 text-center">
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-midnight/40">Step 1 of 3</p>
-          <h1 className="font-display text-4xl font-extrabold tracking-tight text-midnight md:text-5xl">
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted">Step 1 of 3</p>
+          <h1 className="font-display text-4xl font-extrabold tracking-tight text-primary md:text-5xl">
             How will you use Eros?
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-midnight/60">
+          <p className="mx-auto mt-4 max-w-lg text-secondary">
             Pick your path. You can always join the other side later.
           </p>
         </div>
@@ -77,10 +77,10 @@ function RolePicker() {
                 onClick={() => navigate({ search: { role: id } })}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className={`group relative overflow-hidden rounded-3xl border bg-white p-8 text-left transition-all ${
+                className={`group relative overflow-hidden rounded-3xl border bg-surface-2 p-8 text-left transition-all ${
                   isSelected
                     ? "border-midnight shadow-2xl shadow-midnight/10"
-                    : "border-midnight/5 hover:border-midnight/20 hover:shadow-xl"
+                    : "border-hairline hover:border-hairline hover:shadow-xl"
                 }`}
               >
                 <div className={`pointer-events-none absolute -right-16 -top-16 size-56 rounded-full blur-3xl ${accentGlow}`} />
@@ -88,9 +88,9 @@ function RolePicker() {
                   <div className={`mb-8 grid size-14 place-items-center rounded-2xl ${accentBg} text-white shadow-lg`}>
                     <Icon className="size-7" strokeWidth={2} />
                   </div>
-                  <h2 className="mb-3 font-display text-2xl font-extrabold text-midnight">{title}</h2>
-                  <p className="mb-6 leading-relaxed text-midnight/60">{description}</p>
-                  <ul className="mb-8 space-y-2 text-sm text-midnight/70">
+                  <h2 className="mb-3 font-display text-2xl font-extrabold text-primary">{title}</h2>
+                  <p className="mb-6 leading-relaxed text-secondary">{description}</p>
+                  <ul className="mb-8 space-y-2 text-sm text-secondary">
                     {features.map((f) => (
                       <li key={f} className="flex items-center gap-2">
                         <span className={`size-1.5 rounded-full ${accentBg}`} />
@@ -116,7 +116,7 @@ function RolePicker() {
             className={`rounded-full px-10 py-4 text-sm font-semibold shadow-lg transition-all ${
               selected
                 ? "bg-midnight text-white shadow-midnight/20 hover:bg-violet"
-                : "cursor-not-allowed bg-midnight/10 text-midnight/40"
+                : "cursor-not-allowed bg-surface-2/10 text-muted"
             }`}
             onClick={(e) => {
               if (!selected) e.preventDefault();

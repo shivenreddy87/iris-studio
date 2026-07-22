@@ -17,7 +17,7 @@ function ResetPasswordPage() {
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
   return (
-    <div className="grid min-h-screen place-items-center bg-canvas p-6">
+    <div className="grid min-h-screen place-items-center bg-surface-2 p-6">
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -30,9 +30,9 @@ function ResetPasswordPage() {
             window.location.href = "/app";
           }
         }}
-        className="w-full max-w-md space-y-4 rounded-3xl border border-midnight/5 bg-white p-8 shadow-sm"
+        className="w-full max-w-md space-y-4 rounded-3xl border border-hairline bg-surface-2 p-8 shadow-sm"
       >
-        <h1 className="font-display text-2xl font-extrabold text-midnight">Set new password</h1>
+        <h1 className="font-display text-2xl font-extrabold text-primary">Set new password</h1>
         <input
           type="password"
           required
@@ -40,7 +40,7 @@ function ResetPasswordPage() {
           value={pw}
           onChange={(e) => setPw(e.target.value)}
           placeholder="New password"
-          className="w-full rounded-2xl border border-midnight/10 bg-canvas px-4 py-3 text-sm"
+          className="w-full rounded-2xl border border-hairline bg-surface-2 px-4 py-3 text-sm"
         />
         <button
           type="submit"

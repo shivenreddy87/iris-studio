@@ -22,13 +22,13 @@ function OpportunitiesPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
       <div className="mb-8">
-        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-midnight/40">Creator</p>
-        <h1 className="font-display text-4xl font-extrabold text-midnight">Opportunities</h1>
+        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-muted">Creator</p>
+        <h1 className="font-display text-4xl font-extrabold text-primary">Opportunities</h1>
       </div>
       {invited.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-midnight/15 bg-white/50 p-16 text-center">
-          <Briefcase className="mx-auto mb-4 size-10 text-midnight/30" />
-          <p className="text-sm text-midnight/60">No open invitations yet.</p>
+        <div className="rounded-3xl border border-dashed border-hairline bg-surface-2/50 p-16 text-center">
+          <Briefcase className="mx-auto mb-4 size-10 text-primary/30" />
+          <p className="text-sm text-secondary">No open invitations yet.</p>
         </div>
       ) : (
         <div className="grid gap-3">
@@ -37,16 +37,16 @@ function OpportunitiesPage() {
               key={d.id}
               to="/app/deals/$id"
               params={{ id: d.id }}
-              className="rounded-2xl border border-midnight/5 bg-white p-5 shadow-sm hover:border-violet/30"
+              className="rounded-2xl border border-hairline bg-surface-2 p-5 shadow-sm hover:border-violet/30"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-display text-lg font-bold text-midnight">{d.campaign?.name ?? "Campaign"}</p>
-                  <p className="mt-1 text-xs text-midnight/50">{d.campaign?.brief?.slice(0, 100)}…</p>
+                  <p className="font-display text-lg font-bold text-primary">{d.campaign?.name ?? "Campaign"}</p>
+                  <p className="mt-1 text-xs text-muted">{d.campaign?.brief?.slice(0, 100)}…</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-mono text-xs uppercase tracking-widest text-midnight/40">Offer</p>
-                  <p className="font-display text-xl font-bold text-midnight">₹{(d.offer ?? 0).toLocaleString()}</p>
+                  <p className="font-mono text-xs uppercase tracking-widest text-muted">Offer</p>
+                  <p className="font-display text-xl font-bold text-primary">₹{(d.offer ?? 0).toLocaleString()}</p>
                 </div>
               </div>
             </Link>

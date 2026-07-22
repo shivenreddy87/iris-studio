@@ -53,27 +53,27 @@ function CreatorProfilePage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  if (isLoading) return <div className="p-10 text-center text-midnight/50">Loading…</div>;
-  if (!creator) return <div className="p-10 text-center text-midnight/50">Creator not found.</div>;
+  if (isLoading) return <div className="p-10 text-center text-muted">Loading…</div>;
+  if (!creator) return <div className="p-10 text-center text-muted">Creator not found.</div>;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 lg:px-8">
       <Link
         to="/app/discover"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-midnight/60 hover:text-violet"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-violet"
       >
         <ArrowLeft className="size-4" /> Back to discover
       </Link>
 
-      <div className="rounded-3xl border border-midnight/5 bg-white p-8 shadow-sm">
+      <div className="rounded-3xl border border-hairline bg-surface-2 p-8 shadow-sm">
         <div className="flex flex-wrap items-start gap-6">
           <div className={`grid size-24 place-items-center rounded-3xl ${creator.accent === "rose" ? "bg-rose/10 text-rose" : "bg-violet/10 text-violet"} font-display text-3xl font-bold`}>
             {(creator.display_name ?? "?").slice(0, 2)}
           </div>
           <div className="min-w-0 flex-1">
-            <h1 className="font-display text-4xl font-extrabold text-midnight">{creator.display_name}</h1>
-            <p className="mt-1 text-sm text-midnight/60">{creator.handle} · {creator.niche} · {creator.location ?? ""}</p>
-            {creator.bio ? <p className="mt-4 max-w-2xl text-sm text-midnight/70">{creator.bio}</p> : null}
+            <h1 className="font-display text-4xl font-extrabold text-primary">{creator.display_name}</h1>
+            <p className="mt-1 text-sm text-secondary">{creator.handle} · {creator.niche} · {creator.location ?? ""}</p>
+            {creator.bio ? <p className="mt-4 max-w-2xl text-sm text-secondary">{creator.bio}</p> : null}
           </div>
         </div>
 
@@ -85,13 +85,13 @@ function CreatorProfilePage() {
         </div>
       </div>
 
-      <div className="mt-6 rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 font-display text-lg font-bold text-midnight">Invite to a campaign</h2>
+      <div className="mt-6 rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
+        <h2 className="mb-4 font-display text-lg font-bold text-primary">Invite to a campaign</h2>
         <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
           <select
             value={selectedCampaign}
             onChange={(e) => setSelectedCampaign(e.target.value)}
-            className="rounded-full border border-midnight/10 bg-canvas px-4 py-2.5 text-sm"
+            className="rounded-full border border-hairline bg-surface-2 px-4 py-2.5 text-sm"
           >
             <option value="">Select campaign…</option>
             {campaigns.map((c) => (
@@ -103,7 +103,7 @@ function CreatorProfilePage() {
             value={offer}
             onChange={(e) => setOffer(e.target.value)}
             placeholder="Offer"
-            className="w-40 rounded-full border border-midnight/10 bg-canvas px-4 py-2.5 text-sm"
+            className="w-40 rounded-full border border-hairline bg-surface-2 px-4 py-2.5 text-sm"
           />
           <button
             onClick={() => inviteMutation.mutate()}
@@ -120,9 +120,9 @@ function CreatorProfilePage() {
 
 function Stat({ label, value, accent }: { label: string; value: string | number; accent?: boolean }) {
   return (
-    <div className="rounded-2xl border border-midnight/5 bg-canvas p-4">
-      <p className="font-mono text-xs uppercase tracking-widest text-midnight/40">{label}</p>
-      <p className={`mt-1 font-display text-xl font-bold ${accent ? "text-violet" : "text-midnight"}`}>{value}</p>
+    <div className="rounded-2xl border border-hairline bg-surface-2 p-4">
+      <p className="font-mono text-xs uppercase tracking-widest text-muted">{label}</p>
+      <p className={`mt-1 font-display text-xl font-bold ${accent ? "text-violet" : "text-primary"}`}>{value}</p>
     </div>
   );
 }

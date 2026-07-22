@@ -28,8 +28,8 @@ function SettingsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 lg:px-8">
       <div className="mb-8">
-        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-midnight/40">Settings</p>
-        <h1 className="font-display text-4xl font-extrabold text-midnight">Your account</h1>
+        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-muted">Settings</p>
+        <h1 className="font-display text-4xl font-extrabold text-primary">Your account</h1>
       </div>
       <div className="space-y-6">
         <Section title="Profile">
@@ -52,17 +52,17 @@ function SettingsPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
-      <h2 className="mb-4 font-display text-lg font-bold text-midnight">{title}</h2>
+    <div className="rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
+      <h2 className="mb-4 font-display text-lg font-bold text-primary">{title}</h2>
       {children}
     </div>
   );
 }
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between border-b border-midnight/5 py-2 text-sm last:border-0">
-      <span className="text-midnight/60">{label}</span>
-      <span className="font-semibold text-midnight capitalize">{value}</span>
+    <div className="flex justify-between border-b border-hairline py-2 text-sm last:border-0">
+      <span className="text-secondary">{label}</span>
+      <span className="font-semibold text-primary capitalize">{value}</span>
     </div>
   );
 }

@@ -54,8 +54,8 @@ function DealPage() {
     },
   });
 
-  if (isLoading) return <div className="p-10 text-center text-midnight/50">Loading…</div>;
-  if (!data?.deal) return <div className="p-10 text-center text-midnight/50">Deal not found.</div>;
+  if (isLoading) return <div className="p-10 text-center text-muted">Loading…</div>;
+  if (!data?.deal) return <div className="p-10 text-center text-muted">Deal not found.</div>;
 
   const { deal, events } = data;
   const currentIdx = stages.findIndex((s) => s.key === deal.stage);
@@ -64,23 +64,23 @@ function DealPage() {
     <div className="mx-auto max-w-6xl px-4 py-10 lg:px-8">
       <Link
         to="/app/campaigns"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-midnight/60 hover:text-violet"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-violet"
       >
         <ArrowLeft className="size-4" /> Back
       </Link>
 
-      <div className="mb-6 rounded-3xl border border-midnight/5 bg-white p-8 shadow-sm">
+      <div className="mb-6 rounded-3xl border border-hairline bg-surface-2 p-8 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-midnight/40">Deal</p>
-            <h1 className="font-display text-3xl font-extrabold text-midnight">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted">Deal</p>
+            <h1 className="font-display text-3xl font-extrabold text-primary">
               {deal.creator?.display_name ?? "Creator"} × {deal.campaign?.name ?? "Campaign"}
             </h1>
           </div>
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="font-mono text-xs uppercase tracking-widest text-midnight/40">Current offer</p>
-              <p className="font-display text-2xl font-bold text-midnight">₹{(deal.offer ?? 0).toLocaleString()}</p>
+              <p className="font-mono text-xs uppercase tracking-widest text-muted">Current offer</p>
+              <p className="font-display text-2xl font-bold text-primary">₹{(deal.offer ?? 0).toLocaleString()}</p>
               {deal.counter ? (
                 <p className="text-xs text-rose">Counter: ₹{deal.counter.toLocaleString()}</p>
               ) : null}
@@ -94,16 +94,16 @@ function DealPage() {
               <div key={s.key} className="flex flex-1 items-center gap-2">
                 <div
                   className={`grid size-8 shrink-0 place-items-center rounded-full text-xs font-bold ${
-                    i <= currentIdx ? "bg-midnight text-white" : "bg-midnight/10 text-midnight/40"
+                    i <= currentIdx ? "bg-midnight text-white" : "bg-surface-2/10 text-muted"
                   }`}
                 >
                   {i + 1}
                 </div>
-                <span className={`text-xs font-medium ${i <= currentIdx ? "text-midnight" : "text-midnight/40"}`}>
+                <span className={`text-xs font-medium ${i <= currentIdx ? "text-primary" : "text-muted"}`}>
                   {s.label}
                 </span>
                 {i < stages.length - 1 ? (
-                  <div className={`h-0.5 flex-1 ${i < currentIdx ? "bg-midnight" : "bg-midnight/10"}`} />
+                  <div className={`h-0.5 flex-1 ${i < currentIdx ? "bg-midnight" : "bg-surface-2/10"}`} />
                 ) : null}
               </div>
             ))}
@@ -116,7 +116,7 @@ function DealPage() {
               key={s.key}
               onClick={() => stageMutation.mutate(s.key)}
               disabled={deal.stage === s.key}
-              className="rounded-full border border-midnight/10 bg-canvas px-3 py-1.5 text-xs font-semibold text-midnight/70 hover:border-violet/40 hover:text-violet disabled:opacity-40"
+              className="rounded-full border border-hairline bg-surface-2 px-3 py-1.5 text-xs font-semibold text-secondary hover:border-violet/40 hover:text-violet disabled:opacity-40"
             >
               → {s.label}
             </button>
@@ -130,15 +130,15 @@ function DealPage() {
         </div>
       </div>
 
-      <div className="mb-6 rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
-        <h2 className="mb-3 font-display text-lg font-bold text-midnight">Send a counter</h2>
+      <div className="mb-6 rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
+        <h2 className="mb-3 font-display text-lg font-bold text-primary">Send a counter</h2>
         <div className="flex gap-2">
           <input
             type="number"
             value={counter}
             onChange={(e) => setCounter(e.target.value)}
             placeholder="Counter amount"
-            className="flex-1 rounded-full border border-midnight/10 bg-canvas px-4 py-2.5 text-sm"
+            className="flex-1 rounded-full border border-hairline bg-surface-2 px-4 py-2.5 text-sm"
           />
           <button
             onClick={() => counter && offerMutation.mutate(Number(counter))}
@@ -150,18 +150,18 @@ function DealPage() {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-midnight/5 bg-white p-6 shadow-sm">
-        <h2 className="mb-3 font-display text-lg font-bold text-midnight">Activity</h2>
+      <div className="rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
+        <h2 className="mb-3 font-display text-lg font-bold text-primary">Activity</h2>
         {events.length === 0 ? (
-          <p className="text-sm text-midnight/50">No activity yet.</p>
+          <p className="text-sm text-muted">No activity yet.</p>
         ) : (
           <ul className="space-y-2 text-sm">
             {events.map((e) => (
-              <li key={e.id} className="flex gap-3 border-b border-midnight/5 pb-2 last:border-0">
-                <span className="font-mono text-xs text-midnight/40">
+              <li key={e.id} className="flex gap-3 border-b border-hairline pb-2 last:border-0">
+                <span className="font-mono text-xs text-muted">
                   {new Date(e.created_at).toLocaleString()}
                 </span>
-                <span className="text-midnight/70">{e.kind.replace(/_/g, " ")}</span>
+                <span className="text-secondary">{e.kind.replace(/_/g, " ")}</span>
               </li>
             ))}
           </ul>

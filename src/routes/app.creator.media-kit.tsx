@@ -61,22 +61,22 @@ function MediaKitPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 lg:px-8">
       <div className="mb-8">
-        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-midnight/40">Creator</p>
-        <h1 className="font-display text-4xl font-extrabold text-midnight">Media kit</h1>
+        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-muted">Creator</p>
+        <h1 className="font-display text-4xl font-extrabold text-primary">Media kit</h1>
       </div>
 
-      <div className="space-y-4 rounded-3xl border border-midnight/5 bg-white p-8 shadow-sm">
+      <div className="space-y-4 rounded-3xl border border-hairline bg-surface-2 p-8 shadow-sm">
         <Field label="Display name" value={form.display_name} onChange={(v) => setForm({ ...form, display_name: v })} />
         <Field label="Handle (@name)" value={form.handle} onChange={(v) => setForm({ ...form, handle: v })} />
         <Field label="Niche" value={form.niche} onChange={(v) => setForm({ ...form, niche: v })} />
         <Field label="Location" value={form.location} onChange={(v) => setForm({ ...form, location: v })} />
         <div>
-          <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-midnight/40">Bio</label>
+          <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-muted">Bio</label>
           <textarea
             value={form.bio}
             onChange={(e) => setForm({ ...form, bio: e.target.value })}
             rows={4}
-            className="w-full rounded-2xl border border-midnight/10 bg-canvas px-4 py-3 text-sm"
+            className="w-full rounded-2xl border border-hairline bg-surface-2 px-4 py-3 text-sm"
           />
         </div>
         <div className="grid grid-cols-3 gap-3">
@@ -99,11 +99,11 @@ function MediaKitPage() {
 function Field({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div>
-      <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-midnight/40">{label}</label>
+      <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-muted">{label}</label>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-2xl border border-midnight/10 bg-canvas px-4 py-3 text-sm"
+        className="w-full rounded-2xl border border-hairline bg-surface-2 px-4 py-3 text-sm"
       />
     </div>
   );
@@ -111,12 +111,12 @@ function Field({ label, value, onChange }: { label: string; value: string; onCha
 function NumField({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
   return (
     <div>
-      <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-midnight/40">{label}</label>
+      <label className="mb-2 block text-xs font-mono uppercase tracking-widest text-muted">{label}</label>
       <input
         type="number"
         value={value}
         onChange={(e) => onChange(Number(e.target.value) || 0)}
-        className="w-full rounded-2xl border border-midnight/10 bg-canvas px-4 py-3 text-sm"
+        className="w-full rounded-2xl border border-hairline bg-surface-2 px-4 py-3 text-sm"
       />
     </div>
   );

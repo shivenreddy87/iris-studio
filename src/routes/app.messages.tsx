@@ -77,13 +77,13 @@ function MessagesPage() {
 
   return (
     <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-7xl">
-      <aside className="w-80 shrink-0 overflow-y-auto border-r border-midnight/5 bg-white">
-        <div className="border-b border-midnight/5 p-4">
-          <h1 className="font-display text-2xl font-extrabold text-midnight">Messages</h1>
+      <aside className="w-80 shrink-0 overflow-y-auto border-r border-hairline bg-surface-2">
+        <div className="border-b border-hairline p-4">
+          <h1 className="font-display text-2xl font-extrabold text-primary">Messages</h1>
         </div>
         {conversations.length === 0 ? (
-          <div className="p-6 text-center text-sm text-midnight/50">
-            <MessageSquare className="mx-auto mb-2 size-8 text-midnight/30" />
+          <div className="p-6 text-center text-sm text-muted">
+            <MessageSquare className="mx-auto mb-2 size-8 text-primary/30" />
             No conversations yet.
           </div>
         ) : (
@@ -93,33 +93,33 @@ function MessagesPage() {
               <button
                 key={c.id}
                 onClick={() => setActiveId(c.id)}
-                className={`block w-full border-b border-midnight/5 p-4 text-left hover:bg-canvas ${activeId === c.id ? "bg-canvas" : ""}`}
+                className={`block w-full border-b border-hairline p-4 text-left hover:bg-surface-2 ${activeId === c.id ? "bg-surface-2" : ""}`}
               >
-                <p className="font-semibold text-sm text-midnight">{other ?? "Conversation"}</p>
-                <p className="mt-1 truncate text-xs text-midnight/50">{c.campaign?.name ?? ""}</p>
+                <p className="font-semibold text-sm text-primary">{other ?? "Conversation"}</p>
+                <p className="mt-1 truncate text-xs text-muted">{c.campaign?.name ?? ""}</p>
               </button>
             );
           })
         )}
       </aside>
 
-      <main className="flex min-w-0 flex-1 flex-col bg-canvas">
+      <main className="flex min-w-0 flex-1 flex-col bg-surface-2">
         {active ? (
           <>
-            <div className="border-b border-midnight/5 bg-white p-4">
-              <p className="font-display text-lg font-bold text-midnight">
+            <div className="border-b border-hairline bg-surface-2 p-4">
+              <p className="font-display text-lg font-bold text-primary">
                 {user?.id === active.brand_user_id ? active.creator?.display_name : active.brand?.full_name ?? active.brand?.email}
               </p>
-              <p className="text-xs text-midnight/50">{active.campaign?.name ?? ""}</p>
+              <p className="text-xs text-muted">{active.campaign?.name ?? ""}</p>
             </div>
             <div className="flex-1 space-y-3 overflow-y-auto p-6">
               {messages.map((m) => {
                 const mine = m.sender_id === user?.id;
                 return (
                   <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-md rounded-2xl px-4 py-2.5 text-sm ${mine ? "bg-midnight text-white" : "bg-white text-midnight shadow-sm"}`}>
+                    <div className={`max-w-md rounded-2xl px-4 py-2.5 text-sm ${mine ? "bg-midnight text-white" : "bg-surface-2 text-primary shadow-sm"}`}>
                       {m.body}
-                      <div className={`mt-1 text-[10px] ${mine ? "text-white/60" : "text-midnight/40"}`}>
+                      <div className={`mt-1 text-[10px] ${mine ? "text-white/60" : "text-muted"}`}>
                         {new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                       </div>
                     </div>
@@ -133,13 +133,13 @@ function MessagesPage() {
                 e.preventDefault();
                 if (text.trim()) sendMutation.mutate(text.trim());
               }}
-              className="flex gap-2 border-t border-midnight/5 bg-white p-4"
+              className="flex gap-2 border-t border-hairline bg-surface-2 p-4"
             >
               <input
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Write a message…"
-                className="flex-1 rounded-full border border-midnight/10 bg-canvas px-4 py-2.5 text-sm focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/10"
+                className="flex-1 rounded-full border border-hairline bg-surface-2 px-4 py-2.5 text-sm focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/30"
               />
               <button
                 type="submit"
@@ -151,7 +151,7 @@ function MessagesPage() {
             </form>
           </>
         ) : (
-          <div className="grid flex-1 place-items-center text-sm text-midnight/50">
+          <div className="grid flex-1 place-items-center text-sm text-muted">
             Select a conversation to start.
           </div>
         )}

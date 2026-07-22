@@ -15,18 +15,18 @@ export function AuthShell({
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* Left: form */}
-      <div className="flex flex-col bg-canvas px-6 py-10 lg:px-16">
-        <Link to="/" className="font-display text-xl font-extrabold tracking-tighter text-midnight">
+      <div className="flex flex-col bg-surface-2 px-6 py-10 lg:px-16">
+        <Link to="/" className="font-display text-xl font-extrabold tracking-tighter text-primary">
           EROS.
         </Link>
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
-          <h1 className="mb-3 font-display text-4xl font-extrabold tracking-tight text-midnight">
+          <h1 className="mb-3 font-display text-4xl font-extrabold tracking-tight text-primary">
             {title}
           </h1>
-          {subtitle ? <p className="mb-10 text-midnight/60">{subtitle}</p> : null}
+          {subtitle ? <p className="mb-10 text-secondary">{subtitle}</p> : null}
           {children}
         </div>
-        {footer ? <div className="mx-auto w-full max-w-md text-sm text-midnight/60">{footer}</div> : null}
+        {footer ? <div className="mx-auto w-full max-w-md text-sm text-secondary">{footer}</div> : null}
       </div>
 
       {/* Right: editorial panel */}
