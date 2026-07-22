@@ -7,10 +7,19 @@ export const listMyDeals = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("deals")
-      .select("*, campaign:campaigns(id, name, currency, brief), creator:creator_profiles!deals_creator_user_id_fkey(user_id, display_name, handle, accent)")
+      .select("*, campaign:campaigns(id, name, currency, brief)")
       .order("updated_at", { ascending: false });
     if (error) throw new Error(error.message);
-    return data ?? [];
+    const deals = data ?? [];
+    const creatorIds = Array.from(new Set(deals.map((d) => d.creator_user_id)));
+    const { data: creators } = creatorIds.length
+      ? await context.supabase
+          .from("creator_profiles")
+          .select("user_id, display_name, handle, accent")
+          .in("user_id", creatorIds)
+      : { data: [] as { user_id: string; display_name: string | null; handle: string | null; accent: "violet" | "rose" }[] };
+    const map = new Map((creators ?? []).map((c) => [c.user_id, c]));
+    return deals.map((d) => ({ ...d, creator: map.get(d.creator_user_id) ?? null }));
   });
 
 export const getDeal = createServerFn({ method: "GET" })
@@ -19,18 +28,23 @@ export const getDeal = createServerFn({ method: "GET" })
   .handler(async ({ context, data }) => {
     const { data: deal, error } = await context.supabase
       .from("deals")
-      .select("*, campaign:campaigns(id, name, currency, brief, org_id), creator:creator_profiles!deals_creator_user_id_fkey(user_id, display_name, handle, niche, accent, avg_rate, followers, engagement_rate)")
+      .select("*, campaign:campaigns(id, name, currency, brief, org_id)")
       .eq("id", data.id)
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!deal) return null;
+    const { data: creator } = await context.supabase
+      .from("creator_profiles")
+      .select("user_id, display_name, handle, niche, accent, avg_rate, followers, engagement_rate")
+      .eq("user_id", deal.creator_user_id)
+      .maybeSingle();
     const { data: events } = await context.supabase
       .from("deal_events")
       .select("*")
       .eq("deal_id", data.id)
       .order("created_at", { ascending: false })
       .limit(50);
-    return { deal, events: events ?? [] };
+    return { deal: { ...deal, creator }, events: events ?? [] };
   });
 
 export const createDeal = createServerFn({ method: "POST" })

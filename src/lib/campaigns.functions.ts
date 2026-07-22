@@ -26,9 +26,18 @@ export const getCampaign = createServerFn({ method: "GET" })
     if (!campaign) return null;
     const { data: deals } = await context.supabase
       .from("deals")
-      .select("*, creator:creator_profiles!deals_creator_user_id_fkey(user_id, display_name, handle, niche, accent, followers)")
+      .select("*")
       .eq("campaign_id", data.id);
-    return { campaign, deals: deals ?? [] };
+    const creatorIds = Array.from(new Set((deals ?? []).map((d) => d.creator_user_id)));
+    const { data: creators } = creatorIds.length
+      ? await context.supabase
+          .from("creator_profiles")
+          .select("user_id, display_name, handle, niche, accent, followers, avg_rate, match_score, bio")
+          .in("user_id", creatorIds)
+      : { data: [] };
+    const map = new Map((creators ?? []).map((c) => [c.user_id, c]));
+    const dealsWithCreator = (deals ?? []).map((d) => ({ ...d, creator: map.get(d.creator_user_id) ?? null }));
+    return { campaign, deals: dealsWithCreator };
   });
 
 const CreateCampaignInput = z.object({
