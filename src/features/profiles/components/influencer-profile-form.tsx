@@ -125,7 +125,9 @@ export function InfluencerProfileForm({
         <Field
           label="Instagram handle"
           htmlFor="instagramHandle"
+          optional
           error={errors.instagramHandle?.message}
+          hint="Add at least one social handle or URL below."
         >
           <input
             id="instagramHandle"

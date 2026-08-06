@@ -28,7 +28,6 @@ const INFLUENCER_FIELDS: Array<{ key: keyof InfluencerProfile; label: string }> 
   { key: "primaryPlatform", label: "Primary platform" },
   { key: "followerRange", label: "Follower range" },
   { key: "bio", label: "Bio" },
-  { key: "instagramHandle", label: "Instagram handle" },
 ];
 
 
