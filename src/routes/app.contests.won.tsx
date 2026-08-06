@@ -4,7 +4,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { Award } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { listMyWins } from "@/features/winner-selection/winner.functions";
 import { ContestWinnerList } from "@/features/contests/components/contest-winner-list";
@@ -13,12 +12,12 @@ import { ProfileGate } from "@/features/profiles/components/profile-gate";
 export const Route = createFileRoute("/app/contests/won")({
   head: () => ({
     meta: [
-      { title: "Won Contests — Iris Studio" },
+      { title: "Won Contests — Project Eros" },
       {
         name: "description",
         content: "The contests you have won and the rewards attached to them.",
       },
-      { property: "og:title", content: "Won Contests — Iris Studio" },
+      { property: "og:title", content: "Won Contests — Project Eros" },
       {
         property: "og:description",
         content: "The contests you have won and the rewards attached to them.",
@@ -66,7 +65,6 @@ function WonContestsPage() {
       >
         <ContestWinnerList winners={data} />
       </DataSection>
-      <MilestoneNotice items={["Reward payout tracking", "Downloadable win history"]} />
     </div>
   );
 }

@@ -17,12 +17,12 @@ import { ExportButton } from "@/features/analytics/components/export-button";
 export const Route = createFileRoute("/app/admin/moderation")({
   head: () => ({
     meta: [
-      { title: "Moderation — Iris Studio" },
+      { title: "Moderation — Project Eros" },
       {
         name: "description",
         content: "Suspend or reactivate accounts and review the platform moderation log.",
       },
-      { property: "og:title", content: "Moderation — Iris Studio" },
+      { property: "og:title", content: "Moderation — Project Eros" },
       {
         property: "og:description",
         content: "Suspend or reactivate accounts and review the platform moderation log.",

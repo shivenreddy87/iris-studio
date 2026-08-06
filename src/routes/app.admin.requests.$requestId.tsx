@@ -14,12 +14,12 @@ import { ReviewNotesCard } from "@/features/campaign-requests/components/review-
 export const Route = createFileRoute("/app/admin/requests/$requestId")({
   head: () => ({
     meta: [
-      { title: "Request Review — Iris Studio Admin" },
+      { title: "Request Review — Project Eros Admin" },
       {
         name: "description",
         content: "Inspect a submitted campaign brief, its targeting and its review history.",
       },
-      { property: "og:title", content: "Request Review — Iris Studio Admin" },
+      { property: "og:title", content: "Request Review — Project Eros Admin" },
       {
         property: "og:description",
         content: "Inspect a submitted campaign brief, its targeting and its review history.",

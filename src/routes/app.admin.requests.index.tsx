@@ -19,12 +19,12 @@ import {
 export const Route = createFileRoute("/app/admin/requests/")({
   head: () => ({
     meta: [
-      { title: "Campaign Requests — Iris Studio Admin" },
+      { title: "Campaign Requests — Project Eros Admin" },
       {
         name: "description",
         content: "Browse, search and filter every campaign request submitted by businesses.",
       },
-      { property: "og:title", content: "Campaign Requests — Iris Studio Admin" },
+      { property: "og:title", content: "Campaign Requests — Project Eros Admin" },
       {
         property: "og:description",
         content: "Browse, search and filter every campaign request submitted by businesses.",

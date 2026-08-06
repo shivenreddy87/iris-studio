@@ -35,29 +35,32 @@ export function AuthShell({
         <div className="pointer-events-none absolute -bottom-32 -left-20 size-96 rounded-full bg-rose/20 blur-[120px]" />
         <div className="relative z-10 flex h-full flex-col justify-between p-16 text-white">
           <div className="font-mono text-xs uppercase tracking-[0.25em] text-white/40">
-            Iris Intelligence — Live
+            Project Eros
           </div>
           <div className="max-w-md">
-            <p className="mb-6 font-mono text-xs uppercase tracking-widest text-violet">Now Orchestrating</p>
-            <p className="font-display text-3xl font-bold leading-tight">
-              &ldquo;Iris matched us with three creators who felt hand-picked. Our launch outperformed forecast by 34%.&rdquo;
+            <p className="mb-6 font-mono text-xs uppercase tracking-widest text-violet">
+              Campaigns, end to end
             </p>
-            <p className="mt-6 text-sm text-white/60">— Priya S., Head of Growth, Everglow</p>
+            <p className="font-display text-3xl font-bold leading-tight">
+              Businesses post campaigns. Creators apply, submit and get rewarded. Every stage is
+              tracked in one place.
+            </p>
           </div>
           <div className="grid grid-cols-3 gap-4 font-mono text-xs text-white/40">
             <div>
-              <div className="font-display text-2xl font-extrabold text-white">2.4k</div>
-              CAMPAIGNS
+              <div className="font-display text-base font-extrabold text-white">Businesses</div>
+              CAMPAIGN REQUESTS
             </div>
             <div>
-              <div className="font-display text-2xl font-extrabold text-white">18k+</div>
-              CREATORS
+              <div className="font-display text-base font-extrabold text-white">Creators</div>
+              CONTESTS &amp; REWARDS
             </div>
             <div>
-              <div className="font-display text-2xl font-extrabold text-white">94%</div>
-              MATCH RATE
+              <div className="font-display text-base font-extrabold text-white">Admins</div>
+              REVIEW &amp; PAYOUTS
             </div>
           </div>
+
         </div>
       </div>
     </div>

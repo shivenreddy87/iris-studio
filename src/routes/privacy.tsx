@@ -31,7 +31,7 @@ function PrivacyPage() {
           </section>
           <section>
             <h2 className="font-display text-2xl font-bold text-foreground">How we use it</h2>
-            <p>To operate the product, power Iris AI recommendations, deliver notifications, and improve reliability. We do not sell personal data.</p>
+            <p>To operate the product, power the platform, deliver notifications, and improve reliability. We do not sell personal data.</p>
           </section>
           <section>
             <h2 className="font-display text-2xl font-bold text-foreground">Your controls</h2>

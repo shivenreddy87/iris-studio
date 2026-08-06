@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Users, Link2, ShieldCheck, ArrowRight, Bell } from "lucide-react";
+import type { LinkProps } from "@tanstack/react-router";
+import type { LucideIcon } from "lucide-react";
+import { UserCircle, ShieldCheck, ArrowRight, Bell } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -7,12 +9,16 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/app/settings/")({
   head: () => ({
     meta: [
-      { title: "Settings — Iris AI" },
-      { name: "description", content: "Manage your account, team, and connected accounts on Iris AI." },
+      { title: "Settings — Project Eros" },
+      {
+        name: "description",
+        content: "Manage your account, profile and notification preferences on Project Eros.",
+      },
     ],
   }),
   component: SettingsPage,
 });
+
 
 function SettingsPage() {
   const { user, role } = useAuth();
@@ -40,10 +46,20 @@ function SettingsPage() {
         </Section>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <NavCard to="/app/team" Icon={Users} title={role === "creator" ? "Collaborators" : "Team"} desc="Invite and manage members" />
-          <NavCard to="/app/connections" Icon={Link2} title="Connected accounts" desc="Link social platforms" />
-          <NavCard to="/app/settings/notifications" Icon={Bell} title="Notifications" desc="Choose what you hear about" />
+          <NavCard
+            to="/app/profile"
+            Icon={UserCircle}
+            title="Profile"
+            desc="Keep your details up to date"
+          />
+          <NavCard
+            to="/app/settings/notifications"
+            Icon={Bell}
+            title="Notifications"
+            desc="Choose what you hear about"
+          />
         </div>
+
 
         <Section title="Security">
           <div className="flex items-center gap-3">
@@ -65,7 +81,17 @@ function SettingsPage() {
   );
 }
 
-function NavCard({ to, Icon, title, desc }: { to: string; Icon: any; title: string; desc: string }) {
+function NavCard({
+  to,
+  Icon,
+  title,
+  desc,
+}: {
+  to: LinkProps["to"];
+  Icon: LucideIcon;
+  title: string;
+  desc: string;
+}) {
   return (
     <Link to={to} className="group flex items-center gap-3 rounded-3xl border border-hairline bg-surface-2 p-5 transition hover:border-violet/50 hover:bg-surface-3">
       <div className="grid h-10 w-10 place-items-center rounded-2xl bg-violet/20 text-violet">

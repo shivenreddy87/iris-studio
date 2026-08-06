@@ -4,7 +4,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { ClipboardList } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { listAllContestEntries } from "@/features/contest-entries/entries.functions";
 import { ContestEntryList } from "@/features/contest-entries/components/contest-entry-list";
@@ -12,9 +11,9 @@ import { ContestEntryList } from "@/features/contest-entries/components/contest-
 export const Route = createFileRoute("/app/admin/entries")({
   head: () => ({
     meta: [
-      { title: "Participants — Iris Studio Admin" },
+      { title: "Participants — Project Eros Admin" },
       { name: "description", content: "Review contest entries and select participants." },
-      { property: "og:title", content: "Participants — Iris Studio Admin" },
+      { property: "og:title", content: "Participants — Project Eros Admin" },
       { property: "og:description", content: "Review contest entries and select participants." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -55,13 +54,6 @@ function AdminParticipantsPage() {
       >
         <ContestEntryList entries={data} />
       </DataSection>
-      <MilestoneNotice
-        items={[
-          "Shortlist and select participants",
-          "Bulk decisions per contest",
-          "Automatic selection notifications",
-        ]}
-      />
     </div>
   );
 }

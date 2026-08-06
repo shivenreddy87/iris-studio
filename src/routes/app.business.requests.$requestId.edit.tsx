@@ -21,9 +21,9 @@ import { ProfileGate } from "@/features/profiles/components/profile-gate";
 export const Route = createFileRoute("/app/business/requests/$requestId/edit")({
   head: () => ({
     meta: [
-      { title: "Edit Campaign Request — Iris Studio" },
+      { title: "Edit Campaign Request — Project Eros" },
       { name: "description", content: "Edit a saved campaign request draft before submitting it." },
-      { property: "og:title", content: "Edit Campaign Request — Iris Studio" },
+      { property: "og:title", content: "Edit Campaign Request — Project Eros" },
       {
         property: "og:description",
         content: "Edit a saved campaign request draft before submitting it.",

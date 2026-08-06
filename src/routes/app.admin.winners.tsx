@@ -4,7 +4,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { Award } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { listAllWinners } from "@/features/winner-selection/winner.functions";
 import { ContestWinnerList } from "@/features/contests/components/contest-winner-list";
@@ -12,9 +11,9 @@ import { ContestWinnerList } from "@/features/contests/components/contest-winner
 export const Route = createFileRoute("/app/admin/winners")({
   head: () => ({
     meta: [
-      { title: "Winners — Iris Studio Admin" },
+      { title: "Winners — Project Eros Admin" },
       { name: "description", content: "Declare and review contest winners." },
-      { property: "og:title", content: "Winners — Iris Studio Admin" },
+      { property: "og:title", content: "Winners — Project Eros Admin" },
       { property: "og:description", content: "Declare and review contest winners." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -55,13 +54,6 @@ function AdminWinnersPage() {
       >
         <ContestWinnerList winners={data} />
       </DataSection>
-      <MilestoneNotice
-        items={[
-          "Declare one or more winners per contest",
-          "Winner announcement notifications",
-          "Hand off to the manual payout ledger",
-        ]}
-      />
     </div>
   );
 }

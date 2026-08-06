@@ -1,18 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2 } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 
 export const Route = createFileRoute("/app/admin/businesses/$businessId")({
   head: () => ({
     meta: [
-      { title: "Business — Iris Studio" },
+      { title: "Business — Project Eros" },
       {
         name: "description",
         content: "Profile, campaign requests and contest history for a single business.",
       },
-      { property: "og:title", content: "Business — Iris Studio" },
+      { property: "og:title", content: "Business — Project Eros" },
       {
         property: "og:description",
         content: "Profile, campaign requests and contest history for a single business.",
@@ -36,13 +35,6 @@ function AdminBusinessDetailPage() {
         icon={<Building2 className="size-8" />}
         title="Business details unavailable"
         hint="Business records land in the next milestone; this page is already wired to its final URL."
-      />
-      <MilestoneNotice
-        items={[
-          "Company profile and contacts",
-          "All campaign requests submitted",
-          "Contests created for this business",
-        ]}
       />
     </div>
   );

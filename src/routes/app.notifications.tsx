@@ -21,12 +21,12 @@ import type { NotificationItem } from "@/features/activity/types";
 export const Route = createFileRoute("/app/notifications")({
   head: () => ({
     meta: [
-      { title: "Notifications — Iris Studio" },
+      { title: "Notifications — Project Eros" },
       {
         name: "description",
         content: "Every update about your requests, contests and results in one place.",
       },
-      { property: "og:title", content: "Notifications — Iris Studio" },
+      { property: "og:title", content: "Notifications — Project Eros" },
       {
         property: "og:description",
         content: "Every update about your requests, contests and results in one place.",

@@ -27,9 +27,9 @@ import { MyResultCard } from "@/features/winner-selection/components/my-result-c
 export const Route = createFileRoute("/app/contests/$contestId")({
   head: () => ({
     meta: [
-      { title: "Contest — Iris Studio" },
+      { title: "Contest — Project Eros" },
       { name: "description", content: "Contest brief, rules, reward, eligibility and timeline." },
-      { property: "og:title", content: "Contest — Iris Studio" },
+      { property: "og:title", content: "Contest — Project Eros" },
       {
         property: "og:description",
         content: "Contest brief, rules, reward, eligibility and timeline.",

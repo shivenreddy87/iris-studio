@@ -15,7 +15,7 @@ export const Route = createFileRoute("/auth/sign-up")({
   head: () => ({
     meta: [
       { title: "Create your account — Project Eros" },
-      { name: "description", content: "Create your Project Eros account and meet Iris." },
+      { name: "description", content: "Create your Project Eros account to run or join campaigns." },
       { property: "og:title", content: "Create your account — Project Eros" },
       { property: "og:description", content: "Join Project Eros — the AI OS for influencer marketing." },
     ],
@@ -56,7 +56,7 @@ function SignUp() {
       toast.error(error.message);
       return;
     }
-    toast.success("Welcome to Eros. Iris is warming up.");
+    toast.success("Welcome to Project Eros.");
     navigate({ to: "/app" });
   }
 
@@ -75,7 +75,7 @@ function SignUp() {
   return (
     <AuthShell
       title={`Create your ${roleLabel} account.`}
-      subtitle="Two minutes to set up. Iris will handle the rest."
+      subtitle="Two minutes to set up your workspace."
       footer={
         <p className="mt-8">
           Already have an account?{" "}

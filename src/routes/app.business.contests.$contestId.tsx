@@ -22,9 +22,9 @@ import { ContestPayoutProgress } from "@/features/manual-payouts/components/cont
 export const Route = createFileRoute("/app/business/contests/$contestId")({
   head: () => ({
     meta: [
-      { title: "Contest — Iris Studio" },
+      { title: "Contest — Project Eros" },
       { name: "description", content: "Read-only view of a contest built from your campaign." },
-      { property: "og:title", content: "Contest — Iris Studio" },
+      { property: "og:title", content: "Contest — Project Eros" },
       {
         property: "og:description",
         content: "Read-only view of a contest built from your campaign.",

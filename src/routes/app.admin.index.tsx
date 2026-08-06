@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, Clock, LayoutDashboard, RefreshCw, XCircle } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { getAdminReviewSummary } from "@/features/campaign-requests/admin-review.functions";
 
@@ -11,12 +10,12 @@ import { getAdminReviewSummary } from "@/features/campaign-requests/admin-review
 export const Route = createFileRoute("/app/admin/")({
   head: () => ({
     meta: [
-      { title: "Admin Dashboard — Iris Studio" },
+      { title: "Admin Dashboard — Project Eros" },
       {
         name: "description",
         content: "Operational overview of businesses, requests, contests and payouts.",
       },
-      { property: "og:title", content: "Admin Dashboard — Iris Studio" },
+      { property: "og:title", content: "Admin Dashboard — Project Eros" },
       {
         property: "og:description",
         content: "Operational overview of businesses, requests, contests and payouts.",
@@ -104,12 +103,6 @@ function AdminDashboardPage() {
           />
         </div>
       ) : null}
-      <MilestoneNotice
-        items={[
-          "Contests by stage with participant counts",
-          "Pending manual payouts",
-        ]}
-      />
     </div>
   );
 }

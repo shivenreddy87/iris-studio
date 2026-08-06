@@ -6,14 +6,15 @@ import type { LucideIcon } from "lucide-react";
 import { Award, ClipboardList, FileText, Lock, Trophy } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { PageHeader } from "@/components/shared/page-header";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { roleLabel, toPlatformRole } from "@/lib/roles";
 import { ProfileCompletionCard } from "@/features/profiles/components/profile-completion-card";
 import { profileCompletion } from "@/features/profiles/completion";
 import { getMyProfile } from "@/features/profiles/profiles.functions";
 import { listCampaignRequests } from "@/features/campaign-requests/requests.functions";
 import { listOpenContests } from "@/features/contests/contests.functions";
-import { listMyWins } from "@/features/winner-selection/winner.functions";
+import { listAllWinners, listMyWins } from "@/features/winner-selection/winner.functions";
+import { listContests } from "@/features/contests/contest.functions";
+import { getAdminReviewSummary } from "@/features/campaign-requests/admin-review.functions";
 import { listMyContestEntries } from "@/features/contest-entries/entries.functions";
 import {
   PlatformActivityCard,
@@ -25,15 +26,15 @@ import { UpcomingActionsCard } from "@/features/activity/components/upcoming-act
 export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
-      { title: "Dashboard — Iris Studio" },
+      { title: "Dashboard — Project Eros" },
       {
         name: "description",
-        content: "Your Iris Studio workspace: campaign requests, contests and results at a glance.",
+        content: "Your Project Eros workspace: campaign requests, contests and results at a glance.",
       },
-      { property: "og:title", content: "Dashboard — Iris Studio" },
+      { property: "og:title", content: "Dashboard — Project Eros" },
       {
         property: "og:description",
-        content: "Your Iris Studio workspace: campaign requests, contests and results at a glance.",
+        content: "Your Project Eros workspace: campaign requests, contests and results at a glance.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -70,6 +71,26 @@ function DashboardPage() {
     queryKey: ["dashboard", "wins"],
     queryFn: () => fetchWins(),
     enabled: platformRole === "influencer",
+  });
+
+  const fetchAdminSummary = useServerFn(getAdminReviewSummary);
+  const fetchAllContests = useServerFn(listContests);
+  const fetchAllWinners = useServerFn(listAllWinners);
+
+  const { data: adminSummary } = useQuery({
+    queryKey: ["dashboard", "admin-summary"],
+    queryFn: () => fetchAdminSummary(),
+    enabled: platformRole === "admin",
+  });
+  const { data: allContests = [] } = useQuery({
+    queryKey: ["dashboard", "all-contests"],
+    queryFn: () => fetchAllContests(),
+    enabled: platformRole === "admin",
+  });
+  const { data: allWinners = [] } = useQuery({
+    queryKey: ["dashboard", "all-winners"],
+    queryFn: () => fetchAllWinners(),
+    enabled: platformRole === "admin",
   });
 
   const fetchProfile = useServerFn(getMyProfile);
@@ -155,11 +176,21 @@ function DashboardPage() {
             <StatCard
               icon={FileText}
               label="Requests to review"
-              value={0}
+              value={adminSummary?.pendingReview ?? 0}
               to="/app/admin/requests"
             />
-            <StatCard icon={Trophy} label="Contests" value={0} to="/app/admin/contests" />
-            <StatCard icon={Award} label="Winners" value={0} to="/app/admin/winners" />
+            <StatCard
+              icon={Trophy}
+              label="Contests"
+              value={allContests.length}
+              to="/app/admin/contests"
+            />
+            <StatCard
+              icon={Award}
+              label="Winners"
+              value={allWinners.length}
+              to="/app/admin/winners"
+            />
           </>
         ) : null}
       </div>
@@ -169,13 +200,6 @@ function DashboardPage() {
         {platformRole === "admin" ? <PlatformActivityCard /> : <RecentActivityCard />}
       </div>
 
-      <MilestoneNotice
-        items={[
-          "Live counts from campaign requests and contests",
-          "Contest timelines with upcoming deadlines",
-          "Winner announcements surfaced on the dashboard",
-        ]}
-      />
     </div>
   );
 }

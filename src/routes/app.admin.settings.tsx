@@ -22,12 +22,12 @@ import {
 export const Route = createFileRoute("/app/admin/settings")({
   head: () => ({
     meta: [
-      { title: "Platform Settings — Iris Studio" },
+      { title: "Platform Settings — Project Eros" },
       {
         name: "description",
         content: "Contest defaults, categories, platforms and notification defaults.",
       },
-      { property: "og:title", content: "Platform Settings — Iris Studio" },
+      { property: "og:title", content: "Platform Settings — Project Eros" },
       {
         property: "og:description",
         content: "Contest defaults, categories, platforms and notification defaults.",

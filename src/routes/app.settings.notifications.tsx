@@ -13,15 +13,15 @@ import type { NotificationPreferences } from "@/features/activity/types";
 export const Route = createFileRoute("/app/settings/notifications")({
   head: () => ({
     meta: [
-      { title: "Notification preferences — Iris Studio" },
+      { title: "Notification preferences — Project Eros" },
       {
         name: "description",
-        content: "Choose which campaign, contest and payout updates reach you on Iris Studio.",
+        content: "Choose which campaign, contest and payout updates reach you on Project Eros.",
       },
-      { property: "og:title", content: "Notification preferences — Iris Studio" },
+      { property: "og:title", content: "Notification preferences — Project Eros" },
       {
         property: "og:description",
-        content: "Choose which campaign, contest and payout updates reach you on Iris Studio.",
+        content: "Choose which campaign, contest and payout updates reach you on Project Eros.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

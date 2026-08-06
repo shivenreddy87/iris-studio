@@ -18,15 +18,15 @@ import { ProfileGate } from "@/features/profiles/components/profile-gate";
 export const Route = createFileRoute("/app/business/requests/new")({
   head: () => ({
     meta: [
-      { title: "New Campaign Request — Iris Studio" },
+      { title: "New Campaign Request — Project Eros" },
       {
         name: "description",
-        content: "Send a new campaign brief to the Iris Studio team for review.",
+        content: "Send a new campaign brief to the Project Eros team for review.",
       },
-      { property: "og:title", content: "New Campaign Request — Iris Studio" },
+      { property: "og:title", content: "New Campaign Request — Project Eros" },
       {
         property: "og:description",
-        content: "Send a new campaign brief to the Iris Studio team for review.",
+        content: "Send a new campaign brief to the Project Eros team for review.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

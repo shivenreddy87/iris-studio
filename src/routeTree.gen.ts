@@ -11,51 +11,31 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as OnboardingInfluencerRouteImport } from './routes/onboarding.influencer'
 import { Route as OnboardingBusinessRouteImport } from './routes/onboarding.business'
-import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth.sign-in'
 import { Route as AuthRoleRouteImport } from './routes/auth.role'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth.reset-password'
-import { Route as AppTeamRouteImport } from './routes/app.team'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppRewardsRouteImport } from './routes/app.rewards'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
-import { Route as AppMessagesRouteImport } from './routes/app.messages'
-import { Route as AppListsRouteImport } from './routes/app.lists'
-import { Route as AppIrisRouteImport } from './routes/app.iris'
-import { Route as AppDiscoverRouteImport } from './routes/app.discover'
-import { Route as AppConnectionsRouteImport } from './routes/app.connections'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.index'
-import { Route as AppIrisIndexRouteImport } from './routes/app.iris.index'
 import { Route as AppEntriesIndexRouteImport } from './routes/app.entries.index'
 import { Route as AppContestsIndexRouteImport } from './routes/app.contests.index'
-import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
 import { Route as AppAdminIndexRouteImport } from './routes/app.admin.index'
 import { Route as AppSettingsNotificationsRouteImport } from './routes/app.settings.notifications'
 import { Route as AppResultsContestIdRouteImport } from './routes/app.results.$contestId'
-import { Route as AppIrisThreadIdRouteImport } from './routes/app.iris.$threadId'
-import { Route as AppDealsIdRouteImport } from './routes/app.deals.$id'
-import { Route as AppCreatorsIdRouteImport } from './routes/app.creators.$id'
-import { Route as AppCreatorOpportunitiesRouteImport } from './routes/app.creator.opportunities'
-import { Route as AppCreatorMediaKitRouteImport } from './routes/app.creator.media-kit'
-import { Route as AppCreatorInboxRouteImport } from './routes/app.creator.inbox'
-import { Route as AppCreatorEarningsRouteImport } from './routes/app.creator.earnings'
 import { Route as AppContestsWonRouteImport } from './routes/app.contests.won'
 import { Route as AppContestsSavedRouteImport } from './routes/app.contests.saved'
 import { Route as AppContestsCompletedRouteImport } from './routes/app.contests.completed'
 import { Route as AppContestsActiveRouteImport } from './routes/app.contests.active'
 import { Route as AppContestsContestIdRouteImport } from './routes/app.contests.$contestId'
-import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
-import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
 import { Route as AppAdminWinnersRouteImport } from './routes/app.admin.winners'
 import { Route as AppAdminTemplatesRouteImport } from './routes/app.admin.templates'
 import { Route as AppAdminSettingsRouteImport } from './routes/app.admin.settings'
@@ -93,11 +73,6 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
@@ -123,11 +98,6 @@ const OnboardingBusinessRoute = OnboardingBusinessRouteImport.update({
   path: '/onboarding/business',
   getParentRoute: () => rootRouteImport,
 } as any)
-const InviteTokenRoute = InviteTokenRouteImport.update({
-  id: '/invite/$token',
-  path: '/invite/$token',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
   id: '/auth/sign-up',
   path: '/auth/sign-up',
@@ -147,11 +117,6 @@ const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
   id: '/auth/reset-password',
   path: '/auth/reset-password',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AppTeamRoute = AppTeamRouteImport.update({
-  id: '/team',
-  path: '/team',
-  getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
@@ -173,50 +138,15 @@ const AppNotificationsRoute = AppNotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => AppRoute,
 } as any)
-const AppMessagesRoute = AppMessagesRouteImport.update({
-  id: '/messages',
-  path: '/messages',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppListsRoute = AppListsRouteImport.update({
-  id: '/lists',
-  path: '/lists',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppIrisRoute = AppIrisRouteImport.update({
-  id: '/iris',
-  path: '/iris',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppDiscoverRoute = AppDiscoverRouteImport.update({
-  id: '/discover',
-  path: '/discover',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppConnectionsRoute = AppConnectionsRouteImport.update({
-  id: '/connections',
-  path: '/connections',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppSettingsRoute,
-} as any)
-const AppIrisIndexRoute = AppIrisIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppIrisRoute,
 } as any)
 const AppEntriesIndexRoute = AppEntriesIndexRouteImport.update({
   id: '/entries/',
@@ -226,11 +156,6 @@ const AppEntriesIndexRoute = AppEntriesIndexRouteImport.update({
 const AppContestsIndexRoute = AppContestsIndexRouteImport.update({
   id: '/contests/',
   path: '/contests/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
-  id: '/campaigns/',
-  path: '/campaigns/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAdminIndexRoute = AppAdminIndexRouteImport.update({
@@ -247,41 +172,6 @@ const AppSettingsNotificationsRoute =
 const AppResultsContestIdRoute = AppResultsContestIdRouteImport.update({
   id: '/results/$contestId',
   path: '/results/$contestId',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppIrisThreadIdRoute = AppIrisThreadIdRouteImport.update({
-  id: '/$threadId',
-  path: '/$threadId',
-  getParentRoute: () => AppIrisRoute,
-} as any)
-const AppDealsIdRoute = AppDealsIdRouteImport.update({
-  id: '/deals/$id',
-  path: '/deals/$id',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCreatorsIdRoute = AppCreatorsIdRouteImport.update({
-  id: '/creators/$id',
-  path: '/creators/$id',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCreatorOpportunitiesRoute = AppCreatorOpportunitiesRouteImport.update({
-  id: '/creator/opportunities',
-  path: '/creator/opportunities',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCreatorMediaKitRoute = AppCreatorMediaKitRouteImport.update({
-  id: '/creator/media-kit',
-  path: '/creator/media-kit',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCreatorInboxRoute = AppCreatorInboxRouteImport.update({
-  id: '/creator/inbox',
-  path: '/creator/inbox',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCreatorEarningsRoute = AppCreatorEarningsRouteImport.update({
-  id: '/creator/earnings',
-  path: '/creator/earnings',
   getParentRoute: () => AppRoute,
 } as any)
 const AppContestsWonRoute = AppContestsWonRouteImport.update({
@@ -307,16 +197,6 @@ const AppContestsActiveRoute = AppContestsActiveRouteImport.update({
 const AppContestsContestIdRoute = AppContestsContestIdRouteImport.update({
   id: '/contests/$contestId',
   path: '/contests/$contestId',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCampaignsNewRoute = AppCampaignsNewRouteImport.update({
-  id: '/campaigns/new',
-  path: '/campaigns/new',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCampaignsIdRoute = AppCampaignsIdRouteImport.update({
-  id: '/campaigns/$id',
-  path: '/campaigns/$id',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAdminWinnersRoute = AppAdminWinnersRouteImport.update({
@@ -463,26 +343,17 @@ const AppAdminContestsContestIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
-  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
-  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/connections': typeof AppConnectionsRoute
-  '/app/discover': typeof AppDiscoverRoute
-  '/app/iris': typeof AppIrisRouteWithChildren
-  '/app/lists': typeof AppListsRoute
-  '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
   '/app/settings': typeof AppSettingsRouteWithChildren
-  '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
-  '/invite/$token': typeof InviteTokenRoute
   '/onboarding/business': typeof OnboardingBusinessRoute
   '/onboarding/influencer': typeof OnboardingInfluencerRoute
   '/app/': typeof AppIndexRoute
@@ -498,27 +369,16 @@ export interface FileRoutesByFullPath {
   '/app/admin/settings': typeof AppAdminSettingsRoute
   '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
-  '/app/campaigns/$id': typeof AppCampaignsIdRoute
-  '/app/campaigns/new': typeof AppCampaignsNewRoute
   '/app/contests/$contestId': typeof AppContestsContestIdRoute
   '/app/contests/active': typeof AppContestsActiveRoute
   '/app/contests/completed': typeof AppContestsCompletedRoute
   '/app/contests/saved': typeof AppContestsSavedRoute
   '/app/contests/won': typeof AppContestsWonRoute
-  '/app/creator/earnings': typeof AppCreatorEarningsRoute
-  '/app/creator/inbox': typeof AppCreatorInboxRoute
-  '/app/creator/media-kit': typeof AppCreatorMediaKitRoute
-  '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
-  '/app/creators/$id': typeof AppCreatorsIdRoute
-  '/app/deals/$id': typeof AppDealsIdRoute
-  '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/app/admin/': typeof AppAdminIndexRoute
-  '/app/campaigns/': typeof AppCampaignsIndexRoute
   '/app/contests/': typeof AppContestsIndexRoute
   '/app/entries/': typeof AppEntriesIndexRoute
-  '/app/iris/': typeof AppIrisIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
@@ -537,24 +397,16 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
-  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/connections': typeof AppConnectionsRoute
-  '/app/discover': typeof AppDiscoverRoute
-  '/app/lists': typeof AppListsRoute
-  '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
-  '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
-  '/invite/$token': typeof InviteTokenRoute
   '/onboarding/business': typeof OnboardingBusinessRoute
   '/onboarding/influencer': typeof OnboardingInfluencerRoute
   '/app': typeof AppIndexRoute
@@ -570,27 +422,16 @@ export interface FileRoutesByTo {
   '/app/admin/settings': typeof AppAdminSettingsRoute
   '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
-  '/app/campaigns/$id': typeof AppCampaignsIdRoute
-  '/app/campaigns/new': typeof AppCampaignsNewRoute
   '/app/contests/$contestId': typeof AppContestsContestIdRoute
   '/app/contests/active': typeof AppContestsActiveRoute
   '/app/contests/completed': typeof AppContestsCompletedRoute
   '/app/contests/saved': typeof AppContestsSavedRoute
   '/app/contests/won': typeof AppContestsWonRoute
-  '/app/creator/earnings': typeof AppCreatorEarningsRoute
-  '/app/creator/inbox': typeof AppCreatorInboxRoute
-  '/app/creator/media-kit': typeof AppCreatorMediaKitRoute
-  '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
-  '/app/creators/$id': typeof AppCreatorsIdRoute
-  '/app/deals/$id': typeof AppDealsIdRoute
-  '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/app/admin': typeof AppAdminIndexRoute
-  '/app/campaigns': typeof AppCampaignsIndexRoute
   '/app/contests': typeof AppContestsIndexRoute
   '/app/entries': typeof AppEntriesIndexRoute
-  '/app/iris': typeof AppIrisIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
@@ -611,26 +452,17 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
-  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
-  '/api/chat': typeof ApiChatRoute
   '/app/analytics': typeof AppAnalyticsRoute
-  '/app/connections': typeof AppConnectionsRoute
-  '/app/discover': typeof AppDiscoverRoute
-  '/app/iris': typeof AppIrisRouteWithChildren
-  '/app/lists': typeof AppListsRoute
-  '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
   '/app/settings': typeof AppSettingsRouteWithChildren
-  '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
-  '/invite/$token': typeof InviteTokenRoute
   '/onboarding/business': typeof OnboardingBusinessRoute
   '/onboarding/influencer': typeof OnboardingInfluencerRoute
   '/app/': typeof AppIndexRoute
@@ -646,27 +478,16 @@ export interface FileRoutesById {
   '/app/admin/settings': typeof AppAdminSettingsRoute
   '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
-  '/app/campaigns/$id': typeof AppCampaignsIdRoute
-  '/app/campaigns/new': typeof AppCampaignsNewRoute
   '/app/contests/$contestId': typeof AppContestsContestIdRoute
   '/app/contests/active': typeof AppContestsActiveRoute
   '/app/contests/completed': typeof AppContestsCompletedRoute
   '/app/contests/saved': typeof AppContestsSavedRoute
   '/app/contests/won': typeof AppContestsWonRoute
-  '/app/creator/earnings': typeof AppCreatorEarningsRoute
-  '/app/creator/inbox': typeof AppCreatorInboxRoute
-  '/app/creator/media-kit': typeof AppCreatorMediaKitRoute
-  '/app/creator/opportunities': typeof AppCreatorOpportunitiesRoute
-  '/app/creators/$id': typeof AppCreatorsIdRoute
-  '/app/deals/$id': typeof AppDealsIdRoute
-  '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/app/admin/': typeof AppAdminIndexRoute
-  '/app/campaigns/': typeof AppCampaignsIndexRoute
   '/app/contests/': typeof AppContestsIndexRoute
   '/app/entries/': typeof AppEntriesIndexRoute
-  '/app/iris/': typeof AppIrisIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
@@ -688,26 +509,17 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
-    | '/pricing'
     | '/privacy'
     | '/terms'
-    | '/api/chat'
     | '/app/analytics'
-    | '/app/connections'
-    | '/app/discover'
-    | '/app/iris'
-    | '/app/lists'
-    | '/app/messages'
     | '/app/notifications'
     | '/app/profile'
     | '/app/rewards'
     | '/app/settings'
-    | '/app/team'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
-    | '/invite/$token'
     | '/onboarding/business'
     | '/onboarding/influencer'
     | '/app/'
@@ -723,27 +535,16 @@ export interface FileRouteTypes {
     | '/app/admin/settings'
     | '/app/admin/templates'
     | '/app/admin/winners'
-    | '/app/campaigns/$id'
-    | '/app/campaigns/new'
     | '/app/contests/$contestId'
     | '/app/contests/active'
     | '/app/contests/completed'
     | '/app/contests/saved'
     | '/app/contests/won'
-    | '/app/creator/earnings'
-    | '/app/creator/inbox'
-    | '/app/creator/media-kit'
-    | '/app/creator/opportunities'
-    | '/app/creators/$id'
-    | '/app/deals/$id'
-    | '/app/iris/$threadId'
     | '/app/results/$contestId'
     | '/app/settings/notifications'
     | '/app/admin/'
-    | '/app/campaigns/'
     | '/app/contests/'
     | '/app/entries/'
-    | '/app/iris/'
     | '/app/settings/'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
@@ -762,24 +563,16 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/pricing'
     | '/privacy'
     | '/terms'
-    | '/api/chat'
     | '/app/analytics'
-    | '/app/connections'
-    | '/app/discover'
-    | '/app/lists'
-    | '/app/messages'
     | '/app/notifications'
     | '/app/profile'
     | '/app/rewards'
-    | '/app/team'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
-    | '/invite/$token'
     | '/onboarding/business'
     | '/onboarding/influencer'
     | '/app'
@@ -795,27 +588,16 @@ export interface FileRouteTypes {
     | '/app/admin/settings'
     | '/app/admin/templates'
     | '/app/admin/winners'
-    | '/app/campaigns/$id'
-    | '/app/campaigns/new'
     | '/app/contests/$contestId'
     | '/app/contests/active'
     | '/app/contests/completed'
     | '/app/contests/saved'
     | '/app/contests/won'
-    | '/app/creator/earnings'
-    | '/app/creator/inbox'
-    | '/app/creator/media-kit'
-    | '/app/creator/opportunities'
-    | '/app/creators/$id'
-    | '/app/deals/$id'
-    | '/app/iris/$threadId'
     | '/app/results/$contestId'
     | '/app/settings/notifications'
     | '/app/admin'
-    | '/app/campaigns'
     | '/app/contests'
     | '/app/entries'
-    | '/app/iris'
     | '/app/settings'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
@@ -835,26 +617,17 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
-    | '/pricing'
     | '/privacy'
     | '/terms'
-    | '/api/chat'
     | '/app/analytics'
-    | '/app/connections'
-    | '/app/discover'
-    | '/app/iris'
-    | '/app/lists'
-    | '/app/messages'
     | '/app/notifications'
     | '/app/profile'
     | '/app/rewards'
     | '/app/settings'
-    | '/app/team'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
     | '/auth/sign-up'
-    | '/invite/$token'
     | '/onboarding/business'
     | '/onboarding/influencer'
     | '/app/'
@@ -870,27 +643,16 @@ export interface FileRouteTypes {
     | '/app/admin/settings'
     | '/app/admin/templates'
     | '/app/admin/winners'
-    | '/app/campaigns/$id'
-    | '/app/campaigns/new'
     | '/app/contests/$contestId'
     | '/app/contests/active'
     | '/app/contests/completed'
     | '/app/contests/saved'
     | '/app/contests/won'
-    | '/app/creator/earnings'
-    | '/app/creator/inbox'
-    | '/app/creator/media-kit'
-    | '/app/creator/opportunities'
-    | '/app/creators/$id'
-    | '/app/deals/$id'
-    | '/app/iris/$threadId'
     | '/app/results/$contestId'
     | '/app/settings/notifications'
     | '/app/admin/'
-    | '/app/campaigns/'
     | '/app/contests/'
     | '/app/entries/'
-    | '/app/iris/'
     | '/app/settings/'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
@@ -911,15 +673,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
-  PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
-  ApiChatRoute: typeof ApiChatRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthRoleRoute: typeof AuthRoleRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
-  InviteTokenRoute: typeof InviteTokenRoute
   OnboardingBusinessRoute: typeof OnboardingBusinessRoute
   OnboardingInfluencerRoute: typeof OnboardingInfluencerRoute
   ApiPublicRobotsDottxtRoute: typeof ApiPublicRobotsDottxtRoute
@@ -940,13 +699,6 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -984,13 +736,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingBusinessRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/invite/$token': {
-      id: '/invite/$token'
-      path: '/invite/$token'
-      fullPath: '/invite/$token'
-      preLoaderRoute: typeof InviteTokenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth/sign-up': {
       id: '/auth/sign-up'
       path: '/auth/sign-up'
@@ -1018,13 +763,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/reset-password'
       preLoaderRoute: typeof AuthResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/app/team': {
-      id: '/app/team'
-      path: '/team'
-      fullPath: '/app/team'
-      preLoaderRoute: typeof AppTeamRouteImport
-      parentRoute: typeof AppRoute
     }
     '/app/settings': {
       id: '/app/settings'
@@ -1054,41 +792,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNotificationsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/messages': {
-      id: '/app/messages'
-      path: '/messages'
-      fullPath: '/app/messages'
-      preLoaderRoute: typeof AppMessagesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/lists': {
-      id: '/app/lists'
-      path: '/lists'
-      fullPath: '/app/lists'
-      preLoaderRoute: typeof AppListsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/iris': {
-      id: '/app/iris'
-      path: '/iris'
-      fullPath: '/app/iris'
-      preLoaderRoute: typeof AppIrisRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/discover': {
-      id: '/app/discover'
-      path: '/discover'
-      fullPath: '/app/discover'
-      preLoaderRoute: typeof AppDiscoverRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/connections': {
-      id: '/app/connections'
-      path: '/connections'
-      fullPath: '/app/connections'
-      preLoaderRoute: typeof AppConnectionsRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/analytics': {
       id: '/app/analytics'
       path: '/analytics'
@@ -1096,26 +799,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/app/settings/': {
       id: '/app/settings/'
       path: '/'
       fullPath: '/app/settings/'
       preLoaderRoute: typeof AppSettingsIndexRouteImport
       parentRoute: typeof AppSettingsRoute
-    }
-    '/app/iris/': {
-      id: '/app/iris/'
-      path: '/'
-      fullPath: '/app/iris/'
-      preLoaderRoute: typeof AppIrisIndexRouteImport
-      parentRoute: typeof AppIrisRoute
     }
     '/app/entries/': {
       id: '/app/entries/'
@@ -1129,13 +818,6 @@ declare module '@tanstack/react-router' {
       path: '/contests'
       fullPath: '/app/contests/'
       preLoaderRoute: typeof AppContestsIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/campaigns/': {
-      id: '/app/campaigns/'
-      path: '/campaigns'
-      fullPath: '/app/campaigns/'
-      preLoaderRoute: typeof AppCampaignsIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/admin/': {
@@ -1157,55 +839,6 @@ declare module '@tanstack/react-router' {
       path: '/results/$contestId'
       fullPath: '/app/results/$contestId'
       preLoaderRoute: typeof AppResultsContestIdRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/iris/$threadId': {
-      id: '/app/iris/$threadId'
-      path: '/$threadId'
-      fullPath: '/app/iris/$threadId'
-      preLoaderRoute: typeof AppIrisThreadIdRouteImport
-      parentRoute: typeof AppIrisRoute
-    }
-    '/app/deals/$id': {
-      id: '/app/deals/$id'
-      path: '/deals/$id'
-      fullPath: '/app/deals/$id'
-      preLoaderRoute: typeof AppDealsIdRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/creators/$id': {
-      id: '/app/creators/$id'
-      path: '/creators/$id'
-      fullPath: '/app/creators/$id'
-      preLoaderRoute: typeof AppCreatorsIdRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/creator/opportunities': {
-      id: '/app/creator/opportunities'
-      path: '/creator/opportunities'
-      fullPath: '/app/creator/opportunities'
-      preLoaderRoute: typeof AppCreatorOpportunitiesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/creator/media-kit': {
-      id: '/app/creator/media-kit'
-      path: '/creator/media-kit'
-      fullPath: '/app/creator/media-kit'
-      preLoaderRoute: typeof AppCreatorMediaKitRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/creator/inbox': {
-      id: '/app/creator/inbox'
-      path: '/creator/inbox'
-      fullPath: '/app/creator/inbox'
-      preLoaderRoute: typeof AppCreatorInboxRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/creator/earnings': {
-      id: '/app/creator/earnings'
-      path: '/creator/earnings'
-      fullPath: '/app/creator/earnings'
-      preLoaderRoute: typeof AppCreatorEarningsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/contests/won': {
@@ -1241,20 +874,6 @@ declare module '@tanstack/react-router' {
       path: '/contests/$contestId'
       fullPath: '/app/contests/$contestId'
       preLoaderRoute: typeof AppContestsContestIdRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/campaigns/new': {
-      id: '/app/campaigns/new'
-      path: '/campaigns/new'
-      fullPath: '/app/campaigns/new'
-      preLoaderRoute: typeof AppCampaignsNewRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/campaigns/$id': {
-      id: '/app/campaigns/$id'
-      path: '/campaigns/$id'
-      fullPath: '/app/campaigns/$id'
-      preLoaderRoute: typeof AppCampaignsIdRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/admin/winners': {
@@ -1442,19 +1061,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AppIrisRouteChildren {
-  AppIrisThreadIdRoute: typeof AppIrisThreadIdRoute
-  AppIrisIndexRoute: typeof AppIrisIndexRoute
-}
-
-const AppIrisRouteChildren: AppIrisRouteChildren = {
-  AppIrisThreadIdRoute: AppIrisThreadIdRoute,
-  AppIrisIndexRoute: AppIrisIndexRoute,
-}
-
-const AppIrisRouteWithChildren =
-  AppIrisRoute._addFileChildren(AppIrisRouteChildren)
-
 interface AppSettingsRouteChildren {
   AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
@@ -1493,16 +1099,10 @@ const AppAdminInfluencersRouteWithChildren =
 
 interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
-  AppConnectionsRoute: typeof AppConnectionsRoute
-  AppDiscoverRoute: typeof AppDiscoverRoute
-  AppIrisRoute: typeof AppIrisRouteWithChildren
-  AppListsRoute: typeof AppListsRoute
-  AppMessagesRoute: typeof AppMessagesRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppProfileRoute: typeof AppProfileRoute
   AppRewardsRoute: typeof AppRewardsRoute
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
-  AppTeamRoute: typeof AppTeamRoute
   AppIndexRoute: typeof AppIndexRoute
   AppAdminAnalyticsRoute: typeof AppAdminAnalyticsRoute
   AppAdminBusinessesRoute: typeof AppAdminBusinessesRouteWithChildren
@@ -1514,22 +1114,13 @@ interface AppRouteChildren {
   AppAdminSettingsRoute: typeof AppAdminSettingsRoute
   AppAdminTemplatesRoute: typeof AppAdminTemplatesRoute
   AppAdminWinnersRoute: typeof AppAdminWinnersRoute
-  AppCampaignsIdRoute: typeof AppCampaignsIdRoute
-  AppCampaignsNewRoute: typeof AppCampaignsNewRoute
   AppContestsContestIdRoute: typeof AppContestsContestIdRoute
   AppContestsActiveRoute: typeof AppContestsActiveRoute
   AppContestsCompletedRoute: typeof AppContestsCompletedRoute
   AppContestsSavedRoute: typeof AppContestsSavedRoute
   AppContestsWonRoute: typeof AppContestsWonRoute
-  AppCreatorEarningsRoute: typeof AppCreatorEarningsRoute
-  AppCreatorInboxRoute: typeof AppCreatorInboxRoute
-  AppCreatorMediaKitRoute: typeof AppCreatorMediaKitRoute
-  AppCreatorOpportunitiesRoute: typeof AppCreatorOpportunitiesRoute
-  AppCreatorsIdRoute: typeof AppCreatorsIdRoute
-  AppDealsIdRoute: typeof AppDealsIdRoute
   AppResultsContestIdRoute: typeof AppResultsContestIdRoute
   AppAdminIndexRoute: typeof AppAdminIndexRoute
-  AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
   AppContestsIndexRoute: typeof AppContestsIndexRoute
   AppEntriesIndexRoute: typeof AppEntriesIndexRoute
   AppAdminContestsNewRoute: typeof AppAdminContestsNewRoute
@@ -1548,16 +1139,10 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
-  AppConnectionsRoute: AppConnectionsRoute,
-  AppDiscoverRoute: AppDiscoverRoute,
-  AppIrisRoute: AppIrisRouteWithChildren,
-  AppListsRoute: AppListsRoute,
-  AppMessagesRoute: AppMessagesRoute,
   AppNotificationsRoute: AppNotificationsRoute,
   AppProfileRoute: AppProfileRoute,
   AppRewardsRoute: AppRewardsRoute,
   AppSettingsRoute: AppSettingsRouteWithChildren,
-  AppTeamRoute: AppTeamRoute,
   AppIndexRoute: AppIndexRoute,
   AppAdminAnalyticsRoute: AppAdminAnalyticsRoute,
   AppAdminBusinessesRoute: AppAdminBusinessesRouteWithChildren,
@@ -1569,22 +1154,13 @@ const AppRouteChildren: AppRouteChildren = {
   AppAdminSettingsRoute: AppAdminSettingsRoute,
   AppAdminTemplatesRoute: AppAdminTemplatesRoute,
   AppAdminWinnersRoute: AppAdminWinnersRoute,
-  AppCampaignsIdRoute: AppCampaignsIdRoute,
-  AppCampaignsNewRoute: AppCampaignsNewRoute,
   AppContestsContestIdRoute: AppContestsContestIdRoute,
   AppContestsActiveRoute: AppContestsActiveRoute,
   AppContestsCompletedRoute: AppContestsCompletedRoute,
   AppContestsSavedRoute: AppContestsSavedRoute,
   AppContestsWonRoute: AppContestsWonRoute,
-  AppCreatorEarningsRoute: AppCreatorEarningsRoute,
-  AppCreatorInboxRoute: AppCreatorInboxRoute,
-  AppCreatorMediaKitRoute: AppCreatorMediaKitRoute,
-  AppCreatorOpportunitiesRoute: AppCreatorOpportunitiesRoute,
-  AppCreatorsIdRoute: AppCreatorsIdRoute,
-  AppDealsIdRoute: AppDealsIdRoute,
   AppResultsContestIdRoute: AppResultsContestIdRoute,
   AppAdminIndexRoute: AppAdminIndexRoute,
-  AppCampaignsIndexRoute: AppCampaignsIndexRoute,
   AppContestsIndexRoute: AppContestsIndexRoute,
   AppEntriesIndexRoute: AppEntriesIndexRoute,
   AppAdminContestsNewRoute: AppAdminContestsNewRoute,
@@ -1607,15 +1183,12 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
-  PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
-  ApiChatRoute: ApiChatRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthRoleRoute: AuthRoleRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
-  InviteTokenRoute: InviteTokenRoute,
   OnboardingBusinessRoute: OnboardingBusinessRoute,
   OnboardingInfluencerRoute: OnboardingInfluencerRoute,
   ApiPublicRobotsDottxtRoute: ApiPublicRobotsDottxtRoute,
@@ -1624,13 +1197,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
