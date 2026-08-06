@@ -1,8 +1,8 @@
+import { assertOwnedStoragePath } from "@/lib/storage.server";
 import { createServerFn } from "@tanstack/react-start";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
-import { assertOwnedStoragePath } from "@/lib/storage.server";
   businessProfileSchema,
   influencerProfileSchema,
   type BusinessProfile,

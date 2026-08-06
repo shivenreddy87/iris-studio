@@ -1,7 +1,7 @@
+import { assertOwnedStoragePath } from "@/lib/storage.server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import type {
-import { assertOwnedStoragePath } from "@/lib/storage.server";
   CampaignRequest,
   CampaignRequestEvent,
   CampaignRequestStatus,
