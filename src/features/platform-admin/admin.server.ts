@@ -18,6 +18,7 @@ import type {
   PlatformSettingsValues,
   ReportKind,
   ReportPayload,
+  ReportRow,
   Suspension,
 } from "./types";
 
@@ -212,7 +213,7 @@ async function fetchUsersByRole(
 
   const suspendedMap = new Map((suspensions ?? []).map((s) => [s.user_id, s.reason]));
   const statsById = new Map<string, Record<string, number>>();
-  for (const row of (stats.data ?? []) as Record<string, unknown>[]) {
+  for (const row of (stats.data ?? []) as ReportRow[]) {
     const key = String(row["business_id"] ?? row["influencer_id"]);
     const values: Record<string, number> = {};
     for (const [k, v] of Object.entries(row)) {
@@ -563,7 +564,7 @@ const REPORT_TITLES: Record<ReportKind, string> = {
   performance_summary: "Performance summary",
 };
 
-function payload(kind: ReportKind, rows: Record<string, unknown>[]): ReportPayload {
+function payload(kind: ReportKind, rows: ReportRow[]): ReportPayload {
   return {
     kind,
     title: REPORT_TITLES[kind],
@@ -583,29 +584,29 @@ export async function buildPlatformReport(kind: ReportKind): Promise<ReportPaylo
         .select(
           "contest_id, title, status, reward_pool, application_count, participant_count, submission_count, verified_count, reward_awarded, reward_paid",
         );
-      return payload(kind, (data ?? []) as Record<string, unknown>[]);
+      return payload(kind, (data ?? []) as ReportRow[]);
     }
     case "campaign_request": {
       const { data } = await db
         .from("campaign_requests")
         .select("id, title, status, budget, business_category, submitted_at, reviewed_at, created_at");
-      return payload(kind, (data ?? []) as Record<string, unknown>[]);
+      return payload(kind, (data ?? []) as ReportRow[]);
     }
     case "winner": {
       const { data } = await db
         .from("contest_winners")
         .select("id, contest_id, influencer_id, rank, final_score, reward_amount, selected_at");
-      return payload(kind, (data ?? []) as Record<string, unknown>[]);
+      return payload(kind, (data ?? []) as ReportRow[]);
     }
     case "payout": {
       const { data } = await db
         .from("payouts")
         .select("id, contest_id, influencer_id, amount, currency, status, paid_at, created_at");
-      return payload(kind, (data ?? []) as Record<string, unknown>[]);
+      return payload(kind, (data ?? []) as ReportRow[]);
     }
     case "user": {
       const { data } = await db.from("profiles").select("id, full_name, email, created_at");
-      return payload(kind, (data ?? []) as Record<string, unknown>[]);
+      return payload(kind, (data ?? []) as ReportRow[]);
     }
     case "business": {
       const rows = await listBusinessRows();
@@ -640,7 +641,7 @@ export async function buildPlatformReport(kind: ReportKind): Promise<ReportPaylo
         .select("id, action, entity_type, entity_id, summary, created_at")
         .order("created_at", { ascending: false })
         .limit(500);
-      return payload("activity", (data ?? []) as Record<string, unknown>[]);
+      return payload("activity", (data ?? []) as ReportRow[]);
     }
   }
 }
@@ -662,7 +663,7 @@ export async function buildBusinessReport(
       .from("campaign_requests")
       .select("id, title, status, budget, required_views, submitted_at, reviewed_at")
       .eq("business_id", businessId);
-    return payload(kind, (data ?? []) as Record<string, unknown>[]);
+    return payload(kind, (data ?? []) as ReportRow[]);
   }
 
   if (kind === "reward_distribution") {
@@ -670,10 +671,10 @@ export async function buildBusinessReport(
       .from("payouts")
       .select("id, contest_id, amount, currency, status, paid_at")
       .eq("business_id", businessId);
-    return payload(kind, (data ?? []) as Record<string, unknown>[]);
+    return payload(kind, (data ?? []) as ReportRow[]);
   }
 
-  return payload("contest_summary", (contests ?? []) as Record<string, unknown>[]);
+  return payload("contest_summary", (contests ?? []) as ReportRow[]);
 }
 
 export async function buildInfluencerReport(
@@ -687,7 +688,7 @@ export async function buildInfluencerReport(
       .from("payouts")
       .select("id, contest_id, amount, currency, status, paid_at, created_at")
       .eq("influencer_id", influencerId);
-    return payload(kind, (data ?? []) as Record<string, unknown>[]);
+    return payload(kind, (data ?? []) as ReportRow[]);
   }
 
   if (kind === "performance_summary") {
@@ -697,12 +698,12 @@ export async function buildInfluencerReport(
         "id, contest_id, platform, submission_status, views, likes, comments, shares, engagement_rate, submitted_at",
       )
       .eq("influencer_id", influencerId);
-    return payload(kind, (data ?? []) as Record<string, unknown>[]);
+    return payload(kind, (data ?? []) as ReportRow[]);
   }
 
   const { data } = await db
     .from("contest_applications")
     .select("id, contest_id, status, submitted_at, created_at")
     .eq("influencer_id", influencerId);
-  return payload("contest_history", (data ?? []) as Record<string, unknown>[]);
+  return payload("contest_history", (data ?? []) as ReportRow[]);
 }

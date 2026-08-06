@@ -122,11 +122,13 @@ export type ReportKind =
   | "reward_history"
   | "performance_summary";
 
+export type ReportRow = Record<string, string | number | boolean | null>;
+
 export type ReportPayload = {
   kind: ReportKind;
   title: string;
   generatedAt: string;
-  rows: Record<string, unknown>[];
+  rows: ReportRow[];
 };
 
 export const MODERATION_ACTION_LABELS: Record<ModerationAction, string> = {
