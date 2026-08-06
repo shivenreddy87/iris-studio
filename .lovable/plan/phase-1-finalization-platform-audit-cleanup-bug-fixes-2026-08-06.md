@@ -75,4 +75,12 @@ A Phase 1 Completion Report listing: issues found and fixed, remaining known lim
 
 - Route deletions are file removals under `src/routes/`; `routeTree.gen.ts` regenerates automatically.
 - No schema migrations planned. If a missing index or grant is discovered during the audit, it will be raised as a separate migration for approval.
-- Work proceeds feature-by-feature with a build/typecheck gate after each area rather than one large sweep at the end.
+- Work proceeds feature-by-feature with a build/typecheck gate after each area rather than one large sweep at the end.  
+  
+**Execution Instructions**
+  - Do not pause for implementation decisions that are already implied by this prompt.
+  - If multiple valid cleanup approaches exist, choose the one that best aligns with the existing architecture and patterns already used throughout the project.
+  - Do not introduce new features or redesign any UI.
+  - Do not leave TODOs, placeholders, or partial implementations where the work falls within the Phase 1 scope.
+  - Continue feature-by-feature until the entire audit is complete, then provide the Phase 1 Completion Report.
+  - If a database schema change is genuinely required, stop only for that migration approval; otherwise complete the work without further planning prompts.  
