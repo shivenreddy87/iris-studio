@@ -46,6 +46,7 @@ import { Route as AppCreatorMediaKitRouteImport } from './routes/app.creator.med
 import { Route as AppCreatorInboxRouteImport } from './routes/app.creator.inbox'
 import { Route as AppCreatorEarningsRouteImport } from './routes/app.creator.earnings'
 import { Route as AppContestsWonRouteImport } from './routes/app.contests.won'
+import { Route as AppContestsSavedRouteImport } from './routes/app.contests.saved'
 import { Route as AppContestsCompletedRouteImport } from './routes/app.contests.completed'
 import { Route as AppContestsActiveRouteImport } from './routes/app.contests.active'
 import { Route as AppContestsContestIdRouteImport } from './routes/app.contests.$contestId'
@@ -258,6 +259,11 @@ const AppContestsWonRoute = AppContestsWonRouteImport.update({
   path: '/contests/won',
   getParentRoute: () => AppRoute,
 } as any)
+const AppContestsSavedRoute = AppContestsSavedRouteImport.update({
+  id: '/contests/saved',
+  path: '/contests/saved',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppContestsCompletedRoute = AppContestsCompletedRouteImport.update({
   id: '/contests/completed',
   path: '/contests/completed',
@@ -436,6 +442,7 @@ export interface FileRoutesByFullPath {
   '/app/contests/$contestId': typeof AppContestsContestIdRoute
   '/app/contests/active': typeof AppContestsActiveRoute
   '/app/contests/completed': typeof AppContestsCompletedRoute
+  '/app/contests/saved': typeof AppContestsSavedRoute
   '/app/contests/won': typeof AppContestsWonRoute
   '/app/creator/earnings': typeof AppCreatorEarningsRoute
   '/app/creator/inbox': typeof AppCreatorInboxRoute
@@ -499,6 +506,7 @@ export interface FileRoutesByTo {
   '/app/contests/$contestId': typeof AppContestsContestIdRoute
   '/app/contests/active': typeof AppContestsActiveRoute
   '/app/contests/completed': typeof AppContestsCompletedRoute
+  '/app/contests/saved': typeof AppContestsSavedRoute
   '/app/contests/won': typeof AppContestsWonRoute
   '/app/creator/earnings': typeof AppCreatorEarningsRoute
   '/app/creator/inbox': typeof AppCreatorInboxRoute
@@ -565,6 +573,7 @@ export interface FileRoutesById {
   '/app/contests/$contestId': typeof AppContestsContestIdRoute
   '/app/contests/active': typeof AppContestsActiveRoute
   '/app/contests/completed': typeof AppContestsCompletedRoute
+  '/app/contests/saved': typeof AppContestsSavedRoute
   '/app/contests/won': typeof AppContestsWonRoute
   '/app/creator/earnings': typeof AppCreatorEarningsRoute
   '/app/creator/inbox': typeof AppCreatorInboxRoute
@@ -632,6 +641,7 @@ export interface FileRouteTypes {
     | '/app/contests/$contestId'
     | '/app/contests/active'
     | '/app/contests/completed'
+    | '/app/contests/saved'
     | '/app/contests/won'
     | '/app/creator/earnings'
     | '/app/creator/inbox'
@@ -695,6 +705,7 @@ export interface FileRouteTypes {
     | '/app/contests/$contestId'
     | '/app/contests/active'
     | '/app/contests/completed'
+    | '/app/contests/saved'
     | '/app/contests/won'
     | '/app/creator/earnings'
     | '/app/creator/inbox'
@@ -760,6 +771,7 @@ export interface FileRouteTypes {
     | '/app/contests/$contestId'
     | '/app/contests/active'
     | '/app/contests/completed'
+    | '/app/contests/saved'
     | '/app/contests/won'
     | '/app/creator/earnings'
     | '/app/creator/inbox'
@@ -1068,6 +1080,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContestsWonRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/contests/saved': {
+      id: '/app/contests/saved'
+      path: '/contests/saved'
+      fullPath: '/app/contests/saved'
+      preLoaderRoute: typeof AppContestsSavedRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/contests/completed': {
       id: '/app/contests/completed'
       path: '/contests/completed'
@@ -1310,6 +1329,7 @@ interface AppRouteChildren {
   AppContestsContestIdRoute: typeof AppContestsContestIdRoute
   AppContestsActiveRoute: typeof AppContestsActiveRoute
   AppContestsCompletedRoute: typeof AppContestsCompletedRoute
+  AppContestsSavedRoute: typeof AppContestsSavedRoute
   AppContestsWonRoute: typeof AppContestsWonRoute
   AppCreatorEarningsRoute: typeof AppCreatorEarningsRoute
   AppCreatorInboxRoute: typeof AppCreatorInboxRoute
@@ -1357,6 +1377,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppContestsContestIdRoute: AppContestsContestIdRoute,
   AppContestsActiveRoute: AppContestsActiveRoute,
   AppContestsCompletedRoute: AppContestsCompletedRoute,
+  AppContestsSavedRoute: AppContestsSavedRoute,
   AppContestsWonRoute: AppContestsWonRoute,
   AppCreatorEarningsRoute: AppCreatorEarningsRoute,
   AppCreatorInboxRoute: AppCreatorInboxRoute,
@@ -1405,13 +1426,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
