@@ -19,10 +19,31 @@ export const APPLICATION_STATUS_LABELS: Record<ApplicationStatus, string> = {
   rejected: "Rejected",
 };
 
-/** Statuses this milestone can produce; the rest arrive with Participant Selection. */
-export const ACTIVE_APPLICATION_STATUSES: ApplicationStatus[] = ["submitted", "withdrawn"];
+/** Statuses an application can hold while it is still in play. */
+export const ACTIVE_APPLICATION_STATUSES: ApplicationStatus[] = [
+  "submitted",
+  "shortlisted",
+  "selected",
+  "rejected",
+  "withdrawn",
+];
 
-export const APPLICATION_EVENT_TYPES = ["submitted", "withdrawn", "status_changed"] as const;
+/** Statuses admins filter by inside the participant selection workspace. */
+export const SELECTION_FILTER_STATUSES: ApplicationStatus[] = [
+  "submitted",
+  "shortlisted",
+  "selected",
+  "rejected",
+];
+
+export const APPLICATION_EVENT_TYPES = [
+  "submitted",
+  "withdrawn",
+  "status_changed",
+  "shortlisted",
+  "selected",
+  "rejected",
+] as const;
 
 export type ApplicationEventType = (typeof APPLICATION_EVENT_TYPES)[number];
 
@@ -30,7 +51,65 @@ export const APPLICATION_EVENT_LABELS: Record<ApplicationEventType, string> = {
   submitted: "Application submitted",
   withdrawn: "Application withdrawn",
   status_changed: "Status changed",
+  shortlisted: "Application shortlisted",
+  selected: "Selected as participant",
+  rejected: "Application rejected",
 };
+
+/** The only application status transitions participant selection may perform. */
+export const SELECTION_TRANSITIONS: Record<ApplicationStatus, ApplicationStatus[]> = {
+  submitted: ["shortlisted", "selected", "rejected"],
+  shortlisted: ["selected", "rejected"],
+  selected: [],
+  rejected: [],
+  withdrawn: [],
+};
+
+export function canTransitionApplication(from: ApplicationStatus, to: ApplicationStatus): boolean {
+  return SELECTION_TRANSITIONS[from].includes(to);
+}
+
+export const PARTICIPATION_STATUSES = ["active", "removed", "completed"] as const;
+
+export type ParticipationStatus = (typeof PARTICIPATION_STATUSES)[number];
+
+export const PARTICIPATION_STATUS_LABELS: Record<ParticipationStatus, string> = {
+  active: "Active",
+  removed: "Removed",
+  completed: "Completed",
+};
+
+export type ContestParticipant = {
+  id: string;
+  contestId: string;
+  applicationId: string;
+  influencerId: string;
+  influencerName: string | null;
+  influencerHandle: string | null;
+  followers: number | null;
+  niche: string | null;
+  portfolioUrl: string | null;
+  selectedAt: string;
+  activatedAt: string | null;
+  participationStatus: ParticipationStatus;
+  createdAt: string;
+};
+
+/** Everything the admin selection workspace header needs. */
+export type SelectionSummaryData = {
+  contestId: string;
+  contestStatus: string;
+  participantLimit: number | null;
+  totalApplications: number;
+  selectedCount: number;
+  shortlistedCount: number;
+  rejectedCount: number;
+  remainingSlots: number | null;
+  canSelect: boolean;
+  canActivate: boolean;
+  activatedAt: string | null;
+};
+
 
 export type ContestApplication = {
   id: string;
