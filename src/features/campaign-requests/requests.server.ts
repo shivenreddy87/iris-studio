@@ -304,22 +304,35 @@ const NOTIFICATION_COPY: Partial<
   },
 };
 
-/** In-app notification for the owning business. Uses admin access to write cross-user rows. */
+/** In-app notification for the owning business, via the shared activity engine. */
 export async function notifyBusinessOfDecision(input: {
   businessId: string;
   requestId: string;
   requestTitle: string;
   status: CampaignRequestStatus;
   reason?: string | null;
+  actorId?: string | null;
 }): Promise<void> {
   const copy = NOTIFICATION_COPY[input.status];
   if (!copy) return;
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  await supabaseAdmin.from("notifications").insert({
-    user_id: input.businessId,
-    kind: "system",
+  const { createNotification, createActivity } = await import("@/features/activity/notification.server");
+  await createActivity({
+    actorId: input.actorId ?? null,
+    targetUserId: input.businessId,
+    action: `campaign_request.${input.status}`,
+    entityType: "campaign_request",
+    entityId: input.requestId,
+    summary: `${copy.title}: "${input.requestTitle}"`,
+    metadata: { requestTitle: input.requestTitle, status: input.status },
+  });
+  await createNotification({
+    userId: input.businessId,
+    category: "campaign",
+    priority: input.status === "changes_requested" ? "high" : "normal",
     title: copy.title,
     body: input.reason ? `${copy.body(input.requestTitle)} ${input.reason}` : copy.body(input.requestTitle),
     link: `/app/business/requests/${input.requestId}`,
+    actionLabel: "View request",
+    metadata: { requestId: input.requestId },
   });
 }
