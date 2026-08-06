@@ -5,14 +5,17 @@ Record and track every winner reward payment end to end, while the money itself 
 ## What each role gets
 
 ### Admin — Manual Payouts workspace
+
 The existing placeholder page at Manual Payouts becomes a real dashboard with sections for Pending, Processing, Paid, Failed and Cancelled. Each payout card shows contest, business, influencer, rank, reward amount, status and created date.
 
 Actions per payout: view the winner's submitted payment details, request details from the winner, mark processing, record payment reference and method, mark paid, mark failed with a reason, retry a failed payout, cancel before payment, and add internal notes. Bulk actions cover "request details" and "mark processing" only — marking paid is always one at a time.
 
 ### Influencer — My Rewards
+
 New page listing every won contest with rank, reward, payout status, requested date, paid date, reference number once paid, and a timeline of what happened. When details are needed, an inline form collects: full name, phone, email, country, bank holder name, bank name, account number, IFSC/SWIFT, optional UPI ID, optional PayPal email, optional government ID upload, optional tax ID, and a declaration checkbox. Once submitted the fields become read-only; the admin verifies them offline.
 
 ### Business — Payout Progress
+
 The contest results view gains a progress block: total winners, pending, processing, paid, failed. Businesses never see bank or contact details — counts only.
 
 ## Lifecycle
@@ -29,6 +32,7 @@ Transitions are enforced on the server. Paid payouts are immutable: no edits, no
 ## Technical plan
 
 ### Database (single migration, applied first)
+
 - Enum `payout_status`: pending, details_requested, waiting_for_details, processing, paid, failed, cancelled.
 - `manual_payouts`: contest_id, winner_id (unique — one payout per winner), business_id, influencer_id, amount, status, payment_method, payment_reference, internal_notes, failure_reason, requested_at, processing_at, paid_at, cancelled_at, timestamps.
 - `winner_payout_details`: winner_id (unique), influencer_id, full_name, phone, email, country, bank_holder_name, bank_name, account_number, ifsc, swift, upi_id, paypal_email, government_id_url, tax_id, declaration_accepted, submitted_at, verified_at, verified_by.
@@ -38,6 +42,7 @@ Transitions are enforced on the server. Paid payouts are immutable: no edits, no
 - Update trigger on the two mutable tables.
 
 ### Feature module `src/features/manual-payouts/`
+
 `types.ts`, `payout.schema.ts` (Zod), `payout.server.ts`, `payout.functions.ts`, `components/`, `hooks/use-payouts.ts` — mirroring the winner-selection module.
 
 Server functions: createPayoutsForContest, requestWinnerDetails, submitWinnerDetails, verifyWinnerDetails, startProcessing, markPaid, markFailed, retryFailedPayment, cancelPayout, listContestPayouts, listAdminPayouts, listMyRewards, listPayoutEvents, getBusinessPayoutSummary. Bulk variants for request-details and start-processing.
@@ -47,9 +52,11 @@ Server validation: contest must be completed, a finalized winner row must exist,
 Payout rows are created automatically when winners are finalized (hooked into the existing finalize step) and backfilled on demand by createPayoutsForContest for contests completed earlier.
 
 ### Components
+
 ManualPayoutCard, PayoutStatusBadge, PayoutTimeline, WinnerDetailsForm, RewardCard, RewardSummary, BusinessPayoutSummary, PayoutReferenceCard, PaymentHistory, BulkPayoutToolbar — built on the existing PageHeader, DataSection, EmptyState, StatusBadge, Panel, dialog and form patterns.
 
 ### Routes
+
 - `app.admin.payouts.tsx` — rebuilt as the full dashboard (replaces the current placeholder that reads the stub `src/features/payouts` module; that stub is removed).
 - `app.rewards.tsx` — new influencer My Rewards page, behind ProfileGate, added to the influencer sidebar.
 - `app.business.contests.$contestId.tsx` — payout progress section.
@@ -57,10 +64,41 @@ ManualPayoutCard, PayoutStatusBadge, PayoutTimeline, WinnerDetailsForm, RewardCa
 - `app.results.$contestId.tsx` — reward and payout status on the influencer result page. Note: the spec names `app.entries.$applicationId.results.tsx`; this project's equivalent result page is the contest-keyed route above, so it is updated instead of adding a duplicate.
 
 ### Notifications
+
 Reuse the existing notification helper. Influencer: details requested, details received, payment processing, payment completed, payment failed. Business: contest payouts completed. Admin: winner details submitted, payment failed.
 
 ### Verification
+
 Migration -> regenerated types -> module -> admin dashboard -> influencer rewards -> business summary -> typecheck -> preview walkthrough of details submission, processing, completion, failed retry, cancel, business progress and paid-immutability.
 
 ## Out of scope
-No Stripe, Razorpay, PayPal API, UPI or bank integrations. No automatic transfers. Recording and audit only.
+
+No Stripe, Razorpay, PayPal API, UPI or bank integrations. No automatic transfers. Recording and audit only.  
+  
+## Future-proofing
+
+This payout module is the foundation for future automated payment integrations.
+
+Design the module so that manual payouts and automated payouts share the same data model.
+
+- Do not hardcode "manual" anywhere in database table names.
+
+- Keep payment methods extensible (Bank Transfer, UPI, PayPal, Wise, Stripe, Razorpay, etc.).
+
+- Payment references should support external transaction IDs in the future.
+
+- Reserve fields for:
+
+  - payment_provider
+
+  - provider_transaction_id
+
+  - provider_status
+
+  - provider_response
+
+- The payout timeline should support future webhook events without changing the UI.
+
+- All payout status badges should be driven from the shared payout status enum.
+
+- Business users continue to see only aggregate payout progress, never sensitive payment information.
