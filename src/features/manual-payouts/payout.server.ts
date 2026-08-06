@@ -1,3 +1,4 @@
+import type { Database } from "@/integrations/supabase/types";
 import type { Db } from "@/features/contest-applications/application.server";
 import { assertAdmin } from "@/features/contest-submissions/submission.server";
 import type { Contest } from "@/features/contests/types";
@@ -496,7 +497,11 @@ export async function createPayoutsForContest(
   return (inserted ?? []).length;
 }
 
-async function updatePayout(payoutId: string, patch: Record<string, unknown>): Promise<void> {
+type PayoutPatch = Partial<
+  Database["public"]["Tables"]["payouts"]["Update"]
+>;
+
+async function updatePayout(payoutId: string, patch: PayoutPatch): Promise<void> {
   const sb = await admin();
   const { error } = await sb.from("payouts").update(patch).eq("id", payoutId);
   if (error) throw new Error(error.message);
