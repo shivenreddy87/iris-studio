@@ -5,7 +5,7 @@ import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
-export const Route = createFileRoute("/app/business/requests/$requestId")({
+export const Route = createFileRoute("/app/business/requests/$requestId/")({
   head: () => ({
     meta: [
       { title: "Campaign Request — Iris Studio" },

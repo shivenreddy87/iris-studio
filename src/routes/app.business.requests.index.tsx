@@ -1,13 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { FileText } from "lucide-react";
+import { FileText, Plus } from "lucide-react";
+import { toast } from "sonner";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
-import { listCampaignRequests } from "@/features/campaign-requests/requests.functions";
-import { CampaignRequestList } from "@/features/campaign-requests/components/campaign-request-list";
+import { Button } from "@/components/ui/button";
+import {
+  deleteCampaignRequestDraft,
+  listMyCampaignRequests,
+} from "@/features/campaign-requests/requests.functions";
+import { CampaignRequestCard } from "@/features/campaign-requests/components/campaign-request-card";
+import type {
+  CampaignRequest,
+  CampaignRequestStatus,
+} from "@/features/campaign-requests/types";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
 export const Route = createFileRoute("/app/business/requests/")({
@@ -34,23 +42,92 @@ export const Route = createFileRoute("/app/business/requests/")({
   ),
 });
 
+const SECTIONS: { key: string; title: string; statuses: CampaignRequestStatus[] }[] = [
+  { key: "drafts", title: "Drafts", statuses: ["draft"] },
+  { key: "submitted", title: "Submitted", statuses: ["submitted", "under_review"] },
+  { key: "approved", title: "Approved", statuses: ["approved"] },
+  { key: "rejected", title: "Rejected", statuses: ["rejected", "cancelled"] },
+];
+
 function BusinessCampaignRequestsPage() {
-  const fetchItems = useServerFn(listCampaignRequests);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const fetchItems = useServerFn(listMyCampaignRequests);
+  const removeDraft = useServerFn(deleteCampaignRequestDraft);
+
   const {
     data = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["/app/business/requests/"],
+    queryKey: ["campaign-requests", "mine"],
     queryFn: () => fetchItems(),
   });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => removeDraft({ data: { id } }),
+    onSuccess: () => {
+      toast.success("Draft deleted.");
+      void queryClient.invalidateQueries({ queryKey: ["campaign-requests"] });
+      void queryClient.invalidateQueries({ queryKey: ["dashboard", "campaign-requests"] });
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+
+  function actionsFor(request: CampaignRequest) {
+    if (request.status === "draft") {
+      return (
+        <>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() =>
+              void navigate({
+                to: "/app/business/requests/$requestId/edit",
+                params: { requestId: request.id },
+              })
+            }
+          >
+            Edit draft
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            disabled={deleteMutation.isPending}
+            onClick={() => {
+              if (confirm("Delete this draft? This cannot be undone.")) {
+                deleteMutation.mutate(request.id);
+              }
+            }}
+          >
+            Delete
+          </Button>
+        </>
+      );
+    }
+    return (
+      <Button size="sm" variant="outline" asChild>
+        <Link to="/app/business/requests/$requestId" params={{ requestId: request.id }}>
+          View details
+        </Link>
+      </Button>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <PageHeader
         eyebrow="Business"
         title="Campaign Requests"
-        description="Submit a campaign brief, track its review status, and see the contest it becomes."
+        description="Submit a campaign brief, track its review status, and revisit your full request history."
+        actions={
+          <Button asChild>
+            <Link to="/app/business/requests/new">
+              <Plus className="mr-2 size-4" />
+              New request
+            </Link>
+          </Button>
+        }
       />
       <DataSection
         loading={isLoading}
@@ -64,15 +141,30 @@ function BusinessCampaignRequestsPage() {
           />
         }
       >
-        <CampaignRequestList requests={data} />
+        <div className="space-y-10">
+          {SECTIONS.map((section) => {
+            const items = data.filter((r) => section.statuses.includes(r.status));
+            if (items.length === 0) return null;
+            return (
+              <section key={section.key}>
+                <h2 className="mb-4 font-display text-lg font-semibold text-ink">
+                  {section.title}
+                  <span className="ml-2 font-mono text-xs text-ink-mute">{items.length}</span>
+                </h2>
+                <div className="space-y-3">
+                  {items.map((request) => (
+                    <CampaignRequestCard
+                      key={request.id}
+                      request={request}
+                      actions={actionsFor(request)}
+                    />
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
       </DataSection>
-      <MilestoneNotice
-        items={[
-          "Submit a campaign brief with budget and timing",
-          "Live review status from the admin team",
-          "Automatic link to the contest created from your request",
-        ]}
-      />
     </div>
   );
 }

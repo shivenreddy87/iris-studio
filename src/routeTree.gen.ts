@@ -62,12 +62,12 @@ import { Route as AppBusinessRequestsIndexRouteImport } from './routes/app.busin
 import { Route as AppAdminRequestsIndexRouteImport } from './routes/app.admin.requests.index'
 import { Route as AppAdminContestsIndexRouteImport } from './routes/app.admin.contests.index'
 import { Route as AppBusinessRequestsNewRouteImport } from './routes/app.business.requests.new'
-import { Route as AppBusinessRequestsRequestIdRouteImport } from './routes/app.business.requests.$requestId'
 import { Route as AppAdminRequestsRequestIdRouteImport } from './routes/app.admin.requests.$requestId'
 import { Route as AppAdminInfluencersInfluencerIdRouteImport } from './routes/app.admin.influencers.$influencerId'
 import { Route as AppAdminContestsNewRouteImport } from './routes/app.admin.contests.new'
 import { Route as AppAdminContestsContestIdRouteImport } from './routes/app.admin.contests.$contestId'
 import { Route as AppAdminBusinessesBusinessIdRouteImport } from './routes/app.admin.businesses.$businessId'
+import { Route as AppBusinessRequestsRequestIdIndexRouteImport } from './routes/app.business.requests.$requestId.index'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -335,12 +335,6 @@ const AppBusinessRequestsNewRoute = AppBusinessRequestsNewRouteImport.update({
   path: '/business/requests/new',
   getParentRoute: () => AppRoute,
 } as any)
-const AppBusinessRequestsRequestIdRoute =
-  AppBusinessRequestsRequestIdRouteImport.update({
-    id: '/business/requests/$requestId',
-    path: '/business/requests/$requestId',
-    getParentRoute: () => AppRoute,
-  } as any)
 const AppAdminRequestsRequestIdRoute =
   AppAdminRequestsRequestIdRouteImport.update({
     id: '/admin/requests/$requestId',
@@ -369,6 +363,12 @@ const AppAdminBusinessesBusinessIdRoute =
     id: '/$businessId',
     path: '/$businessId',
     getParentRoute: () => AppAdminBusinessesRoute,
+  } as any)
+const AppBusinessRequestsRequestIdIndexRoute =
+  AppBusinessRequestsRequestIdIndexRouteImport.update({
+    id: '/business/requests/$requestId/',
+    path: '/business/requests/$requestId/',
+    getParentRoute: () => AppRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -426,11 +426,11 @@ export interface FileRoutesByFullPath {
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
   '/app/admin/requests/$requestId': typeof AppAdminRequestsRequestIdRoute
-  '/app/business/requests/$requestId': typeof AppBusinessRequestsRequestIdRoute
   '/app/business/requests/new': typeof AppBusinessRequestsNewRoute
   '/app/admin/contests/': typeof AppAdminContestsIndexRoute
   '/app/admin/requests/': typeof AppAdminRequestsIndexRoute
   '/app/business/requests/': typeof AppBusinessRequestsIndexRoute
+  '/app/business/requests/$requestId/': typeof AppBusinessRequestsRequestIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -485,11 +485,11 @@ export interface FileRoutesByTo {
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
   '/app/admin/requests/$requestId': typeof AppAdminRequestsRequestIdRoute
-  '/app/business/requests/$requestId': typeof AppBusinessRequestsRequestIdRoute
   '/app/business/requests/new': typeof AppBusinessRequestsNewRoute
   '/app/admin/contests': typeof AppAdminContestsIndexRoute
   '/app/admin/requests': typeof AppAdminRequestsIndexRoute
   '/app/business/requests': typeof AppBusinessRequestsIndexRoute
+  '/app/business/requests/$requestId': typeof AppBusinessRequestsRequestIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -547,11 +547,11 @@ export interface FileRoutesById {
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
   '/app/admin/requests/$requestId': typeof AppAdminRequestsRequestIdRoute
-  '/app/business/requests/$requestId': typeof AppBusinessRequestsRequestIdRoute
   '/app/business/requests/new': typeof AppBusinessRequestsNewRoute
   '/app/admin/contests/': typeof AppAdminContestsIndexRoute
   '/app/admin/requests/': typeof AppAdminRequestsIndexRoute
   '/app/business/requests/': typeof AppBusinessRequestsIndexRoute
+  '/app/business/requests/$requestId/': typeof AppBusinessRequestsRequestIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -610,11 +610,11 @@ export interface FileRouteTypes {
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
     | '/app/admin/requests/$requestId'
-    | '/app/business/requests/$requestId'
     | '/app/business/requests/new'
     | '/app/admin/contests/'
     | '/app/admin/requests/'
     | '/app/business/requests/'
+    | '/app/business/requests/$requestId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -669,11 +669,11 @@ export interface FileRouteTypes {
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
     | '/app/admin/requests/$requestId'
-    | '/app/business/requests/$requestId'
     | '/app/business/requests/new'
     | '/app/admin/contests'
     | '/app/admin/requests'
     | '/app/business/requests'
+    | '/app/business/requests/$requestId'
   id:
     | '__root__'
     | '/'
@@ -730,11 +730,11 @@ export interface FileRouteTypes {
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
     | '/app/admin/requests/$requestId'
-    | '/app/business/requests/$requestId'
     | '/app/business/requests/new'
     | '/app/admin/contests/'
     | '/app/admin/requests/'
     | '/app/business/requests/'
+    | '/app/business/requests/$requestId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1128,13 +1128,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBusinessRequestsNewRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/business/requests/$requestId': {
-      id: '/app/business/requests/$requestId'
-      path: '/business/requests/$requestId'
-      fullPath: '/app/business/requests/$requestId'
-      preLoaderRoute: typeof AppBusinessRequestsRequestIdRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/admin/requests/$requestId': {
       id: '/app/admin/requests/$requestId'
       path: '/admin/requests/$requestId'
@@ -1169,6 +1162,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/admin/businesses/$businessId'
       preLoaderRoute: typeof AppAdminBusinessesBusinessIdRouteImport
       parentRoute: typeof AppAdminBusinessesRoute
+    }
+    '/app/business/requests/$requestId/': {
+      id: '/app/business/requests/$requestId/'
+      path: '/business/requests/$requestId'
+      fullPath: '/app/business/requests/$requestId/'
+      preLoaderRoute: typeof AppBusinessRequestsRequestIdIndexRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
@@ -1244,11 +1244,11 @@ interface AppRouteChildren {
   AppAdminContestsContestIdRoute: typeof AppAdminContestsContestIdRoute
   AppAdminContestsNewRoute: typeof AppAdminContestsNewRoute
   AppAdminRequestsRequestIdRoute: typeof AppAdminRequestsRequestIdRoute
-  AppBusinessRequestsRequestIdRoute: typeof AppBusinessRequestsRequestIdRoute
   AppBusinessRequestsNewRoute: typeof AppBusinessRequestsNewRoute
   AppAdminContestsIndexRoute: typeof AppAdminContestsIndexRoute
   AppAdminRequestsIndexRoute: typeof AppAdminRequestsIndexRoute
   AppBusinessRequestsIndexRoute: typeof AppBusinessRequestsIndexRoute
+  AppBusinessRequestsRequestIdIndexRoute: typeof AppBusinessRequestsRequestIdIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -1287,11 +1287,12 @@ const AppRouteChildren: AppRouteChildren = {
   AppAdminContestsContestIdRoute: AppAdminContestsContestIdRoute,
   AppAdminContestsNewRoute: AppAdminContestsNewRoute,
   AppAdminRequestsRequestIdRoute: AppAdminRequestsRequestIdRoute,
-  AppBusinessRequestsRequestIdRoute: AppBusinessRequestsRequestIdRoute,
   AppBusinessRequestsNewRoute: AppBusinessRequestsNewRoute,
   AppAdminContestsIndexRoute: AppAdminContestsIndexRoute,
   AppAdminRequestsIndexRoute: AppAdminRequestsIndexRoute,
   AppBusinessRequestsIndexRoute: AppBusinessRequestsIndexRoute,
+  AppBusinessRequestsRequestIdIndexRoute:
+    AppBusinessRequestsRequestIdIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -1316,13 +1317,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
