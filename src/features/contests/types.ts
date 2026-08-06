@@ -55,6 +55,9 @@ export const CONTEST_EVENT_TYPES = [
   "live",
   "completed",
   "archived",
+  "participant_selection_started",
+  "participant_selected",
+  "contest_activated",
 ] as const;
 
 export type ContestEventType = (typeof CONTEST_EVENT_TYPES)[number];
@@ -69,6 +72,9 @@ export const CONTEST_EVENT_LABELS: Record<ContestEventType, string> = {
   live: "Contest started",
   completed: "Contest completed",
   archived: "Contest archived",
+  participant_selection_started: "Participant selection started",
+  participant_selected: "Participant selected",
+  contest_activated: "Contest activated",
 };
 
 /** Event written when a contest enters a given status. */
@@ -77,8 +83,8 @@ export const STATUS_EVENT: Record<ContestStatus, ContestEventType> = {
   published: "published",
   applications_open: "applications_open",
   applications_closed: "applications_closed",
-  participant_selection: "participant_selection",
-  live: "live",
+  participant_selection: "participant_selection_started",
+  live: "contest_activated",
   completed: "completed",
   archived: "archived",
 };
