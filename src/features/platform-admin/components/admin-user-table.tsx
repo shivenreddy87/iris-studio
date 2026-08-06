@@ -4,14 +4,7 @@ import { Ban, RotateCcw, Search, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { ResponsiveTable } from "@/components/shared/responsive-table";
 import { DataSection } from "@/components/shared/data-section";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { formatCurrency, formatDate } from "@/features/analytics/chart.helpers";
@@ -56,7 +49,7 @@ export function AdminUserTable({
 
   return (
     <div className="space-y-4">
-      <div className="relative max-w-sm">
+      <div className="relative w-full max-w-sm">
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-mute" />
         <Input
           value={search}
@@ -78,78 +71,80 @@ export function AdminUserTable({
           />
         }
       >
-        <div className="overflow-hidden rounded-3xl border border-hairline bg-surface-2">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                {columns.map((column) => (
-                  <TableHead key={column.key} className="text-right">
-                    {column.label}
-                  </TableHead>
-                ))}
-                <TableHead>Joined</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {(rows ?? []).map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>
-                    <Link
-                      to={
-                        role === "business"
-                          ? "/app/admin/businesses/$businessId"
-                          : "/app/admin/influencers/$influencerId"
-                      }
-                      params={
-                        role === "business" ? { businessId: row.id } : { influencerId: row.id }
-                      }
-                      className="font-semibold text-ink hover:text-violet"
-                    >
-                      {row.name}
-                    </Link>
-                    <p className="text-xs text-ink-mute">{row.email}</p>
-                  </TableCell>
-                  {columns.map((column) => (
-                    <TableCell key={column.key} className="text-right font-mono text-xs text-ink">
-                      {column.currency
-                        ? formatCurrency(row.stats[column.key] ?? 0)
-                        : (row.stats[column.key] ?? 0)}
-                    </TableCell>
-                  ))}
-                  <TableCell className="text-xs text-ink-dim">
-                    {formatDate(row.createdAt)}
-                  </TableCell>
-                  <TableCell>
-                    {row.suspended ? (
-                      <Badge variant="destructive">Suspended</Badge>
-                    ) : (
-                      <Badge variant="secondary">Active</Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {row.suspended ? (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        disabled={reactivate.isPending}
-                        onClick={() => reactivate.mutate({ userId: row.id, role })}
-                      >
-                        <RotateCcw className="size-4" /> Reactivate
-                      </Button>
-                    ) : (
-                      <Button size="sm" variant="ghost" onClick={() => setTarget(row)}>
-                        <Ban className="size-4" /> Suspend
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+        <ResponsiveTable
+          rows={rows ?? []}
+          rowKey={(row) => row.id}
+          minWidth={860}
+          empty="No accounts found."
+          columns={[
+            {
+              id: "name",
+              header: "Name",
+              mobile: "title",
+              cell: (row) => (
+                <Link
+                  to={
+                    role === "business"
+                      ? "/app/admin/businesses/$businessId"
+                      : "/app/admin/influencers/$influencerId"
+                  }
+                  params={role === "business" ? { businessId: row.id } : { influencerId: row.id }}
+                  className="font-semibold text-ink hover:text-violet"
+                >
+                  {row.name}
+                </Link>
+              ),
+            },
+            {
+              id: "email",
+              header: "Email",
+              mobile: "subtitle",
+              cell: (row) => <span className="text-ink-mute">{row.email}</span>,
+            },
+            ...columns.map((column) => ({
+              id: column.key,
+              header: column.label,
+              headerClassName: "md:text-right",
+              className: "md:text-right font-mono text-xs text-ink",
+              cell: (row: AdminUserRow) =>
+                column.currency
+                  ? formatCurrency(row.stats[column.key] ?? 0)
+                  : String(row.stats[column.key] ?? 0),
+            })),
+            {
+              id: "joined",
+              header: "Joined",
+              cell: (row) => <span className="text-xs text-ink-dim">{formatDate(row.createdAt)}</span>,
+            },
+            {
+              id: "status",
+              header: "Status",
+              mobile: "trailing",
+              cell: (row) =>
+                row.suspended ? (
+                  <Badge variant="destructive">Suspended</Badge>
+                ) : (
+                  <Badge variant="secondary">Active</Badge>
+                ),
+            },
+          ]}
+          actions={(row) =>
+            row.suspended ? (
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={reactivate.isPending}
+                onClick={() => reactivate.mutate({ userId: row.id, role })}
+              >
+                <RotateCcw className="size-4" /> Reactivate
+              </Button>
+            ) : (
+              <Button size="sm" variant="ghost" onClick={() => setTarget(row)}>
+                <Ban className="size-4" /> Suspend
+              </Button>
+            )
+          }
+        />
       </DataSection>
 
       <SuspensionDialog
