@@ -39,6 +39,7 @@ import { Route as AppEntriesIndexRouteImport } from './routes/app.entries.index'
 import { Route as AppContestsIndexRouteImport } from './routes/app.contests.index'
 import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
 import { Route as AppAdminIndexRouteImport } from './routes/app.admin.index'
+import { Route as AppSettingsNotificationsRouteImport } from './routes/app.settings.notifications'
 import { Route as AppResultsContestIdRouteImport } from './routes/app.results.$contestId'
 import { Route as AppIrisThreadIdRouteImport } from './routes/app.iris.$threadId'
 import { Route as AppDealsIdRouteImport } from './routes/app.deals.$id'
@@ -226,6 +227,12 @@ const AppAdminIndexRoute = AppAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSettingsNotificationsRoute =
+  AppSettingsNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AppSettingsRoute,
+  } as any)
 const AppResultsContestIdRoute = AppResultsContestIdRouteImport.update({
   id: '/results/$contestId',
   path: '/results/$contestId',
@@ -433,7 +440,7 @@ export interface FileRoutesByFullPath {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
-  '/app/settings': typeof AppSettingsRoute
+  '/app/settings': typeof AppSettingsRouteWithChildren
   '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
@@ -465,6 +472,7 @@ export interface FileRoutesByFullPath {
   '/app/deals/$id': typeof AppDealsIdRoute
   '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
+  '/app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/app/admin/': typeof AppAdminIndexRoute
   '/app/campaigns/': typeof AppCampaignsIndexRoute
   '/app/contests/': typeof AppContestsIndexRoute
@@ -499,7 +507,7 @@ export interface FileRoutesByTo {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
-  '/app/settings': typeof AppSettingsRoute
+  '/app/settings': typeof AppSettingsRouteWithChildren
   '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
@@ -531,6 +539,7 @@ export interface FileRoutesByTo {
   '/app/deals/$id': typeof AppDealsIdRoute
   '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
+  '/app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/app/admin': typeof AppAdminIndexRoute
   '/app/campaigns': typeof AppCampaignsIndexRoute
   '/app/contests': typeof AppContestsIndexRoute
@@ -568,7 +577,7 @@ export interface FileRoutesById {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
-  '/app/settings': typeof AppSettingsRoute
+  '/app/settings': typeof AppSettingsRouteWithChildren
   '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
@@ -600,6 +609,7 @@ export interface FileRoutesById {
   '/app/deals/$id': typeof AppDealsIdRoute
   '/app/iris/$threadId': typeof AppIrisThreadIdRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
+  '/app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/app/admin/': typeof AppAdminIndexRoute
   '/app/campaigns/': typeof AppCampaignsIndexRoute
   '/app/contests/': typeof AppContestsIndexRoute
@@ -670,6 +680,7 @@ export interface FileRouteTypes {
     | '/app/deals/$id'
     | '/app/iris/$threadId'
     | '/app/results/$contestId'
+    | '/app/settings/notifications'
     | '/app/admin/'
     | '/app/campaigns/'
     | '/app/contests/'
@@ -736,6 +747,7 @@ export interface FileRouteTypes {
     | '/app/deals/$id'
     | '/app/iris/$threadId'
     | '/app/results/$contestId'
+    | '/app/settings/notifications'
     | '/app/admin'
     | '/app/campaigns'
     | '/app/contests'
@@ -804,6 +816,7 @@ export interface FileRouteTypes {
     | '/app/deals/$id'
     | '/app/iris/$threadId'
     | '/app/results/$contestId'
+    | '/app/settings/notifications'
     | '/app/admin/'
     | '/app/campaigns/'
     | '/app/contests/'
@@ -1054,6 +1067,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/admin/'
       preLoaderRoute: typeof AppAdminIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/settings/notifications': {
+      id: '/app/settings/notifications'
+      path: '/notifications'
+      fullPath: '/app/settings/notifications'
+      preLoaderRoute: typeof AppSettingsNotificationsRouteImport
+      parentRoute: typeof AppSettingsRoute
     }
     '/app/results/$contestId': {
       id: '/app/results/$contestId'
@@ -1323,6 +1343,18 @@ const AppIrisRouteChildren: AppIrisRouteChildren = {
 const AppIrisRouteWithChildren =
   AppIrisRoute._addFileChildren(AppIrisRouteChildren)
 
+interface AppSettingsRouteChildren {
+  AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
+}
+
+const AppSettingsRouteChildren: AppSettingsRouteChildren = {
+  AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
+}
+
+const AppSettingsRouteWithChildren = AppSettingsRoute._addFileChildren(
+  AppSettingsRouteChildren,
+)
+
 interface AppAdminBusinessesRouteChildren {
   AppAdminBusinessesBusinessIdRoute: typeof AppAdminBusinessesBusinessIdRoute
 }
@@ -1355,7 +1387,7 @@ interface AppRouteChildren {
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppProfileRoute: typeof AppProfileRoute
   AppRewardsRoute: typeof AppRewardsRoute
-  AppSettingsRoute: typeof AppSettingsRoute
+  AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppTeamRoute: typeof AppTeamRoute
   AppIndexRoute: typeof AppIndexRoute
   AppAdminBusinessesRoute: typeof AppAdminBusinessesRouteWithChildren
@@ -1405,7 +1437,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppNotificationsRoute: AppNotificationsRoute,
   AppProfileRoute: AppProfileRoute,
   AppRewardsRoute: AppRewardsRoute,
-  AppSettingsRoute: AppSettingsRoute,
+  AppSettingsRoute: AppSettingsRouteWithChildren,
   AppTeamRoute: AppTeamRoute,
   AppIndexRoute: AppIndexRoute,
   AppAdminBusinessesRoute: AppAdminBusinessesRouteWithChildren,
