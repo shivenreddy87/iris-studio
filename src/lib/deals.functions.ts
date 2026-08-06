@@ -98,12 +98,15 @@ export const createDeal = createServerFn({ method: "POST" })
       payload: { offer: data.offer },
     });
 
-    await supabase.from("notifications").insert({
-      user_id: data.creator_user_id,
+    const { createNotification } = await import("@/features/activity/notification.server");
+    await createNotification({
+      userId: data.creator_user_id,
       kind: "invitation",
+      category: "campaign",
       title: "New campaign invitation",
       body: "A brand has invited you to collaborate",
       link: "/app/creator/opportunities",
+      actionLabel: "View invitation",
     });
 
     return { deal, conversation_id: convo?.id };
@@ -137,11 +140,14 @@ export const updateDealStage = createServerFn({ method: "POST" })
           null
         : deal.creator_user_id;
     if (otherUserId) {
-      await context.supabase.from("notifications").insert({
-        user_id: otherUserId,
+      const { createNotification } = await import("@/features/activity/notification.server");
+      await createNotification({
+        userId: otherUserId,
         kind: "deal_update",
+        category: "campaign",
         title: `Deal moved to ${data.stage.replace("_", " ")}`,
         link: `/app/deals/${data.id}`,
+        actionLabel: "View deal",
       });
     }
     return deal;

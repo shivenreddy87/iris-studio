@@ -81,12 +81,15 @@ export const sendMessage = createServerFn({ method: "POST" })
       .update({ last_message_at: new Date().toISOString() })
       .eq("id", data.conversation_id);
 
-    await supabase.from("notifications").insert({
-      user_id: other_user,
+    const { createNotification } = await import("@/features/activity/notification.server");
+    await createNotification({
+      userId: other_user,
       kind: "message",
+      category: "system",
       title: "New message",
       body: data.body.slice(0, 120),
       link: sender_role === "brand" ? "/app/creator/inbox" : "/app/messages",
+      actionLabel: "Open conversation",
     });
 
     return msg;
