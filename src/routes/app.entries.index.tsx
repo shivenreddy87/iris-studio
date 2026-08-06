@@ -15,12 +15,12 @@ import { canWithdraw } from "@/features/contest-applications/types";
 export const Route = createFileRoute("/app/entries/")({
   head: () => ({
     meta: [
-      { title: "My Applications — Iris Studio" },
+      { title: "My Applications — Project Eros" },
       {
         name: "description",
         content: "Track every contest you have applied to and where each application stands.",
       },
-      { property: "og:title", content: "My Applications — Iris Studio" },
+      { property: "og:title", content: "My Applications — Project Eros" },
       {
         property: "og:description",
         content: "Track every contest you have applied to and where each application stands.",

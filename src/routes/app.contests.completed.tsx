@@ -13,9 +13,9 @@ import { ProfileGate } from "@/features/profiles/components/profile-gate";
 export const Route = createFileRoute("/app/contests/completed")({
   head: () => ({
     meta: [
-      { title: "Completed Contests — Iris Studio" },
+      { title: "Completed Contests — Project Eros" },
       { name: "description", content: "Your history of finished contests and their results." },
-      { property: "og:title", content: "Completed Contests — Iris Studio" },
+      { property: "og:title", content: "Completed Contests — Project Eros" },
       {
         property: "og:description",
         content: "Your history of finished contests and their results.",

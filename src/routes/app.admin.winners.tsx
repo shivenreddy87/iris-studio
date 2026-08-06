@@ -11,9 +11,9 @@ import { ContestWinnerList } from "@/features/contests/components/contest-winner
 export const Route = createFileRoute("/app/admin/winners")({
   head: () => ({
     meta: [
-      { title: "Winners — Iris Studio Admin" },
+      { title: "Winners — Project Eros Admin" },
       { name: "description", content: "Declare and review contest winners." },
-      { property: "og:title", content: "Winners — Iris Studio Admin" },
+      { property: "og:title", content: "Winners — Project Eros Admin" },
       { property: "og:description", content: "Declare and review contest winners." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

@@ -13,9 +13,9 @@ import { ProfileGate } from "@/features/profiles/components/profile-gate";
 export const Route = createFileRoute("/app/contests/active")({
   head: () => ({
     meta: [
-      { title: "Active Contests — Iris Studio" },
+      { title: "Active Contests — Project Eros" },
       { name: "description", content: "Track the contests you are currently participating in." },
-      { property: "og:title", content: "Active Contests — Iris Studio" },
+      { property: "og:title", content: "Active Contests — Project Eros" },
       {
         property: "og:description",
         content: "Track the contests you are currently participating in.",

@@ -18,9 +18,9 @@ import type { ContestSource } from "@/features/contests/types";
 export const Route = createFileRoute("/app/admin/contests/new")({
   head: () => ({
     meta: [
-      { title: "New Contest — Iris Studio" },
+      { title: "New Contest — Project Eros" },
       { name: "description", content: "Create a contest from an approved campaign request." },
-      { property: "og:title", content: "New Contest — Iris Studio" },
+      { property: "og:title", content: "New Contest — Project Eros" },
       {
         property: "og:description",
         content: "Create a contest from an approved campaign request.",

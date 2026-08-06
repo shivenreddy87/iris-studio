@@ -5,9 +5,9 @@ export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
       { title: "Pricing — Project Eros" },
-      { name: "description", content: "Plans for brands and creators using Iris AI to run smarter influencer campaigns." },
+      { name: "description", content: "Plans for brands and creators running influencer campaigns on Project Eros." },
       { property: "og:title", content: "Pricing — Project Eros" },
-      { property: "og:description", content: "Plans for brands and creators using Iris AI." },
+      { property: "og:description", content: "Plans for brands and creators using Project Eros." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

@@ -9,12 +9,12 @@ import {
 export const Route = createFileRoute("/app/admin/templates")({
   head: () => ({
     meta: [
-      { title: "Contest Templates — Iris Studio" },
+      { title: "Contest Templates — Project Eros" },
       {
         name: "description",
         content: "Reusable contest briefs, rules, rewards and eligibility presets.",
       },
-      { property: "og:title", content: "Contest Templates — Iris Studio" },
+      { property: "og:title", content: "Contest Templates — Project Eros" },
       {
         property: "og:description",
         content: "Reusable contest briefs, rules, rewards and eligibility presets.",

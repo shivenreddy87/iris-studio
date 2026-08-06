@@ -22,12 +22,12 @@ import { roleLabel } from "@/lib/roles";
 export const Route = createFileRoute("/app/profile")({
   head: () => ({
     meta: [
-      { title: "Profile — Iris Studio" },
+      { title: "Profile — Project Eros" },
       {
         name: "description",
         content: "Manage your account details and how you appear on the platform.",
       },
-      { property: "og:title", content: "Profile — Iris Studio" },
+      { property: "og:title", content: "Profile — Project Eros" },
       {
         property: "og:description",
         content: "Manage your account details and how you appear on the platform.",
@@ -74,7 +74,7 @@ function ProfilePage() {
       <PageHeader
         eyebrow={roleLabel(profile.role)}
         title="Profile"
-        description="Your account details and the information shown to the Iris Studio team."
+        description="Your account details and the information shown to the Project Eros team."
         actions={
           isBusiness || isInfluencer ? (
             <Button variant={editing ? "outline" : "default"} onClick={() => setEditing(!editing)}>
@@ -128,7 +128,7 @@ function ProfilePage() {
         <EmptyState
           icon={<UserCircle className="size-8" />}
           title="Admin accounts have no public profile"
-          hint="Admin details are managed by the Iris Studio team."
+          hint="Admin details are managed by the Project Eros team."
         />
       )}
     </div>

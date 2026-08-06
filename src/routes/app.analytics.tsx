@@ -29,12 +29,12 @@ import type { ReportKind } from "@/features/platform-admin/types";
 export const Route = createFileRoute("/app/analytics")({
   head: () => ({
     meta: [
-      { title: "Analytics — Iris Studio" },
+      { title: "Analytics — Project Eros" },
       {
         name: "description",
         content: "Your contest, application, engagement and reward performance in one place.",
       },
-      { property: "og:title", content: "Analytics — Iris Studio" },
+      { property: "og:title", content: "Analytics — Project Eros" },
       {
         property: "og:description",
         content: "Your contest, application, engagement and reward performance in one place.",

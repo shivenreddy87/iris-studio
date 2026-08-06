@@ -13,12 +13,12 @@ import { useAuth } from "@/hooks/use-auth";
 export const Route = createFileRoute("/app/rewards")({
   head: () => ({
     meta: [
-      { title: "My Rewards — Iris Studio" },
+      { title: "My Rewards — Project Eros" },
       {
         name: "description",
         content: "Track your contest reward payouts and submit your payment details.",
       },
-      { property: "og:title", content: "My Rewards — Iris Studio" },
+      { property: "og:title", content: "My Rewards — Project Eros" },
       {
         property: "og:description",
         content: "Track your contest reward payouts and submit your payment details.",

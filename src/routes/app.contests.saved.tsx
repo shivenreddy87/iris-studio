@@ -17,9 +17,9 @@ import type { ContestSortKey, DiscoveryContest } from "@/features/contests/types
 export const Route = createFileRoute("/app/contests/saved")({
   head: () => ({
     meta: [
-      { title: "Saved Contests — Iris Studio" },
+      { title: "Saved Contests — Project Eros" },
       { name: "description", content: "Contests you bookmarked while browsing discovery." },
-      { property: "og:title", content: "Saved Contests — Iris Studio" },
+      { property: "og:title", content: "Saved Contests — Project Eros" },
       {
         property: "og:description",
         content: "Contests you bookmarked while browsing discovery.",

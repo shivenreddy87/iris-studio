@@ -20,12 +20,12 @@ export const Route = createFileRoute("/onboarding/influencer")({
   },
   head: () => ({
     meta: [
-      { title: "Influencer profile setup — Iris Studio" },
+      { title: "Influencer profile setup — Project Eros" },
       {
         name: "description",
         content: "Set up your influencer profile so our team can match you with the right contests.",
       },
-      { property: "og:title", content: "Influencer profile setup — Iris Studio" },
+      { property: "og:title", content: "Influencer profile setup — Project Eros" },
       {
         property: "og:description",
         content:

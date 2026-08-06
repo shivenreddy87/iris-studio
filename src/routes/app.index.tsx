@@ -24,15 +24,15 @@ import { UpcomingActionsCard } from "@/features/activity/components/upcoming-act
 export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
-      { title: "Dashboard — Iris Studio" },
+      { title: "Dashboard — Project Eros" },
       {
         name: "description",
-        content: "Your Iris Studio workspace: campaign requests, contests and results at a glance.",
+        content: "Your Project Eros workspace: campaign requests, contests and results at a glance.",
       },
-      { property: "og:title", content: "Dashboard — Iris Studio" },
+      { property: "og:title", content: "Dashboard — Project Eros" },
       {
         property: "og:description",
-        content: "Your Iris Studio workspace: campaign requests, contests and results at a glance.",
+        content: "Your Project Eros workspace: campaign requests, contests and results at a glance.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

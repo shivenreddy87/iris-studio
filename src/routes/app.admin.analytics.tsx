@@ -23,12 +23,12 @@ import type { DateRangeKey } from "@/features/analytics/types";
 export const Route = createFileRoute("/app/admin/analytics")({
   head: () => ({
     meta: [
-      { title: "Platform Analytics — Iris Studio" },
+      { title: "Platform Analytics — Project Eros" },
       {
         name: "description",
         content: "Growth, contest, submission, winner and payout analytics for the platform.",
       },
-      { property: "og:title", content: "Platform Analytics — Iris Studio" },
+      { property: "og:title", content: "Platform Analytics — Project Eros" },
       {
         property: "og:description",
         content: "Growth, contest, submission, winner and payout analytics for the platform.",
