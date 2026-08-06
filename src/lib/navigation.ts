@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   Award,
   Bell,
+  Bookmark,
   Building2,
   ClipboardList,
   FileText,
