@@ -145,8 +145,7 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
         kind: current.status === "changes_requested" ? "resubmitted" : "submitted",
       });
       const { announceSubmission } = await import("./requests.server");
-      const { announceSubmission } = await import("./requests.server");
-    await announceSubmission({
+      await announceSubmission({
         requestId: row.id,
         title: row.title,
         businessId: context.userId,
