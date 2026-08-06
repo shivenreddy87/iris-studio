@@ -81,7 +81,17 @@ function SettingsPage() {
   );
 }
 
-function NavCard({ to, Icon, title, desc }: { to: string; Icon: any; title: string; desc: string }) {
+function NavCard({
+  to,
+  Icon,
+  title,
+  desc,
+}: {
+  to: LinkProps["to"];
+  Icon: LucideIcon;
+  title: string;
+  desc: string;
+}) {
   return (
     <Link to={to} className="group flex items-center gap-3 rounded-3xl border border-hairline bg-surface-2 p-5 transition hover:border-violet/50 hover:bg-surface-3">
       <div className="grid h-10 w-10 place-items-center rounded-2xl bg-violet/20 text-violet">
