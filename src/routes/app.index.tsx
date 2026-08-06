@@ -66,6 +66,14 @@ function DashboardPage() {
     enabled: platformRole === "influencer",
   });
 
+  const fetchProfile = useServerFn(getMyProfile);
+  const { data: profile } = useQuery({
+    queryKey: ["my-profile"],
+    queryFn: () => fetchProfile(),
+  });
+  const completion = profileCompletion(profile);
+  const profileReady = platformRole === "admin" || completion.percent >= 100;
+
   const firstName = (user?.user_metadata?.full_name ?? user?.email ?? "there").split(/[\s@]/)[0];
 
   return (
@@ -82,8 +90,31 @@ function DashboardPage() {
         }
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {platformRole === "admin" ? null : (
+        <div className="mb-6">
+          <ProfileCompletionCard completion={completion} />
+        </div>
+      )}
+
+      {!profileReady ? (
+        <div className="flex items-start gap-3 rounded-3xl border border-hairline bg-surface-2 p-6">
+          <Lock className="mt-0.5 size-5 shrink-0 text-violet" />
+          <div>
+            <p className="font-display text-lg font-semibold text-ink">
+              Finish your profile to unlock your workspace
+            </p>
+            <p className="mt-1 text-sm text-ink-dim">
+              {platformRole === "business"
+                ? "Campaign requests open up once your business profile is 100% complete."
+                : "Contests and applications open up once your influencer profile is 100% complete."}
+            </p>
+          </div>
+        </div>
+      ) : null}
+
+      <div className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${profileReady ? "" : "hidden"}`}>
         {platformRole === "business" ? (
+
           <StatCard
             icon={FileText}
             label="Campaign requests"
