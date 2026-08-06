@@ -12,6 +12,8 @@ import { ContestSummary } from "@/features/contests/components/contest-summary";
 import { ContestTimeline } from "@/features/contests/components/contest-timeline";
 import { Panel } from "@/features/contests/components/detail-row";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
+import { ApplicationCountsCard } from "@/features/contest-applications/components/application-counts-card";
+
 
 export const Route = createFileRoute("/app/business/contests/$contestId")({
   head: () => ({
