@@ -86,7 +86,9 @@ export function ApprovalActions({ request }: { request: CampaignRequest }) {
       return change(payload);
     },
     onSuccess: (_data, variables) => {
-      toast.success(DECISION_COPY[variables.decision].title.replace("Request changes", "Changes requested"));
+      toast.success(
+        DECISION_COPY[variables.decision].title.replace("Request changes", "Changes requested"),
+      );
       setDecision(null);
       setReason("");
       invalidate();

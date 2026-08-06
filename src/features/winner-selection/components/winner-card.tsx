@@ -37,7 +37,9 @@ export function WinnerCard({
 
       <dl className="mt-4 grid grid-cols-3 gap-3 text-sm">
         <div>
-          <dt className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">Position</dt>
+          <dt className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">
+            Position
+          </dt>
           <dd className="mt-1 text-ink">{positionLabel(winner.rank)}</dd>
         </div>
         <div>

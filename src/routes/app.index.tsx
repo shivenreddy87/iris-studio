@@ -22,19 +22,20 @@ import {
 } from "@/features/activity/components/activity-feed-card";
 import { UpcomingActionsCard } from "@/features/activity/components/upcoming-actions-card";
 
-
 export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
       { title: "Dashboard — Project Eros" },
       {
         name: "description",
-        content: "Your Project Eros workspace: campaign requests, contests and results at a glance.",
+        content:
+          "Your Project Eros workspace: campaign requests, contests and results at a glance.",
       },
       { property: "og:title", content: "Dashboard — Project Eros" },
       {
         property: "og:description",
-        content: "Your Project Eros workspace: campaign requests, contests and results at a glance.",
+        content:
+          "Your Project Eros workspace: campaign requests, contests and results at a glance.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -141,7 +142,6 @@ function DashboardPage() {
 
       <div className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${profileReady ? "" : "hidden"}`}>
         {platformRole === "business" ? (
-
           <StatCard
             icon={FileText}
             label="Campaign requests"
@@ -199,7 +199,6 @@ function DashboardPage() {
         {platformRole === "influencer" ? <UpcomingActionsCard /> : null}
         {platformRole === "admin" ? <PlatformActivityCard /> : <RecentActivityCard />}
       </div>
-
     </div>
   );
 }

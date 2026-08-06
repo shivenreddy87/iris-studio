@@ -24,7 +24,6 @@ export const Route = createFileRoute("/")({
   component: LandingPage,
 });
 
-
 function LandingPage() {
   return (
     <section className="hero-dark relative flex min-h-screen flex-col overflow-hidden font-geist">
@@ -106,7 +105,6 @@ function LandingPage() {
         <footer className="relative z-10 mt-auto flex flex-col items-center gap-3 border-t border-white/8 px-8 py-8 text-xs text-foreground/50 sm:flex-row sm:justify-center">
           <p>© {new Date().getFullYear()} Project Eros. All rights reserved.</p>
         </footer>
-
       </div>
     </section>
   );

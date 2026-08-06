@@ -26,7 +26,9 @@ export function AuthShell({
           {subtitle ? <p className="mb-10 text-ink-dim">{subtitle}</p> : null}
           {children}
         </div>
-        {footer ? <div className="mx-auto w-full max-w-md text-sm text-ink-dim">{footer}</div> : null}
+        {footer ? (
+          <div className="mx-auto w-full max-w-md text-sm text-ink-dim">{footer}</div>
+        ) : null}
       </div>
 
       {/* Right: editorial panel */}
@@ -60,7 +62,6 @@ export function AuthShell({
               REVIEW &amp; PAYOUTS
             </div>
           </div>
-
         </div>
       </div>
     </div>

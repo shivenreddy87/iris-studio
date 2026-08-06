@@ -17,10 +17,7 @@ export function ContestApplicationPanel({
     <Panel title="Application">
       <dl className="grid gap-x-8 sm:grid-cols-2">
         <DetailRow label="Application status" value="Not available" />
-        <DetailRow
-          label="Eligibility"
-          value={eligibility.eligible ? "Eligible" : "Not eligible"}
-        />
+        <DetailRow label="Eligibility" value={eligibility.eligible ? "Eligible" : "Not eligible"} />
         <DetailRow label="Applications open" value={dateOr(availability.applicationStartDate)} />
         <DetailRow label="Applications close" value={dateOr(availability.applicationDeadline)} />
       </dl>

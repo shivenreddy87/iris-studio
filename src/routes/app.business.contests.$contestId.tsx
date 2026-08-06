@@ -18,7 +18,6 @@ import { ContestProgressCard } from "@/features/contest-submissions/components/c
 import { ContestResultsCard } from "@/features/winner-selection/components/contest-results-card";
 import { ContestPayoutProgress } from "@/features/manual-payouts/components/contest-payout-progress";
 
-
 export const Route = createFileRoute("/app/business/contests/$contestId")({
   head: () => ({
     meta: [
@@ -101,13 +100,11 @@ function BusinessContestDetailPage() {
               </>
             ) : null}
 
-
             <Panel title="History">
               <ContestTimeline events={events} />
             </Panel>
           </div>
         ) : null}
-
       </DataSection>
     </div>
   );

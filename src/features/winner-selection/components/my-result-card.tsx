@@ -75,9 +75,8 @@ export function MyResultCard({ contestId }: { contestId: string }) {
         <div className="mt-4 flex items-center gap-3 rounded-2xl border border-hairline bg-surface-3 px-4 py-3">
           <Trophy className="size-4 text-violet" />
           <p className="text-sm text-ink">
-            Reward{" "}
-            <span className="font-medium">{money(outcome.rewardAmount)}</span> — payouts are settled
-            manually by the team.
+            Reward <span className="font-medium">{money(outcome.rewardAmount)}</span> — payouts are
+            settled manually by the team.
           </p>
         </div>
       ) : null}
@@ -91,9 +90,7 @@ export function MyResultCard({ contestId }: { contestId: string }) {
             label="Engagement rate"
             value={metrics.engagementRate ? `${metrics.engagementRate}%` : "—"}
           />
-          {metrics.published ? (
-            <Metric label="Final score" value={metrics.finalScore} />
-          ) : null}
+          {metrics.published ? <Metric label="Final score" value={metrics.finalScore} /> : null}
         </div>
       ) : null}
     </Panel>

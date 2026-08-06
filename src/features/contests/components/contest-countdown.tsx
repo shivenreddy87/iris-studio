@@ -66,7 +66,10 @@ export function ContestCountdown({ availability }: { availability: ContestAvaila
       </p>
       <div className="mt-3 grid grid-cols-4 gap-2">
         {cells.map((cell) => (
-          <div key={cell.label} className="rounded-2xl border border-hairline bg-surface-3 p-3 text-center">
+          <div
+            key={cell.label}
+            className="rounded-2xl border border-hairline bg-surface-3 p-3 text-center"
+          >
             <p className="font-display text-xl font-semibold text-ink">
               {String(cell.value).padStart(2, "0")}
             </p>

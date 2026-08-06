@@ -55,9 +55,7 @@ function AdminCampaignRequestsPage() {
     return data.filter((r) => {
       if (status !== "all" && r.status !== status) return false;
       if (!q) return true;
-      return (
-        r.title.toLowerCase().includes(q) || (r.businessName ?? "").toLowerCase().includes(q)
-      );
+      return r.title.toLowerCase().includes(q) || (r.businessName ?? "").toLowerCase().includes(q);
     });
   }, [data, query, status]);
 

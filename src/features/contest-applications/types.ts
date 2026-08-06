@@ -110,7 +110,6 @@ export type SelectionSummaryData = {
   activatedAt: string | null;
 };
 
-
 export type ContestApplication = {
   id: string;
   contestId: string;

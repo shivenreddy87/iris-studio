@@ -8,7 +8,11 @@ import { Panel } from "@/features/contests/components/detail-row";
 import { listContestApplications } from "../application.functions";
 import { applicationKeys } from "../hooks/use-applications";
 import { ApplicantRow } from "./application-card";
-import { APPLICATION_STATUS_LABELS, ACTIVE_APPLICATION_STATUSES, type ApplicationStatus } from "../types";
+import {
+  APPLICATION_STATUS_LABELS,
+  ACTIVE_APPLICATION_STATUSES,
+  type ApplicationStatus,
+} from "../types";
 
 const FILTERS: (ApplicationStatus | "all")[] = ["all", ...ACTIVE_APPLICATION_STATUSES];
 
@@ -17,7 +21,11 @@ export function AdminApplicationsPanel({ contestId }: { contestId: string }) {
   const [status, setStatus] = useState<ApplicationStatus | "all">("all");
   const fetchApplications = useServerFn(listContestApplications);
 
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: [...applicationKeys.forContest(contestId), status],
     queryFn: () => fetchApplications({ data: { contestId, status } }),
   });

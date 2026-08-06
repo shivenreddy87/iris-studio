@@ -17,7 +17,6 @@ export const listOpenContests = createServerFn({ method: "GET" })
     return decorate(context.supabase, data ?? []);
   });
 
-
 /** Influencer: contests they are an active participant in and that are running. */
 export const listMyActiveContests = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

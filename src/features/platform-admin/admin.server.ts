@@ -183,21 +183,14 @@ async function fetchUsersByRole(
   search?: string,
 ): Promise<AdminUserRow[]> {
   const db = await admin();
-  const { data: roleRows, error } = await db
-    .from("user_roles")
-    .select("user_id")
-    .eq("role", role);
+  const { data: roleRows, error } = await db.from("user_roles").select("user_id").eq("role", role);
   if (error) throw new Error(error.message);
   const ids = (roleRows ?? []).map((r) => r.user_id);
   if (!ids.length) return [];
 
   const [{ data: profiles }, { data: suspensions }, stats] = await Promise.all([
     db.from("profiles").select("id, full_name, email, avatar_url, created_at").in("id", ids),
-    db
-      .from("user_suspensions")
-      .select("user_id, reason")
-      .in("user_id", ids)
-      .is("lifted_at", null),
+    db.from("user_suspensions").select("user_id, reason").in("user_id", ids).is("lifted_at", null),
     role === "brand"
       ? db
           .from("business_statistics")
@@ -254,10 +247,7 @@ export function listInfluencerRows(search?: string): Promise<AdminUserRow[]> {
 }
 
 export async function getUserRow(userId: string): Promise<AdminUserRow | null> {
-  const [businesses, influencers] = await Promise.all([
-    listBusinessRows(),
-    listInfluencerRows(),
-  ]);
+  const [businesses, influencers] = await Promise.all([listBusinessRows(), listInfluencerRows()]);
   return [...businesses, ...influencers].find((row) => row.id === userId) ?? null;
 }
 
@@ -589,7 +579,9 @@ export async function buildPlatformReport(kind: ReportKind): Promise<ReportPaylo
     case "campaign_request": {
       const { data } = await db
         .from("campaign_requests")
-        .select("id, title, status, budget, business_category, submitted_at, reviewed_at, created_at");
+        .select(
+          "id, title, status, budget, business_category, submitted_at, reviewed_at, created_at",
+        );
       return payload(kind, (data ?? []) as ReportRow[]);
     }
     case "winner": {

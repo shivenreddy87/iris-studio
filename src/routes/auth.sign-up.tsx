@@ -15,9 +15,15 @@ export const Route = createFileRoute("/auth/sign-up")({
   head: () => ({
     meta: [
       { title: "Create your account — Project Eros" },
-      { name: "description", content: "Create your Project Eros account to run or join campaigns." },
+      {
+        name: "description",
+        content: "Create your Project Eros account to run or join campaigns.",
+      },
       { property: "og:title", content: "Create your account — Project Eros" },
-      { property: "og:description", content: "Join Project Eros — the AI OS for influencer marketing." },
+      {
+        property: "og:description",
+        content: "Join Project Eros — the AI OS for influencer marketing.",
+      },
     ],
   }),
   component: SignUp,
@@ -95,7 +101,13 @@ function SignUp() {
       <form className="space-y-5" onSubmit={handleSubmit}>
         <Field label="Full name" name="name" placeholder="Ada Lovelace" required />
         <Field label="Email" name="email" type="email" placeholder="you@brand.com" required />
-        <Field label="Password" name="password" type="password" placeholder="At least 8 characters" required />
+        <Field
+          label="Password"
+          name="password"
+          type="password"
+          placeholder="At least 8 characters"
+          required
+        />
         <button
           type="submit"
           disabled={loading}
@@ -126,7 +138,10 @@ function SignUp() {
   );
 }
 
-function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
+function Field({
+  label,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
     <label className="block">
       <span className="mb-2 block text-sm font-medium text-ink">{label}</span>

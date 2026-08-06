@@ -5,7 +5,13 @@ import type { ContestExecution } from "../types";
 import { SubmissionStatusBadge } from "./submission-status-badge";
 
 function formatDate(value: string | null) {
-  return value ? new Date(value).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "—";
+  return value
+    ? new Date(value).toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "—";
 }
 
 /** Influencer view of the contests they are executing, with submission state per contest. */

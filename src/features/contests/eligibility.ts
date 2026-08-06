@@ -91,7 +91,10 @@ const nf = new Intl.NumberFormat();
  * Where the contest sits in its application window. Published contests outside
  * the window stay visible but are not accepting applications.
  */
-export function evaluateAvailability(contest: Contest, now: Date = new Date()): ContestAvailability {
+export function evaluateAvailability(
+  contest: Contest,
+  now: Date = new Date(),
+): ContestAvailability {
   const at = now.getTime();
   const base = {
     applicationStartDate: contest.applicationStartDate,

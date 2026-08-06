@@ -24,13 +24,7 @@ export function Reveal({ children, delay = 0, y = 20, ...rest }: RevealProps) {
 }
 
 /** Stagger container: use with Reveal children spaced by delay. */
-export function Stagger({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function Stagger({ children, className }: { children: ReactNode; className?: string }) {
   const reduce = useReducedMotion();
   return (
     <motion.div

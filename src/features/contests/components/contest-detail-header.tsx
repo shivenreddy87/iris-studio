@@ -25,9 +25,7 @@ export function ContestDetailHeader({
           <h2 className="mt-1 font-display text-2xl font-semibold text-ink">{contest.title}</h2>
           <p className="mt-1 text-sm text-ink-mute">
             {availability.label}
-            {contest.applicationDeadline
-              ? ` · Closes ${dateOr(contest.applicationDeadline)}`
-              : ""}
+            {contest.applicationDeadline ? ` · Closes ${dateOr(contest.applicationDeadline)}` : ""}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">

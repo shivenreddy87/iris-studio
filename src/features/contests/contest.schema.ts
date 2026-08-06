@@ -102,28 +102,26 @@ function applyDateRules(v: z.output<typeof base>, ctx: z.RefinementCtx) {
 export const contestDraftSchema = base.superRefine(applyDateRules);
 
 /** Strict shape enforced when publishing. */
-export const contestPublishSchema = base
-  .superRefine(applyDateRules)
-  .superRefine((v, ctx) => {
-    const required: Array<[keyof z.output<typeof base>, string]> = [
-      ["rewardPool", "Set a reward pool"],
-      ["winnerCount", "Set the number of winners"],
-      ["participantLimit", "Set a maximum number of participants"],
-      ["applicationStartDate", "Set the applications open date"],
-      ["applicationDeadline", "Set the applications close date"],
-      ["contestStartDate", "Set the contest start date"],
-      ["contestEndDate", "Set the contest end date"],
-      ["contestBrief", "Write a contest brief"],
-      ["contestRules", "Write the contest rules"],
-      ["targetPlatform", "Select the eligible platform"],
-    ];
-    for (const [key, message] of required) {
-      const value = v[key];
-      if (value === undefined || value === "" || value === null) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, path: [key as string], message });
-      }
+export const contestPublishSchema = base.superRefine(applyDateRules).superRefine((v, ctx) => {
+  const required: Array<[keyof z.output<typeof base>, string]> = [
+    ["rewardPool", "Set a reward pool"],
+    ["winnerCount", "Set the number of winners"],
+    ["participantLimit", "Set a maximum number of participants"],
+    ["applicationStartDate", "Set the applications open date"],
+    ["applicationDeadline", "Set the applications close date"],
+    ["contestStartDate", "Set the contest start date"],
+    ["contestEndDate", "Set the contest end date"],
+    ["contestBrief", "Write a contest brief"],
+    ["contestRules", "Write the contest rules"],
+    ["targetPlatform", "Select the eligible platform"],
+  ];
+  for (const [key, message] of required) {
+    const value = v[key];
+    if (value === undefined || value === "" || value === null) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: [key as string], message });
     }
-  });
+  }
+});
 
 export type ContestFormInput = z.input<typeof base>;
 export type ContestFormValues = z.output<typeof base>;

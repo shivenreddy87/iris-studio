@@ -108,11 +108,7 @@ function AdminAnalyticsPage() {
           <AnalyticsChart kind="area" data={data?.growth.businesses ?? []} />
         </AnalyticsCard>
         <AnalyticsCard title="Influencer growth" description="New influencer accounts per day.">
-          <AnalyticsChart
-            kind="area"
-            data={data?.growth.influencers ?? []}
-            color="#F0647D"
-          />
+          <AnalyticsChart kind="area" data={data?.growth.influencers ?? []} color="#F0647D" />
         </AnalyticsCard>
         <AnalyticsCard title="Contests created" description="Contest creation trend.">
           <AnalyticsChart kind="line" data={data?.growth.contests ?? []} color="#4ADE80" />
@@ -147,10 +143,7 @@ function AdminAnalyticsPage() {
         <AnalyticsCard title="Winners by rank" description="Distribution of awarded ranks.">
           <AnalyticsChart kind="bar" data={winners.data?.byRank ?? []} />
         </AnalyticsCard>
-        <AnalyticsCard
-          title="Platform health"
-          description="Items that need operator attention."
-        >
+        <AnalyticsCard title="Platform health" description="Items that need operator attention.">
           <StatisticsGrid columns={2}>
             <MetricCard
               label="Stuck requests"

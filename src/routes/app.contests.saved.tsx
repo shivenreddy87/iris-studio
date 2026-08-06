@@ -60,7 +60,11 @@ function SavedContestsPage() {
   const [sort, setSort] = useState<ContestSortKey>("newest");
   const fetchSaved = useServerFn(listSavedContests);
 
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["contests", "saved"],
     queryFn: () => fetchSaved(),
   });

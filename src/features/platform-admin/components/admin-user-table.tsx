@@ -104,9 +104,7 @@ export function AdminUserTable({
                           : "/app/admin/influencers/$influencerId"
                       }
                       params={
-                        role === "business"
-                          ? { businessId: row.id }
-                          : { influencerId: row.id }
+                        role === "business" ? { businessId: row.id } : { influencerId: row.id }
                       }
                       className="font-semibold text-ink hover:text-violet"
                     >
@@ -161,10 +159,7 @@ export function AdminUserTable({
         onClose={() => setTarget(null)}
         onConfirm={(reason) => {
           if (!target) return;
-          suspend.mutate(
-            { userId: target.id, role, reason },
-            { onSuccess: () => setTarget(null) },
-          );
+          suspend.mutate({ userId: target.id, role, reason }, { onSuccess: () => setTarget(null) });
         }}
       />
     </div>

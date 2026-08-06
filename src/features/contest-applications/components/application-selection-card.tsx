@@ -64,10 +64,8 @@ export function ApplicationSelectionCard({
     onError: (error: Error) => toast.error(error.message),
   });
 
-  const busy =
-    shortlistMutation.isPending || selectMutation.isPending || rejectMutation.isPending;
-  const canShortlist =
-    selectable && canTransitionApplication(application.status, "shortlisted");
+  const busy = shortlistMutation.isPending || selectMutation.isPending || rejectMutation.isPending;
+  const canShortlist = selectable && canTransitionApplication(application.status, "shortlisted");
   const canPick =
     selectable && canSelect && canTransitionApplication(application.status, "selected");
   const canReject = selectable && canTransitionApplication(application.status, "rejected");
@@ -133,12 +131,7 @@ export function ApplicationSelectionCard({
           </Button>
         ) : null}
         {canReject ? (
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={busy}
-            onClick={() => rejectMutation.mutate()}
-          >
+          <Button variant="ghost" size="sm" disabled={busy} onClick={() => rejectMutation.mutate()}>
             Reject
           </Button>
         ) : null}

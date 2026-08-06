@@ -25,9 +25,7 @@ export function ApplicationCountsCard({ contestId }: { contestId: string }) {
             <dt className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">
               {APPLICATION_STATUS_LABELS[status]}
             </dt>
-            <dd className="mt-1 text-lg font-semibold text-ink">
-              {data?.byStatus[status] ?? 0}
-            </dd>
+            <dd className="mt-1 text-lg font-semibold text-ink">{data?.byStatus[status] ?? 0}</dd>
           </div>
         ))}
       </dl>

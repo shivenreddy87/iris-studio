@@ -81,10 +81,7 @@ export function calculatePerformanceScore(
 }
 
 /** The score that decides ranking: a manual override always wins. */
-export function resolveFinalScore(
-  performanceScore: number,
-  manualScore?: number | null,
-): number {
+export function resolveFinalScore(performanceScore: number, manualScore?: number | null): number {
   return manualScore === null || manualScore === undefined
     ? round(performanceScore)
     : round(manualScore);

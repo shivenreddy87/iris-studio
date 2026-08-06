@@ -145,7 +145,12 @@ export function ContestWizard({ contest }: { contest: Contest }) {
             }
           >
             <Field label="Contest title" htmlFor="title" error={err("title")}>
-              <input id="title" className={fieldClass} disabled={!inherited} {...register("title")} />
+              <input
+                id="title"
+                className={fieldClass}
+                disabled={!inherited}
+                {...register("title")}
+              />
             </Field>
             <Field label="Business category" htmlFor="businessCategory" optional>
               <input
@@ -342,7 +347,12 @@ export function ContestWizard({ contest }: { contest: Contest }) {
               error={err("contestBrief")}
               className="sm:col-span-2"
             >
-              <textarea id="contestBrief" rows={6} className={fieldClass} {...register("contestBrief")} />
+              <textarea
+                id="contestBrief"
+                rows={6}
+                className={fieldClass}
+                {...register("contestBrief")}
+              />
             </Field>
             <Field
               label="Contest rules"
@@ -350,7 +360,12 @@ export function ContestWizard({ contest }: { contest: Contest }) {
               error={err("contestRules")}
               className="sm:col-span-2"
             >
-              <textarea id="contestRules" rows={6} className={fieldClass} {...register("contestRules")} />
+              <textarea
+                id="contestRules"
+                rows={6}
+                className={fieldClass}
+                {...register("contestRules")}
+              />
             </Field>
           </StepCard>
         ) : null}
@@ -385,7 +400,10 @@ export function ContestWizard({ contest }: { contest: Contest }) {
               <Save className="size-4" /> Save draft
             </Button>
             {step < STEPS.length - 1 ? (
-              <Button type="button" onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))}>
+              <Button
+                type="button"
+                onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))}
+              >
                 Next <ArrowRight className="size-4" />
               </Button>
             ) : inherited ? (
@@ -428,7 +446,10 @@ function ReviewList({ values }: { values: ContestFormInput }) {
     ["Winners", values.winnerCount],
     ["Maximum participants", values.participantLimit],
     ["Required views", values.requiredViews],
-    ["Applications", `${values.applicationStartDate || "—"} → ${values.applicationDeadline || "—"}`],
+    [
+      "Applications",
+      `${values.applicationStartDate || "—"} → ${values.applicationDeadline || "—"}`,
+    ],
     ["Contest", `${values.contestStartDate || "—"} → ${values.contestEndDate || "—"}`],
   ];
   return (

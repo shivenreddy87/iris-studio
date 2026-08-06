@@ -113,9 +113,7 @@ export function PayoutTable({ payouts }: { payouts: Payout[] }) {
                   type="checkbox"
                   aria-label="Select all payouts"
                   checked={allSelected}
-                  onChange={(e) =>
-                    setSelected(e.target.checked ? selectable.map((p) => p.id) : [])
-                  }
+                  onChange={(e) => setSelected(e.target.checked ? selectable.map((p) => p.id) : [])}
                 />
               </th>
               <th className="px-4 py-3">Winner</th>
@@ -236,7 +234,9 @@ function PayoutDrawer({
     <Dialog open onOpenChange={(open) => (!open ? onClose() : null)}>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>{payout.influencerName ?? "Winner"} · {money(payout)}</DialogTitle>
+          <DialogTitle>
+            {payout.influencerName ?? "Winner"} · {money(payout)}
+          </DialogTitle>
           <DialogDescription>
             {payout.contestTitle} · rank #{payout.rank}
           </DialogDescription>
@@ -246,9 +246,7 @@ function PayoutDrawer({
           <div className="flex flex-wrap items-center gap-2">
             <PayoutStatusBadge status={payout.status} />
             {payout.paymentReference ? (
-              <span className="font-mono text-xs text-ink-mute">
-                ref {payout.paymentReference}
-              </span>
+              <span className="font-mono text-xs text-ink-mute">ref {payout.paymentReference}</span>
             ) : null}
           </div>
 

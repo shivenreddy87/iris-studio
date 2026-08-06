@@ -18,7 +18,12 @@ export const applicationSchema = z.object({
     .trim()
     .min(40, "Describe your approach in at least 40 characters")
     .max(4000, "Keep your approach under 4000 characters"),
-  notes: z.string().trim().max(2000, "Keep notes under 2000 characters").optional().or(z.literal("")),
+  notes: z
+    .string()
+    .trim()
+    .max(2000, "Keep notes under 2000 characters")
+    .optional()
+    .or(z.literal("")),
   agreedToRules: z.literal(true, {
     errorMap: () => ({ message: "You must agree to the contest rules" }),
   }),

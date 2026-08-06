@@ -11,7 +11,6 @@ const TONES: Record<CampaignRequestStatus, StatusTone> = {
   cancelled: "neutral",
 };
 
-
 export function CampaignStatusBadge({ status }: { status: CampaignRequestStatus }) {
   return <StatusBadge label={CAMPAIGN_REQUEST_STATUS_LABELS[status]} tone={TONES[status]} />;
 }

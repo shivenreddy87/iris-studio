@@ -66,35 +66,31 @@ export const businessProfileSchema = z.object({
 
 export const influencerProfileSchema = z
   .object({
-  fullName: z.string().trim().min(2, "Full name is required").max(120),
-  username: z
-    .string()
-    .trim()
-    .min(3, "Username must be at least 3 characters")
-    .max(30)
-    .regex(/^[a-zA-Z0-9._-]+$/, "Letters, numbers, dots, dashes and underscores only"),
-  category: z.string().trim().min(1, "Pick a category"),
-  location: z.string().trim().min(2, "Location is required").max(120),
-  primaryPlatform: z.string().trim().min(1, "Pick your primary platform"),
-  followerRange: z.string().trim().min(1, "Pick a follower range"),
-  bio: z
-    .string()
-    .trim()
-    .min(20, "Tell brands a little about you")
-    .max(1000, "Keep it under 1000 characters"),
+    fullName: z.string().trim().min(2, "Full name is required").max(120),
+    username: z
+      .string()
+      .trim()
+      .min(3, "Username must be at least 3 characters")
+      .max(30)
+      .regex(/^[a-zA-Z0-9._-]+$/, "Letters, numbers, dots, dashes and underscores only"),
+    category: z.string().trim().min(1, "Pick a category"),
+    location: z.string().trim().min(2, "Location is required").max(120),
+    primaryPlatform: z.string().trim().min(1, "Pick your primary platform"),
+    followerRange: z.string().trim().min(1, "Pick a follower range"),
+    bio: z
+      .string()
+      .trim()
+      .min(20, "Tell brands a little about you")
+      .max(1000, "Keep it under 1000 characters"),
     instagramHandle: optionalText,
     tiktokHandle: optionalText,
     youtubeChannel: optionalText,
     avatarUrl: z.string().trim().max(500).optional(),
   })
-  .refine(
-    (value) =>
-      Boolean(value.instagramHandle || value.tiktokHandle || value.youtubeChannel),
-    {
-      message: "Add at least one social handle or URL",
-      path: ["instagramHandle"],
-    },
-  );
+  .refine((value) => Boolean(value.instagramHandle || value.tiktokHandle || value.youtubeChannel), {
+    message: "Add at least one social handle or URL",
+    path: ["instagramHandle"],
+  });
 
 export type BusinessProfileInput = z.input<typeof businessProfileSchema>;
 export type InfluencerProfileInput = z.input<typeof influencerProfileSchema>;

@@ -48,15 +48,16 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface-1 px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-display text-2xl font-bold text-ink">
-          This page didn't load
-        </h1>
+        <h1 className="font-display text-2xl font-bold text-ink">This page didn't load</h1>
         <p className="mt-2 text-sm text-ink-dim">
           Something went wrong. Try again or head back home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="rounded-full bg-midnight px-5 py-2.5 text-sm font-medium text-white hover:bg-violet transition-colors"
           >
             Try again
@@ -107,8 +108,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
     </html>
   );
 }

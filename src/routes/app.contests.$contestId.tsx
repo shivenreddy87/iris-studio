@@ -93,9 +93,7 @@ function ContestDetailPage() {
             <ContestDetailHeader
               contest={data.contest}
               availability={data.availability}
-              actions={
-                <SavedContestButton contestId={data.contest.id} saved={data.saved} />
-              }
+              actions={<SavedContestButton contestId={data.contest.id} saved={data.saved} />}
             />
 
             <EligibilityBanner eligibility={data.eligibility} availability={data.availability} />

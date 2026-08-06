@@ -33,13 +33,37 @@ export const Route = createFileRoute("/app/settings/notifications")({
 type ToggleKey = Exclude<keyof NotificationPreferences, "userId">;
 
 const TOGGLES: { key: ToggleKey; title: string; description: string }[] = [
-  { key: "inAppEnabled", title: "In-app notifications", description: "Master switch for the bell and the notifications page." },
-  { key: "emailEnabled", title: "Email notifications", description: "Send important updates to your email once delivery is enabled." },
-  { key: "campaignUpdates", title: "Campaign requests", description: "Review decisions, change requests and approvals." },
-  { key: "contestUpdates", title: "Contests", description: "Applications, selections, submissions and results." },
-  { key: "payoutUpdates", title: "Payouts", description: "Reward details requests and payment status changes." },
+  {
+    key: "inAppEnabled",
+    title: "In-app notifications",
+    description: "Master switch for the bell and the notifications page.",
+  },
+  {
+    key: "emailEnabled",
+    title: "Email notifications",
+    description: "Send important updates to your email once delivery is enabled.",
+  },
+  {
+    key: "campaignUpdates",
+    title: "Campaign requests",
+    description: "Review decisions, change requests and approvals.",
+  },
+  {
+    key: "contestUpdates",
+    title: "Contests",
+    description: "Applications, selections, submissions and results.",
+  },
+  {
+    key: "payoutUpdates",
+    title: "Payouts",
+    description: "Reward details requests and payment status changes.",
+  },
   { key: "system", title: "System", description: "Account, security and platform announcements." },
-  { key: "marketing", title: "Product news", description: "Occasional tips and feature announcements." },
+  {
+    key: "marketing",
+    title: "Product news",
+    description: "Occasional tips and feature announcements.",
+  },
 ];
 
 function NotificationPreferencesPage() {
@@ -96,7 +120,10 @@ function NotificationPreferencesPage() {
           {TOGGLES.map((toggle) => {
             const value = prefs[toggle.key];
             const disabled =
-              update.isPending || (!prefs.inAppEnabled && toggle.key !== "inAppEnabled" && toggle.key !== "emailEnabled");
+              update.isPending ||
+              (!prefs.inAppEnabled &&
+                toggle.key !== "inAppEnabled" &&
+                toggle.key !== "emailEnabled");
             return (
               <div key={toggle.key} className="flex items-center gap-4 p-5">
                 <div className="min-w-0 flex-1">

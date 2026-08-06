@@ -255,21 +255,22 @@ export async function fetchContestEvents(db: Db, contestId: string): Promise<Con
   }));
 }
 
-const NOTIFICATION_COPY: Partial<Record<ContestStatus, { title: string; body: (t: string) => string }>> =
-  {
-    draft: {
-      title: "Contest draft created",
-      body: (t) => `A contest is being prepared from your approved request "${t}".`,
-    },
-    published: {
-      title: "Contest published",
-      body: (t) => `Your contest "${t}" is now published.`,
-    },
-    archived: {
-      title: "Contest archived",
-      body: (t) => `Your contest "${t}" has been archived.`,
-    },
-  };
+const NOTIFICATION_COPY: Partial<
+  Record<ContestStatus, { title: string; body: (t: string) => string }>
+> = {
+  draft: {
+    title: "Contest draft created",
+    body: (t) => `A contest is being prepared from your approved request "${t}".`,
+  },
+  published: {
+    title: "Contest published",
+    body: (t) => `Your contest "${t}" is now published.`,
+  },
+  archived: {
+    title: "Contest archived",
+    body: (t) => `Your contest "${t}" has been archived.`,
+  },
+};
 
 /** In-app notification for the owning business, routed through the shared activity engine. */
 export async function notifyBusinessOfContest(input: {
@@ -281,7 +282,8 @@ export async function notifyBusinessOfContest(input: {
 }): Promise<void> {
   const copy = NOTIFICATION_COPY[input.status];
   if (!copy) return;
-  const { createNotification, createActivity } = await import("@/features/activity/notification.server");
+  const { createNotification, createActivity } =
+    await import("@/features/activity/notification.server");
   await createActivity({
     actorId: input.actorId ?? null,
     targetUserId: input.businessId,

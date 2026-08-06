@@ -6,7 +6,6 @@ import { ReviewTimeline } from "./review-timeline";
 import { AttachmentPreview } from "./attachment-preview";
 import { isEditableStatus, type CampaignRequest, type CampaignRequestEvent } from "../types";
 
-
 function DetailRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="border-b border-hairline py-3 last:border-0">
@@ -33,7 +32,6 @@ export function CampaignRequestDetail({
   /** Extra panels rendered in the right-hand column (review actions, internal notes). */
   aside?: ReactNode;
 }) {
-
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
       <div className="space-y-6">
@@ -114,7 +112,6 @@ export function CampaignRequestDetail({
               "No review feedback yet. It appears here once an admin reviews this request."}
           </p>
         </div>
-
       </div>
     </div>
   );

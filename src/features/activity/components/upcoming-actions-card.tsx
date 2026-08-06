@@ -20,7 +20,9 @@ export function UpcomingActionsCard() {
         </h2>
       </header>
       {data.length === 0 ? (
-        <p className="px-5 pb-5 text-sm text-ink-mute">You are all caught up. Nothing needs you right now.</p>
+        <p className="px-5 pb-5 text-sm text-ink-mute">
+          You are all caught up. Nothing needs you right now.
+        </p>
       ) : (
         <ul className="divide-y divide-hairline">
           {data.map((action) => (

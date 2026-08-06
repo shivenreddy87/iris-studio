@@ -33,10 +33,7 @@ export function ModerationLog({
     >
       <ol className="space-y-3">
         {(records ?? []).map((record) => (
-          <li
-            key={record.id}
-            className="rounded-2xl border border-hairline bg-surface-2 p-4"
-          >
+          <li key={record.id} className="rounded-2xl border border-hairline bg-surface-2 p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <Badge variant={record.action === "suspend" ? "destructive" : "secondary"}>

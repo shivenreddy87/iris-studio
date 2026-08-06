@@ -1,12 +1,7 @@
 export type MetaValue = string | number | boolean | null;
 export type Meta = Record<string, MetaValue>;
 
-export type NotificationCategory =
-  | "campaign"
-  | "contest"
-  | "payout"
-  | "system"
-  | "marketing";
+export type NotificationCategory = "campaign" | "contest" | "payout" | "system" | "marketing";
 
 export type NotificationPriority = "low" | "normal" | "high" | "urgent";
 

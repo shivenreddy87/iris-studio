@@ -4,7 +4,11 @@ import { toast } from "sonner";
 import { Lock } from "lucide-react";
 import { Panel } from "@/features/contests/components/detail-row";
 import type { Contest } from "@/features/contests/types";
-import { applyToContest, getApplicationContext, getMyApplicationEvents } from "../application.functions";
+import {
+  applyToContest,
+  getApplicationContext,
+  getMyApplicationEvents,
+} from "../application.functions";
 import type { ApplicationFormValues } from "../application.schema";
 import { ContestApplicationForm } from "./contest-application-form";
 import { ApplicationStatusBadge } from "./application-status-badge";

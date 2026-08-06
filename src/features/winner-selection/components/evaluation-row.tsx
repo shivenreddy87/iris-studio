@@ -13,7 +13,13 @@ import { markWinner, removeWinner, updateSubmissionMetrics } from "../winner.fun
 import type { EvaluationBoard, EvaluationEntry } from "../types";
 import { WinnerBadge } from "./winner-badge";
 
-type Metrics = { views: string; likes: string; comments: string; shares: string; reviewScore: string };
+type Metrics = {
+  views: string;
+  likes: string;
+  comments: string;
+  shares: string;
+  reviewScore: string;
+};
 
 function toMetrics(entry: EvaluationEntry): Metrics {
   return {
@@ -116,8 +122,7 @@ export function EvaluationRow({
     onError: (error: Error) => toast.error(error.message),
   });
 
-  const busy =
-    metricsMutation.isPending || winnerMutation.isPending || removeMutation.isPending;
+  const busy = metricsMutation.isPending || winnerMutation.isPending || removeMutation.isPending;
 
   return (
     <article className="rounded-3xl border border-hairline bg-surface-2 p-5">
@@ -129,7 +134,9 @@ export function EvaluationRow({
           <h4 className="mt-1 truncate font-display text-base font-semibold text-ink">
             {entry.influencerName ?? "Influencer"}
             {entry.influencerHandle ? (
-              <span className="ml-2 text-sm font-normal text-ink-mute">@{entry.influencerHandle}</span>
+              <span className="ml-2 text-sm font-normal text-ink-mute">
+                @{entry.influencerHandle}
+              </span>
             ) : null}
           </h4>
           <div className="mt-1 flex flex-wrap gap-3 text-xs text-ink-mute">
@@ -156,7 +163,9 @@ export function EvaluationRow({
         </div>
         <div className="text-right">
           {entry.isWinner ? <WinnerBadge rank={entry.winnerRank} /> : null}
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-ink-mute">Score</p>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-ink-mute">
+            Score
+          </p>
           <p className="text-2xl font-medium text-ink">{preview.score}</p>
           <p className="text-xs text-ink-mute">{preview.engagementRate}% engagement</p>
         </div>
@@ -203,7 +212,8 @@ export function EvaluationRow({
 
       {board.isLocked ? (
         <p className="mt-4 text-xs text-ink-mute">
-          Results are final. {entry.rewardAmount !== null ? `Reward ${money(entry.rewardAmount)}.` : ""}
+          Results are final.{" "}
+          {entry.rewardAmount !== null ? `Reward ${money(entry.rewardAmount)}.` : ""}
         </p>
       ) : (
         <div className="mt-4 space-y-4">

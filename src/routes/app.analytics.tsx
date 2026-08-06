@@ -163,10 +163,7 @@ function AnalyticsPage() {
               description="Average engagement rate across verified content."
             >
               <StatisticsGrid columns={2}>
-                <MetricCard
-                  label="Avg engagement"
-                  value={formatPercent(business.avgEngagement)}
-                />
+                <MetricCard label="Avg engagement" value={formatPercent(business.avgEngagement)} />
                 <MetricCard
                   label="Submission progress"
                   value={formatPercent(business.submissionProgress)}

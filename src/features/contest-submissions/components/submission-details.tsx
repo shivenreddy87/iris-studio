@@ -1,5 +1,9 @@
 import { ExternalLink } from "lucide-react";
-import { SUBMISSION_PLATFORM_LABELS, type ContestSubmission, type SubmissionPlatform } from "../types";
+import {
+  SUBMISSION_PLATFORM_LABELS,
+  type ContestSubmission,
+  type SubmissionPlatform,
+} from "../types";
 
 function formatWhen(value: string) {
   return new Date(value).toLocaleString(undefined, {
@@ -52,9 +56,7 @@ export function SubmissionDetails({ submission }: { submission: ContestSubmissio
         </div>
       ) : null}
       <div>
-        <dt className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">
-          Submitted
-        </dt>
+        <dt className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">Submitted</dt>
         <dd className="mt-1 text-ink-dim">{formatWhen(submission.submittedAt)}</dd>
       </div>
       {submission.reviewedAt ? (

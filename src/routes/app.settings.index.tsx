@@ -19,7 +19,6 @@ export const Route = createFileRoute("/app/settings/")({
   component: SettingsPage,
 });
 
-
 function SettingsPage() {
   const { user, role } = useAuth();
 
@@ -60,7 +59,6 @@ function SettingsPage() {
           />
         </div>
 
-
         <Section title="Security">
           <div className="flex items-center gap-3">
             <ShieldCheck className="h-5 w-5 text-emerald-400" />
@@ -93,7 +91,10 @@ function NavCard({
   desc: string;
 }) {
   return (
-    <Link to={to} className="group flex items-center gap-3 rounded-3xl border border-hairline bg-surface-2 p-5 transition hover:border-violet/50 hover:bg-surface-3">
+    <Link
+      to={to}
+      className="group flex items-center gap-3 rounded-3xl border border-hairline bg-surface-2 p-5 transition hover:border-violet/50 hover:bg-surface-3"
+    >
       <div className="grid h-10 w-10 place-items-center rounded-2xl bg-violet/20 text-violet">
         <Icon className="h-5 w-5" />
       </div>

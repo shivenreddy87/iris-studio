@@ -85,7 +85,6 @@ export type AdminReviewSummary = {
   changesRequested: number;
 };
 
-
 export const CAMPAIGN_GOALS = [
   "Brand Awareness",
   "Product Launch",

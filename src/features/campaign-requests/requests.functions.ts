@@ -18,7 +18,6 @@ import {
   type Row,
 } from "./requests.server";
 
-
 /** All requests belonging to the signed-in business, newest first. */
 export const listMyCampaignRequests = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -101,8 +100,6 @@ export const updateCampaignRequestDraft = createServerFn({ method: "POST" })
     if (!row) throw new Error("This request can no longer be edited.");
     return toModel(row);
   });
-
-
 
 /**
  * Creates or updates an editable request and moves it to Submitted.
@@ -232,4 +229,3 @@ export const listPendingRequests = createServerFn({ method: "GET" })
       ascending: true,
     });
   });
-

@@ -84,11 +84,7 @@ export async function countSelected(contestId: string): Promise<number> {
   return count ?? 0;
 }
 
-export function assertWithinLimit(
-  contest: Contest,
-  selectedCount: number,
-  adding: number,
-): void {
+export function assertWithinLimit(contest: Contest, selectedCount: number, adding: number): void {
   const limit = contest.participantLimit;
   if (limit === null) return;
   if (selectedCount + adding > limit) {
@@ -151,7 +147,12 @@ export async function applySelectionTransition(
   await logApplicationEvent(db, {
     applicationId: row.id,
     actorId: input.actorId,
-    eventType: input.to === "shortlisted" ? "shortlisted" : input.to === "selected" ? "selected" : "rejected",
+    eventType:
+      input.to === "shortlisted"
+        ? "shortlisted"
+        : input.to === "selected"
+          ? "selected"
+          : "rejected",
     ...(input.note ? { note: input.note } : {}),
   });
 
@@ -199,11 +200,17 @@ export async function fetchParticipants(contestId: string): Promise<ContestParti
   const userIds = [...new Set(rows.map((r) => r.influencer_id))];
   const [{ data: profiles }, { data: creators }, { data: applications }] = await Promise.all([
     sb.from("profiles").select("id, full_name").in("id", userIds),
-    sb.from("creator_profiles").select("user_id, display_name, handle, followers, niche").in("user_id", userIds),
+    sb
+      .from("creator_profiles")
+      .select("user_id, display_name, handle, followers, niche")
+      .in("user_id", userIds),
     sb
       .from("contest_applications")
       .select("id, portfolio_url")
-      .in("id", rows.map((r) => r.application_id)),
+      .in(
+        "id",
+        rows.map((r) => r.application_id),
+      ),
   ]);
 
   const names = new Map((profiles ?? []).map((p) => [p.id, p.full_name as string | null]));
@@ -297,7 +304,8 @@ export async function notifyInfluencerDecision(input: {
       body: `You were not selected for “${input.contestTitle}” this time. Keep an eye out for new contests.`,
     },
   };
-  const { createNotification, createActivity } = await import("@/features/activity/notification.server");
+  const { createNotification, createActivity } =
+    await import("@/features/activity/notification.server");
   await createActivity({
     targetUserId: input.influencerId,
     action: `application.${input.status}`,
@@ -326,9 +334,8 @@ export async function notifyContestActivated(input: {
   actorId: string;
   participantCount: number;
 }): Promise<void> {
-  const { createNotifications, createActivity, notifyAdmins } = await import(
-    "@/features/activity/notification.server"
-  );
+  const { createNotifications, createActivity, notifyAdmins } =
+    await import("@/features/activity/notification.server");
 
   await createActivity({
     actorId: input.actorId,

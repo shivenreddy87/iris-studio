@@ -1,22 +1,11 @@
-import {
-  CONTEST_COLUMNS,
-  decorate,
-  isAdmin,
-  type ContestRow,
-  type Db,
-} from "./contest.server";
+import { CONTEST_COLUMNS, decorate, isAdmin, type ContestRow, type Db } from "./contest.server";
 import {
   evaluateAvailability,
   evaluateEligibility,
   isDiscoverable,
   type InfluencerEligibilityProfile,
 } from "./eligibility";
-import type {
-  Contest,
-  ContestDiscoveryFilters,
-  DiscoveryContest,
-  DiscoveryPage,
-} from "./types";
+import type { Contest, ContestDiscoveryFilters, DiscoveryContest, DiscoveryPage } from "./types";
 
 const DEFAULT_PAGE_SIZE = 12;
 /** Discovery works on the published pool, which stays small; filter in memory. */

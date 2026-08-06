@@ -2,10 +2,7 @@ export function ListSkeleton({ rows = 4 }: { rows?: number }) {
   return (
     <div className="space-y-3">
       {Array.from({ length: rows }).map((_, i) => (
-        <div
-          key={i}
-          className="animate-pulse rounded-2xl border border-hairline bg-surface-2 p-5"
-        >
+        <div key={i} className="animate-pulse rounded-2xl border border-hairline bg-surface-2 p-5">
           <div className="mb-3 h-4 w-40 rounded-full bg-white/8" />
           <div className="mb-2 h-3 w-full rounded-full bg-white/5" />
           <div className="h-3 w-3/4 rounded-full bg-white/5" />

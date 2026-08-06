@@ -9,7 +9,10 @@ export const Route = createFileRoute("/auth/sign-in")({
   head: () => ({
     meta: [
       { title: "Sign in — Project Eros" },
-      { name: "description", content: "Sign in to Project Eros to manage your campaigns and contests." },
+      {
+        name: "description",
+        content: "Sign in to Project Eros to manage your campaigns and contests.",
+      },
       { property: "og:title", content: "Sign in — Project Eros" },
       { property: "og:description", content: "Sign in to your Project Eros account." },
     ],
@@ -92,7 +95,10 @@ function SignIn() {
   );
 }
 
-function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
+function Field({
+  label,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
     <label className="block">
       <span className="mb-2 block text-sm font-medium text-ink">{label}</span>

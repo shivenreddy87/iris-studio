@@ -3,7 +3,9 @@ import type { Contest } from "../types";
 
 export function RewardCard({ contest }: { contest: Contest }) {
   const perWinner =
-    contest.rewardPool !== null && contest.winnerCount ? contest.rewardPool / contest.winnerCount : null;
+    contest.rewardPool !== null && contest.winnerCount
+      ? contest.rewardPool / contest.winnerCount
+      : null;
 
   return (
     <Panel title="Rewards">

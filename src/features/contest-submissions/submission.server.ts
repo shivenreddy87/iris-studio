@@ -185,7 +185,8 @@ async function loadInfluencerInfo(userIds: string[]): Promise<Map<string, Influe
     const creator = creatorMap.get(id);
     const profile = (profiles ?? []).find((p) => p.id === id);
     map.set(id, {
-      name: (creator?.display_name as string | null) ?? (profile?.full_name as string | null) ?? null,
+      name:
+        (creator?.display_name as string | null) ?? (profile?.full_name as string | null) ?? null,
       handle: (creator?.handle as string | null) ?? null,
     });
   }
@@ -293,7 +294,9 @@ export async function fetchSubmissionEvents(submissionId: string): Promise<Submi
     .order("created_at", { ascending: true });
   if (error) throw new Error(error.message);
   const rows = data ?? [];
-  const actorIds = [...new Set(rows.map((r) => r.actor_id as string | null).filter(Boolean))] as string[];
+  const actorIds = [
+    ...new Set(rows.map((r) => r.actor_id as string | null).filter(Boolean)),
+  ] as string[];
   const names = new Map<string, string | null>();
   if (actorIds.length > 0) {
     const { data: profiles } = await sb.from("profiles").select("id, full_name").in("id", actorIds);

@@ -17,11 +17,7 @@ import {
   notifyContestActivated,
   notifyInfluencerDecision,
 } from "./participant-selection.server";
-import type {
-  ContestApplication,
-  ContestParticipant,
-  SelectionSummaryData,
-} from "./types";
+import type { ContestApplication, ContestParticipant, SelectionSummaryData } from "./types";
 
 type DecisionInput = { contestId: string; applicationId: string; note?: string };
 

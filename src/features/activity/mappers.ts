@@ -64,4 +64,3 @@ export function mapPreferences(row: {
     system: row.system,
   };
 }
-

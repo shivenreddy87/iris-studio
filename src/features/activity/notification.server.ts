@@ -61,7 +61,9 @@ export async function createNotifications(inputs: NotificationInput[]): Promise<
   const userIds = [...new Set(list.map((n) => n.userId))];
   const { data: prefs } = await sb
     .from("notification_preferences")
-    .select("user_id, in_app_enabled, campaign_updates, contest_updates, payout_updates, marketing, system")
+    .select(
+      "user_id, in_app_enabled, campaign_updates, contest_updates, payout_updates, marketing, system",
+    )
     .in("user_id", userIds);
 
   const prefMap = new Map<string, PrefRow>();
@@ -87,9 +89,7 @@ export async function createNotifications(inputs: NotificationInput[]): Promise<
 }
 
 /** Convenience: notify every admin with the same payload. */
-export async function notifyAdmins(
-  input: Omit<NotificationInput, "userId">,
-): Promise<void> {
+export async function notifyAdmins(input: Omit<NotificationInput, "userId">): Promise<void> {
   const sb = await admin();
   const { data } = await sb.from("user_roles").select("user_id").eq("role", "admin");
   const ids = (data ?? []).map((r) => r.user_id as string);
@@ -126,5 +126,3 @@ export async function recordEvent(input: {
 /* ------------------------------------------------------------------ */
 /* Mapping helpers                                                     */
 /* ------------------------------------------------------------------ */
-
-

@@ -97,9 +97,7 @@ export function TemplateEditor({
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="font-display text-base font-semibold text-ink">
-                    {template.name}
-                  </h3>
+                  <h3 className="font-display text-base font-semibold text-ink">{template.name}</h3>
                   <p className="mt-1 text-sm text-ink-dim">{template.description}</p>
                 </div>
                 <Badge variant={template.isActive ? "secondary" : "outline"}>
@@ -233,9 +231,7 @@ export function TemplateEditor({
                       patch({
                         eligibility: {
                           ...draft.eligibility,
-                          minimumFollowers: event.target.value
-                            ? Number(event.target.value)
-                            : null,
+                          minimumFollowers: event.target.value ? Number(event.target.value) : null,
                         },
                       })
                     }
@@ -251,9 +247,7 @@ export function TemplateEditor({
                       patch({
                         eligibility: {
                           ...draft.eligibility,
-                          maximumFollowers: event.target.value
-                            ? Number(event.target.value)
-                            : null,
+                          maximumFollowers: event.target.value ? Number(event.target.value) : null,
                         },
                       })
                     }
