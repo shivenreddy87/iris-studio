@@ -7,6 +7,7 @@ import { DataSection } from "@/components/shared/data-section";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { getCampaignRequest } from "@/features/campaign-requests/requests.functions";
 import { CampaignRequestDetail } from "@/features/campaign-requests/components/campaign-request-detail";
+import { listRequestEvents } from "@/features/campaign-requests/admin-review.functions";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
 export const Route = createFileRoute("/app/business/requests/$requestId/")({
@@ -64,8 +65,21 @@ function CampaignRequestDetailPage() {
           />
         }
       >
-        {request ? <CampaignRequestDetail request={request} showEdit /> : null}
+        {request ? <BusinessRequestDetail request={request} /> : null}
       </DataSection>
     </div>
   );
+}
+
+function BusinessRequestDetail({
+  request,
+}: {
+  request: import("@/features/campaign-requests/types").CampaignRequest;
+}) {
+  const fetchEvents = useServerFn(listRequestEvents);
+  const { data: events } = useQuery({
+    queryKey: ["campaign-request-events", request.id],
+    queryFn: () => fetchEvents({ data: { id: request.id } }),
+  });
+  return <CampaignRequestDetail request={request} showEdit events={events ?? []} />;
 }
