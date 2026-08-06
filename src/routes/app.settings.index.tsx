@@ -32,7 +32,7 @@ function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-6 sm:py-8 lg:px-8 lg:py-10">
       <div className="mb-8">
         <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-mute">Settings</p>
         <h1 className="font-display text-4xl font-extrabold text-ink">Your account</h1>

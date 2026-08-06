@@ -36,7 +36,7 @@ export function ProfileGate({ children }: { children: ReactNode }) {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-10">
         <ListSkeleton rows={3} />
       </div>
     );
@@ -45,7 +45,7 @@ export function ProfileGate({ children }: { children: ReactNode }) {
   if (unlocked) return <>{children}</>;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-6 sm:py-8 lg:px-8 lg:py-10">
       <div className="rounded-3xl border border-hairline bg-surface-2 p-8 text-center">
         <div className="mx-auto mb-4 grid size-12 place-items-center rounded-2xl bg-violet/10 text-violet">
           <Lock className="size-5" />
