@@ -28,8 +28,9 @@ Date: 2026-08-06
 
 - **Payments are out of platform.** Payouts are recorded, tracked and audited, but money movement happens externally and is marked manually by an admin.
 - **Submission metrics are admin-entered.** Views, likes, comments and shares are recorded by hand — there is no social-platform API ingestion, so scoring depends on admin data entry.
-- **Connected accounts are unverified.** Linking a social profile stores handle/URL metadata; there is no OAuth verification of ownership or follower counts.
-- **Analytics rollups are refreshed on demand.** `refresh_analytics_rollups` runs when triggered, not on a schedule; reach and engagement aggregates are not yet computed from submissions.
-- **No automated test suite.** Verification is typecheck, lint and build; there are no unit or end-to-end tests yet.
-- **Email delivery is not configured.** Notifications are in-app; email preferences exist in the schema but no transactional sender is wired.
+- **Social accounts are verified manually.** Influencers prove ownership with a one-time code placed in their public bio, which an admin checks and approves; the verified state is enforced database-side and cannot be self-awarded. There is still no OAuth integration, so follower counts remain self-reported.
+- **Analytics rollups refresh on a schedule.** A scheduled job recomputes every business rollup every 15 minutes. Reach and engagement aggregates are still not computed from submissions.
+- **Automated tests cover pure logic only.** Vitest (`npm test`) covers the scoring engine, contest eligibility, profile completion and payout lifecycle rules; there is no component or end-to-end coverage yet.
+- **Email delivery is not configured.** Notifications are in-app; sending email requires a sender domain that the platform owner still has to set up.
+
 - **Lint warnings remain** for fast-refresh exports on shadcn primitives and two `exhaustive-deps` cases — intentional and non-blocking.
