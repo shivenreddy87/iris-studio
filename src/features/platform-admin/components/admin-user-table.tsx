@@ -114,7 +114,9 @@ export function AdminUserTable({
             {
               id: "joined",
               header: "Joined",
-              cell: (row) => <span className="text-xs text-ink-dim">{formatDate(row.createdAt)}</span>,
+              cell: (row) => (
+                <span className="text-xs text-ink-dim">{formatDate(row.createdAt)}</span>
+              ),
             },
             {
               id: "status",

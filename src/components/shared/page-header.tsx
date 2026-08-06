@@ -22,9 +22,7 @@ export function PageHeader({
         <h1 className="text-fluid-title font-display font-extrabold tracking-tight text-ink">
           {title}
         </h1>
-        {description ? (
-          <p className="mt-2 max-w-2xl text-sm text-ink-dim">{description}</p>
-        ) : null}
+        {description ? <p className="mt-2 max-w-2xl text-sm text-ink-dim">{description}</p> : null}
       </div>
       {actions ? (
         <div className="flex flex-wrap items-center gap-2 [&>*]:min-h-10 [&>button]:flex-1 sm:[&>button]:flex-none">

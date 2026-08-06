@@ -139,7 +139,9 @@ export function PayoutTable({ payouts }: { payouts: Payout[] }) {
             id: "winner",
             header: "Winner",
             mobile: "title",
-            cell: (payout) => <span className="text-ink">{payout.influencerName ?? "Influencer"}</span>,
+            cell: (payout) => (
+              <span className="text-ink">{payout.influencerName ?? "Influencer"}</span>
+            ),
           },
           {
             id: "rank",
