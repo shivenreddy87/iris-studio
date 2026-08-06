@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAuditLog } from "@/lib/audit.server";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdmin } from "@/features/contests/contest.server";
@@ -129,6 +130,14 @@ export const markPayoutPaid = createServerFn({ method: "POST" })
     await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await markPaid(data, context.userId);
+    await recordAuditLog({
+      actorId: context.userId,
+      actorRole: "admin",
+      entityType: "payout",
+      entityId: data.payoutId,
+      action: "mark_paid",
+      newValues: data,
+    });
     return { ok: true };
   });
 
@@ -184,6 +193,13 @@ export const submitMyPayoutDetails = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
     await assertNotSuspended(context.userId);
     await submitWinnerDetails(data, context.userId);
+    await recordAuditLog({
+      actorId: context.userId,
+      actorRole: "influencer",
+      entityType: "payout_details",
+      entityId: data.winnerId,
+      action: "submit",
+    });
     return { ok: true };
   });
 

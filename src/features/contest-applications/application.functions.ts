@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAuditLog } from "@/lib/audit.server";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { canReadContest } from "@/features/contests/discovery.server";
@@ -106,6 +107,15 @@ export const applyToContest = createServerFn({ method: "POST" })
       influencerId: userId,
       applicantName: application?.influencerName ?? null,
       totalApplications: counts.total,
+    });
+
+    await recordAuditLog({
+      actorId: userId,
+      actorRole: "influencer",
+      entityType: "contest_application",
+      entityId: row.id,
+      action: "submit",
+      newValues: { contestId: contest.id, portfolioUrl: data.portfolioUrl },
     });
 
     if (!application) throw new Error("Could not load your application.");

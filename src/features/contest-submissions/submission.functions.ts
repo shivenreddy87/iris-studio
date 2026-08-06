@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAuditLog } from "@/lib/audit.server";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { CONTEST_COLUMNS, decorate, type ContestRow } from "@/features/contests/contest.server";
@@ -75,6 +76,14 @@ export const submitContestContent = createServerFn({ method: "POST" })
 
     const progress = await buildContestProgress(contest);
     await notifySubmissionCreated({ contest, influencerId: userId, progress });
+    await recordAuditLog({
+      actorId: userId,
+      actorRole: "influencer",
+      entityType: "contest_submission",
+      entityId: row.id,
+      action: "submit",
+      newValues: { contestId: contest.id, platform: data.platform, contentUrl: data.contentUrl },
+    });
 
     return decorateSubmission(contest, row);
   });

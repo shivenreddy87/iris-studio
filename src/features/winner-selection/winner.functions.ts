@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAuditLog } from "@/lib/audit.server";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { fetchContestOrThrow } from "@/features/contest-submissions/submission.server";
@@ -149,6 +150,14 @@ export const finalizeWinners = createServerFn({ method: "POST" })
     await assertAdmin(supabase, userId);
     const contest = await fetchContestOrThrow(supabase, data.contestId);
     await finalizeContestWinners(supabase, contest, userId, data.note);
+    await recordAuditLog({
+      actorId: userId,
+      actorRole: "admin",
+      entityType: "contest",
+      entityId: contest.id,
+      action: "finalize_winners",
+      newValues: { note: data.note ?? null },
+    });
     const updated = await fetchContestOrThrow(supabase, data.contestId);
     return buildContestResults(updated);
   });
