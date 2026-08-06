@@ -1,3 +1,6 @@
+export type MetaValue = string | number | boolean | null;
+export type Meta = Record<string, MetaValue>;
+
 export type NotificationCategory =
   | "campaign"
   | "contest"
@@ -19,7 +22,7 @@ export type NotificationInput = {
   category: NotificationCategory;
   priority?: NotificationPriority;
   kind?: NotificationKind;
-  metadata?: Record<string, unknown>;
+  metadata?: Meta;
 };
 
 export type NotificationItem = {
@@ -32,7 +35,7 @@ export type NotificationItem = {
   actionUrl: string | null;
   actionLabel: string | null;
   priority: NotificationPriority;
-  metadata: Record<string, unknown>;
+  metadata: Meta;
   category: NotificationCategory;
   readAt: string | null;
   archivedAt: string | null;
@@ -67,7 +70,7 @@ export type ActivityInput = {
   entityType: string;
   entityId?: string | null;
   summary: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Meta;
 };
 
 export type ActivityItem = {
@@ -79,7 +82,7 @@ export type ActivityItem = {
   entityType: string;
   entityId: string | null;
   summary: string;
-  metadata: Record<string, unknown>;
+  metadata: Meta;
   createdAt: string;
 };
 

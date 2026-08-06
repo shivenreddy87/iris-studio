@@ -1,6 +1,7 @@
 import {
   DEFAULT_PREFERENCES,
   type ActivityInput,
+  type Meta,
   type NotificationCategory,
   type NotificationInput,
   type NotificationItem,
@@ -134,14 +135,14 @@ type NotificationRow = {
   action_url: string | null;
   action_label: string | null;
   priority: string | null;
-  metadata: Record<string, unknown> | null;
+  metadata: Meta | null;
   read_at: string | null;
   archived_at: string | null;
   created_at: string;
 };
 
 export function mapNotification(row: NotificationRow): NotificationItem {
-  const metadata = (row.metadata ?? {}) as Record<string, unknown>;
+  const metadata = (row.metadata ?? {}) as Meta;
   const category = (metadata["category"] as NotificationCategory | undefined) ?? "system";
   return {
     id: row.id,

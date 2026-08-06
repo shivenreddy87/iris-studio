@@ -1,5 +1,5 @@
 import { mapNotification } from "./notification.server";
-import type { ActivityItem } from "./types";
+import type { ActivityItem, Meta } from "./types";
 
 async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -26,7 +26,7 @@ type ActivityRow = {
   entity_type: string;
   entity_id: string | null;
   summary: string;
-  metadata: Record<string, unknown> | null;
+  metadata: Meta | null;
   created_at: string;
 };
 
@@ -41,7 +41,7 @@ export async function mapActivities(rows: ActivityRow[]): Promise<ActivityItem[]
     entityType: row.entity_type,
     entityId: row.entity_id,
     summary: row.summary,
-    metadata: (row.metadata ?? {}) as Record<string, unknown>,
+    metadata: (row.metadata ?? {}) as Meta,
     createdAt: row.created_at,
   }));
 }
