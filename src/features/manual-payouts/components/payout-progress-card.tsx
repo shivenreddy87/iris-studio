@@ -45,7 +45,7 @@ export function PayoutProgressCard({
         {money(currency, progress.paidAmount)} of {money(currency, progress.totalAmount)} settled
       </p>
 
-      <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {stats.map((stat) => (
           <div key={stat.label} className="rounded-2xl border border-hairline bg-surface-3 p-3">
             <dt className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">

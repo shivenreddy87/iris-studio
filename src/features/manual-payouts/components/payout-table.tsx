@@ -36,6 +36,7 @@ import {
   verifyPayoutDetails,
 } from "../payout.functions";
 import { canCancelPayout, isPayoutImmutable, PAYMENT_METHODS, type Payout } from "../types";
+import { ResponsiveTable } from "@/components/shared/responsive-table";
 import { PayoutStatusBadge } from "./payout-status-badge";
 import { PayoutTimeline } from "./payout-timeline";
 
@@ -79,6 +80,16 @@ export function PayoutTable({ payouts }: { payouts: Payout[] }) {
 
   return (
     <div className="space-y-4">
+      <label className="flex items-center gap-2 text-xs text-ink-mute md:hidden">
+        <input
+          type="checkbox"
+          className="size-4"
+          aria-label="Select all payouts"
+          checked={allSelected}
+          onChange={(e) => setSelected(e.target.checked ? selectable.map((p) => p.id) : [])}
+        />
+        Select all
+      </label>
       {selected.length > 0 ? (
         <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-violet/40 bg-violet/10 px-4 py-3">
           <span className="text-sm text-ink">{selected.length} selected</span>
@@ -104,77 +115,81 @@ export function PayoutTable({ payouts }: { payouts: Payout[] }) {
         </div>
       ) : null}
 
-      <div className="overflow-x-auto rounded-3xl border border-hairline bg-surface-2">
-        <table className="w-full min-w-[880px] text-left text-sm">
-          <thead className="border-b border-hairline text-[10px] uppercase tracking-widest text-ink-mute">
-            <tr>
-              <th className="px-4 py-3">
-                <input
-                  type="checkbox"
-                  aria-label="Select all payouts"
-                  checked={allSelected}
-                  onChange={(e) => setSelected(e.target.checked ? selectable.map((p) => p.id) : [])}
-                />
-              </th>
-              <th className="px-4 py-3">Winner</th>
-              <th className="px-4 py-3">Contest</th>
-              <th className="px-4 py-3">Amount</th>
-              <th className="px-4 py-3">Details</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3" />
-            </tr>
-          </thead>
-          <tbody>
-            {payouts.map((payout) => (
-              <tr key={payout.id} className="border-b border-hairline/60 last:border-0">
-                <td className="px-4 py-3">
-                  <input
-                    type="checkbox"
-                    aria-label={`Select payout for ${payout.influencerName ?? "winner"}`}
-                    disabled={isPayoutImmutable(payout.status)}
-                    checked={selected.includes(payout.id)}
-                    onChange={(e) =>
-                      setSelected((prev) =>
-                        e.target.checked
-                          ? [...prev, payout.id]
-                          : prev.filter((id) => id !== payout.id),
-                      )
-                    }
-                  />
-                </td>
-                <td className="px-4 py-3">
-                  <p className="text-ink">{payout.influencerName ?? "Influencer"}</p>
-                  <p className="text-xs text-ink-mute">
-                    {payout.influencerHandle ? `@${payout.influencerHandle} · ` : ""}Rank #
-                    {payout.rank}
-                  </p>
-                </td>
-                <td className="px-4 py-3 text-ink-dim">{payout.contestTitle}</td>
-                <td className="px-4 py-3 font-mono text-ink">{money(payout)}</td>
-                <td className="px-4 py-3">
-                  {payout.detailsVerified ? (
-                    <span className="inline-flex items-center gap-1 text-xs text-emerald-400">
-                      <BadgeCheck className="size-3.5" /> Verified
-                    </span>
-                  ) : payout.hasDetails ? (
-                    <span className="text-xs text-amber-300">Submitted</span>
-                  ) : (
-                    <span className="text-xs text-ink-mute">Missing</span>
-                  )}
-                </td>
-                <td className="px-4 py-3">
-                  <PayoutStatusBadge status={payout.status} />
-                </td>
-                <td className="px-4 py-3 text-right">
-                  <Button size="sm" variant="ghost" onClick={() => setActive(payout)}>
-                    <Eye className="mr-2 size-3.5" /> Manage
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ResponsiveTable
+        rows={payouts}
+        rowKey={(payout) => payout.id}
+        minWidth={880}
+        empty="No payouts to show."
+        leading={(payout) => (
+          <input
+            type="checkbox"
+            className="size-4"
+            aria-label={`Select payout for ${payout.influencerName ?? "winner"}`}
+            disabled={isPayoutImmutable(payout.status)}
+            checked={selected.includes(payout.id)}
+            onChange={(e) =>
+              setSelected((prev) =>
+                e.target.checked ? [...prev, payout.id] : prev.filter((id) => id !== payout.id),
+              )
+            }
+          />
+        )}
+        columns={[
+          {
+            id: "winner",
+            header: "Winner",
+            mobile: "title",
+            cell: (payout) => (
+              <span className="text-ink">{payout.influencerName ?? "Influencer"}</span>
+            ),
+          },
+          {
+            id: "rank",
+            header: "Rank",
+            mobile: "subtitle",
+            cell: (payout) => (
+              <span className="text-ink-mute">
+                {payout.influencerHandle ? `@${payout.influencerHandle} · ` : ""}Rank #{payout.rank}
+              </span>
+            ),
+          },
+          {
+            id: "contest",
+            header: "Contest",
+            cell: (payout) => <span className="text-ink-dim">{payout.contestTitle}</span>,
+          },
+          {
+            id: "amount",
+            header: "Amount",
+            cell: (payout) => <span className="font-mono text-ink">{money(payout)}</span>,
+          },
+          {
+            id: "details",
+            header: "Details",
+            cell: (payout) =>
+              payout.detailsVerified ? (
+                <span className="inline-flex items-center gap-1 text-xs text-emerald-400">
+                  <BadgeCheck className="size-3.5" /> Verified
+                </span>
+              ) : payout.hasDetails ? (
+                <span className="text-xs text-amber-300">Submitted</span>
+              ) : (
+                <span className="text-xs text-ink-mute">Missing</span>
+              ),
+          },
+          {
+            id: "status",
+            header: "Status",
+            mobile: "trailing",
+            cell: (payout) => <PayoutStatusBadge status={payout.status} />,
+          },
+        ]}
+        actions={(payout) => (
+          <Button size="sm" variant="ghost" onClick={() => setActive(payout)}>
+            <Eye className="mr-2 size-3.5" /> Manage
+          </Button>
+        )}
+      />
 
       {active ? (
         <PayoutDrawer payout={active} onClose={() => setActive(null)} onChanged={invalidate} />

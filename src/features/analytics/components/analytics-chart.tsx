@@ -43,7 +43,7 @@ export function AnalyticsChart({
     return (
       <div
         className="grid place-items-center rounded-2xl border border-dashed border-hairline text-sm text-ink-mute"
-        style={{ height }}
+        style={{ height: `clamp(180px, 48vw, ${height}px)` }}
       >
         {emptyHint}
       </div>
@@ -76,7 +76,7 @@ export function AnalyticsChart({
   }
 
   return (
-    <div style={{ height }}>
+    <div style={{ height: `clamp(180px, 48vw, ${height}px)` }}>
       <ResponsiveContainer width="100%" height="100%">
         {kind === "pie" ? (
           <PieChart>

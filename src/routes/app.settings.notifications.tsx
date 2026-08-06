@@ -98,7 +98,7 @@ function NotificationPreferencesPage() {
   });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-6 sm:py-8 lg:px-8 lg:py-10">
       <Link
         to="/app/settings"
         className="mb-4 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-ink-mute hover:text-ink"

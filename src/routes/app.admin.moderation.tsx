@@ -13,6 +13,7 @@ import {
 } from "@/features/platform-admin/hooks/use-admin";
 import { generatePlatformReport } from "@/features/platform-admin/admin.functions";
 import { ExportButton } from "@/features/analytics/components/export-button";
+import { VerificationQueue } from "@/features/social-verification/components/verification-queue";
 
 export const Route = createFileRoute("/app/admin/moderation")({
   head: () => ({
@@ -43,7 +44,7 @@ function ModerationPage() {
   const report = useServerFn(generatePlatformReport);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-10">
       <PageHeader
         eyebrow="Administration"
         title="Moderation"
@@ -58,9 +59,10 @@ function ModerationPage() {
       />
 
       <Tabs defaultValue="businesses">
-        <TabsList>
+        <TabsList className="w-full flex-wrap justify-start sm:w-auto">
           <TabsTrigger value="businesses">Businesses</TabsTrigger>
           <TabsTrigger value="influencers">Influencers</TabsTrigger>
+          <TabsTrigger value="verification">Verification</TabsTrigger>
           <TabsTrigger value="log">Moderation log</TabsTrigger>
         </TabsList>
 
@@ -84,6 +86,15 @@ function ModerationPage() {
             search={influencerSearch}
             onSearchChange={setInfluencerSearch}
           />
+        </TabsContent>
+
+        <TabsContent value="verification" className="mt-6">
+          <AnalyticsCard
+            title="Social account verification"
+            description="Influencers prove ownership with a one-time code in their public bio."
+          >
+            <VerificationQueue />
+          </AnalyticsCard>
         </TabsContent>
 
         <TabsContent value="log" className="mt-6">

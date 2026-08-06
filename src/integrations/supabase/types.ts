@@ -398,9 +398,15 @@ export type Database = {
           metadata: Json;
           platform: string;
           profile_url: string | null;
+          rejection_reason: string | null;
           status: string;
           updated_at: string;
           user_id: string;
+          verification_code: string | null;
+          verification_requested_at: string | null;
+          verification_status: string;
+          verified_at: string | null;
+          verified_by: string | null;
         };
         Insert: {
           avatar_url?: string | null;
@@ -413,9 +419,15 @@ export type Database = {
           metadata?: Json;
           platform: string;
           profile_url?: string | null;
+          rejection_reason?: string | null;
           status?: string;
           updated_at?: string;
           user_id: string;
+          verification_code?: string | null;
+          verification_requested_at?: string | null;
+          verification_status?: string;
+          verified_at?: string | null;
+          verified_by?: string | null;
         };
         Update: {
           avatar_url?: string | null;
@@ -428,9 +440,15 @@ export type Database = {
           metadata?: Json;
           platform?: string;
           profile_url?: string | null;
+          rejection_reason?: string | null;
           status?: string;
           updated_at?: string;
           user_id?: string;
+          verification_code?: string | null;
+          verification_requested_at?: string | null;
+          verification_status?: string;
+          verified_at?: string | null;
+          verified_by?: string | null;
         };
         Relationships: [];
       };
@@ -2289,6 +2307,7 @@ export type Database = {
     };
     Functions: {
       next_approval_reference: { Args: never; Returns: string };
+      refresh_all_analytics_rollups: { Args: never; Returns: number };
       refresh_analytics_rollups: {
         Args: { _org_id: string };
         Returns: undefined;

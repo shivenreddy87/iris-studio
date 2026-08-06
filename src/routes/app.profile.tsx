@@ -18,6 +18,7 @@ import {
 } from "@/features/profiles/profiles.functions";
 import type { BusinessProfile, InfluencerProfile } from "@/features/profiles/types";
 import { roleLabel } from "@/lib/roles";
+import { SocialAccountsPanel } from "@/features/social-verification/components/social-accounts-panel";
 
 export const Route = createFileRoute("/app/profile")({
   head: () => ({
@@ -53,7 +54,7 @@ function ProfilePage() {
 
   if (isLoading || !profile) {
     return (
-      <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:py-8 lg:px-8 lg:py-10">
         <ListSkeleton rows={4} />
       </div>
     );
@@ -70,7 +71,7 @@ function ProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-6 sm:py-8 lg:px-8 lg:py-10">
       <PageHeader
         eyebrow={roleLabel(profile.role)}
         title="Profile"
@@ -123,6 +124,8 @@ function ProfilePage() {
           ) : (
             <InfluencerSummary profile={profile.influencer} email={profile.email} />
           )}
+
+          {isInfluencer ? <SocialAccountsPanel /> : null}
         </div>
       ) : (
         <EmptyState

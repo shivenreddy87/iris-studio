@@ -9,6 +9,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --breakpoint-xs: 25rem;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -204,4 +206,138 @@
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+}
+
+/* ---------------------------------------------------------------
+   Cross-device / responsive foundation
+   --------------------------------------------------------------- */
+
+@utility safe-px {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+@utility safe-pt {
+  padding-top: env(safe-area-inset-top);
+}
+@utility safe-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@utility safe-mb {
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+/* Standard page frame: comfortable on 320px, roomy on desktop. */
+@utility page-frame {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: max(1rem, env(safe-area-inset-left));
+  padding-block: 1.5rem;
+
+  @media (min-width: 640px) {
+    padding-block: 2rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 2rem;
+    padding-block: 2.5rem;
+  }
+}
+
+/* Let a wide child (table/chart) bleed to the screen edges on phones. */
+@utility edge-bleed {
+  margin-inline: calc(-1 * max(1rem, env(safe-area-inset-left)));
+  padding-inline: max(1rem, env(safe-area-inset-left));
+
+  @media (min-width: 640px) {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+
+/* Momentum scrolling for horizontally scrollable regions. */
+@utility scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+
+@utility tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Fluid display type — no manual breakpoint juggling. */
+@utility text-fluid-hero {
+  font-size: clamp(2.25rem, 1.4rem + 4.2vw, 4.5rem);
+  line-height: 1.02;
+}
+@utility text-fluid-title {
+  font-size: clamp(1.5rem, 1.15rem + 1.6vw, 2.25rem);
+  line-height: 1.12;
+}
+@utility text-fluid-section {
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  line-height: 1.2;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    /* Never allow accidental sideways scroll of the whole document. */
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  body {
+    -webkit-tap-highlight-color: transparent;
+    text-wrap: pretty;
+  }
+
+  /* Long unbroken strings (URLs, handles, IDs) must not blow out layouts. */
+  h1, h2, h3, h4, h5, h6, p, li, dd, dt, td, th, label, span, a {
+    overflow-wrap: anywhere;
+  }
+
+  img, video, canvas, svg, iframe {
+    max-width: 100%;
+  }
+  img, video {
+    height: auto;
+  }
+
+  /* iOS zooms the viewport when focusing a field under 16px. */
+  @media (max-width: 640px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+
+  /* Touch devices get comfortable hit areas without changing desktop density. */
+  @media (pointer: coarse) {
+    button:not([data-compact]),
+    [role="button"]:not([data-compact]),
+    a[data-nav],
+    summary {
+      min-height: 40px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }

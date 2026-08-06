@@ -35,7 +35,7 @@ export function WinnerCard({
         </div>
       </div>
 
-      <dl className="mt-4 grid grid-cols-3 gap-3 text-sm">
+      <dl className="mt-4 grid grid-cols-2 gap-3 text-sm xs:grid-cols-3">
         <div>
           <dt className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">
             Position
