@@ -1,80 +1,76 @@
-# Project Eros — Production Readiness Plan
+# Transform Iris Studio into a Contest-Based Platform (Phase 1)
 
-The app is feature-complete (landing, auth, campaigns, discovery, deals, messaging, analytics, Iris AI) with real Cloud auth + Postgres. Now we make it feel and behave like a shipped product.
+Structural + terminology transformation only. No visual redesign: same tokens, typography, spacing, colors, motion, components.
 
-## Phase 1 — Palette & UX pass (finish what we started)
-- Sweep any remaining light-theme leftovers (modals, popovers, empty states, toasts, sonner, dropdowns, dialogs, command palette).
-- Recolor all Recharts across analytics/deals to use the new tokens.
-- Add loading skeletons and empty states for every list route (campaigns, discover, deals, messages, opportunities, inbox, media kit, earnings).
-- Add error boundaries per route with a friendly "Something broke" card + retry.
-- Motion polish: page enter fades, list item stagger, subtle hover elevation.
+## What changes
 
-## Phase 2 — Social account linking & portfolio auto-fill (requested last turn)
-Let creators and brands connect Instagram, TikTok, YouTube via App User Connectors, then hydrate their creator profile from the provider.
-- Onboarding step after role selection prompts creator to link ≥1 social.
-- Store per-user connection keys encrypted (`app_user_connections` table + AES-GCM helpers).
-- Server functions call each provider through the connector gateway to fetch: handle, follower count, avg engagement, recent posts, category tags → write into `creator_profiles`.
-- Nightly re-sync via a TanStack server route + `pg_net` cron.
-- Media Kit page renders live provider metrics with "Last synced X min ago" + manual re-sync button.
+### 1. Roles
+Three roles: Business, Influencer, Admin. The existing auth roles stay exactly as stored today (`brand`, `creator`, `admin`) — only the labels shown to users change ("Business", "Influencer"). No role logic, no new gating, no migration in this phase.
 
-## Phase 3 — Brand onboarding & workspace polish
-- First-run checklist card on `/app` (create org, invite teammate, launch first campaign, connect payment reference).
-- Organization settings page (name, logo upload to `avatars` bucket, members list).
-- Invite-by-email flow (magic link token stored in `org_invites`).
+### 2. Navigation (rewritten in the existing sidebar component)
 
-## Phase 4 — Iris AI upgrades
-- Persist chat threads (per user) in a `iris_threads` + `iris_messages` table so conversations survive reload.
-- Add tools: `createCampaignDraft`, `shortlistCreators`, `draftOutreachMessage`, `summarizeDealPipeline`.
-- Streaming token counter + graceful rate-limit / credit-exhausted toasts.
-- Suggested-prompt chips per role (brand vs creator).
+Business: Dashboard, Campaign Requests, Notifications, Profile
 
-## Phase 5 — Notifications, email, and real-time
-- Deliver in-app notifications for: new message, deal stage change, campaign invite, payout event.
-- Transactional emails via the built-in email domain: welcome, password reset (already scaffolded), invite, deal accepted.
-- Realtime presence indicator in Messages ("typing…", "online").
+Influencer: Dashboard, Available Contests, My Applications, Active Contests, Completed Contests, Won Contests, Notifications, Profile
 
-## Phase 6 — Media, uploads, and storage hardening
-- Avatar + media-kit uploads with client-side resize, allowed MIME + size caps, signed URL access.
-- RLS review on both buckets; add owner-only delete policy.
+Admin: Dashboard, Businesses, Influencers, Campaign Requests, Contests, Participants, Winners, Manual Payouts, Notifications
 
-## Phase 7 — Search, filtering, and performance
-- Postgres full-text + trigram on creator name/handle/bio; category and follower-range facets in `/app/discover`.
-- Cursor pagination on campaigns, deals, messages.
-- Add DB indexes on hot filter columns.
-- TanStack Query: set sensible `staleTime`, prefetch on hover for `Link`s to detail routes.
+The Admin nav renders for the `admin` role using the same sidebar layout.
 
-## Phase 8 — Security & compliance
-- Re-run the security scan; fix any new findings before publish.
-- Add HIBP password protection (`configure_auth`).
-- Rate-limit sensitive server fns (Iris chat, invite send) via a `rate_limits` table.
-- Add a public `/privacy` and `/terms` route with real copy placeholders and updated OG meta.
-- CSP/robots/sitemap: verify head metadata is unique per route and add `/robots.txt` + basic `/sitemap.xml` route.
+### 3. Hidden (not deleted) Phase-1-out features
+Iris/AI, Messages, Deals, Analytics, Media Kit, Earnings, Lists, Team/Collaborators, Connections, Pricing links inside the app. Route files and components stay on disk and keep working if visited directly — they are simply removed from navigation, including the sidebar "Ask Iris" promo card and the Settings hub tiles for hidden areas.
 
-## Phase 9 — Observability & error reporting
-- Server-fn error logging table (`app_errors`) with a lightweight admin view at `/app/admin/errors` (role-gated).
-- Client `window.onerror` + Query `onError` funneling into that same table via a public API route with a shared secret.
-- Analytics event stream (page view, campaign created, deal accepted) into `analytics_events`.
+### 4. Renames (labels and new routes)
+- Campaigns → Campaign Requests
+- Discover → Available Contests
+- Deals → Contest Results
+- Organizations → Businesses
+- Creator/Brand Dashboard → Influencer/Business Dashboard
 
-## Phase 10 — Billing surface (display-only)
-Payments are out of scope per your note; we still show plans/quotas so the product feels complete.
-- `/pricing` public route.
-- Workspace-level "Plan: Free / Studio / Scale" badge with feature-gate copy (no Stripe hook).
+### 5. Placeholder pages
+Each new page reuses the existing page header, card, and `EmptyState` components and contains: title, one-line description, empty state, and a "Coming in next milestone" card. No data fetching.
 
-## Phase 11 — Launch prep
-- Seed a "Demo mode" toggle that fills a new brand workspace with sample campaigns/creators so a first-time visitor sees a populated app.
-- Full pass on unique per-route `head()` metadata (title, description, og:image where a hero exists).
-- Manual QA checklist: sign-up (brand + creator), Google OAuth, forgot password, create campaign, invite creator, message thread, Iris chat, analytics loads.
-- Run security scan → publish to Lovable URL → verify prod URL end-to-end.
-
-## Technical notes
-- New tables: `app_user_connections`, `iris_threads`, `iris_messages`, `org_invites`, `rate_limits`, `app_errors`, `analytics_events`. Every one ships with GRANTs + RLS in the same migration.
-- New server functions live in `src/lib/*.functions.ts`; nightly sync + error ingest use `src/routes/api/public/*` routes with HMAC verification.
-- New Iris tools use the existing Lovable AI Gateway; no extra secrets.
-- Provider OAuth uses App User Connectors — Instagram, TikTok, YouTube each need a workspace client configured; I'll prompt for those inside the phase.
+## Route map
 
 ```text
-Order of execution
-Phase 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
+src/routes/
+  app.tsx                         (unchanged shell + auth guard)
+  app.index.tsx                   dashboard, switches by role label
+  app.notifications.tsx           NEW placeholder
+  app.profile.tsx                 NEW placeholder
+
+  business/
+    app.business.requests.index.tsx   Campaign Requests (placeholder)
+    app.business.requests.new.tsx     Submit a request (placeholder)
+
+  influencer/
+    app.influencer.contests.tsx       Available Contests
+    app.influencer.applications.tsx   My Applications
+    app.influencer.active.tsx         Active Contests
+    app.influencer.completed.tsx      Completed Contests
+    app.influencer.won.tsx            Won Contests
+
+  admin/
+    app.admin.index.tsx               Admin Dashboard
+    app.admin.businesses.tsx
+    app.admin.influencers.tsx
+    app.admin.requests.tsx
+    app.admin.contests.tsx
+    app.admin.participants.tsx
+    app.admin.winners.tsx
+    app.admin.payouts.tsx
 ```
 
-Tell me if you want to trim, reorder, or skip anything (e.g. defer social linking, skip billing display) before I start building.
+Existing files (`app.campaigns.*`, `app.discover.tsx`, `app.deals.$id.tsx`, `app.iris.*`, `app.messages.tsx`, `app.analytics.tsx`, etc.) are left in place, untouched, just unlinked from nav.
+
+## Technical notes
+
+- New shared file `src/lib/navigation.ts` holds the three nav arrays keyed by role; `app-shell.tsx` reads from it instead of its inline `brandNav`/`creatorNav` constants.
+- New shared component `src/components/shared/placeholder-page.tsx` renders title + description + empty state + "Coming in next milestone" card, built from existing UI primitives and the current dark tokens. Every placeholder route is ~10 lines using it.
+- Each new route gets its own `head()` with unique title/description/og tags.
+- Auth, Supabase clients, server functions, and React Query setup are not touched.
+- Landing page, marketing routes, and auth screens are not touched apart from copy where it says "marketplace".
+- Verification at the end: typecheck, lint, and a click-through of every nav link in the running preview.
+
+## Out of scope for this phase
+No contest tables, no submissions, no winner selection, no payout records — data modelling comes in the next milestone.
