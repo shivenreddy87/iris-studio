@@ -3,14 +3,18 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import type { LinkProps } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
-import { Award, ClipboardList, FileText, Trophy } from "lucide-react";
+import { Award, ClipboardList, FileText, Lock, Trophy } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { PageHeader } from "@/components/shared/page-header";
 import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { roleLabel, toPlatformRole } from "@/lib/roles";
+import { ProfileCompletionCard } from "@/features/profiles/components/profile-completion-card";
+import { profileCompletion } from "@/features/profiles/completion";
+import { getMyProfile } from "@/features/profiles/profiles.functions";
 import { listCampaignRequests } from "@/features/campaign-requests/requests.functions";
 import { listOpenContests, listMyWins } from "@/features/contests/contests.functions";
 import { listMyContestEntries } from "@/features/contest-entries/entries.functions";
+
 
 export const Route = createFileRoute("/app/")({
   head: () => ({
