@@ -5,6 +5,7 @@ Admins turn an approved campaign request into a contest, configure it through a 
 ## What changes for users
 
 **Admin**
+
 - Contests dashboard grouped into Draft, Published, Applications Open, Live, Completed, Archived, with search (title, business name, approval reference), filters (status, platform, business category) and sorting (created, updated, contest start, application deadline).
 - Each contest card shows title, business name, reward pool, required views, participant limit, winner count, status badge and created date, and opens the contest detail page.
 - "Create Contest" lists only approved campaign requests that don't already have a contest. Selecting one opens the wizard with campaign data pre-filled.
@@ -12,6 +13,7 @@ Admins turn an approved campaign request into a contest, configure it through a 
 - Contest detail shows business info, campaign request reference, brief, goal, required views, reward pool, participant limit, winner count, eligibility, dates, attachment preview, current status, lifecycle actions and an event timeline.
 
 **Business**
+
 - Read-only contest view for contests generated from their own approved requests, plus in-app notifications when a contest draft is created, published or archived.
 
 ## Lifecycle
@@ -36,3 +38,10 @@ Access rules: admins have full access; a business can read contests whose busine
 - Routes: `app.admin.contests.index.tsx` (sectioned dashboard + search/filter/sort), `app.admin.contests.new.tsx` (approved-request picker → wizard), new `app.admin.contests.$contestId.edit.tsx`, `app.admin.contests.$contestId.tsx` (detail + lifecycle actions + timeline), and a business-facing read-only contest detail behind `ProfileGate`.
 - Data flow uses the existing TanStack Query + `useServerFn` pattern with mutations invalidating contest list/detail/event keys. Notifications use the existing `notifications` table helper.
 - Migration runs first (enum, tables, grants, RLS, trigger); code follows once types regenerate. Finished with a typecheck.
+- ## Contest Integrity Rules
+  - Every Contest permanently references its originating Campaign Request and Approval Reference.
+  - Deleting a Contest is not allowed once it has been Published. Admins may only Archive it.
+  - A Campaign Request that already has a Contest cannot be edited, resubmitted, or reviewed again.
+  - Contest status changes automatically write an event to `contest_events`; no transition may bypass event logging.
+  - Business users always see the latest Contest state in read-only mode but cannot modify any Contest data.
+- - Verify that duplicate Contest creation from the same Campaign Request is impossible, even under concurrent requests.

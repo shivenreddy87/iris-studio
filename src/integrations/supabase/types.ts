@@ -335,6 +335,145 @@ export type Database = {
         }
         Relationships: []
       }
+      contest_events: {
+        Row: {
+          actor_id: string | null
+          contest_id: string
+          created_at: string
+          event_type: string
+          id: string
+          note: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          contest_id: string
+          created_at?: string
+          event_type: string
+          id?: string
+          note?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          contest_id?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_events_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contests: {
+        Row: {
+          application_deadline: string | null
+          application_start_date: string | null
+          archived_at: string | null
+          attachment_url: string | null
+          business_category: string | null
+          business_id: string
+          campaign_goal: string | null
+          campaign_request_id: string
+          contest_brief: string | null
+          contest_end_date: string | null
+          contest_rules: string | null
+          contest_start_date: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          maximum_followers: number | null
+          minimum_followers: number | null
+          participant_limit: number | null
+          preferred_creator_category: string | null
+          published_at: string | null
+          required_views: number | null
+          reward_pool: number | null
+          status: Database["public"]["Enums"]["contest_status"]
+          target_location: string | null
+          target_platform: string | null
+          title: string
+          updated_at: string
+          winner_count: number | null
+        }
+        Insert: {
+          application_deadline?: string | null
+          application_start_date?: string | null
+          archived_at?: string | null
+          attachment_url?: string | null
+          business_category?: string | null
+          business_id: string
+          campaign_goal?: string | null
+          campaign_request_id: string
+          contest_brief?: string | null
+          contest_end_date?: string | null
+          contest_rules?: string | null
+          contest_start_date?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          maximum_followers?: number | null
+          minimum_followers?: number | null
+          participant_limit?: number | null
+          preferred_creator_category?: string | null
+          published_at?: string | null
+          required_views?: number | null
+          reward_pool?: number | null
+          status?: Database["public"]["Enums"]["contest_status"]
+          target_location?: string | null
+          target_platform?: string | null
+          title: string
+          updated_at?: string
+          winner_count?: number | null
+        }
+        Update: {
+          application_deadline?: string | null
+          application_start_date?: string | null
+          archived_at?: string | null
+          attachment_url?: string | null
+          business_category?: string | null
+          business_id?: string
+          campaign_goal?: string | null
+          campaign_request_id?: string
+          contest_brief?: string | null
+          contest_end_date?: string | null
+          contest_rules?: string | null
+          contest_start_date?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          maximum_followers?: number | null
+          minimum_followers?: number | null
+          participant_limit?: number | null
+          preferred_creator_category?: string | null
+          published_at?: string | null
+          required_views?: number | null
+          reward_pool?: number | null
+          status?: Database["public"]["Enums"]["contest_status"]
+          target_location?: string | null
+          target_platform?: string | null
+          title?: string
+          updated_at?: string
+          winner_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contests_campaign_request_id_fkey"
+            columns: ["campaign_request_id"]
+            isOneToOne: true
+            referencedRelation: "campaign_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversations: {
         Row: {
           brand_last_read_at: string | null
@@ -926,6 +1065,15 @@ export type Database = {
         | "cancelled"
         | "changes_requested"
       campaign_status: "draft" | "live" | "review" | "completed" | "archived"
+      contest_status:
+        | "draft"
+        | "published"
+        | "applications_open"
+        | "applications_closed"
+        | "participant_selection"
+        | "live"
+        | "completed"
+        | "archived"
       contract_status: "none" | "draft" | "sent" | "signed"
       creator_accent: "violet" | "rose"
       deal_stage:
@@ -1075,6 +1223,16 @@ export const Constants = {
         "changes_requested",
       ],
       campaign_status: ["draft", "live", "review", "completed", "archived"],
+      contest_status: [
+        "draft",
+        "published",
+        "applications_open",
+        "applications_closed",
+        "participant_selection",
+        "live",
+        "completed",
+        "archived",
+      ],
       contract_status: ["none", "draft", "sent", "signed"],
       creator_accent: ["violet", "rose"],
       deal_stage: [
