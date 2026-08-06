@@ -61,6 +61,7 @@ import { Route as AppAdminPayoutsRouteImport } from './routes/app.admin.payouts'
 import { Route as AppAdminInfluencersRouteImport } from './routes/app.admin.influencers'
 import { Route as AppAdminEntriesRouteImport } from './routes/app.admin.entries'
 import { Route as AppAdminBusinessesRouteImport } from './routes/app.admin.businesses'
+import { Route as AppAdminAnalyticsRouteImport } from './routes/app.admin.analytics'
 import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/sitemap[.]xml'
 import { Route as ApiPublicRobotsDottxtRouteImport } from './routes/api/public/robots[.]txt'
 import { Route as AppBusinessRequestsIndexRouteImport } from './routes/app.business.requests.index'
@@ -339,6 +340,11 @@ const AppAdminBusinessesRoute = AppAdminBusinessesRouteImport.update({
   path: '/admin/businesses',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdminAnalyticsRoute = AppAdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
 const ApiPublicSitemapDotxmlRoute = ApiPublicSitemapDotxmlRouteImport.update({
   id: '/api/public/sitemap.xml',
   path: '/api/public/sitemap.xml',
@@ -458,6 +464,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
+  '/app/admin/analytics': typeof AppAdminAnalyticsRoute
   '/app/admin/businesses': typeof AppAdminBusinessesRouteWithChildren
   '/app/admin/entries': typeof AppAdminEntriesRoute
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
@@ -525,6 +532,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
+  '/app/admin/analytics': typeof AppAdminAnalyticsRoute
   '/app/admin/businesses': typeof AppAdminBusinessesRouteWithChildren
   '/app/admin/entries': typeof AppAdminEntriesRoute
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
@@ -596,6 +604,7 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
+  '/app/admin/analytics': typeof AppAdminAnalyticsRoute
   '/app/admin/businesses': typeof AppAdminBusinessesRouteWithChildren
   '/app/admin/entries': typeof AppAdminEntriesRoute
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
@@ -668,6 +677,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
+    | '/app/admin/analytics'
     | '/app/admin/businesses'
     | '/app/admin/entries'
     | '/app/admin/influencers'
@@ -735,6 +745,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
+    | '/app/admin/analytics'
     | '/app/admin/businesses'
     | '/app/admin/entries'
     | '/app/admin/influencers'
@@ -805,6 +816,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
+    | '/app/admin/analytics'
     | '/app/admin/businesses'
     | '/app/admin/entries'
     | '/app/admin/influencers'
@@ -1232,6 +1244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminBusinessesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/admin/analytics': {
+      id: '/app/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/app/admin/analytics'
+      preLoaderRoute: typeof AppAdminAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/api/public/sitemap.xml': {
       id: '/api/public/sitemap.xml'
       path: '/api/public/sitemap.xml'
@@ -1409,6 +1428,7 @@ interface AppRouteChildren {
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppTeamRoute: typeof AppTeamRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppAdminAnalyticsRoute: typeof AppAdminAnalyticsRoute
   AppAdminBusinessesRoute: typeof AppAdminBusinessesRouteWithChildren
   AppAdminEntriesRoute: typeof AppAdminEntriesRoute
   AppAdminInfluencersRoute: typeof AppAdminInfluencersRouteWithChildren
@@ -1459,6 +1479,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppSettingsRoute: AppSettingsRouteWithChildren,
   AppTeamRoute: AppTeamRoute,
   AppIndexRoute: AppIndexRoute,
+  AppAdminAnalyticsRoute: AppAdminAnalyticsRoute,
   AppAdminBusinessesRoute: AppAdminBusinessesRouteWithChildren,
   AppAdminEntriesRoute: AppAdminEntriesRoute,
   AppAdminInfluencersRoute: AppAdminInfluencersRouteWithChildren,
@@ -1519,13 +1540,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
