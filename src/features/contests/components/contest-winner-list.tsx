@@ -1,23 +1,29 @@
 import { Link } from "@tanstack/react-router";
-import { StatusBadge } from "@/components/shared/status-badge";
-import type { ContestWinner } from "../types";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { WinnerCard } from "@/features/winner-selection/components/winner-card";
+import type { ContestWinnerEntry } from "@/features/winner-selection/types";
 
-export function ContestWinnerList({ winners }: { winners: ContestWinner[] }) {
+/** Shared winner list used by the influencer "Won Contests" and admin winners views. */
+export function ContestWinnerList({
+  winners,
+  showContest = true,
+}: {
+  winners: ContestWinnerEntry[];
+  showContest?: boolean;
+}) {
   return (
-    <div className="space-y-3">
+    <div className="grid gap-4 md:grid-cols-2">
       {winners.map((winner) => (
-        <Link
-          key={winner.id}
-          to="/app/contests/$contestId"
-          params={{ contestId: winner.contestId }}
-          className="flex items-center justify-between gap-3 rounded-2xl border border-hairline bg-surface-2 p-5 transition-colors hover:border-violet/30"
-        >
-          <div>
-            <p className="font-display text-base font-semibold text-ink">{winner.contestTitle}</p>
-            <p className="text-sm text-ink-dim">{winner.influencerName ?? "Influencer"}</p>
-          </div>
-          <StatusBadge label={`Position ${winner.position}`} tone="success" />
-        </Link>
+        <div key={winner.id} className="space-y-2">
+          <WinnerCard winner={winner} showContest={showContest} />
+          <Button size="sm" variant="ghost" asChild>
+            <Link to="/app/results/$contestId" params={{ contestId: winner.contestId }}>
+              View result
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+        </div>
       ))}
     </div>
   );
