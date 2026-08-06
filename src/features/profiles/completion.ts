@@ -18,9 +18,6 @@ const BUSINESS_FIELDS: Array<{ key: keyof BusinessProfile; label: string }> = [
   { key: "phone", label: "Business phone" },
   { key: "location", label: "Business location" },
   { key: "description", label: "Business description" },
-  { key: "website", label: "Website" },
-  { key: "instagram", label: "Instagram" },
-  { key: "logoUrl", label: "Company logo" },
 ];
 
 const INFLUENCER_FIELDS: Array<{ key: keyof InfluencerProfile; label: string }> = [
@@ -32,10 +29,8 @@ const INFLUENCER_FIELDS: Array<{ key: keyof InfluencerProfile; label: string }> 
   { key: "followerRange", label: "Follower range" },
   { key: "bio", label: "Bio" },
   { key: "instagramHandle", label: "Instagram handle" },
-  { key: "tiktokHandle", label: "TikTok handle" },
-  { key: "youtubeChannel", label: "YouTube channel" },
-  { key: "avatarUrl", label: "Profile photo" },
 ];
+
 
 function score(
   record: Record<string, unknown> | null,
