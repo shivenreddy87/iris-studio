@@ -12,6 +12,9 @@ import { ContestSummary } from "@/features/contests/components/contest-summary";
 import { ContestTimeline } from "@/features/contests/components/contest-timeline";
 import { ContestLifecycleActions } from "@/features/contests/components/contest-lifecycle-actions";
 import { Panel } from "@/features/contests/components/detail-row";
+import { AdminApplicationsPanel } from "@/features/contest-applications/components/admin-applications-panel";
+import { ApplicationCountsCard } from "@/features/contest-applications/components/application-counts-card";
+
 
 export const Route = createFileRoute("/app/admin/contests/$contestId/")({
   head: () => ({
