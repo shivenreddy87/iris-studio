@@ -1,15 +1,22 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { CONTEST_COLUMNS, decorate, type ContestRow } from "./contest.server";
-import type { Contest, ContestWinner } from "./types";
+import type { Contest } from "./types";
 
-/**
- * Data layer for contests. The contracts below are final; the next milestone
- * replaces the bodies with real queries without touching call sites.
- */
-export const listOpenContests = createServerFn({ method: "GET" }).handler(
-  async (): Promise<Contest[]> => [],
-);
+/** Contests currently accepting applications. */
+export const listOpenContests = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<Contest[]> => {
+    const { data, error } = await context.supabase
+      .from("contests")
+      .select(CONTEST_COLUMNS)
+      .eq("status", "applications_open")
+      .order("application_deadline", { ascending: true })
+      .returns<ContestRow[]>();
+    if (error) throw new Error(error.message);
+    return decorate(context.supabase, data ?? []);
+  });
+
 
 /** Influencer: contests they are an active participant in and that are running. */
 export const listMyActiveContests = createServerFn({ method: "GET" })
