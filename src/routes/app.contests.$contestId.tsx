@@ -67,7 +67,18 @@ function ContestDetailPage() {
         }
       />
 
-      <DataSection loading={isLoading} error={error} isEmpty={!data}>
+      <DataSection
+        loading={isLoading}
+        error={error}
+        isEmpty={!data}
+        empty={
+          <EmptyState
+            icon={<Trophy className="size-8" />}
+            title="Contest unavailable"
+            hint="This contest is not published, or it is no longer open to influencers."
+          />
+        }
+      >
         {data ? (
           <div className="space-y-6">
             <ContestDetailHeader
