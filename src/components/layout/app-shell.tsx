@@ -94,8 +94,8 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
               <div className="truncate text-sm font-semibold text-white">
                 {user?.user_metadata?.full_name ?? user?.email ?? "Signed in"}
               </div>
-              <div className="truncate text-xs text-white/50 capitalize">
-                {role ? `${role} workspace` : "Workspace"}
+              <div className="truncate text-xs text-white/50">
+                {`${roleLabel(role)} workspace`}
               </div>
             </div>
             <button
@@ -109,51 +109,26 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
         </div>
 
         <nav className="flex-1 space-y-1 p-4">
-          {nav.map(({ to, label, Icon }) => {
-            const active = pathname === to || (to !== "/app" && pathname.startsWith(to));
+          {nav.map((item) => {
+            const active = isNavItemActive(item, pathname);
             return (
               <Link
-                key={to}
-                to={to}
+                key={item.to}
+                to={item.to}
+                onClick={() => setOpen(false)}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
                   active
                     ? "bg-white text-midnight"
                     : "text-white/70 hover:bg-white/5 hover:text-white"
                 }`}
               >
-                <Icon className="size-4" />
-                {label}
+                <item.Icon className="size-4" />
+                {item.label}
               </Link>
             );
           })}
-          <Link
-            to="/app/settings"
-            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-              pathname === "/app/settings"
-                ? "bg-white text-midnight"
-                : "text-white/70 hover:bg-white/5 hover:text-white"
-            }`}
-          >
-            <Settings className="size-4" />
-            Settings
-          </Link>
         </nav>
 
-        <div className="p-4">
-          <Link
-            to="/app/iris"
-            className="block rounded-2xl bg-gradient-to-br from-midnight to-violet p-5 text-white"
-          >
-            <Sparkles className="mb-3 size-5" />
-            <p className="mb-1 font-display text-sm font-bold">Ask Iris anything</p>
-            <p className="mb-4 text-xs text-white/70">
-              Your embedded strategist is one keystroke away.
-            </p>
-            <div className="w-full rounded-full bg-white/10 py-2 text-center text-xs font-semibold ring-1 ring-white/20 hover:bg-white/20">
-              Open Iris
-            </div>
-          </Link>
-        </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
