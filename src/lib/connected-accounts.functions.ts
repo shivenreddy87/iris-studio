@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
@@ -32,6 +33,7 @@ export const upsertConnectedAccount = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => upsertSchema.parse(d))
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("connected_accounts")
       .upsert(
@@ -58,6 +60,7 @@ export const disconnectAccount = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { platform: z.infer<typeof upsertSchema>["platform"] }) => d)
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("connected_accounts")
       .delete()

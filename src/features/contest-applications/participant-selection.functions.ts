@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { applyContestTransition } from "@/features/contests/contest.server";
 import type { Contest } from "@/features/contests/types";
@@ -29,6 +30,7 @@ export const shortlistApplication = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: DecisionInput) => data)
   .handler(async ({ data, context }): Promise<ContestApplication> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertSelectionAdmin(supabase, userId);
     const contest = await fetchContestOrThrow(supabase, data.contestId);
@@ -58,6 +60,7 @@ export const selectParticipant = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: DecisionInput) => data)
   .handler(async ({ data, context }): Promise<ContestApplication> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertSelectionAdmin(supabase, userId);
     const contest = await fetchContestOrThrow(supabase, data.contestId);
@@ -91,6 +94,7 @@ export const rejectApplication = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: DecisionInput) => data)
   .handler(async ({ data, context }): Promise<ContestApplication> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertSelectionAdmin(supabase, userId);
     const contest = await fetchContestOrThrow(supabase, data.contestId);
@@ -120,6 +124,7 @@ export const bulkRejectApplications = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { contestId: string; applicationIds: string[]; note?: string }) => data)
   .handler(async ({ data, context }): Promise<{ rejected: number; failed: number }> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertSelectionAdmin(supabase, userId);
     const contest = await fetchContestOrThrow(supabase, data.contestId);
@@ -156,6 +161,7 @@ export const activateContest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { contestId: string; note?: string }) => data)
   .handler(async ({ data, context }): Promise<Contest> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertSelectionAdmin(supabase, userId);
     let contest = await fetchContestOrThrow(supabase, data.contestId);

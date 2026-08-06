@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { canReadContest } from "@/features/contests/discovery.server";
 import { evaluateAvailability, evaluateEligibility } from "@/features/contests/eligibility";
@@ -62,6 +63,7 @@ export const applyToContest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => applicationInputSchema.parse(data))
   .handler(async ({ data, context }): Promise<ContestApplication> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const contest = await fetchContestById(supabase, data.contestId);
     if (!contest) throw new Error(APPLICATION_ERROR_MESSAGES.contest_not_found);
@@ -115,6 +117,7 @@ export const withdrawApplication = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => withdrawSchema.parse(data))
   .handler(async ({ data, context }): Promise<ContestApplication> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const { data: existing, error: readError } = await supabase
       .from("contest_applications")

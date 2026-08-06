@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -21,6 +22,7 @@ export const createIrisThread = createServerFn({ method: "POST" })
     z.object({ title: z.string().max(120).optional() }).parse(d ?? {}),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("iris_threads")
       .insert({ user_id: context.userId, title: data.title ?? "New conversation" })
@@ -36,6 +38,7 @@ export const renameIrisThread = createServerFn({ method: "POST" })
     z.object({ id: z.string().uuid(), title: z.string().min(1).max(120) }).parse(d),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("iris_threads")
       .update({ title: data.title })
@@ -49,6 +52,7 @@ export const deleteIrisThread = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("iris_threads")
       .delete()

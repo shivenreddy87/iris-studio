@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { fetchContestOrThrow } from "@/features/contest-submissions/submission.server";
 import { assertAdmin } from "@/features/contests/contest.server";
@@ -49,6 +50,7 @@ export const updateSubmissionMetrics = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => metricsInputSchema.parse(data))
   .handler(async ({ data, context }): Promise<EvaluationBoard> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertAdmin(supabase, userId);
     const submission = await fetchVerifiedSubmission(data.submissionId);
@@ -88,6 +90,7 @@ export const markWinner = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => markWinnerSchema.parse(data))
   .handler(async ({ data, context }): Promise<EvaluationBoard> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertAdmin(supabase, userId);
     const submission = await fetchVerifiedSubmission(data.submissionId);
@@ -118,6 +121,7 @@ export const removeWinner = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => removeWinnerSchema.parse(data))
   .handler(async ({ data, context }): Promise<EvaluationBoard> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertAdmin(supabase, userId);
     const submission = await fetchVerifiedSubmission(data.submissionId);
@@ -140,6 +144,7 @@ export const finalizeWinners = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => finalizeWinnersSchema.parse(data))
   .handler(async ({ data, context }): Promise<ContestResults> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertAdmin(supabase, userId);
     const contest = await fetchContestOrThrow(supabase, data.contestId);

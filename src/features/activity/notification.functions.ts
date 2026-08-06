@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { DEFAULT_PREFERENCES } from "./types";
@@ -112,6 +113,7 @@ export const archiveNotification = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => idSchema.parse(d))
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const now = new Date().toISOString();
     const { error } = await context.supabase
       .from("notifications")
@@ -126,6 +128,7 @@ export const unarchiveNotification = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => idSchema.parse(d))
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("notifications")
       .update({ archived_at: null })
@@ -139,6 +142,7 @@ export const deleteNotification = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => idSchema.parse(d))
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("notifications")
       .update({ deleted_at: new Date().toISOString() })
@@ -179,6 +183,7 @@ export const updateNotificationPreferences = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => prefsSchema.parse(d))
   .handler(async ({ context, data }): Promise<NotificationPreferences> => {
+    await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("notification_preferences")
       .upsert(

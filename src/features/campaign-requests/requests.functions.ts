@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
   campaignRequestDraftSchema,
@@ -64,6 +65,7 @@ export const createCampaignRequestDraft = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => campaignRequestDraftSchema.parse(data))
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("campaign_requests")
       .insert({ ...toPayload(data), business_id: context.userId, status: "draft" })
@@ -85,6 +87,7 @@ export const updateCampaignRequestDraft = createServerFn({ method: "POST" })
     return { id: String((data as { id: string }).id), values: parsed };
   })
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("campaign_requests")
       .update(toPayload(data.values))
@@ -111,6 +114,7 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
     return { id: input.id, values: campaignRequestSubmitSchema.parse(input.values) };
   })
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     const payload = {
       ...toPayload(data.values),
       status: "submitted" as const,
@@ -179,6 +183,7 @@ export const deleteCampaignRequestDraft = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data, context }): Promise<{ id: string }> => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("campaign_requests")
       .delete()

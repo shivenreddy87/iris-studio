@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdmin } from "@/features/contests/contest.server";
 import { fetchContestOrThrow } from "@/features/contest-submissions/submission.server";
@@ -75,6 +76,7 @@ export const openContestPayouts = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { contestId: string }) => data)
   .handler(async ({ data, context }): Promise<{ created: number }> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     await assertAdmin(supabase, userId);
     const contest = await fetchContestOrThrow(supabase, data.contestId);
@@ -86,6 +88,7 @@ export const requestPayoutDetails = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => bulkPayoutSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ updated: number }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     let updated = 0;
     for (const payoutId of data.payoutIds) {
@@ -99,6 +102,7 @@ export const verifyPayoutDetails = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { payoutId: string }) => data)
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await verifyWinnerDetails(data.payoutId, context.userId);
     return { ok: true };
@@ -108,6 +112,7 @@ export const beginPayoutProcessing = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => bulkPayoutSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ updated: number }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     let updated = 0;
     for (const payoutId of data.payoutIds) {
@@ -121,6 +126,7 @@ export const markPayoutPaid = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => markPaidSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await markPaid(data, context.userId);
     return { ok: true };
@@ -130,6 +136,7 @@ export const markPayoutFailed = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => markFailedSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await markFailed(data, context.userId);
     return { ok: true };
@@ -139,6 +146,7 @@ export const retryPayout = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { payoutId: string }) => data)
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await retryFailedPayment(data.payoutId, context.userId);
     return { ok: true };
@@ -148,6 +156,7 @@ export const cancelPayoutRecord = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => payoutNoteSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await cancelPayout(data.payoutId, context.userId, data.note);
     return { ok: true };
@@ -157,6 +166,7 @@ export const savePayoutNotes = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => internalNotesSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await saveInternalNotes(data.payoutId, data.internalNotes, context.userId);
     return { ok: true };
@@ -172,6 +182,7 @@ export const submitMyPayoutDetails = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => payoutDetailsSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await submitWinnerDetails(data, context.userId);
     return { ok: true };
   });

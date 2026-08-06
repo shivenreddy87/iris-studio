@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -48,6 +49,7 @@ export const upsertCreatorProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => UpsertCreator.parse(d))
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const { data: existing } = await supabase
       .from("creator_profiles")
