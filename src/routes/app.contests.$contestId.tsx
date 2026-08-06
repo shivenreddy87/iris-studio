@@ -104,10 +104,8 @@ function ContestDetailPage() {
                 <EligibilityCard contest={data.contest} />
                 <RewardCard contest={data.contest} />
                 <ContestDates contest={data.contest} />
-                <ContestApplicationPanel
-                  eligibility={data.eligibility}
-                  availability={data.availability}
-                />
+                <ApplyPanel contest={data.contest} />
+
                 <Panel title="Attachment">
                   <AttachmentPreview path={data.contest.attachmentUrl} />
                 </Panel>
