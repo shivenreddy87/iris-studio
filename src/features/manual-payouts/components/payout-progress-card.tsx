@@ -34,7 +34,7 @@ export function PayoutProgressCard({
         <h3 className="font-display text-base font-semibold text-ink">Reward payouts</h3>
       </div>
       <p className="mt-1 text-sm text-ink-mute">
-        Rewards are settled manually by the Iris payouts team.
+        Rewards are settled manually by the Project Eros payouts team.
       </p>
 
       <div className="mt-5 h-2 overflow-hidden rounded-full bg-surface-3">

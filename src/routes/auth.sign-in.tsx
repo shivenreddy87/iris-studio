@@ -9,7 +9,7 @@ export const Route = createFileRoute("/auth/sign-in")({
   head: () => ({
     meta: [
       { title: "Sign in — Project Eros" },
-      { name: "description", content: "Sign in to Project Eros to plan campaigns with Iris." },
+      { name: "description", content: "Sign in to Project Eros to manage your campaigns and contests." },
       { property: "og:title", content: "Sign in — Project Eros" },
       { property: "og:description", content: "Sign in to your Project Eros account." },
     ],
@@ -53,7 +53,7 @@ function SignIn() {
   return (
     <AuthShell
       title="Welcome back."
-      subtitle="Sign in to continue orchestrating with Iris."
+      subtitle="Sign in to pick up where you left off."
       footer={
         <p className="mt-8">
           New here?{" "}

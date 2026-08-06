@@ -12,7 +12,7 @@ export const Route = createFileRoute("/auth/role")({
   head: () => ({
     meta: [
       { title: "Choose your role — Project Eros" },
-      { name: "description", content: "Are you a brand or a creator? Choose how you'll use Iris." },
+      { name: "description", content: "Are you a business or a creator? Choose how you'll use Project Eros." },
       { property: "og:title", content: "Choose your role — Project Eros" },
       { property: "og:description", content: "Get started as a Brand or a Creator on Project Eros." },
     ],
