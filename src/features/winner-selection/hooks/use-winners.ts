@@ -8,6 +8,7 @@ export const winnerKeys = {
   events: (contestId: string) => ["winner-selection", "events", contestId] as const,
   myWins: ["winner-selection", "my-wins"] as const,
   myOutcome: (contestId: string) => ["winner-selection", "outcome", contestId] as const,
+  myMetrics: (contestId: string) => ["winner-selection", "my-metrics", contestId] as const,
 };
 
 /** Refreshes every winner and results surface after a mutation. */

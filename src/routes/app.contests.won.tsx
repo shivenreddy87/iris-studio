@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
 import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
-import { listMyWins } from "@/features/contests/contests.functions";
+import { listMyWins } from "@/features/winner-selection/winner.functions";
 import { ContestWinnerList } from "@/features/contests/components/contest-winner-list";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 

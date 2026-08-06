@@ -12,7 +12,8 @@ import { ProfileCompletionCard } from "@/features/profiles/components/profile-co
 import { profileCompletion } from "@/features/profiles/completion";
 import { getMyProfile } from "@/features/profiles/profiles.functions";
 import { listCampaignRequests } from "@/features/campaign-requests/requests.functions";
-import { listOpenContests, listMyWins } from "@/features/contests/contests.functions";
+import { listOpenContests } from "@/features/contests/contests.functions";
+import { listMyWins } from "@/features/winner-selection/winner.functions";
 import { listMyContestEntries } from "@/features/contest-entries/entries.functions";
 
 

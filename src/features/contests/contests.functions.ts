@@ -46,10 +46,3 @@ export const listAllContests = createServerFn({ method: "GET" }).handler(
   async (): Promise<Contest[]> => [],
 );
 
-export const listMyWins = createServerFn({ method: "GET" }).handler(
-  async (): Promise<ContestWinner[]> => [],
-);
-
-export const listAllWinners = createServerFn({ method: "GET" }).handler(
-  async (): Promise<ContestWinner[]> => [],
-);
