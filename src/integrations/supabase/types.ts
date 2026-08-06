@@ -455,6 +455,54 @@ export type Database = {
           },
         ]
       }
+      contest_participants: {
+        Row: {
+          activated_at: string | null
+          application_id: string
+          contest_id: string
+          created_at: string
+          id: string
+          influencer_id: string
+          participation_status: Database["public"]["Enums"]["participation_status"]
+          selected_at: string
+        }
+        Insert: {
+          activated_at?: string | null
+          application_id: string
+          contest_id: string
+          created_at?: string
+          id?: string
+          influencer_id: string
+          participation_status?: Database["public"]["Enums"]["participation_status"]
+          selected_at?: string
+        }
+        Update: {
+          activated_at?: string | null
+          application_id?: string
+          contest_id?: string
+          created_at?: string
+          id?: string
+          influencer_id?: string
+          participation_status?: Database["public"]["Enums"]["participation_status"]
+          selected_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_participants_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "contest_applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contest_participants_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contests: {
         Row: {
           application_deadline: string | null
@@ -1205,6 +1253,7 @@ export type Database = {
         | "cancelled"
       msg_sender_role: "brand" | "creator" | "iris"
       notification_kind: "message" | "deal_update" | "invitation" | "system"
+      participation_status: "active" | "removed" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1372,6 +1421,7 @@ export const Constants = {
       ],
       msg_sender_role: ["brand", "creator", "iris"],
       notification_kind: ["message", "deal_update", "invitation", "system"],
+      participation_status: ["active", "removed", "completed"],
     },
   },
 } as const
