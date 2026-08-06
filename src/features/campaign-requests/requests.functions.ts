@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAuditLog } from "@/lib/audit.server";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
@@ -155,6 +156,15 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
         businessId: context.userId,
         resubmission: current.status === "changes_requested",
       });
+      await recordAuditLog({
+        actorId: context.userId,
+        actorRole: "business",
+        entityType: "campaign_request",
+        entityId: row.id,
+        action: current.status === "changes_requested" ? "resubmit" : "submit",
+        previousValues: { status: current.status },
+        newValues: { status: "submitted" },
+      });
       return toModel(row);
     }
 
@@ -175,6 +185,14 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
       title: row.title,
       businessId: context.userId,
       resubmission: false,
+    });
+    await recordAuditLog({
+      actorId: context.userId,
+      actorRole: "business",
+      entityType: "campaign_request",
+      entityId: row.id,
+      action: "submit",
+      newValues: { status: "submitted" },
     });
     return toModel(row);
   });
