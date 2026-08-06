@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { ArrowLeft, ArrowRight, Check, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
 import { Field, fieldClass } from "@/features/profiles/components/field";
 import { AttachmentUpload } from "@/features/campaign-requests/components/attachment-preview";
 import { INFLUENCER_CATEGORIES, PRIMARY_PLATFORMS } from "@/features/campaign-requests/types";
@@ -66,6 +67,8 @@ export function ContestWizard({ contest }: { contest: Contest }) {
   const navigate = useNavigate();
   const invalidate = useInvalidateContest();
   const inherited = isDraft(contest.status);
+  const { user } = useAuth();
+  const userId = user?.id ?? null;
 
   const form = useForm<ContestFormInput>({ defaultValues: toValues(contest) });
   const { register, setError, clearErrors, getValues, watch, setValue } = form;
