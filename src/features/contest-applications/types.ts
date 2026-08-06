@@ -121,6 +121,9 @@ export type ContestApplication = {
   influencerId: string;
   influencerName: string | null;
   influencerHandle: string | null;
+  influencerFollowers: number | null;
+  influencerNiche: string | null;
+
   portfolioUrl: string;
   contentIdea: string;
   notes: string | null;
