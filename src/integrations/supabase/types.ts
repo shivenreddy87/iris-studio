@@ -503,6 +503,107 @@ export type Database = {
           },
         ]
       }
+      contest_submission_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          event_type: string
+          id: string
+          note: string | null
+          submission_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          note?: string | null
+          submission_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          note?: string | null
+          submission_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_submission_events_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "contest_submissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contest_submissions: {
+        Row: {
+          caption: string | null
+          content_url: string
+          contest_id: string
+          created_at: string
+          id: string
+          influencer_id: string
+          notes: string | null
+          participant_id: string
+          platform: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          submission_status: Database["public"]["Enums"]["contest_submission_status"]
+          submitted_at: string
+          updated_at: string
+        }
+        Insert: {
+          caption?: string | null
+          content_url: string
+          contest_id: string
+          created_at?: string
+          id?: string
+          influencer_id: string
+          notes?: string | null
+          participant_id: string
+          platform: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          submission_status?: Database["public"]["Enums"]["contest_submission_status"]
+          submitted_at?: string
+          updated_at?: string
+        }
+        Update: {
+          caption?: string | null
+          content_url?: string
+          contest_id?: string
+          created_at?: string
+          id?: string
+          influencer_id?: string
+          notes?: string | null
+          participant_id?: string
+          platform?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          submission_status?: Database["public"]["Enums"]["contest_submission_status"]
+          submitted_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_submissions_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contest_submissions_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: true
+            referencedRelation: "contest_participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contests: {
         Row: {
           application_deadline: string | null
@@ -1242,6 +1343,11 @@ export type Database = {
         | "live"
         | "completed"
         | "archived"
+      contest_submission_status:
+        | "pending"
+        | "submitted"
+        | "verified"
+        | "flagged"
       contract_status: "none" | "draft" | "sent" | "signed"
       creator_accent: "violet" | "rose"
       deal_stage:
@@ -1408,6 +1514,12 @@ export const Constants = {
         "live",
         "completed",
         "archived",
+      ],
+      contest_submission_status: [
+        "pending",
+        "submitted",
+        "verified",
+        "flagged",
       ],
       contract_status: ["none", "draft", "sent", "signed"],
       creator_accent: ["violet", "rose"],
