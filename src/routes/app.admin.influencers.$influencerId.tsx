@@ -1,0 +1,39 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { Users } from "lucide-react";
+import { PageHeader } from "@/components/shared/page-header";
+import { MilestoneNotice } from "@/components/shared/milestone-notice";
+import { EmptyState } from "@/components/ui/list-skeleton";
+
+export const Route = createFileRoute("/app/admin/influencers/$influencerId")({
+  head: () => ({
+    meta: [
+      { title: "Influencer — Iris Studio" },
+      { name: "description", content: "Profile, contest entries and wins for a single influencer." },
+      { property: "og:title", content: "Influencer — Iris Studio" },
+      { property: "og:description", content: "Profile, contest entries and wins for a single influencer." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: AdminInfluencerDetailPage,
+});
+
+function AdminInfluencerDetailPage() {
+  return (
+    <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
+      <PageHeader eyebrow="Admin" title="Influencer" description="Profile details, applications, participation and wins for this influencer." />
+      <EmptyState
+        icon={<Users className="size-8" />}
+        title="Influencer details unavailable"
+        hint="Influencer records land in the next milestone; this page is already wired to its final URL."
+      />
+      <MilestoneNotice
+        items={[
+          "Profile and audience details",
+          "All contest entries with status",
+          "Wins and payout history",
+        ]}
+      />
+    </div>
+  );
+}
