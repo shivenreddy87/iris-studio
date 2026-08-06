@@ -75,7 +75,7 @@ export async function createNotifications(inputs: NotificationInput[]): Promise<
       action_url: n.link ?? null,
       action_label: n.actionLabel ?? null,
       priority: n.priority ?? "normal",
-      metadata: { ...(n.metadata ?? {}), category: n.category },
+      metadata: { ...(n.metadata ?? {}), category: n.category } as never,
     }));
 
   if (rows.length === 0) return;
@@ -106,7 +106,7 @@ export async function createActivity(input: ActivityInput): Promise<void> {
     entity_type: input.entityType,
     entity_id: input.entityId ?? null,
     summary: input.summary,
-    metadata: input.metadata ?? {},
+    metadata: (input.metadata ?? {}) as never,
   });
   if (error) throw new Error(error.message);
 }
