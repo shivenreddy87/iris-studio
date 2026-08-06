@@ -77,11 +77,13 @@ function BusinessContestDetailPage() {
           <div className="space-y-6">
             <ContestHeader contest={contest} />
             <ContestSummary contest={contest} />
+            <ApplicationCountsCard contestId={contest.id} />
             <Panel title="History">
               <ContestTimeline events={events} />
             </Panel>
           </div>
         ) : null}
+
       </DataSection>
     </div>
   );
