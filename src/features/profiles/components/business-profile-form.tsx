@@ -47,7 +47,7 @@ export function BusinessProfileForm({
       <div className="rounded-3xl border border-hairline bg-surface-2 p-6">
         <AvatarUpload
           userId={userId}
-          label="Company logo"
+          label="Company logo (optional)"
           rounded="xl"
           value={logoUrl || undefined}
           onChange={(path) =>
