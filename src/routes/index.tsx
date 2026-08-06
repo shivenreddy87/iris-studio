@@ -6,19 +6,21 @@ import logoUrl from "@/assets/logo.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Iris AI — The most powerful AI in talent acquisition" },
+      { title: "Project Eros | Influencer Campaign Platform" },
       {
         name: "description",
         content:
-          "Meet Iris AI — the most powerful AI ever deployed in talent acquisition. Plan campaigns, discover creators, and negotiate deals with an embedded strategist.",
+          "Project Eros is an influencer collaboration platform where businesses create campaigns, creators discover opportunities, administrators manage contests, and every campaign is tracked from request to payout.",
       },
-      { property: "og:title", content: "Iris AI — Embedded intelligence for influencer marketing" },
+      { property: "og:title", content: "Project Eros | Influencer Campaign Platform" },
       {
         property: "og:description",
-        content: "An embedded AI strategist that plans campaigns, discovers creators, and negotiates deals.",
+        content:
+          "Project Eros is an influencer collaboration platform where businesses create campaigns, creators discover opportunities, administrators manage contests, and every campaign is tracked from request to payout.",
       },
     ],
   }),
+
   component: LandingPage,
 });
 
