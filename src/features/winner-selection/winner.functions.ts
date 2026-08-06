@@ -8,6 +8,7 @@ import {
   buildEvaluationBoard,
   deleteWinner,
   fetchMyOutcome,
+  fetchMySubmissionMetrics,
   fetchMyWins,
   fetchResultEvents,
   fetchVerifiedSubmission,
@@ -28,6 +29,7 @@ import type {
   EvaluationBoard,
   MyContestOutcome,
   ResultEvent,
+  SubmissionMetricsSummary,
 } from "./types";
 
 /** Admin: verified submissions with live scores and ranking. */
@@ -208,4 +210,14 @@ export const getMyContestOutcome = createServerFn({ method: "GET" })
     const { supabase, userId } = context;
     const contest = await fetchContestOrThrow(supabase, data.contestId);
     return fetchMyOutcome(contest, userId);
+  });
+
+/** Influencer: the performance metrics recorded against their own submission. */
+export const getMySubmissionMetrics = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { contestId: string }) => data)
+  .handler(async ({ data, context }): Promise<SubmissionMetricsSummary | null> => {
+    const { supabase, userId } = context;
+    const contest = await fetchContestOrThrow(supabase, data.contestId);
+    return fetchMySubmissionMetrics(contest, userId);
   });
