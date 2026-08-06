@@ -129,3 +129,18 @@ export function positionLabel(rank: number): string {
   if (rank === 3) return "3rd place";
   return `${rank}th place`;
 }
+
+/** Influencer-facing performance metrics for their own submission. */
+export type SubmissionMetricsSummary = {
+  submissionId: string;
+  contestId: string;
+  views: number;
+  likes: number;
+  comments: number;
+  shares: number;
+  engagementRate: number;
+  performanceScore: number;
+  finalScore: number;
+  reviewScore: number | null;
+  published: boolean;
+};

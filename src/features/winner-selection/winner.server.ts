@@ -21,6 +21,7 @@ import type {
   MyContestOutcome,
   ResultEvent,
   ResultEventType,
+  SubmissionMetricsSummary,
 } from "./types";
 
 export type { Db };
@@ -693,5 +694,40 @@ export async function fetchMyOutcome(
     rank: finalized ? (data?.rank ?? null) : null,
     rewardAmount: finalized ? (data?.reward_amount ?? null) : null,
     completedAt: finalized ? (contest.archivedAt ?? contest.updatedAt) : null,
+  };
+}
+
+/**
+ * Influencer: the metrics recorded against their own submission.
+ * Scores stay hidden until the contest is finalized so rankings can't leak early.
+ */
+export async function fetchMySubmissionMetrics(
+  contest: Contest,
+  userId: string,
+): Promise<SubmissionMetricsSummary | null> {
+  const sb = await admin();
+  const { data } = await sb
+    .from("contest_submissions")
+    .select(METRIC_COLUMNS)
+    .eq("contest_id", contest.id)
+    .eq("influencer_id", userId)
+    .maybeSingle<MetricRow>();
+  if (!data) return null;
+
+  const published = contest.status === "completed" || contest.status === "archived";
+  const engagementRate = calculateEngagementRate(data);
+  const performanceScore = calculatePerformanceScore(data, engagementRate);
+  return {
+    submissionId: data.id,
+    contestId: contest.id,
+    views: data.views,
+    likes: data.likes,
+    comments: data.comments,
+    shares: data.shares,
+    engagementRate,
+    performanceScore: published ? performanceScore : 0,
+    finalScore: published ? resolveFinalScore(performanceScore, null) : 0,
+    reviewScore: published ? data.review_score : null,
+    published,
   };
 }
