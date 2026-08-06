@@ -59,6 +59,7 @@ import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
 import { Route as AppAdminWinnersRouteImport } from './routes/app.admin.winners'
 import { Route as AppAdminTemplatesRouteImport } from './routes/app.admin.templates'
 import { Route as AppAdminSettingsRouteImport } from './routes/app.admin.settings'
+import { Route as AppAdminReportsRouteImport } from './routes/app.admin.reports'
 import { Route as AppAdminPayoutsRouteImport } from './routes/app.admin.payouts'
 import { Route as AppAdminModerationRouteImport } from './routes/app.admin.moderation'
 import { Route as AppAdminInfluencersRouteImport } from './routes/app.admin.influencers'
@@ -333,6 +334,11 @@ const AppAdminSettingsRoute = AppAdminSettingsRouteImport.update({
   path: '/admin/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdminReportsRoute = AppAdminReportsRouteImport.update({
+  id: '/admin/reports',
+  path: '/admin/reports',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAdminPayoutsRoute = AppAdminPayoutsRouteImport.update({
   id: '/admin/payouts',
   path: '/admin/payouts',
@@ -488,6 +494,7 @@ export interface FileRoutesByFullPath {
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
   '/app/admin/moderation': typeof AppAdminModerationRoute
   '/app/admin/payouts': typeof AppAdminPayoutsRoute
+  '/app/admin/reports': typeof AppAdminReportsRoute
   '/app/admin/settings': typeof AppAdminSettingsRoute
   '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
@@ -559,6 +566,7 @@ export interface FileRoutesByTo {
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
   '/app/admin/moderation': typeof AppAdminModerationRoute
   '/app/admin/payouts': typeof AppAdminPayoutsRoute
+  '/app/admin/reports': typeof AppAdminReportsRoute
   '/app/admin/settings': typeof AppAdminSettingsRoute
   '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
@@ -634,6 +642,7 @@ export interface FileRoutesById {
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
   '/app/admin/moderation': typeof AppAdminModerationRoute
   '/app/admin/payouts': typeof AppAdminPayoutsRoute
+  '/app/admin/reports': typeof AppAdminReportsRoute
   '/app/admin/settings': typeof AppAdminSettingsRoute
   '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
@@ -710,6 +719,7 @@ export interface FileRouteTypes {
     | '/app/admin/influencers'
     | '/app/admin/moderation'
     | '/app/admin/payouts'
+    | '/app/admin/reports'
     | '/app/admin/settings'
     | '/app/admin/templates'
     | '/app/admin/winners'
@@ -781,6 +791,7 @@ export interface FileRouteTypes {
     | '/app/admin/influencers'
     | '/app/admin/moderation'
     | '/app/admin/payouts'
+    | '/app/admin/reports'
     | '/app/admin/settings'
     | '/app/admin/templates'
     | '/app/admin/winners'
@@ -855,6 +866,7 @@ export interface FileRouteTypes {
     | '/app/admin/influencers'
     | '/app/admin/moderation'
     | '/app/admin/payouts'
+    | '/app/admin/reports'
     | '/app/admin/settings'
     | '/app/admin/templates'
     | '/app/admin/winners'
@@ -1266,6 +1278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/admin/reports': {
+      id: '/app/admin/reports'
+      path: '/admin/reports'
+      fullPath: '/app/admin/reports'
+      preLoaderRoute: typeof AppAdminReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/admin/payouts': {
       id: '/app/admin/payouts'
       path: '/admin/payouts'
@@ -1491,6 +1510,7 @@ interface AppRouteChildren {
   AppAdminInfluencersRoute: typeof AppAdminInfluencersRouteWithChildren
   AppAdminModerationRoute: typeof AppAdminModerationRoute
   AppAdminPayoutsRoute: typeof AppAdminPayoutsRoute
+  AppAdminReportsRoute: typeof AppAdminReportsRoute
   AppAdminSettingsRoute: typeof AppAdminSettingsRoute
   AppAdminTemplatesRoute: typeof AppAdminTemplatesRoute
   AppAdminWinnersRoute: typeof AppAdminWinnersRoute
@@ -1545,6 +1565,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAdminInfluencersRoute: AppAdminInfluencersRouteWithChildren,
   AppAdminModerationRoute: AppAdminModerationRoute,
   AppAdminPayoutsRoute: AppAdminPayoutsRoute,
+  AppAdminReportsRoute: AppAdminReportsRoute,
   AppAdminSettingsRoute: AppAdminSettingsRoute,
   AppAdminTemplatesRoute: AppAdminTemplatesRoute,
   AppAdminWinnersRoute: AppAdminWinnersRoute,
