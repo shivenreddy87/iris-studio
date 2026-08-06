@@ -59,9 +59,10 @@ function ModerationPage() {
       />
 
       <Tabs defaultValue="businesses">
-        <TabsList>
+        <TabsList className="w-full flex-wrap justify-start sm:w-auto">
           <TabsTrigger value="businesses">Businesses</TabsTrigger>
           <TabsTrigger value="influencers">Influencers</TabsTrigger>
+          <TabsTrigger value="verification">Verification</TabsTrigger>
           <TabsTrigger value="log">Moderation log</TabsTrigger>
         </TabsList>
 
@@ -85,6 +86,15 @@ function ModerationPage() {
             search={influencerSearch}
             onSearchChange={setInfluencerSearch}
           />
+        </TabsContent>
+
+        <TabsContent value="verification" className="mt-6">
+          <AnalyticsCard
+            title="Social account verification"
+            description="Influencers prove ownership with a one-time code in their public bio."
+          >
+            <VerificationQueue />
+          </AnalyticsCard>
         </TabsContent>
 
         <TabsContent value="log" className="mt-6">
