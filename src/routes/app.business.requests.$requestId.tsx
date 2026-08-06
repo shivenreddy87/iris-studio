@@ -3,6 +3,7 @@ import { FileText } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
+import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
 export const Route = createFileRoute("/app/business/requests/$requestId")({
   head: () => ({
@@ -21,7 +22,11 @@ export const Route = createFileRoute("/app/business/requests/$requestId")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: CampaignRequestDetailPage,
+  component: () => (
+    <ProfileGate>
+      <CampaignRequestDetailPage />
+    </ProfileGate>
+  ),
 });
 
 function CampaignRequestDetailPage() {
