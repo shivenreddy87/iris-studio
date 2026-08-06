@@ -86,7 +86,7 @@ function AdminPayoutsPage() {
         description="Winner rewards are paid outside the platform. Record every payment here to keep a complete audit trail."
       />
 
-      <dl className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-5">
+      <dl className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {summarise(data).map((stat) => (
           <div key={stat.label} className="rounded-2xl border border-hairline bg-surface-2 p-4">
             <dt className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">
