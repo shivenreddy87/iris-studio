@@ -2,49 +2,12 @@ import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-route
 import { useEffect, useState } from "react";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import {
-  Home,
-  Megaphone,
-  Search,
-  Users,
-  MessageSquare,
-  BarChart3,
-  Sparkles,
-  Bell,
-  Menu,
-  X,
-  LogOut,
-  Inbox,
-  Briefcase,
-  UserCircle,
-  Wallet,
-  Settings,
-} from "lucide-react";
+import { Search, Bell, Menu, X, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { listNotifications, markAllNotificationsRead } from "@/lib/notifications.functions";
-
-const brandNav = [
-  { to: "/app", label: "Home", Icon: Home },
-  { to: "/app/campaigns", label: "Campaigns", Icon: Megaphone },
-  { to: "/app/discover", label: "Discover Creators", Icon: Search },
-  { to: "/app/lists", label: "Creator Lists", Icon: Users },
-  { to: "/app/messages", label: "Messages", Icon: MessageSquare },
-  { to: "/app/analytics", label: "Analytics", Icon: BarChart3 },
-  { to: "/app/iris", label: "Iris", Icon: Sparkles },
-  { to: "/app/team", label: "Team", Icon: UserCircle },
-] as const;
-
-const creatorNav = [
-  { to: "/app", label: "Home", Icon: Home },
-  { to: "/app/creator/opportunities", label: "Opportunities", Icon: Briefcase },
-  { to: "/app/creator/inbox", label: "Inbox", Icon: Inbox },
-  { to: "/app/creator/media-kit", label: "Media Kit", Icon: UserCircle },
-  { to: "/app/connections", label: "Connections", Icon: Sparkles },
-  { to: "/app/creator/earnings", label: "Earnings", Icon: Wallet },
-  { to: "/app/team", label: "Collaborators", Icon: Users },
-  { to: "/app/iris", label: "Iris", Icon: Sparkles },
-] as const;
+import { isNavItemActive, navigationFor } from "@/lib/navigation";
+import { roleLabel, toPlatformRole } from "@/lib/roles";
 
 export function AppShell({ children }: { children?: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -56,7 +19,9 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
   const fetchNotifs = useServerFn(listNotifications);
   const markAllRead = useServerFn(markAllNotificationsRead);
 
-  const nav = role === "creator" ? creatorNav : brandNav;
+  const platformRole = toPlatformRole(role);
+  const nav = navigationFor(platformRole);
+
 
   const { data: notifications = [] } = useQuery({
     queryKey: ["notifications"],
