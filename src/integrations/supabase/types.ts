@@ -100,6 +100,84 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_requests: {
+        Row: {
+          attachment_url: string | null
+          budget: number | null
+          business_category: string | null
+          business_id: string
+          campaign_description: string | null
+          campaign_goal: string | null
+          created_at: string
+          duration_days: number | null
+          id: string
+          maximum_followers: number | null
+          minimum_followers: number | null
+          preferred_creator_category: string | null
+          required_views: number | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["campaign_request_status"]
+          submitted_at: string | null
+          target_audience: string | null
+          target_location: string | null
+          target_platform: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          attachment_url?: string | null
+          budget?: number | null
+          business_category?: string | null
+          business_id: string
+          campaign_description?: string | null
+          campaign_goal?: string | null
+          created_at?: string
+          duration_days?: number | null
+          id?: string
+          maximum_followers?: number | null
+          minimum_followers?: number | null
+          preferred_creator_category?: string | null
+          required_views?: number | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["campaign_request_status"]
+          submitted_at?: string | null
+          target_audience?: string | null
+          target_location?: string | null
+          target_platform?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          attachment_url?: string | null
+          budget?: number | null
+          business_category?: string | null
+          business_id?: string
+          campaign_description?: string | null
+          campaign_goal?: string | null
+          created_at?: string
+          duration_days?: number | null
+          id?: string
+          maximum_followers?: number | null
+          minimum_followers?: number | null
+          preferred_creator_category?: string | null
+          required_views?: number | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["campaign_request_status"]
+          submitted_at?: string | null
+          target_audience?: string | null
+          target_location?: string | null
+          target_platform?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           brief: string
@@ -794,6 +872,13 @@ export type Database = {
     }
     Enums: {
       app_role: "brand" | "creator" | "admin"
+      campaign_request_status:
+        | "draft"
+        | "submitted"
+        | "under_review"
+        | "approved"
+        | "rejected"
+        | "cancelled"
       campaign_status: "draft" | "live" | "review" | "completed" | "archived"
       contract_status: "none" | "draft" | "sent" | "signed"
       creator_accent: "violet" | "rose"
@@ -934,6 +1019,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["brand", "creator", "admin"],
+      campaign_request_status: [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "rejected",
+        "cancelled",
+      ],
       campaign_status: ["draft", "live", "review", "completed", "archived"],
       contract_status: ["none", "draft", "sent", "signed"],
       creator_accent: ["violet", "rose"],

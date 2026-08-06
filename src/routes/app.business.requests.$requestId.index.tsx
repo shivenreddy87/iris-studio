@@ -7,28 +7,33 @@ import { DataSection } from "@/components/shared/data-section";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { getCampaignRequest } from "@/features/campaign-requests/requests.functions";
 import { CampaignRequestDetail } from "@/features/campaign-requests/components/campaign-request-detail";
+import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
-export const Route = createFileRoute("/app/admin/requests/$requestId")({
+export const Route = createFileRoute("/app/business/requests/$requestId/")({
   head: () => ({
     meta: [
-      { title: "Request Review — Iris Studio Admin" },
+      { title: "Campaign Request — Iris Studio" },
       {
         name: "description",
-        content: "Inspect a submitted campaign brief, its targeting and its review history.",
+        content: "Review the details, status and review notes of a campaign request.",
       },
-      { property: "og:title", content: "Request Review — Iris Studio Admin" },
+      { property: "og:title", content: "Campaign Request — Iris Studio" },
       {
         property: "og:description",
-        content: "Inspect a submitted campaign brief, its targeting and its review history.",
+        content: "Review the details, status and review notes of a campaign request.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AdminCampaignRequestDetailPage,
+  component: () => (
+    <ProfileGate>
+      <CampaignRequestDetailPage />
+    </ProfileGate>
+  ),
 });
 
-function AdminCampaignRequestDetailPage() {
+function CampaignRequestDetailPage() {
   const { requestId } = Route.useParams();
   const fetchRequest = useServerFn(getCampaignRequest);
   const {
@@ -43,9 +48,9 @@ function AdminCampaignRequestDetailPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 lg:px-8">
       <PageHeader
-        eyebrow="Admin"
-        title={request?.title || "Request review"}
-        description="Full brief submitted by the business, with status history."
+        eyebrow="Business"
+        title="Campaign Request"
+        description="Full brief, review history and the decision made on this request."
       />
       <DataSection
         loading={isLoading}
@@ -59,7 +64,7 @@ function AdminCampaignRequestDetailPage() {
           />
         }
       >
-        {request ? <CampaignRequestDetail request={request} /> : null}
+        {request ? <CampaignRequestDetail request={request} showEdit /> : null}
       </DataSection>
     </div>
   );
