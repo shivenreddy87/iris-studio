@@ -53,7 +53,19 @@ function NotificationPreferencesPage() {
   });
 
   const update = useMutation({
-    mutationFn: (patch: Partial<Record<ToggleKey, boolean>>) => savePrefs({ data: patch }),
+    mutationFn: (patch: Partial<Record<ToggleKey, boolean>>) => {
+      const current = prefs ?? {
+        emailEnabled: true,
+        inAppEnabled: true,
+        campaignUpdates: true,
+        contestUpdates: true,
+        payoutUpdates: true,
+        marketing: false,
+        system: true,
+      };
+      const { userId: _userId, ...rest } = current as NotificationPreferences;
+      return savePrefs({ data: { ...rest, ...patch } });
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["notification-preferences"] });
       toast.success("Preferences saved");
