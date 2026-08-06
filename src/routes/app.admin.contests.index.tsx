@@ -13,9 +13,15 @@ export const Route = createFileRoute("/app/admin/contests/")({
   head: () => ({
     meta: [
       { title: "Contests — Iris Studio Admin" },
-      { name: "description", content: "Create and manage contests across every stage of their lifecycle." },
+      {
+        name: "description",
+        content: "Create and manage contests across every stage of their lifecycle.",
+      },
       { property: "og:title", content: "Contests — Iris Studio Admin" },
-      { property: "og:description", content: "Create and manage contests across every stage of their lifecycle." },
+      {
+        property: "og:description",
+        content: "Create and manage contests across every stage of their lifecycle.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,14 +31,22 @@ export const Route = createFileRoute("/app/admin/contests/")({
 
 function AdminContestsPage() {
   const fetchItems = useServerFn(listAllContests);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/admin/contests/"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="Contests" description="Every contest on the platform, from draft through judging to completion." />
+      <PageHeader
+        eyebrow="Admin"
+        title="Contests"
+        description="Every contest on the platform, from draft through judging to completion."
+      />
       <DataSection
         loading={isLoading}
         error={error}

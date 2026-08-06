@@ -8,9 +8,15 @@ export const Route = createFileRoute("/app/profile")({
   head: () => ({
     meta: [
       { title: "Profile — Iris Studio" },
-      { name: "description", content: "Manage your account details and how you appear on the platform." },
+      {
+        name: "description",
+        content: "Manage your account details and how you appear on the platform.",
+      },
       { property: "og:title", content: "Profile — Iris Studio" },
-      { property: "og:description", content: "Manage your account details and how you appear on the platform." },
+      {
+        property: "og:description",
+        content: "Manage your account details and how you appear on the platform.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -21,7 +27,11 @@ export const Route = createFileRoute("/app/profile")({
 function ProfilePage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Workspace" title="Profile" description="Your account details and the information shown to the Iris Studio team." />
+      <PageHeader
+        eyebrow="Workspace"
+        title="Profile"
+        description="Your account details and the information shown to the Iris Studio team."
+      />
       <EmptyState
         icon={<UserCircle className="size-8" />}
         title="Profile editing arriving shortly"

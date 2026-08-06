@@ -13,9 +13,15 @@ export const Route = createFileRoute("/app/admin/payouts")({
   head: () => ({
     meta: [
       { title: "Manual Payouts — Iris Studio Admin" },
-      { name: "description", content: "Track reward payouts settled manually outside the platform." },
+      {
+        name: "description",
+        content: "Track reward payouts settled manually outside the platform.",
+      },
       { property: "og:title", content: "Manual Payouts — Iris Studio Admin" },
-      { property: "og:description", content: "Track reward payouts settled manually outside the platform." },
+      {
+        property: "og:description",
+        content: "Track reward payouts settled manually outside the platform.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,14 +31,22 @@ export const Route = createFileRoute("/app/admin/payouts")({
 
 function AdminPayoutsPage() {
   const fetchItems = useServerFn(listPayouts);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/admin/payouts"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="Manual Payouts" description="A ledger of winner rewards. Payments are settled outside the platform and recorded here." />
+      <PageHeader
+        eyebrow="Admin"
+        title="Manual Payouts"
+        description="A ledger of winner rewards. Payments are settled outside the platform and recorded here."
+      />
       <DataSection
         loading={isLoading}
         error={error}

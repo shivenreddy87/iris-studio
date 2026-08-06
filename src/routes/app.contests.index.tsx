@@ -13,9 +13,15 @@ export const Route = createFileRoute("/app/contests/")({
   head: () => ({
     meta: [
       { title: "Available Contests — Iris Studio" },
-      { name: "description", content: "Browse open contests and enter the ones that fit your audience." },
+      {
+        name: "description",
+        content: "Browse open contests and enter the ones that fit your audience.",
+      },
       { property: "og:title", content: "Available Contests — Iris Studio" },
-      { property: "og:description", content: "Browse open contests and enter the ones that fit your audience." },
+      {
+        property: "og:description",
+        content: "Browse open contests and enter the ones that fit your audience.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,14 +31,22 @@ export const Route = createFileRoute("/app/contests/")({
 
 function AvailableContestsPage() {
   const fetchItems = useServerFn(listOpenContests);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/contests/"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Influencer" title="Available Contests" description="Contests currently open for entries. Enter manually and the admin team selects participants." />
+      <PageHeader
+        eyebrow="Influencer"
+        title="Available Contests"
+        description="Contests currently open for entries. Enter manually and the admin team selects participants."
+      />
       <DataSection
         loading={isLoading}
         error={error}

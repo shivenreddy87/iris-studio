@@ -15,7 +15,10 @@ export const Route = createFileRoute("/app/contests/completed")({
       { title: "Completed Contests — Iris Studio" },
       { name: "description", content: "Your history of finished contests and their results." },
       { property: "og:title", content: "Completed Contests — Iris Studio" },
-      { property: "og:description", content: "Your history of finished contests and their results." },
+      {
+        property: "og:description",
+        content: "Your history of finished contests and their results.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,14 +28,22 @@ export const Route = createFileRoute("/app/contests/completed")({
 
 function CompletedContestsPage() {
   const fetchItems = useServerFn(listMyCompletedContests);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/contests/completed"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Influencer" title="Completed Contests" description="Every contest you participated in that has finished, with its final result." />
+      <PageHeader
+        eyebrow="Influencer"
+        title="Completed Contests"
+        description="Every contest you participated in that has finished, with its final result."
+      />
       <DataSection
         loading={isLoading}
         error={error}

@@ -13,9 +13,15 @@ export const Route = createFileRoute("/app/entries/")({
   head: () => ({
     meta: [
       { title: "My Applications — Iris Studio" },
-      { name: "description", content: "Track every contest you have applied to and where each application stands." },
+      {
+        name: "description",
+        content: "Track every contest you have applied to and where each application stands.",
+      },
       { property: "og:title", content: "My Applications — Iris Studio" },
-      { property: "og:description", content: "Track every contest you have applied to and where each application stands." },
+      {
+        property: "og:description",
+        content: "Track every contest you have applied to and where each application stands.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,14 +31,22 @@ export const Route = createFileRoute("/app/entries/")({
 
 function MyApplicationsPage() {
   const fetchItems = useServerFn(listMyContestEntries);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/entries/"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Influencer" title="My Applications" description="Every contest entry you have submitted, with its current selection status." />
+      <PageHeader
+        eyebrow="Influencer"
+        title="My Applications"
+        description="Every contest entry you have submitted, with its current selection status."
+      />
       <DataSection
         loading={isLoading}
         error={error}

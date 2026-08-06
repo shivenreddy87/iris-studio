@@ -25,14 +25,22 @@ export const Route = createFileRoute("/app/admin/entries")({
 
 function AdminParticipantsPage() {
   const fetchItems = useServerFn(listAllContestEntries);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/admin/entries"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="Participants" description="Every contest entry submitted by influencers, ready for shortlisting and selection." />
+      <PageHeader
+        eyebrow="Admin"
+        title="Participants"
+        description="Every contest entry submitted by influencers, ready for shortlisting and selection."
+      />
       <DataSection
         loading={isLoading}
         error={error}

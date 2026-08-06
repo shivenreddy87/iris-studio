@@ -15,7 +15,10 @@ export const Route = createFileRoute("/app/contests/active")({
       { title: "Active Contests — Iris Studio" },
       { name: "description", content: "Track the contests you are currently participating in." },
       { property: "og:title", content: "Active Contests — Iris Studio" },
-      { property: "og:description", content: "Track the contests you are currently participating in." },
+      {
+        property: "og:description",
+        content: "Track the contests you are currently participating in.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,14 +28,22 @@ export const Route = createFileRoute("/app/contests/active")({
 
 function ActiveContestsPage() {
   const fetchItems = useServerFn(listMyActiveContests);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/contests/active"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Influencer" title="Active Contests" description="Contests you were selected for that are currently running." />
+      <PageHeader
+        eyebrow="Influencer"
+        title="Active Contests"
+        description="Contests you were selected for that are currently running."
+      />
       <DataSection
         loading={isLoading}
         error={error}

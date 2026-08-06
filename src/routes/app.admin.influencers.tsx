@@ -10,7 +10,10 @@ export const Route = createFileRoute("/app/admin/influencers")({
       { title: "Influencers — Iris Studio" },
       { name: "description", content: "Directory of influencers registered on the platform." },
       { property: "og:title", content: "Influencers — Iris Studio" },
-      { property: "og:description", content: "Directory of influencers registered on the platform." },
+      {
+        property: "og:description",
+        content: "Directory of influencers registered on the platform.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -21,7 +24,11 @@ export const Route = createFileRoute("/app/admin/influencers")({
 function AdminInfluencersPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="Influencers" description="Every influencer account, with their entries and contest wins." />
+      <PageHeader
+        eyebrow="Admin"
+        title="Influencers"
+        description="Every influencer account, with their entries and contest wins."
+      />
       <EmptyState
         icon={<Users className="size-8" />}
         title="No influencers yet"

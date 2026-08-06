@@ -10,7 +10,10 @@ export const Route = createFileRoute("/app/admin/businesses")({
       { title: "Businesses — Iris Studio" },
       { name: "description", content: "Directory of the businesses registered on the platform." },
       { property: "og:title", content: "Businesses — Iris Studio" },
-      { property: "og:description", content: "Directory of the businesses registered on the platform." },
+      {
+        property: "og:description",
+        content: "Directory of the businesses registered on the platform.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -21,7 +24,11 @@ export const Route = createFileRoute("/app/admin/businesses")({
 function AdminBusinessesPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="Businesses" description="Every business account, its campaign requests and contest history." />
+      <PageHeader
+        eyebrow="Admin"
+        title="Businesses"
+        description="Every business account, its campaign requests and contest history."
+      />
       <EmptyState
         icon={<Building2 className="size-8" />}
         title="No businesses yet"

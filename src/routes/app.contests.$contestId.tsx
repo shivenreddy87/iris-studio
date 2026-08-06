@@ -25,14 +25,22 @@ export const Route = createFileRoute("/app/contests/$contestId")({
 
 function ContestDetailPage() {
   const fetchItems = useServerFn(listOpenContests);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/contests/$contestId"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Influencer" title="Contest" description="The full brief, rules, timeline and reward for this contest." />
+      <PageHeader
+        eyebrow="Influencer"
+        title="Contest"
+        description="The full brief, rules, timeline and reward for this contest."
+      />
       <DataSection
         loading={isLoading}
         error={error}

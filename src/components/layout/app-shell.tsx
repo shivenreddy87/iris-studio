@@ -22,7 +22,6 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
   const platformRole = toPlatformRole(role);
   const nav = navigationFor(platformRole);
 
-
   const { data: notifications = [] } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => fetchNotifs(),
@@ -94,9 +93,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
               <div className="truncate text-sm font-semibold text-white">
                 {user?.user_metadata?.full_name ?? user?.email ?? "Signed in"}
               </div>
-              <div className="truncate text-xs text-white/50">
-                {`${roleLabel(role)} workspace`}
-              </div>
+              <div className="truncate text-xs text-white/50">{`${roleLabel(role)} workspace`}</div>
             </div>
             <button
               onClick={handleSignOut}
@@ -128,7 +125,6 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
             );
           })}
         </nav>
-
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -176,7 +172,9 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                 </div>
                 <div className="max-h-96 overflow-y-auto">
                   {notifications.length === 0 ? (
-                    <div className="p-6 text-center text-sm text-white/50">No notifications yet.</div>
+                    <div className="p-6 text-center text-sm text-white/50">
+                      No notifications yet.
+                    </div>
                   ) : (
                     notifications.map((n) => (
                       <Link
@@ -188,7 +186,9 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                         }`}
                       >
                         <div className="font-semibold text-white">{n.title}</div>
-                        {n.body ? <div className="text-xs text-white/60 line-clamp-2">{n.body}</div> : null}
+                        {n.body ? (
+                          <div className="text-xs text-white/60 line-clamp-2">{n.body}</div>
+                        ) : null}
                         <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-white/40">
                           {new Date(n.created_at).toLocaleString()}
                         </div>

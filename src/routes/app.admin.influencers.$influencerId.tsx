@@ -8,9 +8,15 @@ export const Route = createFileRoute("/app/admin/influencers/$influencerId")({
   head: () => ({
     meta: [
       { title: "Influencer — Iris Studio" },
-      { name: "description", content: "Profile, contest entries and wins for a single influencer." },
+      {
+        name: "description",
+        content: "Profile, contest entries and wins for a single influencer.",
+      },
       { property: "og:title", content: "Influencer — Iris Studio" },
-      { property: "og:description", content: "Profile, contest entries and wins for a single influencer." },
+      {
+        property: "og:description",
+        content: "Profile, contest entries and wins for a single influencer.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -21,7 +27,11 @@ export const Route = createFileRoute("/app/admin/influencers/$influencerId")({
 function AdminInfluencerDetailPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="Influencer" description="Profile details, applications, participation and wins for this influencer." />
+      <PageHeader
+        eyebrow="Admin"
+        title="Influencer"
+        description="Profile details, applications, participation and wins for this influencer."
+      />
       <EmptyState
         icon={<Users className="size-8" />}
         title="Influencer details unavailable"

@@ -10,7 +10,10 @@ export const Route = createFileRoute("/app/admin/contests/new")({
       { title: "New Contest — Iris Studio" },
       { name: "description", content: "Create a contest from an approved campaign request." },
       { property: "og:title", content: "New Contest — Iris Studio" },
-      { property: "og:description", content: "Create a contest from an approved campaign request." },
+      {
+        property: "og:description",
+        content: "Create a contest from an approved campaign request.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -21,7 +24,11 @@ export const Route = createFileRoute("/app/admin/contests/new")({
 function AdminNewContestPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="New Contest" description="Set the brief, rules, duration, reward and participant cap for a new contest." />
+      <PageHeader
+        eyebrow="Admin"
+        title="New Contest"
+        description="Set the brief, rules, duration, reward and participant cap for a new contest."
+      />
       <EmptyState
         icon={<Trophy className="size-8" />}
         title="Contest builder arriving shortly"

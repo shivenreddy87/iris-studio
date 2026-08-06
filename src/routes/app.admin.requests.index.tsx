@@ -13,9 +13,15 @@ export const Route = createFileRoute("/app/admin/requests/")({
   head: () => ({
     meta: [
       { title: "Campaign Requests — Iris Studio Admin" },
-      { name: "description", content: "Review incoming campaign requests and convert them into contests." },
+      {
+        name: "description",
+        content: "Review incoming campaign requests and convert them into contests.",
+      },
       { property: "og:title", content: "Campaign Requests — Iris Studio Admin" },
-      { property: "og:description", content: "Review incoming campaign requests and convert them into contests." },
+      {
+        property: "og:description",
+        content: "Review incoming campaign requests and convert them into contests.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,14 +31,22 @@ export const Route = createFileRoute("/app/admin/requests/")({
 
 function AdminCampaignRequestsPage() {
   const fetchItems = useServerFn(listAllCampaignRequests);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/admin/requests/"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="Campaign Requests" description="Every brief submitted by businesses, ready for review and conversion into a contest." />
+      <PageHeader
+        eyebrow="Admin"
+        title="Campaign Requests"
+        description="Every brief submitted by businesses, ready for review and conversion into a contest."
+      />
       <DataSection
         loading={isLoading}
         error={error}

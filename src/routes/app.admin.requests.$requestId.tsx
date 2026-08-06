@@ -10,7 +10,10 @@ export const Route = createFileRoute("/app/admin/requests/$requestId")({
       { title: "Review Campaign Request — Iris Studio" },
       { name: "description", content: "Review a single campaign request and decide its outcome." },
       { property: "og:title", content: "Review Campaign Request — Iris Studio" },
-      { property: "og:description", content: "Review a single campaign request and decide its outcome." },
+      {
+        property: "og:description",
+        content: "Review a single campaign request and decide its outcome.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -21,7 +24,11 @@ export const Route = createFileRoute("/app/admin/requests/$requestId")({
 function AdminCampaignRequestDetailPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Admin" title="Review Campaign Request" description="Full brief with approve, reject and convert-to-contest actions." />
+      <PageHeader
+        eyebrow="Admin"
+        title="Review Campaign Request"
+        description="Full brief with approve, reject and convert-to-contest actions."
+      />
       <EmptyState
         icon={<FileText className="size-8" />}
         title="Request details unavailable"

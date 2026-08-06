@@ -89,14 +89,34 @@ function DashboardPage() {
         ) : null}
         {platformRole === "influencer" ? (
           <>
-            <StatCard icon={Trophy} label="Open contests" value={openContests.length} to="/app/contests" />
-            <StatCard icon={ClipboardList} label="My applications" value={entries.length} to="/app/entries" />
-            <StatCard icon={Award} label="Contests won" value={wins.length} to="/app/contests/won" />
+            <StatCard
+              icon={Trophy}
+              label="Open contests"
+              value={openContests.length}
+              to="/app/contests"
+            />
+            <StatCard
+              icon={ClipboardList}
+              label="My applications"
+              value={entries.length}
+              to="/app/entries"
+            />
+            <StatCard
+              icon={Award}
+              label="Contests won"
+              value={wins.length}
+              to="/app/contests/won"
+            />
           </>
         ) : null}
         {platformRole === "admin" ? (
           <>
-            <StatCard icon={FileText} label="Requests to review" value={0} to="/app/admin/requests" />
+            <StatCard
+              icon={FileText}
+              label="Requests to review"
+              value={0}
+              to="/app/admin/requests"
+            />
             <StatCard icon={Trophy} label="Contests" value={0} to="/app/admin/contests" />
             <StatCard icon={Award} label="Winners" value={0} to="/app/admin/winners" />
           </>

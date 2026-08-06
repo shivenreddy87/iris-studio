@@ -13,9 +13,15 @@ export const Route = createFileRoute("/app/contests/won")({
   head: () => ({
     meta: [
       { title: "Won Contests — Iris Studio" },
-      { name: "description", content: "The contests you have won and the rewards attached to them." },
+      {
+        name: "description",
+        content: "The contests you have won and the rewards attached to them.",
+      },
       { property: "og:title", content: "Won Contests — Iris Studio" },
-      { property: "og:description", content: "The contests you have won and the rewards attached to them." },
+      {
+        property: "og:description",
+        content: "The contests you have won and the rewards attached to them.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,14 +31,22 @@ export const Route = createFileRoute("/app/contests/won")({
 
 function WonContestsPage() {
   const fetchItems = useServerFn(listMyWins);
-  const { data = [], isLoading, error } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["/app/contests/won"],
     queryFn: () => fetchItems(),
   });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <PageHeader eyebrow="Influencer" title="Won Contests" description="Contests where you were declared a winner. Rewards are settled manually by the team." />
+      <PageHeader
+        eyebrow="Influencer"
+        title="Won Contests"
+        description="Contests where you were declared a winner. Rewards are settled manually by the team."
+      />
       <DataSection
         loading={isLoading}
         error={error}
