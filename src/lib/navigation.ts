@@ -27,6 +27,7 @@ export type NavItem = {
 const businessNav: NavItem[] = [
   { to: "/app", label: "Dashboard", Icon: Home },
   { to: "/app/business/requests", label: "Campaign Requests", Icon: FileText, nested: true },
+  { to: "/app/business/contests", label: "My Contests", Icon: Trophy, nested: true },
   { to: "/app/notifications", label: "Notifications", Icon: Bell },
   { to: "/app/profile", label: "Profile", Icon: UserCircle },
 ];
