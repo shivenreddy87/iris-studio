@@ -4,7 +4,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { ListChecks } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { listMyContestExecutions } from "@/features/contest-submissions/submission.functions";
 import { submissionKeys } from "@/features/contest-submissions/hooks/use-submissions";
@@ -64,9 +63,6 @@ function CompletedContestsPage() {
       >
         <ExecutionList executions={data} />
       </DataSection>
-      <MilestoneNotice
-        items={["Winner announcements", "Reward payouts", "Downloadable participation history"]}
-      />
     </div>
   );
 }

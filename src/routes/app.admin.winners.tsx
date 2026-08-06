@@ -4,7 +4,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { Award } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { listAllWinners } from "@/features/winner-selection/winner.functions";
 import { ContestWinnerList } from "@/features/contests/components/contest-winner-list";
@@ -55,13 +54,6 @@ function AdminWinnersPage() {
       >
         <ContestWinnerList winners={data} />
       </DataSection>
-      <MilestoneNotice
-        items={[
-          "Declare one or more winners per contest",
-          "Winner announcement notifications",
-          "Hand off to the manual payout ledger",
-        ]}
-      />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Users } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 
 export const Route = createFileRoute("/app/admin/influencers")({
@@ -33,13 +32,6 @@ function AdminInfluencersPage() {
         icon={<Users className="size-8" />}
         title="No influencers yet"
         hint="Influencer accounts appear here as they register."
-      />
-      <MilestoneNotice
-        items={[
-          "Influencer directory with search",
-          "Entry and win history per influencer",
-          "Account status controls",
-        ]}
       />
     </div>
   );

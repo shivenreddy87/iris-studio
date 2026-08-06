@@ -6,7 +6,6 @@ import type { LucideIcon } from "lucide-react";
 import { Award, ClipboardList, FileText, Lock, Trophy } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { PageHeader } from "@/components/shared/page-header";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { roleLabel, toPlatformRole } from "@/lib/roles";
 import { ProfileCompletionCard } from "@/features/profiles/components/profile-completion-card";
 import { profileCompletion } from "@/features/profiles/completion";
@@ -169,13 +168,6 @@ function DashboardPage() {
         {platformRole === "admin" ? <PlatformActivityCard /> : <RecentActivityCard />}
       </div>
 
-      <MilestoneNotice
-        items={[
-          "Live counts from campaign requests and contests",
-          "Contest timelines with upcoming deadlines",
-          "Winner announcements surfaced on the dashboard",
-        ]}
-      />
     </div>
   );
 }
