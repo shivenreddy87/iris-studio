@@ -35,6 +35,7 @@ const businessNav: NavItem[] = [
 const influencerNav: NavItem[] = [
   { to: "/app", label: "Dashboard", Icon: Home },
   { to: "/app/contests", label: "Available Contests", Icon: Trophy },
+  { to: "/app/contests/saved", label: "Saved Contests", Icon: Bookmark },
   { to: "/app/entries", label: "My Applications", Icon: ClipboardList },
   { to: "/app/contests/active", label: "Active Contests", Icon: PlayCircle },
   { to: "/app/contests/completed", label: "Completed Contests", Icon: ListChecks },
