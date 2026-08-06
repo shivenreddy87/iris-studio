@@ -14,7 +14,7 @@ import {
   loadParticipantSubmissions,
   logSubmissionEvent,
   notifySubmissionCreated,
-  notifySubmissionReviewed,
+  reviewSubmission,
   toSubmission,
   validateParticipant,
   validateSubmissionWindow,
@@ -124,55 +124,12 @@ export const listSubmissionEvents = createServerFn({ method: "GET" })
     return fetchSubmissionEvents(row.id);
   });
 
-async function review(
-  supabase: Parameters<typeof assertAdmin>[0],
-  userId: string,
-  submissionId: string,
-  status: "verified" | "flagged",
-  note?: string,
-): Promise<ContestSubmission> {
-  await assertAdmin(supabase, userId);
-  const existing = await fetchSubmissionById(submissionId);
-  if (!existing) throw new Error("Submission not found.");
-  const contest = await fetchContestOrThrow(supabase, existing.contest_id);
-
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data: row, error } = await supabaseAdmin
-    .from("contest_submissions")
-    .update({
-      submission_status: status,
-      reviewed_at: new Date().toISOString(),
-      reviewed_by: userId,
-    })
-    .eq("id", submissionId)
-    .select(
-      "id, contest_id, participant_id, influencer_id, platform, content_url, caption, notes, submission_status, submitted_at, reviewed_at, reviewed_by, created_at, updated_at",
-    )
-    .single<SubmissionRow>();
-  if (error) throw new Error(error.message);
-
-  await logSubmissionEvent({
-    submissionId: row.id,
-    actorId: userId,
-    eventType: status === "verified" ? "submission_verified" : "submission_flagged",
-    note: note?.trim() || null,
-  });
-  await notifySubmissionReviewed({
-    contest,
-    influencerId: row.influencer_id,
-    status,
-    note: note?.trim() || null,
-  });
-
-  return decorateSubmission(contest, row);
-}
-
 /** Admin: mark a submission verified. */
 export const verifySubmission = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => reviewInputSchema.parse(data))
   .handler(({ data, context }): Promise<ContestSubmission> =>
-    review(context.supabase, context.userId, data.submissionId, "verified", data.note),
+    reviewSubmission(context.supabase, context.userId, data.submissionId, "verified", data.note),
   );
 
 /** Admin: flag a submission for follow-up. */
@@ -180,7 +137,7 @@ export const flagSubmission = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => reviewInputSchema.parse(data))
   .handler(({ data, context }): Promise<ContestSubmission> =>
-    review(context.supabase, context.userId, data.submissionId, "flagged", data.note),
+    reviewSubmission(context.supabase, context.userId, data.submissionId, "flagged", data.note),
   );
 
 /** Contest owner or admin: aggregate execution progress, no identities. */

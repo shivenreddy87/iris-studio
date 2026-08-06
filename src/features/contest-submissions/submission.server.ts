@@ -464,3 +464,45 @@ export async function notifySubmissionReviewed(input: {
     },
   ]);
 }
+
+/** Admin review decision: updates status, logs the event and notifies. */
+export async function reviewSubmission(
+  db: Db,
+  userId: string,
+  submissionId: string,
+  status: "verified" | "flagged",
+  note?: string,
+): Promise<ContestSubmission> {
+  await assertAdmin(db, userId);
+  const existing = await fetchSubmissionById(submissionId);
+  if (!existing) throw new Error("Submission not found.");
+  const contest = await fetchContestOrThrow(db, existing.contest_id);
+
+  const sb = await admin();
+  const { data: row, error } = await sb
+    .from("contest_submissions")
+    .update({
+      submission_status: status,
+      reviewed_at: new Date().toISOString(),
+      reviewed_by: userId,
+    })
+    .eq("id", submissionId)
+    .select(SUBMISSION_COLUMNS)
+    .single<SubmissionRow>();
+  if (error) throw new Error(error.message);
+
+  await logSubmissionEvent({
+    submissionId: row.id,
+    actorId: userId,
+    eventType: status === "verified" ? "submission_verified" : "submission_flagged",
+    note: note?.trim() || null,
+  });
+  await notifySubmissionReviewed({
+    contest,
+    influencerId: row.influencer_id,
+    status,
+    note: note?.trim() || null,
+  });
+
+  return decorateSubmission(contest, row);
+}
