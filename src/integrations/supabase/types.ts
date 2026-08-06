@@ -503,6 +503,41 @@ export type Database = {
           },
         ]
       }
+      contest_result_events: {
+        Row: {
+          actor_id: string | null
+          contest_id: string
+          created_at: string
+          event_type: string
+          id: string
+          note: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          contest_id: string
+          created_at?: string
+          event_type: string
+          id?: string
+          note?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          contest_id?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_result_events_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contest_submission_events: {
         Row: {
           actor_id: string | null
@@ -541,51 +576,72 @@ export type Database = {
       contest_submissions: {
         Row: {
           caption: string | null
+          comments: number
           content_url: string
           contest_id: string
           created_at: string
+          engagement_rate: number
           id: string
           influencer_id: string
+          likes: number
           notes: string | null
           participant_id: string
           platform: string
+          review_notes: string | null
+          review_score: number | null
           reviewed_at: string | null
           reviewed_by: string | null
+          shares: number
           submission_status: Database["public"]["Enums"]["contest_submission_status"]
           submitted_at: string
           updated_at: string
+          views: number
         }
         Insert: {
           caption?: string | null
+          comments?: number
           content_url: string
           contest_id: string
           created_at?: string
+          engagement_rate?: number
           id?: string
           influencer_id: string
+          likes?: number
           notes?: string | null
           participant_id: string
           platform: string
+          review_notes?: string | null
+          review_score?: number | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          shares?: number
           submission_status?: Database["public"]["Enums"]["contest_submission_status"]
           submitted_at?: string
           updated_at?: string
+          views?: number
         }
         Update: {
           caption?: string | null
+          comments?: number
           content_url?: string
           contest_id?: string
           created_at?: string
+          engagement_rate?: number
           id?: string
           influencer_id?: string
+          likes?: number
           notes?: string | null
           participant_id?: string
           platform?: string
+          review_notes?: string | null
+          review_score?: number | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          shares?: number
           submission_status?: Database["public"]["Enums"]["contest_submission_status"]
           submitted_at?: string
           updated_at?: string
+          views?: number
         }
         Relationships: [
           {
@@ -600,6 +656,82 @@ export type Database = {
             columns: ["participant_id"]
             isOneToOne: true
             referencedRelation: "contest_participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contest_winners: {
+        Row: {
+          contest_id: string
+          created_at: string
+          final_score: number
+          id: string
+          influencer_id: string
+          manual_score: number | null
+          participant_id: string
+          performance_score: number
+          rank: number
+          reward_amount: number | null
+          selected_at: string
+          selected_by: string | null
+          submission_id: string
+          updated_at: string
+          winner_notes: string | null
+        }
+        Insert: {
+          contest_id: string
+          created_at?: string
+          final_score?: number
+          id?: string
+          influencer_id: string
+          manual_score?: number | null
+          participant_id: string
+          performance_score?: number
+          rank: number
+          reward_amount?: number | null
+          selected_at?: string
+          selected_by?: string | null
+          submission_id: string
+          updated_at?: string
+          winner_notes?: string | null
+        }
+        Update: {
+          contest_id?: string
+          created_at?: string
+          final_score?: number
+          id?: string
+          influencer_id?: string
+          manual_score?: number | null
+          participant_id?: string
+          performance_score?: number
+          rank?: number
+          reward_amount?: number | null
+          selected_at?: string
+          selected_by?: string | null
+          submission_id?: string
+          updated_at?: string
+          winner_notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_winners_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contest_winners_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "contest_participants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contest_winners_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "contest_submissions"
             referencedColumns: ["id"]
           },
         ]
