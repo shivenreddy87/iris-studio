@@ -1,93 +1,155 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Sparkles, Megaphone, Users, TrendingUp, Briefcase } from "lucide-react";
+import type { LinkProps } from "@tanstack/react-router";
+import type { LucideIcon } from "lucide-react";
+import { Award, ClipboardList, FileText, Trophy } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { listCampaigns } from "@/lib/campaigns.functions";
-import { listMyDeals } from "@/lib/deals.functions";
-import { ensureOrganization } from "@/lib/org.functions";
-import { useEffect } from "react";
+import { PageHeader } from "@/components/shared/page-header";
+import { MilestoneNotice } from "@/components/shared/milestone-notice";
+import { roleLabel, toPlatformRole } from "@/lib/roles";
+import { listCampaignRequests } from "@/features/campaign-requests/requests.functions";
+import { listOpenContests, listMyWins } from "@/features/contests/contests.functions";
+import { listMyContestEntries } from "@/features/contest-entries/entries.functions";
 
 export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
-      { title: "Home — Project Eros" },
-      { name: "description", content: "Your Project Eros workspace." },
+      { title: "Dashboard — Iris Studio" },
+      {
+        name: "description",
+        content: "Your Iris Studio workspace: campaign requests, contests and results at a glance.",
+      },
+      { property: "og:title", content: "Dashboard — Iris Studio" },
+      {
+        property: "og:description",
+        content: "Your Iris Studio workspace: campaign requests, contests and results at a glance.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AppHome,
+  component: DashboardPage,
 });
 
-function AppHome() {
+function DashboardPage() {
   const { user, role } = useAuth();
-  const fetchCampaigns = useServerFn(listCampaigns);
-  const fetchDeals = useServerFn(listMyDeals);
-  const ensureOrg = useServerFn(ensureOrganization);
+  const platformRole = toPlatformRole(role);
 
-  // For brands, ensure they have an org
-  useEffect(() => {
-    if (role === "brand") {
-      ensureOrg().catch(() => {});
-    }
-  }, [role, ensureOrg]);
+  const fetchRequests = useServerFn(listCampaignRequests);
+  const fetchOpenContests = useServerFn(listOpenContests);
+  const fetchEntries = useServerFn(listMyContestEntries);
+  const fetchWins = useServerFn(listMyWins);
 
-  const { data: campaigns = [] } = useQuery({
-    queryKey: ["campaigns"],
-    queryFn: () => fetchCampaigns(),
-    enabled: role === "brand",
+  const { data: requests = [] } = useQuery({
+    queryKey: ["dashboard", "campaign-requests"],
+    queryFn: () => fetchRequests(),
+    enabled: platformRole === "business",
   });
-  const { data: deals = [] } = useQuery({
-    queryKey: ["my-deals"],
-    queryFn: () => fetchDeals(),
-    enabled: !!user,
+  const { data: openContests = [] } = useQuery({
+    queryKey: ["dashboard", "open-contests"],
+    queryFn: () => fetchOpenContests(),
+    enabled: platformRole === "influencer",
+  });
+  const { data: entries = [] } = useQuery({
+    queryKey: ["dashboard", "entries"],
+    queryFn: () => fetchEntries(),
+    enabled: platformRole === "influencer",
+  });
+  const { data: wins = [] } = useQuery({
+    queryKey: ["dashboard", "wins"],
+    queryFn: () => fetchWins(),
+    enabled: platformRole === "influencer",
   });
 
   const firstName = (user?.user_metadata?.full_name ?? user?.email ?? "there").split(/[\s@]/)[0];
-  const activeCampaigns = campaigns.filter((c) => c.status === "live").length;
-  const openDeals = deals.filter((d) => d.stage !== "cancelled" && d.stage !== "delivered").length;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <div className="mb-10">
-        <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-ink-mute">
-          {new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}
-        </p>
-        <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink">
-          Good to see you, {firstName}.
-        </h1>
-      </div>
-
-      <div className="mb-10 rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm">
-        <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-ink">
-          <Sparkles className="size-4 text-violet" />
-          Ask Iris
-        </div>
-        <Link
-          to="/app/iris"
-          className="block w-full rounded-2xl border border-hairline bg-surface-2 px-5 py-4 text-base text-ink-mute hover:border-violet/40"
-        >
-          {role === "creator"
-            ? "e.g. Help me pitch to a new wellness brand…"
-            : "e.g. Plan a Diwali campaign for our hydration line, ₹8L budget"}
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow={`${roleLabel(role)} workspace`}
+        title={`Good to see you, ${firstName}.`}
+        description={
+          platformRole === "business"
+            ? "Submit campaign requests and follow them through review into live contests."
+            : platformRole === "admin"
+              ? "Review requests, run contests and declare winners."
+              : "Find open contests, track your applications and see the ones you have won."
+        }
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {role === "brand" ? (
-          <StatCard icon={Megaphone} label="Active campaigns" value={activeCampaigns} to="/app/campaigns" />
-        ) : (
-          <StatCard icon={Briefcase} label="Active deals" value={openDeals} to="/app/creator/inbox" />
-        )}
-        <StatCard icon={Users} label="Open deals" value={openDeals} to={role === "creator" ? "/app/creator/inbox" : "/app/messages"} />
-        <StatCard icon={TrendingUp} label={role === "brand" ? "Campaigns" : "Opportunities"} value={role === "brand" ? campaigns.length : deals.length} to={role === "brand" ? "/app/campaigns" : "/app/creator/opportunities"} />
+        {platformRole === "business" ? (
+          <StatCard
+            icon={FileText}
+            label="Campaign requests"
+            value={requests.length}
+            to="/app/business/requests"
+          />
+        ) : null}
+        {platformRole === "influencer" ? (
+          <>
+            <StatCard
+              icon={Trophy}
+              label="Open contests"
+              value={openContests.length}
+              to="/app/contests"
+            />
+            <StatCard
+              icon={ClipboardList}
+              label="My applications"
+              value={entries.length}
+              to="/app/entries"
+            />
+            <StatCard
+              icon={Award}
+              label="Contests won"
+              value={wins.length}
+              to="/app/contests/won"
+            />
+          </>
+        ) : null}
+        {platformRole === "admin" ? (
+          <>
+            <StatCard
+              icon={FileText}
+              label="Requests to review"
+              value={0}
+              to="/app/admin/requests"
+            />
+            <StatCard icon={Trophy} label="Contests" value={0} to="/app/admin/contests" />
+            <StatCard icon={Award} label="Winners" value={0} to="/app/admin/winners" />
+          </>
+        ) : null}
       </div>
+
+      <MilestoneNotice
+        items={[
+          "Live counts from campaign requests and contests",
+          "Contest timelines with upcoming deadlines",
+          "Winner announcements surfaced on the dashboard",
+        ]}
+      />
     </div>
   );
 }
 
-function StatCard({ icon: Icon, label, value, to }: { icon: typeof Sparkles; label: string; value: number; to: string }) {
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  to,
+}: {
+  icon: LucideIcon;
+  label: string;
+  value: number;
+  to: LinkProps["to"];
+}) {
   return (
-    <Link to={to} className="group rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm hover:border-violet/30">
+    <Link
+      to={to}
+      className="group rounded-3xl border border-hairline bg-surface-2 p-6 shadow-sm hover:border-violet/30"
+    >
       <div className="mb-4 grid size-10 place-items-center rounded-xl bg-violet/10 text-violet">
         <Icon className="size-5" />
       </div>

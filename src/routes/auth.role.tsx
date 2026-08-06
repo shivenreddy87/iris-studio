@@ -23,22 +23,23 @@ export const Route = createFileRoute("/auth/role")({
 const roles = [
   {
     id: "brand" as const,
-    title: "I am a Brand",
+    title: "I am a Business",
     description:
-      "Plan campaigns, discover aligned creators, and orchestrate collaborations with Iris as your strategist.",
-    features: ["AI Campaign Studio", "Creator match scores", "Deal workspace"],
+      "Submit campaign requests, get them reviewed by our team, and have contests run on your behalf.",
+    features: ["Campaign requests", "Reviewed by our team", "Contests run for you"],
     Icon: Sparkles,
     accent: "violet" as const,
   },
   {
     id: "creator" as const,
-    title: "I am a Creator",
+    title: "I am an Influencer",
     description:
-      "Get matched with brands that value your craft. Iris helps you grow your media kit, negotiate, and level up.",
-    features: ["Opportunity marketplace", "Iris growth coach", "Media kit builder"],
+      "Enter contests that fit your audience, get selected by our team, and win rewards for your work.",
+    features: ["Available contests", "Manual contest entry", "Winner rewards"],
     Icon: Camera,
     accent: "rose" as const,
   },
+
 ];
 
 function RolePicker() {

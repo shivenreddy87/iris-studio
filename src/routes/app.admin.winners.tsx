@@ -1,0 +1,67 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { Award } from "lucide-react";
+import { PageHeader } from "@/components/shared/page-header";
+import { DataSection } from "@/components/shared/data-section";
+import { MilestoneNotice } from "@/components/shared/milestone-notice";
+import { EmptyState } from "@/components/ui/list-skeleton";
+import { listAllWinners } from "@/features/contests/contests.functions";
+import { ContestWinnerList } from "@/features/contests/components/contest-winner-list";
+
+export const Route = createFileRoute("/app/admin/winners")({
+  head: () => ({
+    meta: [
+      { title: "Winners — Iris Studio Admin" },
+      { name: "description", content: "Declare and review contest winners." },
+      { property: "og:title", content: "Winners — Iris Studio Admin" },
+      { property: "og:description", content: "Declare and review contest winners." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: AdminWinnersPage,
+});
+
+function AdminWinnersPage() {
+  const fetchItems = useServerFn(listAllWinners);
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["/app/admin/winners"],
+    queryFn: () => fetchItems(),
+  });
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
+      <PageHeader
+        eyebrow="Admin"
+        title="Winners"
+        description="Declared winners across all contests, with reward details."
+      />
+      <DataSection
+        loading={isLoading}
+        error={error}
+        isEmpty={data.length === 0}
+        empty={
+          <EmptyState
+            icon={<Award className="size-8" />}
+            title="No winners declared yet"
+            hint="Declare winners from a contest once judging is complete."
+          />
+        }
+      >
+        <ContestWinnerList winners={data} />
+      </DataSection>
+      <MilestoneNotice
+        items={[
+          "Declare one or more winners per contest",
+          "Winner announcement notifications",
+          "Hand off to the manual payout ledger",
+        ]}
+      />
+    </div>
+  );
+}
