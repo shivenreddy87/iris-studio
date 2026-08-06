@@ -1,4 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAdminAudit } from "@/lib/audit.server";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdmin } from "@/features/contests/contest.server";
 import {
@@ -77,9 +79,14 @@ export const suspendPlatformUser = createServerFn({ method: "POST" })
     (data: { userId: string; role: "business" | "influencer"; reason: string }) => data,
   )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     if (!data.reason.trim()) throw new Error("A suspension reason is required.");
     await suspendUser({ ...data, actorId: context.userId });
+    await recordAdminAudit(context.userId, data.role, "suspend_user", {
+      entityId: data.userId,
+      newValues: { reason: data.reason },
+    });
     return { ok: true };
   });
 
@@ -87,8 +94,13 @@ export const reactivatePlatformUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { userId: string; role: "business" | "influencer"; note?: string }) => data)
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await activateUser({ ...data, actorId: context.userId });
+    await recordAdminAudit(context.userId, data.role, "reactivate_user", {
+      entityId: data.userId,
+      newValues: { note: data.note ?? null },
+    });
     return { ok: true };
   });
 
@@ -123,8 +135,13 @@ export const addModerationRecord = createServerFn({ method: "POST" })
     }) => data,
   )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await recordModeration({ ...data, actorId: context.userId });
+    await recordAdminAudit(context.userId, data.targetType, `moderation_${data.action}`, {
+      entityId: data.targetId,
+      newValues: { reason: data.reason ?? null, note: data.note ?? null },
+    });
     return { ok: true };
   });
 
@@ -150,6 +167,7 @@ export const savePlatformCategory = createServerFn({ method: "POST" })
     }) => data,
   )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     if (data.id) {
       await updateCategoryRow({
@@ -166,6 +184,12 @@ export const savePlatformCategory = createServerFn({ method: "POST" })
         ...(data.sortOrder !== undefined ? { sortOrder: data.sortOrder } : {}),
       });
     }
+    await recordAdminAudit(
+      context.userId,
+      "platform_category",
+      data.id ? "update" : "create",
+      { entityId: data.id ?? null, newValues: data },
+    );
     return { ok: true };
   });
 
@@ -173,8 +197,10 @@ export const removePlatformCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await deleteCategoryRow(data.id);
+    await recordAdminAudit(context.userId, "platform_category", "delete", { entityId: data.id });
     return { ok: true };
   });
 
@@ -191,6 +217,7 @@ export const savePlatformChannel = createServerFn({ method: "POST" })
     (data: { id?: string; name?: string; isActive?: boolean; sortOrder?: number }) => data,
   )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     if (data.id) {
       await updateChannelRow({
@@ -206,6 +233,10 @@ export const savePlatformChannel = createServerFn({ method: "POST" })
         ...(data.sortOrder !== undefined ? { sortOrder: data.sortOrder } : {}),
       });
     }
+    await recordAdminAudit(context.userId, "platform_channel", data.id ? "update" : "create", {
+      entityId: data.id ?? null,
+      newValues: data,
+    });
     return { ok: true };
   });
 
@@ -213,8 +244,10 @@ export const removePlatformChannel = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await deleteChannelRow(data.id);
+    await recordAdminAudit(context.userId, "platform_channel", "delete", { entityId: data.id });
     return { ok: true };
   });
 
@@ -231,10 +264,15 @@ export const saveContestTemplate = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id?: string; template: TemplateInput }) => data)
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     if (!data.template.name?.trim()) throw new Error("Template name is required.");
     if (data.id) await updateTemplateRow(data.id, data.template);
     else await createTemplateRow(data.template, context.userId);
+    await recordAdminAudit(context.userId, "contest_template", data.id ? "update" : "create", {
+      entityId: data.id ?? null,
+      newValues: data.template,
+    });
     return { ok: true };
   });
 
@@ -242,8 +280,10 @@ export const removeContestTemplate = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await deleteTemplateRow(data.id);
+    await recordAdminAudit(context.userId, "contest_template", "delete", { entityId: data.id });
     return { ok: true };
   });
 
@@ -267,8 +307,16 @@ export const updatePlatformSettings = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { settings: PlatformSettingsValues; note?: string }) => data)
   .handler(async ({ data, context }): Promise<PlatformSettings> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
-    return saveSettings(data.settings, data.note ?? null, context.userId);
+    const previous = await fetchSettings();
+    const saved = await saveSettings(data.settings, data.note ?? null, context.userId);
+    await recordAdminAudit(context.userId, "platform_settings", "update", {
+      entityId: saved.id,
+      previousValues: previous.settings,
+      newValues: saved.settings,
+    });
+    return saved;
   });
 
 /* --------------------------------- reports ------------------------------ */

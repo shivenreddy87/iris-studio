@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { decorateForInfluencer, loadInfluencerProfile } from "./discovery.server";
 import { CONTEST_COLUMNS, decorate, type ContestRow } from "./contest.server";
@@ -9,6 +10,7 @@ export const saveContest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { contestId: string }) => data)
   .handler(async ({ data, context }): Promise<{ saved: true }> => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("saved_contests")
       .upsert(
@@ -23,6 +25,7 @@ export const unsaveContest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { contestId: string }) => data)
   .handler(async ({ data, context }): Promise<{ saved: false }> => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("saved_contests")
       .delete()

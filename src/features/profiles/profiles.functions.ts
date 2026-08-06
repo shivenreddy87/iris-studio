@@ -1,4 +1,6 @@
+import { assertOwnedStoragePath } from "@/lib/storage.server";
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
   businessProfileSchema,
@@ -70,6 +72,7 @@ export const upsertBusinessProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => businessProfileSchema.parse(data))
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const { error } = await supabase.from("business_profiles").upsert(
       {
@@ -83,7 +86,7 @@ export const upsertBusinessProfile = createServerFn({ method: "POST" })
         website: data.website ?? null,
         instagram: data.instagram ?? null,
         description: data.description,
-        logo_url: data.logoUrl ?? null,
+        logo_url: assertOwnedStoragePath(data.logoUrl, userId),
       },
       { onConflict: "user_id" },
     );
@@ -95,6 +98,7 @@ export const upsertInfluencerProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => influencerProfileSchema.parse(data))
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const { error } = await supabase.from("creator_profiles").upsert(
       {
@@ -109,7 +113,7 @@ export const upsertInfluencerProfile = createServerFn({ method: "POST" })
         handle: data.instagramHandle,
         tiktok_handle: data.tiktokHandle ?? null,
         youtube_channel: data.youtubeChannel ?? null,
-        avatar_url: data.avatarUrl ?? null,
+        avatar_url: assertOwnedStoragePath(data.avatarUrl, userId),
       },
       { onConflict: "user_id" },
     );
@@ -120,6 +124,7 @@ export const upsertInfluencerProfile = createServerFn({ method: "POST" })
 export const completeOnboarding = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("profiles")
       .update({ onboarding_completed_at: new Date().toISOString() })

@@ -1,4 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAuditLog } from "@/lib/audit.server";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { CONTEST_COLUMNS, decorate, type ContestRow } from "@/features/contests/contest.server";
 import type { Contest } from "@/features/contests/types";
@@ -35,6 +37,7 @@ export const submitContestContent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => submissionInputSchema.parse(data))
   .handler(async ({ data, context }): Promise<ContestSubmission> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const contest = await fetchContestOrThrow(supabase, data.contestId);
     validateSubmissionWindow(contest);
@@ -73,6 +76,14 @@ export const submitContestContent = createServerFn({ method: "POST" })
 
     const progress = await buildContestProgress(contest);
     await notifySubmissionCreated({ contest, influencerId: userId, progress });
+    await recordAuditLog({
+      actorId: userId,
+      actorRole: "influencer",
+      entityType: "contest_submission",
+      entityId: row.id,
+      action: "submit",
+      newValues: { contestId: contest.id, platform: data.platform, contentUrl: data.contentUrl },
+    });
 
     return decorateSubmission(contest, row);
   });
@@ -128,23 +139,38 @@ export const listSubmissionEvents = createServerFn({ method: "GET" })
 export const verifySubmission = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => reviewInputSchema.parse(data))
-  .handler(({ data, context }): Promise<ContestSubmission> =>
-    reviewSubmission(context.supabase, context.userId, data.submissionId, "verified", data.note),
-  );
+  .handler(async ({ data, context }): Promise<ContestSubmission> => {
+    await assertNotSuspended(context.userId);
+    return reviewSubmission(
+      context.supabase,
+      context.userId,
+      data.submissionId,
+      "verified",
+      data.note,
+    );
+  });
 
 /** Admin: flag a submission for follow-up. */
 export const flagSubmission = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => reviewInputSchema.parse(data))
-  .handler(({ data, context }): Promise<ContestSubmission> =>
-    reviewSubmission(context.supabase, context.userId, data.submissionId, "flagged", data.note),
-  );
+  .handler(async ({ data, context }): Promise<ContestSubmission> => {
+    await assertNotSuspended(context.userId);
+    return reviewSubmission(
+      context.supabase,
+      context.userId,
+      data.submissionId,
+      "flagged",
+      data.note,
+    );
+  });
 
 /** Contest owner or admin: aggregate execution progress, no identities. */
 export const getContestProgress = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { contestId: string }) => data)
   .handler(async ({ data, context }): Promise<ContestProgress> => {
+
     const { supabase, userId } = context;
     const contest = await fetchContestOrThrow(supabase, data.contestId);
     if (contest.businessId !== userId) await assertAdmin(supabase, userId);

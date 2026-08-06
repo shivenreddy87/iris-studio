@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { contestDraftSchema, contestPublishSchema } from "./contest.schema";
 import {
@@ -83,6 +84,7 @@ export const createContestFromRequest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { campaignRequestId: string }) => data)
   .handler(async ({ data, context }): Promise<Contest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
 
     const { data: request, error: requestError } = await context.supabase
@@ -149,6 +151,7 @@ export const updateDraftContest = createServerFn({ method: "POST" })
     return { id: String(input.id), values: contestDraftSchema.parse(input.values) };
   })
   .handler(async ({ data, context }): Promise<Contest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
 
     const { data: current } = await context.supabase
@@ -191,6 +194,7 @@ export const publishContest = createServerFn({ method: "POST" })
     return { id: String(input.id), values: contestPublishSchema.parse(input.values) };
   })
   .handler(async ({ data, context }): Promise<Contest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
 
     const { error: updateError } = await context.supabase
@@ -219,6 +223,7 @@ export const transitionContest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string; to: ContestStatus; note?: string | undefined }) => data)
   .handler(async ({ data, context }): Promise<Contest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     return applyContestTransition(context.supabase, {
       contestId: data.id,
@@ -233,6 +238,7 @@ export const archiveContest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string; note?: string | undefined }) => data)
   .handler(async ({ data, context }): Promise<Contest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     const contest = await applyContestTransition(context.supabase, {
       contestId: data.id,
@@ -254,6 +260,7 @@ export const deleteDraftContest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data, context }): Promise<{ id: string }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     const { error } = await context.supabase
       .from("contests")

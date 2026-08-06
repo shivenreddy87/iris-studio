@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -59,6 +60,7 @@ export const createDeal = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const { data: deal, error } = await supabase
       .from("deals")
@@ -118,6 +120,7 @@ export const updateDealStage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid(), stage: StageEnum }).parse(d))
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { data: deal, error } = await context.supabase
       .from("deals")
       .update({ stage: data.stage })
@@ -159,6 +162,7 @@ export const updateDealOffer = createServerFn({ method: "POST" })
     z.object({ id: z.string().uuid(), offer: z.number().int().min(0).optional(), counter: z.number().int().min(0).nullable().optional() }).parse(d),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const updates: { offer?: number; counter?: number | null } = {};
     if (typeof data.offer === "number") updates.offer = data.offer;
     if (data.counter !== undefined) updates.counter = data.counter;

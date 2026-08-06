@@ -1,4 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAdminAudit } from "@/lib/audit.server";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { AdminReviewSummary, CampaignRequest, CampaignRequestEvent } from "./types";
 import {
@@ -29,6 +31,7 @@ export const startReview = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: IdInput) => data)
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     return applyReviewTransition(context.supabase, {
       requestId: data.id,
@@ -44,6 +47,7 @@ export const approveRequest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: DecisionInput) => data)
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     const request = await applyReviewTransition(context.supabase, {
       requestId: data.id,
@@ -63,6 +67,10 @@ export const approveRequest = createServerFn({ method: "POST" })
         reason: data.reason ?? null,
       });
     }
+    await recordAdminAudit(context.userId, "campaign_request", "approved", {
+      entityId: data.id,
+      newValues: { status: "approved", reason: data.reason ?? null },
+    });
     return request;
   });
 
@@ -76,6 +84,7 @@ export const rejectRequest = createServerFn({ method: "POST" })
     return data;
   })
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     const request = await applyReviewTransition(context.supabase, {
       requestId: data.id,
@@ -95,6 +104,10 @@ export const rejectRequest = createServerFn({ method: "POST" })
         reason: data.reason ?? null,
       });
     }
+    await recordAdminAudit(context.userId, "campaign_request", "rejected", {
+      entityId: data.id,
+      newValues: { status: "rejected", reason: data.reason ?? null },
+    });
     return request;
   });
 
@@ -108,6 +121,7 @@ export const requestChanges = createServerFn({ method: "POST" })
     return data;
   })
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     const request = await applyReviewTransition(context.supabase, {
       requestId: data.id,
@@ -127,6 +141,10 @@ export const requestChanges = createServerFn({ method: "POST" })
         reason: data.reason ?? null,
       });
     }
+    await recordAdminAudit(context.userId, "campaign_request", "changes_requested", {
+      entityId: data.id,
+      newValues: { status: "changes_requested", reason: data.reason ?? null },
+    });
     return request;
   });
 
@@ -138,6 +156,7 @@ export const addInternalNote = createServerFn({ method: "POST" })
     return data;
   })
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
+    await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
     await logRequestEvent(context.supabase, {
       requestId: data.id,

@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
@@ -37,6 +38,7 @@ export const removeOrgMember = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { memberId: string }) => d)
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("organization_members")
       .delete()
@@ -72,6 +74,7 @@ export const removeCreatorCollaborator = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { collaboratorId: string }) => d)
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("creator_collaborators")
       .delete()
@@ -93,6 +96,7 @@ export const createInvitation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => inviteSchema.parse(d))
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     let org_id: string | null = null;
     let creator_user_id: string | null = null;
 
@@ -143,6 +147,7 @@ export const revokeInvitation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { inviteId: string }) => d)
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("invitations")
       .update({ status: "revoked" })
@@ -179,6 +184,7 @@ export const acceptInvitation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { token: string }) => ({ token: z.string().min(10).max(128).parse(d.token) }))
   .handler(async ({ data, context }) => {
+    await assertNotSuspended(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: invite } = await supabaseAdmin
       .from("invitations")

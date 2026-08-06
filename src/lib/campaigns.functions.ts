@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -55,6 +56,7 @@ export const createCampaign = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => CreateCampaignInput.parse(d))
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const { data: org } = await supabase
       .from("organizations")
@@ -143,6 +145,7 @@ export const updateCampaign = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { id, ...updates } = data;
     const { data: updated, error } = await context.supabase
       .from("campaigns")

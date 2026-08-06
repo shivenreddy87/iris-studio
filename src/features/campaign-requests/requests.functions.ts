@@ -1,4 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAuditLog } from "@/lib/audit.server";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
   campaignRequestDraftSchema,
@@ -64,9 +66,10 @@ export const createCampaignRequestDraft = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => campaignRequestDraftSchema.parse(data))
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("campaign_requests")
-      .insert({ ...toPayload(data), business_id: context.userId, status: "draft" })
+      .insert({ ...toPayload(data, context.userId), business_id: context.userId, status: "draft" })
       .select(COLUMNS)
       .single<Row>();
     if (error) throw new Error(error.message);
@@ -85,9 +88,10 @@ export const updateCampaignRequestDraft = createServerFn({ method: "POST" })
     return { id: String((data as { id: string }).id), values: parsed };
   })
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("campaign_requests")
-      .update(toPayload(data.values))
+      .update(toPayload(data.values, context.userId))
       .eq("id", data.id)
       .eq("business_id", context.userId)
       .in("status", ["draft", "changes_requested"])
@@ -111,8 +115,9 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
     return { id: input.id, values: campaignRequestSubmitSchema.parse(input.values) };
   })
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
+    await assertNotSuspended(context.userId);
     const payload = {
-      ...toPayload(data.values),
+      ...toPayload(data.values, context.userId),
       status: "submitted" as const,
       submitted_at: new Date().toISOString(),
     };
@@ -151,6 +156,15 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
         businessId: context.userId,
         resubmission: current.status === "changes_requested",
       });
+      await recordAuditLog({
+        actorId: context.userId,
+        actorRole: "business",
+        entityType: "campaign_request",
+        entityId: row.id,
+        action: current.status === "changes_requested" ? "resubmit" : "submit",
+        previousValues: { status: current.status },
+        newValues: { status: "submitted" },
+      });
       return toModel(row);
     }
 
@@ -172,6 +186,14 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
       businessId: context.userId,
       resubmission: false,
     });
+    await recordAuditLog({
+      actorId: context.userId,
+      actorRole: "business",
+      entityType: "campaign_request",
+      entityId: row.id,
+      action: "submit",
+      newValues: { status: "submitted" },
+    });
     return toModel(row);
   });
 
@@ -179,6 +201,7 @@ export const deleteCampaignRequestDraft = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { id: string }) => data)
   .handler(async ({ data, context }): Promise<{ id: string }> => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("campaign_requests")
       .delete()

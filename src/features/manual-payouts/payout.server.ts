@@ -13,6 +13,7 @@ import {
   type RewardEntry,
 } from "./types";
 import type { PayoutDetailsInput } from "./payout.schema";
+import { assertOwnedStoragePath } from "@/lib/storage.server";
 
 export type { Db };
 
@@ -586,7 +587,7 @@ export async function submitWinnerDetails(
     swift: input.swift ?? null,
     upi_id: input.upiId ?? null,
     paypal_email: input.paypalEmail ?? null,
-    government_id_url: input.governmentIdUrl ?? null,
+    government_id_url: assertOwnedStoragePath(input.governmentIdUrl, userId),
     tax_id: input.taxId ?? null,
     declaration_accepted: true,
   });

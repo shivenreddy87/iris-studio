@@ -1,4 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAuditLog } from "@/lib/audit.server";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { canReadContest } from "@/features/contests/discovery.server";
 import { evaluateAvailability, evaluateEligibility } from "@/features/contests/eligibility";
@@ -62,6 +64,7 @@ export const applyToContest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => applicationInputSchema.parse(data))
   .handler(async ({ data, context }): Promise<ContestApplication> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const contest = await fetchContestById(supabase, data.contestId);
     if (!contest) throw new Error(APPLICATION_ERROR_MESSAGES.contest_not_found);
@@ -106,6 +109,15 @@ export const applyToContest = createServerFn({ method: "POST" })
       totalApplications: counts.total,
     });
 
+    await recordAuditLog({
+      actorId: userId,
+      actorRole: "influencer",
+      entityType: "contest_application",
+      entityId: row.id,
+      action: "submit",
+      newValues: { contestId: contest.id, portfolioUrl: data.portfolioUrl },
+    });
+
     if (!application) throw new Error("Could not load your application.");
     return application;
   });
@@ -115,6 +127,7 @@ export const withdrawApplication = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => withdrawSchema.parse(data))
   .handler(async ({ data, context }): Promise<ContestApplication> => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
     const { data: existing, error: readError } = await supabase
       .from("contest_applications")

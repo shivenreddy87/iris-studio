@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -52,6 +53,7 @@ export const sendMessage = createServerFn({ method: "POST" })
     z.object({ conversation_id: z.string().uuid(), body: z.string().min(1).max(4000) }).parse(d),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { supabase, userId } = context;
 
     // Determine sender role

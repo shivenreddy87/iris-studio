@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -19,6 +20,7 @@ export const createCreatorList = createServerFn({ method: "POST" })
     z.object({ name: z.string().min(1).max(120), accent: z.enum(["violet", "rose"]).default("violet") }).parse(d),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { data: list, error } = await context.supabase
       .from("creator_lists")
       .insert({ name: data.name, accent: data.accent, owner_id: context.userId })
@@ -34,6 +36,7 @@ export const addToList = createServerFn({ method: "POST" })
     z.object({ list_id: z.string().uuid(), creator_user_id: z.string().uuid() }).parse(d),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("creator_list_items")
       .upsert({ list_id: data.list_id, creator_user_id: data.creator_user_id });
@@ -47,6 +50,7 @@ export const removeFromList = createServerFn({ method: "POST" })
     z.object({ list_id: z.string().uuid(), creator_user_id: z.string().uuid() }).parse(d),
   )
   .handler(async ({ context, data }) => {
+    await assertNotSuspended(context.userId);
     const { error } = await context.supabase
       .from("creator_list_items")
       .delete()

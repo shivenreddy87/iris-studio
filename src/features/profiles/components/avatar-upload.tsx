@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { BUCKET_RULES, uploadToBucket, useSignedUrl } from "@/lib/storage";
 
 /**
  * Uploads a logo / profile photo into the private `avatars` bucket under the
@@ -21,41 +21,18 @@ export function AvatarUpload({
   label: string;
   rounded?: "full" | "xl";
 }) {
-  const [preview, setPreview] = useState<string | null>(null);
+  const preview = useSignedUrl("avatars", value ?? null);
   const [uploading, setUploading] = useState(false);
 
-  useEffect(() => {
-    let cancelled = false;
-    if (!value) {
-      setPreview(null);
-      return;
-    }
-    supabase.storage
-      .from("avatars")
-      .createSignedUrl(value, 60 * 60)
-      .then(({ data }) => {
-        if (!cancelled) setPreview(data?.signedUrl ?? null);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [value]);
-
   async function handleFile(file: File) {
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image must be smaller than 5MB.");
-      return;
-    }
     setUploading(true);
-    const ext = file.name.split(".").pop()?.toLowerCase() ?? "png";
-    const path = `${userId}/${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
+    const result = await uploadToBucket("avatars", file, userId);
     setUploading(false);
-    if (error) {
-      toast.error(error.message);
+    if (!result.ok) {
+      toast.error(result.error);
       return;
     }
-    onChange(path);
+    onChange(result.path);
   }
 
   return (
@@ -75,7 +52,7 @@ export function AvatarUpload({
         <label className="inline-flex">
           <input
             type="file"
-            accept="image/*"
+            accept={BUCKET_RULES.avatars.accept}
             className="hidden"
             onChange={(e) => {
               const file = e.target.files?.[0];
