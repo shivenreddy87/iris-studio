@@ -5,6 +5,7 @@ export const CAMPAIGN_REQUEST_STATUSES = [
   "draft",
   "submitted",
   "under_review",
+  "changes_requested",
   "approved",
   "rejected",
   "cancelled",
@@ -16,15 +17,74 @@ export const CAMPAIGN_REQUEST_STATUS_LABELS: Record<CampaignRequestStatus, strin
   draft: "Draft",
   submitted: "Submitted",
   under_review: "Under Review",
+  changes_requested: "Changes Requested",
   approved: "Approved",
   rejected: "Rejected",
   cancelled: "Cancelled",
 };
 
-/** Statuses the business can still edit / delete. */
+/** Statuses the business can still edit. Drafts can additionally be deleted. */
 export function isEditableStatus(status: CampaignRequestStatus) {
+  return status === "draft" || status === "changes_requested";
+}
+
+export function isDeletableStatus(status: CampaignRequestStatus) {
   return status === "draft";
 }
+
+/** Transitions an admin may perform from a given status. */
+export const ADMIN_TRANSITIONS: Record<CampaignRequestStatus, CampaignRequestStatus[]> = {
+  draft: [],
+  submitted: ["under_review"],
+  under_review: ["approved", "rejected", "changes_requested"],
+  changes_requested: [],
+  approved: [],
+  rejected: [],
+  cancelled: [],
+};
+
+export const REQUEST_EVENT_KINDS = [
+  "draft_created",
+  "submitted",
+  "under_review",
+  "changes_requested",
+  "resubmitted",
+  "approved",
+  "rejected",
+  "note",
+] as const;
+
+export type RequestEventKind = (typeof REQUEST_EVENT_KINDS)[number];
+
+export const REQUEST_EVENT_LABELS: Record<RequestEventKind, string> = {
+  draft_created: "Draft created",
+  submitted: "Submitted",
+  under_review: "Under review",
+  changes_requested: "Changes requested",
+  resubmitted: "Resubmitted",
+  approved: "Approved",
+  rejected: "Rejected",
+  note: "Internal note",
+};
+
+export type CampaignRequestEvent = {
+  id: string;
+  requestId: string;
+  actorId: string | null;
+  actorName: string | null;
+  kind: RequestEventKind;
+  note: string | null;
+  internal: boolean;
+  createdAt: string;
+};
+
+export type AdminReviewSummary = {
+  pendingReview: number;
+  approvedToday: number;
+  rejectedToday: number;
+  changesRequested: number;
+};
+
 
 export const CAMPAIGN_GOALS = [
   "Brand Awareness",
@@ -58,7 +118,13 @@ export type CampaignRequest = {
   status: CampaignRequestStatus;
   submittedAt: string | null;
   reviewedAt: string | null;
+  /** Admin-internal note. Only populated on admin reads. */
   reviewNotes: string | null;
+  /** Reason shown to the business on rejection / changes requested. */
+  reviewReason: string | null;
+  reviewedBy: string | null;
+  approvalReference: string | null;
+
   createdAt: string;
   updatedAt: string;
 };

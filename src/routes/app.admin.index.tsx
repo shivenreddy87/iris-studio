@@ -1,8 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { LayoutDashboard } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { CheckCircle2, Clock, LayoutDashboard, RefreshCw, XCircle } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
+import { getAdminReviewSummary } from "@/features/campaign-requests/admin-review.functions";
+
 
 export const Route = createFileRoute("/app/admin/")({
   head: () => ({
@@ -24,7 +28,39 @@ export const Route = createFileRoute("/app/admin/")({
   component: AdminDashboardPage,
 });
 
+function SummaryTile({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number | undefined;
+}) {
+  return (
+    <div className="rounded-3xl border border-hairline bg-surface-2 p-5">
+      <div className="flex items-center gap-2 text-ink-mute">
+        {icon}
+        <span className="font-mono text-[10px] uppercase tracking-widest">{label}</span>
+      </div>
+      <p className="mt-3 font-display text-3xl font-semibold text-ink">{value ?? "—"}</p>
+    </div>
+  );
+}
+
 function AdminDashboardPage() {
+  const fetchSummary = useServerFn(getAdminReviewSummary);
+  const { data: summary } = useQuery({
+    queryKey: ["admin-review-summary"],
+    queryFn: () => fetchSummary(),
+  });
+
+  const total =
+    (summary?.pendingReview ?? 0) +
+    (summary?.approvedToday ?? 0) +
+    (summary?.rejectedToday ?? 0) +
+    (summary?.changesRequested ?? 0);
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
       <PageHeader
@@ -32,14 +68,44 @@ function AdminDashboardPage() {
         title="Admin Dashboard"
         description="Review queue, running contests and pending payouts at a glance."
       />
-      <EmptyState
-        icon={<LayoutDashboard className="size-8" />}
-        title="No operational data yet"
-        hint="Counts and queues appear here once campaign requests and contests exist."
-      />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <SummaryTile
+          icon={<Clock className="size-4" />}
+          label="Pending review"
+          value={summary?.pendingReview}
+        />
+        <SummaryTile
+          icon={<CheckCircle2 className="size-4" />}
+          label="Approved today"
+          value={summary?.approvedToday}
+        />
+        <SummaryTile
+          icon={<XCircle className="size-4" />}
+          label="Rejected today"
+          value={summary?.rejectedToday}
+        />
+        <SummaryTile
+          icon={<RefreshCw className="size-4" />}
+          label="Changes requested"
+          value={summary?.changesRequested}
+        />
+      </div>
+      <div className="mt-4">
+        <Link to="/app/admin/requests" className="text-sm text-violet hover:underline">
+          Open the review queue →
+        </Link>
+      </div>
+      {total === 0 ? (
+        <div className="mt-6">
+          <EmptyState
+            icon={<LayoutDashboard className="size-8" />}
+            title="No operational data yet"
+            hint="Counts and queues appear here once campaign requests and contests exist."
+          />
+        </div>
+      ) : null}
       <MilestoneNotice
         items={[
-          "Review queue for new campaign requests",
           "Contests by stage with participant counts",
           "Pending manual payouts",
         ]}
@@ -47,3 +113,4 @@ function AdminDashboardPage() {
     </div>
   );
 }
+

@@ -87,7 +87,7 @@ function EditCampaignRequestPage() {
     onError: (err: Error) => toast.error(err.message),
   });
 
-  const readOnly = request && request.status !== "draft";
+  const readOnly = request && request.status !== "draft" && request.status !== "changes_requested";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">

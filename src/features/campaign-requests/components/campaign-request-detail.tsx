@@ -2,8 +2,10 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { CampaignStatusBadge } from "./campaign-status-badge";
 import { RequestTimeline } from "./request-timeline";
+import { ReviewTimeline } from "./review-timeline";
 import { AttachmentPreview } from "./attachment-preview";
-import { isEditableStatus, type CampaignRequest } from "../types";
+import { isEditableStatus, type CampaignRequest, type CampaignRequestEvent } from "../types";
+
 
 function DetailRow({ label, value }: { label: string; value: ReactNode }) {
   return (
@@ -21,10 +23,17 @@ const numOr = (v: number | null) => (v === null ? "—" : nf.format(v));
 export function CampaignRequestDetail({
   request,
   showEdit = false,
+  events,
+  aside,
 }: {
   request: CampaignRequest;
   showEdit?: boolean;
+  /** When provided, the event-sourced review history replaces the linear timeline. */
+  events?: CampaignRequestEvent[];
+  /** Extra panels rendered in the right-hand column (review actions, internal notes). */
+  aside?: ReactNode;
 }) {
+
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
       <div className="space-y-6">
@@ -84,16 +93,28 @@ export function CampaignRequestDetail({
       </div>
 
       <div className="space-y-6">
+        {request.approvalReference ? (
+          <div className="rounded-3xl border border-hairline bg-surface-2 p-6">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">
+              Approval reference
+            </p>
+            <p className="mt-1 font-mono text-sm text-ink">{request.approvalReference}</p>
+          </div>
+        ) : null}
+        {aside}
         <div className="rounded-3xl border border-hairline bg-surface-2 p-6">
           <h3 className="mb-4 font-display text-lg font-semibold text-ink">Status timeline</h3>
-          <RequestTimeline request={request} />
+          {events ? <ReviewTimeline events={events} /> : <RequestTimeline request={request} />}
         </div>
         <div className="rounded-3xl border border-hairline bg-surface-2 p-6">
-          <h3 className="mb-2 font-display text-lg font-semibold text-ink">Review notes</h3>
-          <p className="text-sm text-ink-dim">
-            {request.reviewNotes ?? "No review notes yet. Notes appear here once an admin reviews this request."}
+          <h3 className="mb-2 font-display text-lg font-semibold text-ink">Review outcome</h3>
+          <p className="whitespace-pre-wrap text-sm text-ink-dim">
+            {request.reviewReason ??
+              request.reviewNotes ??
+              "No review feedback yet. It appears here once an admin reviews this request."}
           </p>
         </div>
+
       </div>
     </div>
   );

@@ -6,7 +6,10 @@ import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { getCampaignRequest } from "@/features/campaign-requests/requests.functions";
+import { listRequestEvents } from "@/features/campaign-requests/admin-review.functions";
 import { CampaignRequestDetail } from "@/features/campaign-requests/components/campaign-request-detail";
+import { ApprovalActions } from "@/features/campaign-requests/components/approval-actions";
+import { ReviewNotesCard } from "@/features/campaign-requests/components/review-notes-card";
 
 export const Route = createFileRoute("/app/admin/requests/$requestId")({
   head: () => ({
@@ -31,6 +34,7 @@ export const Route = createFileRoute("/app/admin/requests/$requestId")({
 function AdminCampaignRequestDetailPage() {
   const { requestId } = Route.useParams();
   const fetchRequest = useServerFn(getCampaignRequest);
+  const fetchEvents = useServerFn(listRequestEvents);
   const {
     data: request,
     isLoading,
@@ -38,6 +42,10 @@ function AdminCampaignRequestDetailPage() {
   } = useQuery({
     queryKey: ["campaign-requests", requestId],
     queryFn: () => fetchRequest({ data: { id: requestId } }),
+  });
+  const { data: events } = useQuery({
+    queryKey: ["campaign-request-events", requestId],
+    queryFn: () => fetchEvents({ data: { id: requestId } }),
   });
 
   return (
@@ -59,7 +67,21 @@ function AdminCampaignRequestDetailPage() {
           />
         }
       >
-        {request ? <CampaignRequestDetail request={request} /> : null}
+        {request ? (
+          <CampaignRequestDetail
+            request={request}
+            events={events ?? []}
+            aside={
+              <>
+                <div className="rounded-3xl border border-hairline bg-surface-2 p-6">
+                  <h3 className="mb-4 font-display text-lg font-semibold text-ink">Review</h3>
+                  <ApprovalActions request={request} />
+                </div>
+                <ReviewNotesCard requestId={requestId} events={events ?? []} />
+              </>
+            }
+          />
+        ) : null}
       </DataSection>
     </div>
   );

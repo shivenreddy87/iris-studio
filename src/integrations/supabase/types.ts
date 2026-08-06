@@ -100,8 +100,47 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_request_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          id: string
+          internal: boolean
+          kind: string
+          note: string | null
+          request_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          internal?: boolean
+          kind: string
+          note?: string | null
+          request_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          internal?: boolean
+          kind?: string
+          note?: string | null
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_request_events_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "campaign_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign_requests: {
         Row: {
+          approval_reference: string | null
           attachment_url: string | null
           budget: number | null
           business_category: string | null
@@ -116,6 +155,7 @@ export type Database = {
           preferred_creator_category: string | null
           required_views: number | null
           review_notes: string | null
+          review_reason: string | null
           reviewed_at: string | null
           reviewed_by: string | null
           status: Database["public"]["Enums"]["campaign_request_status"]
@@ -127,6 +167,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          approval_reference?: string | null
           attachment_url?: string | null
           budget?: number | null
           business_category?: string | null
@@ -141,6 +182,7 @@ export type Database = {
           preferred_creator_category?: string | null
           required_views?: number | null
           review_notes?: string | null
+          review_reason?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["campaign_request_status"]
@@ -152,6 +194,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          approval_reference?: string | null
           attachment_url?: string | null
           budget?: number | null
           business_category?: string | null
@@ -166,6 +209,7 @@ export type Database = {
           preferred_creator_category?: string | null
           required_views?: number | null
           review_notes?: string | null
+          review_reason?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["campaign_request_status"]
@@ -865,6 +909,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      next_approval_reference: { Args: never; Returns: string }
       refresh_analytics_rollups: {
         Args: { _org_id: string }
         Returns: undefined
@@ -879,6 +924,7 @@ export type Database = {
         | "approved"
         | "rejected"
         | "cancelled"
+        | "changes_requested"
       campaign_status: "draft" | "live" | "review" | "completed" | "archived"
       contract_status: "none" | "draft" | "sent" | "signed"
       creator_accent: "violet" | "rose"
@@ -1026,6 +1072,7 @@ export const Constants = {
         "approved",
         "rejected",
         "cancelled",
+        "changes_requested",
       ],
       campaign_status: ["draft", "live", "review", "completed", "archived"],
       contract_status: ["none", "draft", "sent", "signed"],

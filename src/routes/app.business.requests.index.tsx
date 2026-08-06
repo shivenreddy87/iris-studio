@@ -45,6 +45,7 @@ export const Route = createFileRoute("/app/business/requests/")({
 const SECTIONS: { key: string; title: string; statuses: CampaignRequestStatus[] }[] = [
   { key: "drafts", title: "Drafts", statuses: ["draft"] },
   { key: "submitted", title: "Submitted", statuses: ["submitted", "under_review"] },
+  { key: "changes_requested", title: "Changes requested", statuses: ["changes_requested"] },
   { key: "approved", title: "Approved", statuses: ["approved"] },
   { key: "rejected", title: "Rejected", statuses: ["rejected", "cancelled"] },
 ];
@@ -75,6 +76,17 @@ function BusinessCampaignRequestsPage() {
   });
 
   function actionsFor(request: CampaignRequest) {
+    if (request.status === "changes_requested") {
+      return (
+        <Link
+          to="/app/business/requests/$requestId/edit"
+          params={{ requestId: request.id }}
+          className="text-sm text-violet hover:underline"
+        >
+          Update &amp; resubmit
+        </Link>
+      );
+    }
     if (request.status === "draft") {
       return (
         <>
