@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Panel } from "@/features/contests/components/detail-row";
 import type { Contest } from "@/features/contests/types";
-import { listApplicationsForContest } from "../application.functions";
+import { listContestApplications } from "../application.functions";
 import {
   bulkRejectApplications,
   getSelectionSummary,
@@ -24,7 +24,11 @@ import { ActivateContestDialog } from "./activate-contest-dialog";
 import { ApplicationSelectionCard } from "./application-selection-card";
 import { SelectedParticipantCard } from "./selected-participant-card";
 import { SelectionSummary } from "./selection-summary";
-import { APPLICATION_STATUS_LABELS, type ApplicationStatus } from "../types";
+import {
+  APPLICATION_STATUS_LABELS,
+  type ApplicationStatus,
+  type ContestApplication,
+} from "../types";
 
 type StatusFilter = "all" | ApplicationStatus;
 type SortKey = "recent" | "followers" | "name";
@@ -46,7 +50,7 @@ export function ParticipantSelectionTable({ contest }: { contest: Contest }) {
   const [checked, setChecked] = useState<string[]>([]);
   const invalidate = useInvalidateApplications();
 
-  const loadApplications = useServerFn(listApplicationsForContest);
+  const loadApplications = useServerFn(listContestApplications);
   const loadParticipants = useServerFn(listSelectedParticipants);
   const loadSummary = useServerFn(getSelectionSummary);
   const bulkReject = useServerFn(bulkRejectApplications);
@@ -83,7 +87,7 @@ export function ParticipantSelectionTable({ contest }: { contest: Contest }) {
 
   const applications = useMemo(() => {
     const term = search.trim().toLowerCase();
-    const rows = (applicationsQuery.data ?? []).filter((application) => {
+    const rows = (applicationsQuery.data ?? []).filter((application: ContestApplication) => {
       if (status !== "all" && application.status !== status) return false;
       if (!term) return true;
       return [
