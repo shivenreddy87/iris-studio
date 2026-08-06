@@ -124,9 +124,7 @@ export function ContestFilterBar({
           <select
             className={fieldClass}
             value={value.status ?? "all"}
-            onChange={(e) =>
-              set("status", e.target.value as ContestDiscoveryFilters["status"])
-            }
+            onChange={(e) => set("status", e.target.value as ContestDiscoveryFilters["status"])}
           >
             <option value="all">All statuses</option>
             {DISCOVERABLE_STATUSES.map((s) => (

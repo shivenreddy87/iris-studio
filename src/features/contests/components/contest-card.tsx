@@ -37,7 +37,11 @@ export function ContestCard({
     "block rounded-3xl border border-hairline bg-surface-2 p-5 transition-colors hover:border-violet/30";
 
   return to === "admin" ? (
-    <Link to="/app/admin/contests/$contestId" params={{ contestId: contest.id }} className={className}>
+    <Link
+      to="/app/admin/contests/$contestId"
+      params={{ contestId: contest.id }}
+      className={className}
+    >
       {inner}
     </Link>
   ) : (

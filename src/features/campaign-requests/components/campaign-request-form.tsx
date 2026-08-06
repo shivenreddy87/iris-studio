@@ -113,7 +113,6 @@ export function CampaignRequestForm({
     return zr(values, ctx, options);
   };
 
-
   const { register, handleSubmit, formState, setValue, watch } = useForm<CampaignRequestFormValues>(
     {
       resolver,
@@ -294,7 +293,10 @@ export function CampaignRequestForm({
         </Field>
       </Section>
 
-      <Section title="Budget & delivery" description="What you will spend and what you expect back.">
+      <Section
+        title="Budget & delivery"
+        description="What you will spend and what you expect back."
+      >
         <Field label="Required views" htmlFor="requiredViews" error={errors.requiredViews?.message}>
           <input
             id="requiredViews"

@@ -56,11 +56,7 @@ function AddRow({ label, onAdd }: { label: string; onAdd: (name: string) => void
         setValue("");
       }}
     >
-      <Input
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-        placeholder={label}
-      />
+      <Input value={value} onChange={(event) => setValue(event.target.value)} placeholder={label} />
       <Button type="submit" variant="outline">
         <Plus className="size-4" /> Add
       </Button>

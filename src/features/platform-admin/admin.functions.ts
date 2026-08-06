@@ -92,7 +92,9 @@ export const suspendPlatformUser = createServerFn({ method: "POST" })
 
 export const reactivatePlatformUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: { userId: string; role: "business" | "influencer"; note?: string }) => data)
+  .inputValidator(
+    (data: { userId: string; role: "business" | "influencer"; note?: string }) => data,
+  )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
     await assertNotSuspended(context.userId);
     await assertAdmin(context.supabase, context.userId);
@@ -184,12 +186,10 @@ export const savePlatformCategory = createServerFn({ method: "POST" })
         ...(data.sortOrder !== undefined ? { sortOrder: data.sortOrder } : {}),
       });
     }
-    await recordAdminAudit(
-      context.userId,
-      "platform_category",
-      data.id ? "update" : "create",
-      { entityId: data.id ?? null, newValues: data },
-    );
+    await recordAdminAudit(context.userId, "platform_category", data.id ? "update" : "create", {
+      entityId: data.id ?? null,
+      newValues: data,
+    });
     return { ok: true };
   });
 

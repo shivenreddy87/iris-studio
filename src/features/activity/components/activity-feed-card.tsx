@@ -37,7 +37,9 @@ function Shell({ title, children }: { title: string; children: React.ReactNode }
     <section className="rounded-3xl border border-hairline bg-surface-2">
       <header className="flex items-center gap-2 px-5 py-4">
         <Activity className="size-4 text-violet" />
-        <h2 className="font-display text-sm font-bold uppercase tracking-wider text-ink">{title}</h2>
+        <h2 className="font-display text-sm font-bold uppercase tracking-wider text-ink">
+          {title}
+        </h2>
       </header>
       {children}
     </section>
@@ -53,7 +55,10 @@ export function RecentActivityCard({ limit = 8 }: { limit?: number }) {
   });
   return (
     <Shell title="Recent activity">
-      <ActivityRows items={data} empty="Nothing has happened yet. Your updates will show up here." />
+      <ActivityRows
+        items={data}
+        empty="Nothing has happened yet. Your updates will show up here."
+      />
     </Shell>
   );
 }

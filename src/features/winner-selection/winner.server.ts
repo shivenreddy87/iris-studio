@@ -32,7 +32,13 @@ const METRIC_COLUMNS =
 
 type MetricRow = Pick<
   SubmissionRow,
-  "id" | "contest_id" | "participant_id" | "influencer_id" | "platform" | "content_url" | "submitted_at"
+  | "id"
+  | "contest_id"
+  | "participant_id"
+  | "influencer_id"
+  | "platform"
+  | "content_url"
+  | "submitted_at"
 > & {
   submission_status: string;
   views: number;
@@ -104,7 +110,8 @@ async function loadInfluencerDetails(userIds: string[]) {
     const creator = creatorMap.get(id);
     const profile = (profiles ?? []).find((p) => p.id === id);
     map.set(id, {
-      name: (creator?.display_name as string | null) ?? (profile?.full_name as string | null) ?? null,
+      name:
+        (creator?.display_name as string | null) ?? (profile?.full_name as string | null) ?? null,
       handle: (creator?.handle as string | null) ?? null,
     });
   }
@@ -265,7 +272,10 @@ async function buildWinnerEntries(
   const { data: submissions } = await sb
     .from("contest_submissions")
     .select("id, content_url, views, engagement_rate")
-    .in("id", winners.map((w) => w.submission_id));
+    .in(
+      "id",
+      winners.map((w) => w.submission_id),
+    );
   const submissionMap = new Map((submissions ?? []).map((s) => [s.id as string, s]));
 
   return winners.map((winner) => {
@@ -288,9 +298,10 @@ async function buildWinnerEntries(
       rewardAmount: winner.reward_amount,
       winnerNotes: winner.winner_notes,
       selectedAt: winner.selected_at,
-      completedAt: contest.status === "completed" || contest.status === "archived"
-        ? (contest.archivedAt ?? contest.updatedAt)
-        : null,
+      completedAt:
+        contest.status === "completed" || contest.status === "archived"
+          ? (contest.archivedAt ?? contest.updatedAt)
+          : null,
       contentUrl: (submission?.content_url as string | undefined) ?? null,
       views: (submission?.views as number | undefined) ?? 0,
       engagementRate: (submission?.engagement_rate as number | undefined) ?? 0,
@@ -695,10 +706,7 @@ export async function fetchMyWins(userId: string): Promise<ContestWinnerEntry[]>
 }
 
 /** Influencer: winner state for one of their contests. */
-export async function fetchMyOutcome(
-  contest: Contest,
-  userId: string,
-): Promise<MyContestOutcome> {
+export async function fetchMyOutcome(contest: Contest, userId: string): Promise<MyContestOutcome> {
   const sb = await admin();
   const { data } = await sb
     .from("contest_winners")

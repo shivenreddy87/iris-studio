@@ -55,7 +55,10 @@ export function dailySeries(dates: (string | null | undefined)[], days = 30): Se
   return out;
 }
 
-function countBy<T extends string>(rows: { [k: string]: unknown }[], field: string): Record<T, number> {
+function countBy<T extends string>(
+  rows: { [k: string]: unknown }[],
+  field: string,
+): Record<T, number> {
   const out = {} as Record<T, number>;
   for (const row of rows) {
     const key = String(row[field] ?? "unknown") as T;
@@ -204,9 +207,8 @@ export async function fetchPlatformAnalytics(days = 30): Promise<PlatformAnalyti
           r.submitted_at !== null &&
           Date.now() - new Date(r.submitted_at).getTime() > 3 * DAY,
       ).length,
-      contestsWithoutParticipants: contestRows.filter(
-        (c) => c.status === "participant_selection",
-      ).length,
+      contestsWithoutParticipants: contestRows.filter((c) => c.status === "participant_selection")
+        .length,
       unverifiedSubmissions: submissionRows.filter((s) => s.submission_status === "submitted")
         .length,
       stalePayouts: payoutRows.filter(
@@ -434,12 +436,10 @@ export async function syncInfluencerAchievements(influencerId: string): Promise<
   if ((firstPlace ?? []).length > 0) codes.push("top_performer");
 
   if (!codes.length) return [];
-  await db
-    .from("user_achievements")
-    .upsert(
-      codes.map((code) => ({ user_id: influencerId, code })),
-      { onConflict: "user_id,code", ignoreDuplicates: true },
-    );
+  await db.from("user_achievements").upsert(
+    codes.map((code) => ({ user_id: influencerId, code })),
+    { onConflict: "user_id,code", ignoreDuplicates: true },
+  );
   return codes;
 }
 
@@ -455,14 +455,8 @@ export async function fetchContestAnalytics(contestId: string): Promise<ContestA
       )
       .eq("id", contestId)
       .maybeSingle(),
-    db
-      .from("contest_applications")
-      .select("id, status, created_at")
-      .eq("contest_id", contestId),
-    db
-      .from("contest_participants")
-      .select("id, participation_status")
-      .eq("contest_id", contestId),
+    db.from("contest_applications").select("id, status, created_at").eq("contest_id", contestId),
+    db.from("contest_participants").select("id, participation_status").eq("contest_id", contestId),
     db
       .from("contest_submissions")
       .select("id, submission_status, engagement_rate, views")

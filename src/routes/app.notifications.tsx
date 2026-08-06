@@ -152,7 +152,9 @@ function NotificationsPage() {
               key={item.id}
               item={item}
               onToggleRead={(n) =>
-                mutate.mutate(() => (n.readAt ? markUnread({ data: { id: n.id } }) : markRead({ data: { id: n.id } })))
+                mutate.mutate(() =>
+                  n.readAt ? markUnread({ data: { id: n.id } }) : markRead({ data: { id: n.id } }),
+                )
               }
               onArchive={(n) => mutate.mutate(() => archive({ data: { id: n.id } }))}
               onUnarchive={(n) => mutate.mutate(() => unarchive({ data: { id: n.id } }))}

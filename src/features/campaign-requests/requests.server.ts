@@ -95,22 +95,25 @@ export type Payload = {
   attachment_url: string | null;
 };
 
-export function toPayload(v: {
-  title: string;
-  campaignGoal?: string | undefined;
-  businessCategory?: string | undefined;
-  targetAudience?: string | undefined;
-  targetPlatform?: string | undefined;
-  targetLocation?: string | undefined;
-  requiredViews?: number | undefined;
-  budget?: number | undefined;
-  durationDays?: number | undefined;
-  preferredCreatorCategory?: string | undefined;
-  minimumFollowers?: number | undefined;
-  maximumFollowers?: number | undefined;
-  campaignDescription?: string | undefined;
-  attachmentUrl?: string | undefined;
-}, ownerId: string): Payload {
+export function toPayload(
+  v: {
+    title: string;
+    campaignGoal?: string | undefined;
+    businessCategory?: string | undefined;
+    targetAudience?: string | undefined;
+    targetPlatform?: string | undefined;
+    targetLocation?: string | undefined;
+    requiredViews?: number | undefined;
+    budget?: number | undefined;
+    durationDays?: number | undefined;
+    preferredCreatorCategory?: string | undefined;
+    minimumFollowers?: number | undefined;
+    maximumFollowers?: number | undefined;
+    campaignDescription?: string | undefined;
+    attachmentUrl?: string | undefined;
+  },
+  ownerId: string,
+): Payload {
   const text = (s?: string) => (s && s.trim() !== "" ? s.trim() : null);
   const num = (n?: number) => (typeof n === "number" && Number.isFinite(n) ? n : null);
   return {
@@ -170,9 +173,7 @@ export async function listRequestsForAdmin(
   options: { statuses?: CampaignRequestStatus[]; ascending?: boolean } = {},
 ): Promise<CampaignRequest[]> {
   let query = db.from("campaign_requests").select(COLUMNS);
-  query = options.statuses
-    ? query.in("status", options.statuses)
-    : query.neq("status", "draft");
+  query = options.statuses ? query.in("status", options.statuses) : query.neq("status", "draft");
 
   const { data, error } = await query
     .order("created_at", { ascending: options.ascending ?? false })
@@ -219,10 +220,7 @@ export async function fetchRequestEvents(
   const actorIds = [...new Set(rows.map((r) => r.actor_id).filter((v): v is string => Boolean(v)))];
   const namesById = new Map<string, string | null>();
   if (actorIds.length > 0) {
-    const { data: profiles } = await db
-      .from("profiles")
-      .select("id, full_name")
-      .in("id", actorIds);
+    const { data: profiles } = await db.from("profiles").select("id, full_name").in("id", actorIds);
     for (const p of profiles ?? []) namesById.set(p.id, p.full_name);
   }
 
@@ -264,7 +262,6 @@ export async function applyReviewTransition(
   };
   if (input.reason !== undefined) patch.review_reason = input.reason;
   if (input.approvalReference) patch.approval_reference = input.approvalReference;
-
 
   const { data: row, error } = await db
     .from("campaign_requests")
@@ -316,7 +313,8 @@ export async function notifyBusinessOfDecision(input: {
 }): Promise<void> {
   const copy = NOTIFICATION_COPY[input.status];
   if (!copy) return;
-  const { createNotification, createActivity } = await import("@/features/activity/notification.server");
+  const { createNotification, createActivity } =
+    await import("@/features/activity/notification.server");
   await createActivity({
     actorId: input.actorId ?? null,
     targetUserId: input.businessId,
@@ -331,13 +329,14 @@ export async function notifyBusinessOfDecision(input: {
     category: "campaign",
     priority: input.status === "changes_requested" ? "high" : "normal",
     title: copy.title,
-    body: input.reason ? `${copy.body(input.requestTitle)} ${input.reason}` : copy.body(input.requestTitle),
+    body: input.reason
+      ? `${copy.body(input.requestTitle)} ${input.reason}`
+      : copy.body(input.requestTitle),
     link: `/app/business/requests/${input.requestId}`,
     actionLabel: "View request",
     metadata: { requestId: input.requestId },
   });
 }
-
 
 /** Alerts admins (and records activity) whenever a request reaches the review queue. */
 export async function announceSubmission(input: {

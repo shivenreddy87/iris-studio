@@ -3,11 +3,7 @@ import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { DEFAULT_PREFERENCES } from "./types";
-import type {
-  NotificationItem,
-  NotificationListResult,
-  NotificationPreferences,
-} from "./types";
+import type { NotificationItem, NotificationListResult, NotificationPreferences } from "./types";
 import { mapNotification, mapPreferences } from "./mappers";
 
 const filtersSchema = z.object({
@@ -34,7 +30,8 @@ export const listNotifications = createServerFn({ method: "GET" })
       .limit(data.limit + 1);
 
     if (data.status === "unread") query = query.is("read_at", null).is("archived_at", null);
-    else if (data.status === "read") query = query.not("read_at", "is", null).is("archived_at", null);
+    else if (data.status === "read")
+      query = query.not("read_at", "is", null).is("archived_at", null);
     else if (data.status === "archived") query = query.not("archived_at", "is", null);
     else query = query.is("archived_at", null);
 

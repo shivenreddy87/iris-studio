@@ -123,12 +123,7 @@ export function BusinessProfileForm({
           error={errors.description?.message}
           hint="What you sell, who you sell to, and what makes you different."
         >
-          <textarea
-            id="description"
-            rows={5}
-            className={fieldClass}
-            {...register("description")}
-          />
+          <textarea id="description" rows={5} className={fieldClass} {...register("description")} />
         </Field>
       </div>
 

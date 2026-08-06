@@ -8,8 +8,7 @@ export const applicationKeys = {
   forContest: (contestId: string) => ["contest-applications", "contest", contestId] as const,
   counts: (contestId: string) => ["contest-applications", "counts", contestId] as const,
   detail: (id: string) => ["contest-applications", "detail", id] as const,
-  participants: (contestId: string) =>
-    ["contest-applications", "participants", contestId] as const,
+  participants: (contestId: string) => ["contest-applications", "participants", contestId] as const,
   selectionSummary: (contestId: string) =>
     ["contest-applications", "selection-summary", contestId] as const,
 };

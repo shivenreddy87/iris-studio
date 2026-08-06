@@ -9,11 +9,7 @@ import {
   loadSavedIds,
   queryDiscovery,
 } from "./discovery.server";
-import type {
-  ContestDetailForInfluencer,
-  ContestDiscoveryFilters,
-  DiscoveryPage,
-} from "./types";
+import type { ContestDetailForInfluencer, ContestDiscoveryFilters, DiscoveryPage } from "./types";
 
 /** Paginated discovery feed: contest + eligibility + saved state in one response. */
 export const listDiscoverableContests = createServerFn({ method: "POST" })

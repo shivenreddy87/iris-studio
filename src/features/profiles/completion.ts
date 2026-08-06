@@ -1,9 +1,4 @@
-import type {
-  BusinessProfile,
-  InfluencerProfile,
-  MyProfile,
-  ProfileCompletion,
-} from "./types";
+import type { BusinessProfile, InfluencerProfile, MyProfile, ProfileCompletion } from "./types";
 
 /**
  * Completion is a pure calculation so the dashboard, the profile page and the
@@ -29,7 +24,6 @@ const INFLUENCER_FIELDS: Array<{ key: keyof InfluencerProfile; label: string }> 
   { key: "followerRange", label: "Follower range" },
   { key: "bio", label: "Bio" },
 ];
-
 
 function score(
   record: Record<string, unknown> | null,
@@ -60,8 +54,8 @@ export function influencerCompletion(profile: InfluencerProfile | null): Profile
   const base = score(profile as Record<string, unknown> | null, INFLUENCER_FIELDS);
   const hasSocial = Boolean(
     profile?.instagramHandle?.trim() ||
-      profile?.tiktokHandle?.trim() ||
-      profile?.youtubeChannel?.trim(),
+    profile?.tiktokHandle?.trim() ||
+    profile?.youtubeChannel?.trim(),
   );
 
   const total = base.total + 1;

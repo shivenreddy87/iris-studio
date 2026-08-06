@@ -12,10 +12,7 @@ import {
   listMyCampaignRequests,
 } from "@/features/campaign-requests/requests.functions";
 import { CampaignRequestCard } from "@/features/campaign-requests/components/campaign-request-card";
-import type {
-  CampaignRequest,
-  CampaignRequestStatus,
-} from "@/features/campaign-requests/types";
+import type { CampaignRequest, CampaignRequestStatus } from "@/features/campaign-requests/types";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
 export const Route = createFileRoute("/app/business/requests/")({

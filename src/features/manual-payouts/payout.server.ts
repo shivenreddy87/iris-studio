@@ -335,7 +335,9 @@ async function notifyInfluencer(payout: PayoutRow, title: string, body: string):
 
 async function notifyAdmins(title: string, body: string, link: string): Promise<void> {
   const ids = await adminUserIds();
-  await insertNotifications(ids.map((id) => ({ user_id: id, kind: "system" as const, title, body, link })));
+  await insertNotifications(
+    ids.map((id) => ({ user_id: id, kind: "system" as const, title, body, link })),
+  );
 }
 
 /* ------------------------------------------------------------------ */
@@ -516,9 +518,7 @@ export async function createPayoutsForContest(
   return (inserted ?? []).length;
 }
 
-type PayoutPatch = Partial<
-  Database["public"]["Tables"]["payouts"]["Update"]
->;
+type PayoutPatch = Partial<Database["public"]["Tables"]["payouts"]["Update"]>;
 
 async function updatePayout(payoutId: string, patch: PayoutPatch): Promise<void> {
   const sb = await admin();
@@ -651,15 +651,16 @@ export async function startProcessing(payoutId: string, actorId: string): Promis
     failure_reason: null,
   });
   await logPayoutEvent({ payoutId, actorId, eventType: "processing_started" });
-  await notifyInfluencer(
-    payout,
-    "Payment processing",
-    "Your reward payment is being processed.",
-  );
+  await notifyInfluencer(payout, "Payment processing", "Your reward payment is being processed.");
 }
 
 export async function markPaid(
-  input: { payoutId: string; paymentMethod: string; paymentReference: string; note?: string | undefined },
+  input: {
+    payoutId: string;
+    paymentMethod: string;
+    paymentReference: string;
+    note?: string | undefined;
+  },
   actorId: string,
 ): Promise<void> {
   const payout = await fetchPayoutRow(input.payoutId);
@@ -707,7 +708,11 @@ export async function markFailed(
     "Payment failed",
     "Your reward payment could not be completed. The team is looking into it.",
   );
-  await notifyAdmins("Payout failed", "A reward payment failed and needs attention.", "/app/admin/payouts");
+  await notifyAdmins(
+    "Payout failed",
+    "A reward payment failed and needs attention.",
+    "/app/admin/payouts",
+  );
 }
 
 export async function retryFailedPayment(payoutId: string, actorId: string): Promise<void> {

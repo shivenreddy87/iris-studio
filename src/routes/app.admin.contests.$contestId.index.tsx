@@ -24,12 +24,8 @@ import type { ContestStatus } from "@/features/contests/types";
 /** Contest states where content submission is in play. */
 const EXECUTION_STATUSES: ContestStatus[] = ["live", "completed", "archived"];
 
-
 /** Statuses where the admin manages participant selection instead of read-only review. */
 const SELECTION_STATUSES: ContestStatus[] = ["applications_closed", "participant_selection"];
-
-
-
 
 export const Route = createFileRoute("/app/admin/contests/$contestId/")({
   head: () => ({
@@ -92,7 +88,10 @@ function AdminContestDetailPage() {
       >
         {contest ? (
           <div className="space-y-6">
-            <ContestHeader contest={contest} actions={<ContestLifecycleActions contest={contest} />} />
+            <ContestHeader
+              contest={contest}
+              actions={<ContestLifecycleActions contest={contest} />}
+            />
             <ContestSummary contest={contest} />
             <ApplicationCountsCard contestId={contest.id} />
             {SELECTION_STATUSES.includes(contest.status) ? (
@@ -115,9 +114,7 @@ function AdminContestDetailPage() {
               <ContestTimeline events={events} />
             </Panel>
           </div>
-
         ) : null}
-
       </DataSection>
     </div>
   );

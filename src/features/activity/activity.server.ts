@@ -13,7 +13,10 @@ export async function loadActorNames(ids: string[]): Promise<Map<string, string>
   const sb = await admin();
   const { data } = await sb.from("profiles").select("id, full_name, email").in("id", unique);
   for (const row of data ?? []) {
-    map.set(row.id as string, (row.full_name as string | null) ?? (row.email as string | null) ?? "Someone");
+    map.set(
+      row.id as string,
+      (row.full_name as string | null) ?? (row.email as string | null) ?? "Someone",
+    );
   }
   return map;
 }

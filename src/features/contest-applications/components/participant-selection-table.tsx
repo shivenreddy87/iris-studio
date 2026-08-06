@@ -110,9 +110,12 @@ export function ParticipantSelectionTable({ contest }: { contest: Contest }) {
   }, [applicationsQuery.data, search, sort, status]);
 
   const summary = summaryQuery.data;
-  const selectable = contest.status === "applications_closed" || contest.status === "participant_selection";
+  const selectable =
+    contest.status === "applications_closed" || contest.status === "participant_selection";
   const canSelect = Boolean(summary?.canSelect);
-  const rejectable = applications.filter((a) => a.status === "submitted" || a.status === "shortlisted");
+  const rejectable = applications.filter(
+    (a) => a.status === "submitted" || a.status === "shortlisted",
+  );
   const allChecked = rejectable.length > 0 && checked.length === rejectable.length;
 
   return (

@@ -41,8 +41,8 @@ export function PayoutProgressCard({
         <div className="h-full rounded-full bg-violet" style={{ width: `${pct}%` }} />
       </div>
       <p className="mt-2 text-xs text-ink-mute">
-        {progress.paid} of {progress.totalWinners} winners paid · {money(currency, progress.paidAmount)} of{" "}
-        {money(currency, progress.totalAmount)} settled
+        {progress.paid} of {progress.totalWinners} winners paid ·{" "}
+        {money(currency, progress.paidAmount)} of {money(currency, progress.totalAmount)} settled
       </p>
 
       <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">

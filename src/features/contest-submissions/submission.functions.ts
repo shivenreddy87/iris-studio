@@ -170,7 +170,6 @@ export const getContestProgress = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { contestId: string }) => data)
   .handler(async ({ data, context }): Promise<ContestProgress> => {
-
     const { supabase, userId } = context;
     const contest = await fetchContestOrThrow(supabase, data.contestId);
     if (contest.businessId !== userId) await assertAdmin(supabase, userId);

@@ -1,10 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/shared/page-header";
 import { TemplateEditor } from "@/features/platform-admin/components/template-editor";
-import {
-  useContestTemplates,
-  useTemplateActions,
-} from "@/features/platform-admin/hooks/use-admin";
+import { useContestTemplates, useTemplateActions } from "@/features/platform-admin/hooks/use-admin";
 
 export const Route = createFileRoute("/app/admin/templates")({
   head: () => ({

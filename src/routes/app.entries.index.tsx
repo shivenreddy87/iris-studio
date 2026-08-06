@@ -7,7 +7,10 @@ import { DataSection } from "@/components/shared/data-section";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 import { listMyApplications } from "@/features/contest-applications/application.functions";
-import { applicationKeys, useInvalidateApplications } from "@/features/contest-applications/hooks/use-applications";
+import {
+  applicationKeys,
+  useInvalidateApplications,
+} from "@/features/contest-applications/hooks/use-applications";
 import { ApplicationCard } from "@/features/contest-applications/components/application-card";
 import { WithdrawApplicationDialog } from "@/features/contest-applications/components/withdraw-application-dialog";
 import { canWithdraw } from "@/features/contest-applications/types";

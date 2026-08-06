@@ -6,7 +6,6 @@ import { PageHeader } from "@/components/shared/page-header";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { getAdminReviewSummary } from "@/features/campaign-requests/admin-review.functions";
 
-
 export const Route = createFileRoute("/app/admin/")({
   head: () => ({
     meta: [
@@ -106,4 +105,3 @@ function AdminDashboardPage() {
     </div>
   );
 }
-

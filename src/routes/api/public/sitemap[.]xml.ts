@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const PUBLIC_PATHS = ["/", "/pricing", "/privacy", "/terms", "/auth/sign-in", "/auth/sign-up"];
+const PUBLIC_PATHS = ["/", "/privacy", "/terms", "/auth/sign-in", "/auth/sign-up"];
 
 export const Route = createFileRoute("/api/public/sitemap.xml")({
   server: {
@@ -13,7 +13,9 @@ export const Route = createFileRoute("/api/public/sitemap.xml")({
             `  <url><loc>${origin}${p}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq></url>`,
         ).join("\n");
         const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
-        return new Response(body, { headers: { "Content-Type": "application/xml; charset=utf-8" } });
+        return new Response(body, {
+          headers: { "Content-Type": "application/xml; charset=utf-8" },
+        });
       },
     },
   },

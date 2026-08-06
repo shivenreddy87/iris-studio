@@ -64,12 +64,7 @@ export function ContestSubmissionForm({
         <Textarea id="caption" rows={4} className={fieldClass} {...register("caption")} />
       </Field>
 
-      <Field
-        label="Notes for the reviewer"
-        htmlFor="notes"
-        optional
-        error={errors.notes?.message}
-      >
+      <Field label="Notes for the reviewer" htmlFor="notes" optional error={errors.notes?.message}>
         <Textarea id="notes" rows={3} className={fieldClass} {...register("notes")} />
       </Field>
 
@@ -84,9 +79,7 @@ export function ContestSubmissionForm({
           cannot be edited or resubmitted.
         </span>
       </label>
-      {errors.agreed?.message ? (
-        <p className="text-xs text-rose">{errors.agreed.message}</p>
-      ) : null}
+      {errors.agreed?.message ? <p className="text-xs text-rose">{errors.agreed.message}</p> : null}
 
       <Button type="submit" disabled={submitting || !formState.isValid}>
         {submitting ? "Submitting…" : "Submit content"}

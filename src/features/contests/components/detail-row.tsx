@@ -26,4 +26,6 @@ export const numOr = (v: number | null | undefined) =>
 export const money = (v: number | null | undefined) =>
   v === null || v === undefined ? "—" : `₹${nf.format(v)}`;
 export const dateOr = (v: string | null | undefined) =>
-  v ? new Date(v).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "—";
+  v
+    ? new Date(v).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })
+    : "—";

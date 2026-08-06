@@ -72,7 +72,14 @@ export function ContestLifecycleActions({ contest }: { contest: Contest }) {
     <>
       <div className="flex flex-wrap gap-2">
         {contest.status === "draft" ? (
-          <Button onClick={() => void navigate({ to: "/app/admin/contests/$contestId/edit", params: { contestId: contest.id } })}>
+          <Button
+            onClick={() =>
+              void navigate({
+                to: "/app/admin/contests/$contestId/edit",
+                params: { contestId: contest.id },
+              })
+            }
+          >
             Continue in wizard
           </Button>
         ) : contest.status !== "archived" && contest.status !== "completed" ? (

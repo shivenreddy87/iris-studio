@@ -27,7 +27,9 @@ export function SelectedParticipantCard({ participant }: { participant: ContestP
         />
       </div>
       <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-ink-mute">
-        {participant.followers !== null ? `${participant.followers.toLocaleString()} followers` : "Followers —"}
+        {participant.followers !== null
+          ? `${participant.followers.toLocaleString()} followers`
+          : "Followers —"}
         {participant.niche ? ` · ${participant.niche}` : ""}
       </p>
       {participant.portfolioUrl ? (

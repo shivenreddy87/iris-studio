@@ -12,9 +12,15 @@ export const Route = createFileRoute("/auth/role")({
   head: () => ({
     meta: [
       { title: "Choose your role — Project Eros" },
-      { name: "description", content: "Are you a business or a creator? Choose how you'll use Project Eros." },
+      {
+        name: "description",
+        content: "Are you a business or a creator? Choose how you'll use Project Eros.",
+      },
       { property: "og:title", content: "Choose your role — Project Eros" },
-      { property: "og:description", content: "Get started as a Brand or a Creator on Project Eros." },
+      {
+        property: "og:description",
+        content: "Get started as a Brand or a Creator on Project Eros.",
+      },
     ],
   }),
   component: RolePicker,
@@ -39,7 +45,6 @@ const roles = [
     Icon: Camera,
     accent: "rose" as const,
   },
-
 ];
 
 function RolePicker() {
@@ -48,13 +53,18 @@ function RolePicker() {
 
   return (
     <div className="min-h-screen bg-surface-2 px-6 py-10">
-      <Link to="/" className="mx-auto block max-w-6xl font-display text-xl font-extrabold tracking-tighter text-ink">
+      <Link
+        to="/"
+        className="mx-auto block max-w-6xl font-display text-xl font-extrabold tracking-tighter text-ink"
+      >
         EROS.
       </Link>
 
       <div className="mx-auto mt-16 max-w-6xl">
         <div className="mb-14 text-center">
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-ink-mute">Step 1 of 3</p>
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-ink-mute">
+            Step 1 of 3
+          </p>
           <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink md:text-5xl">
             How will you use Eros?
           </h1>
@@ -68,8 +78,7 @@ function RolePicker() {
             const isSelected = selected === id;
             const accentBg = accent === "violet" ? "bg-violet" : "bg-rose";
             const accentText = accent === "violet" ? "text-violet" : "text-rose";
-            const accentGlow =
-              accent === "violet" ? "bg-violet/10" : "bg-rose/10";
+            const accentGlow = accent === "violet" ? "bg-violet/10" : "bg-rose/10";
 
             return (
               <motion.button
@@ -84,9 +93,13 @@ function RolePicker() {
                     : "border-hairline hover:border-hairline hover:shadow-xl"
                 }`}
               >
-                <div className={`pointer-events-none absolute -right-16 -top-16 size-56 rounded-full blur-3xl ${accentGlow}`} />
+                <div
+                  className={`pointer-events-none absolute -right-16 -top-16 size-56 rounded-full blur-3xl ${accentGlow}`}
+                />
                 <div className="relative">
-                  <div className={`mb-8 grid size-14 place-items-center rounded-2xl ${accentBg} text-white shadow-lg`}>
+                  <div
+                    className={`mb-8 grid size-14 place-items-center rounded-2xl ${accentBg} text-white shadow-lg`}
+                  >
                     <Icon className="size-7" strokeWidth={2} />
                   </div>
                   <h2 className="mb-3 font-display text-2xl font-extrabold text-ink">{title}</h2>
@@ -99,7 +112,9 @@ function RolePicker() {
                       </li>
                     ))}
                   </ul>
-                  <div className={`flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest ${accentText}`}>
+                  <div
+                    className={`flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest ${accentText}`}
+                  >
                     {isSelected ? "Selected" : "Choose this path"}
                     <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
                   </div>

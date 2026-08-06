@@ -31,7 +31,10 @@ export function usePresence(channelName: string) {
 
     // Heartbeat last_seen_at every 60s
     const beat = async () => {
-      await supabase.from("profiles").update({ last_seen_at: new Date().toISOString() }).eq("id", user.id);
+      await supabase
+        .from("profiles")
+        .update({ last_seen_at: new Date().toISOString() })
+        .eq("id", user.id);
     };
     beat();
     const interval = setInterval(beat, 60_000);

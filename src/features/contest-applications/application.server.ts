@@ -113,10 +113,7 @@ async function loadContestFacts(db: Db, contestIds: string[]): Promise<Map<strin
   );
 }
 
-export async function loadApplicants(
-  db: Db,
-  userIds: string[],
-): Promise<Map<string, Applicant>> {
+export async function loadApplicants(db: Db, userIds: string[]): Promise<Map<string, Applicant>> {
   const map = new Map<string, Applicant>();
   if (userIds.length === 0) return map;
   const [{ data: profiles }, { data: creators }] = await Promise.all([
@@ -155,9 +152,7 @@ export async function decorateApplications(
   return rows.flatMap((row) => {
     const contest = contests.get(row.contest_id);
     if (!contest) return [];
-    return [
-      toApplication(row, contest, applicants.get(row.influencer_id) ?? EMPTY_APPLICANT),
-    ];
+    return [toApplication(row, contest, applicants.get(row.influencer_id) ?? EMPTY_APPLICANT)];
   });
 }
 
@@ -166,7 +161,10 @@ export async function decorateApplications(
 /* ------------------------------------------------------------------ */
 
 /** Contest lifecycle + application window. Reuses the discovery availability engine. */
-export function checkContestAvailability(contest: Contest, now: Date = new Date()): ApplicationValidation {
+export function checkContestAvailability(
+  contest: Contest,
+  now: Date = new Date(),
+): ApplicationValidation {
   const availability = evaluateAvailability(contest, now);
   if (availability.state === "archived") return applicationFailure("contest_archived");
   if (contest.status !== "applications_open") return applicationFailure("applications_not_open");
@@ -312,7 +310,6 @@ export async function countApplications(
   return counts;
 }
 
-
 /* ------------------------------------------------------------------ */
 /* Writes                                                              */
 /* ------------------------------------------------------------------ */
@@ -371,9 +368,8 @@ export async function notifyApplicationActivity(input: {
   totalApplications: number;
 }): Promise<void> {
   const applicant = input.applicantName ?? "An influencer";
-  const { createNotification, createNotifications, createActivity, notifyAdmins } = await import(
-    "@/features/activity/notification.server"
-  );
+  const { createNotification, createNotifications, createActivity, notifyAdmins } =
+    await import("@/features/activity/notification.server");
 
   await createActivity({
     actorId: input.influencerId,

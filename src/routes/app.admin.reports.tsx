@@ -26,14 +26,46 @@ export const Route = createFileRoute("/app/admin/reports")({
 });
 
 const REPORTS = [
-  { kind: "contest" as ReportKind, title: "Contest report", description: "Every contest with applications, submissions and reward totals." },
-  { kind: "campaign_request" as ReportKind, title: "Campaign request report", description: "Requests with status, budget and review timestamps." },
-  { kind: "winner" as ReportKind, title: "Winner report", description: "Ranked winners with scores and reward amounts." },
-  { kind: "payout" as ReportKind, title: "Payout report", description: "Payout ledger with status and settlement dates." },
-  { kind: "business" as ReportKind, title: "Business report", description: "Business accounts with lifetime activity rollups." },
-  { kind: "influencer" as ReportKind, title: "Influencer report", description: "Influencer accounts with applications, wins and rewards." },
-  { kind: "user" as ReportKind, title: "User report", description: "All registered profiles with join dates." },
-  { kind: "activity" as ReportKind, title: "Activity report", description: "Recent platform-wide audit events." },
+  {
+    kind: "contest" as ReportKind,
+    title: "Contest report",
+    description: "Every contest with applications, submissions and reward totals.",
+  },
+  {
+    kind: "campaign_request" as ReportKind,
+    title: "Campaign request report",
+    description: "Requests with status, budget and review timestamps.",
+  },
+  {
+    kind: "winner" as ReportKind,
+    title: "Winner report",
+    description: "Ranked winners with scores and reward amounts.",
+  },
+  {
+    kind: "payout" as ReportKind,
+    title: "Payout report",
+    description: "Payout ledger with status and settlement dates.",
+  },
+  {
+    kind: "business" as ReportKind,
+    title: "Business report",
+    description: "Business accounts with lifetime activity rollups.",
+  },
+  {
+    kind: "influencer" as ReportKind,
+    title: "Influencer report",
+    description: "Influencer accounts with applications, wins and rewards.",
+  },
+  {
+    kind: "user" as ReportKind,
+    title: "User report",
+    description: "All registered profiles with join dates.",
+  },
+  {
+    kind: "activity" as ReportKind,
+    title: "Activity report",
+    description: "Recent platform-wide audit events.",
+  },
 ];
 
 function AdminReportsPage() {

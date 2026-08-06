@@ -3,7 +3,11 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Lock } from "lucide-react";
 import { Panel } from "@/features/contests/components/detail-row";
-import { getContestExecution, listSubmissionEvents, submitContestContent } from "../submission.functions";
+import {
+  getContestExecution,
+  listSubmissionEvents,
+  submitContestContent,
+} from "../submission.functions";
 import { submissionKeys, useInvalidateSubmissions } from "../hooks/use-submissions";
 import type { SubmissionFormValues } from "../submission.schema";
 import { ContestSubmissionForm } from "./contest-submission-form";

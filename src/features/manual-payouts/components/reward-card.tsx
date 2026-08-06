@@ -34,9 +34,7 @@ export function RewardCard({ entry, userId }: { entry: RewardEntry; userId: stri
         <div>
           <div className="flex items-center gap-2">
             <Trophy className="size-4 text-violet" />
-            <h3 className="font-display text-base font-semibold text-ink">
-              {payout.contestTitle}
-            </h3>
+            <h3 className="font-display text-base font-semibold text-ink">{payout.contestTitle}</h3>
           </div>
           <p className="mt-1 text-sm text-ink-mute">
             Rank #{payout.rank} · {payout.currency} {payout.amount.toLocaleString()}
@@ -60,8 +58,7 @@ export function RewardCard({ entry, userId }: { entry: RewardEntry; userId: stri
 
       {entry.details ? (
         <p className="mt-4 text-sm text-ink-mute">
-          Payment details submitted on{" "}
-          {new Date(entry.details.submittedAt).toLocaleDateString()}
+          Payment details submitted on {new Date(entry.details.submittedAt).toLocaleDateString()}
           {entry.details.verifiedAt ? " · verified" : " · awaiting verification"}.
         </p>
       ) : entry.needsDetails ? (
