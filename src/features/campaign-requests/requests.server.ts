@@ -336,3 +336,32 @@ export async function notifyBusinessOfDecision(input: {
     metadata: { requestId: input.requestId },
   });
 }
+
+
+/** Alerts admins (and records activity) whenever a request reaches the review queue. */
+export async function announceSubmission(input: {
+  requestId: string;
+  title: string;
+  businessId: string;
+  resubmission: boolean;
+}): Promise<void> {
+  const { createActivity, notifyAdmins } = await import("@/features/activity/notification.server");
+  const verb = input.resubmission ? "resubmitted" : "submitted";
+  await createActivity({
+    actorId: input.businessId,
+    action: `campaign_request.${verb}`,
+    entityType: "campaign_request",
+    entityId: input.requestId,
+    summary: `A campaign request "${input.title}" was ${verb} for review.`,
+    metadata: { requestTitle: input.title },
+  });
+  await notifyAdmins({
+    category: "campaign",
+    priority: "high",
+    title: input.resubmission ? "Campaign request resubmitted" : "New campaign request",
+    body: `"${input.title}" is waiting for review.`,
+    link: `/app/admin/requests/${input.requestId}`,
+    actionLabel: "Review request",
+    metadata: { requestId: input.requestId },
+  });
+}

@@ -99,33 +99,6 @@ export const updateCampaignRequestDraft = createServerFn({ method: "POST" })
   });
 
 
-/** Alerts admins (and records activity) whenever a request reaches the review queue. */
-async function announceSubmission(input: {
-  requestId: string;
-  title: string;
-  businessId: string;
-  resubmission: boolean;
-}): Promise<void> {
-  const { createActivity, notifyAdmins } = await import("@/features/activity/notification.server");
-  const verb = input.resubmission ? "resubmitted" : "submitted";
-  await createActivity({
-    actorId: input.businessId,
-    action: `campaign_request.${verb}`,
-    entityType: "campaign_request",
-    entityId: input.requestId,
-    summary: `A campaign request "${input.title}" was ${verb} for review.`,
-    metadata: { requestTitle: input.title },
-  });
-  await notifyAdmins({
-    category: "campaign",
-    priority: "high",
-    title: input.resubmission ? "Campaign request resubmitted" : "New campaign request",
-    body: `"${input.title}" is waiting for review.`,
-    link: `/app/admin/requests/${input.requestId}`,
-    actionLabel: "Review request",
-    metadata: { requestId: input.requestId },
-  });
-}
 
 /**
  * Creates or updates an editable request and moves it to Submitted.
@@ -171,7 +144,9 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
         actorId: context.userId,
         kind: current.status === "changes_requested" ? "resubmitted" : "submitted",
       });
-      await announceSubmission({
+      const { announceSubmission } = await import("./requests.server");
+      const { announceSubmission } = await import("./requests.server");
+    await announceSubmission({
         requestId: row.id,
         title: row.title,
         businessId: context.userId,
@@ -191,6 +166,7 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
       actorId: context.userId,
       kind: "submitted",
     });
+    const { announceSubmission } = await import("./requests.server");
     await announceSubmission({
       requestId: row.id,
       title: row.title,
