@@ -1355,6 +1355,220 @@ export type Database = {
         }
         Relationships: []
       }
+      payout_details: {
+        Row: {
+          account_number: string
+          bank_holder_name: string
+          bank_name: string
+          country: string
+          created_at: string
+          declaration_accepted: boolean
+          email: string
+          full_name: string
+          government_id_url: string | null
+          id: string
+          ifsc: string | null
+          influencer_id: string
+          paypal_email: string | null
+          phone: string
+          submitted_at: string
+          swift: string | null
+          tax_id: string | null
+          updated_at: string
+          upi_id: string | null
+          verified_at: string | null
+          verified_by: string | null
+          winner_id: string
+        }
+        Insert: {
+          account_number: string
+          bank_holder_name: string
+          bank_name: string
+          country: string
+          created_at?: string
+          declaration_accepted?: boolean
+          email: string
+          full_name: string
+          government_id_url?: string | null
+          id?: string
+          ifsc?: string | null
+          influencer_id: string
+          paypal_email?: string | null
+          phone: string
+          submitted_at?: string
+          swift?: string | null
+          tax_id?: string | null
+          updated_at?: string
+          upi_id?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+          winner_id: string
+        }
+        Update: {
+          account_number?: string
+          bank_holder_name?: string
+          bank_name?: string
+          country?: string
+          created_at?: string
+          declaration_accepted?: boolean
+          email?: string
+          full_name?: string
+          government_id_url?: string | null
+          id?: string
+          ifsc?: string | null
+          influencer_id?: string
+          paypal_email?: string | null
+          phone?: string
+          submitted_at?: string
+          swift?: string | null
+          tax_id?: string | null
+          updated_at?: string
+          upi_id?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+          winner_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payout_details_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: true
+            referencedRelation: "contest_winners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payout_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          event_type: string
+          id: string
+          internal: boolean
+          note: string | null
+          payout_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          internal?: boolean
+          note?: string | null
+          payout_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          internal?: boolean
+          note?: string | null
+          payout_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payout_events_payout_id_fkey"
+            columns: ["payout_id"]
+            isOneToOne: false
+            referencedRelation: "payouts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payouts: {
+        Row: {
+          amount: number
+          business_id: string
+          cancelled_at: string | null
+          contest_id: string
+          created_at: string
+          currency: string
+          failed_at: string | null
+          failure_reason: string | null
+          id: string
+          influencer_id: string
+          internal_notes: string | null
+          paid_at: string | null
+          payment_method: string | null
+          payment_provider: string
+          payment_reference: string | null
+          processing_at: string | null
+          provider_response: Json | null
+          provider_status: string | null
+          provider_transaction_id: string | null
+          requested_at: string | null
+          status: Database["public"]["Enums"]["payout_status"]
+          updated_at: string
+          winner_id: string
+        }
+        Insert: {
+          amount?: number
+          business_id: string
+          cancelled_at?: string | null
+          contest_id: string
+          created_at?: string
+          currency?: string
+          failed_at?: string | null
+          failure_reason?: string | null
+          id?: string
+          influencer_id: string
+          internal_notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          payment_provider?: string
+          payment_reference?: string | null
+          processing_at?: string | null
+          provider_response?: Json | null
+          provider_status?: string | null
+          provider_transaction_id?: string | null
+          requested_at?: string | null
+          status?: Database["public"]["Enums"]["payout_status"]
+          updated_at?: string
+          winner_id: string
+        }
+        Update: {
+          amount?: number
+          business_id?: string
+          cancelled_at?: string | null
+          contest_id?: string
+          created_at?: string
+          currency?: string
+          failed_at?: string | null
+          failure_reason?: string | null
+          id?: string
+          influencer_id?: string
+          internal_notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          payment_provider?: string
+          payment_reference?: string | null
+          processing_at?: string | null
+          provider_response?: Json | null
+          provider_status?: string | null
+          provider_transaction_id?: string | null
+          requested_at?: string | null
+          status?: Database["public"]["Enums"]["payout_status"]
+          updated_at?: string
+          winner_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payouts_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payouts_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: true
+            referencedRelation: "contest_winners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1492,6 +1706,14 @@ export type Database = {
       msg_sender_role: "brand" | "creator" | "iris"
       notification_kind: "message" | "deal_update" | "invitation" | "system"
       participation_status: "active" | "removed" | "completed"
+      payout_status:
+        | "pending"
+        | "details_requested"
+        | "waiting_for_details"
+        | "processing"
+        | "paid"
+        | "failed"
+        | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1666,6 +1888,15 @@ export const Constants = {
       msg_sender_role: ["brand", "creator", "iris"],
       notification_kind: ["message", "deal_update", "invitation", "system"],
       participation_status: ["active", "removed", "completed"],
+      payout_status: [
+        "pending",
+        "details_requested",
+        "waiting_for_details",
+        "processing",
+        "paid",
+        "failed",
+        "cancelled",
+      ],
     },
   },
 } as const
