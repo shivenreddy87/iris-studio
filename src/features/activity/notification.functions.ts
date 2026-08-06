@@ -7,7 +7,7 @@ import type {
   NotificationListResult,
   NotificationPreferences,
 } from "./types";
-import { mapNotification, mapPreferences } from "./notification.server";
+import { mapNotification, mapPreferences } from "./mappers";
 
 const filtersSchema = z.object({
   status: z.enum(["all", "unread", "read", "archived"]).default("all"),
