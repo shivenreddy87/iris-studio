@@ -186,10 +186,7 @@ export async function listPendingVerifications(
   if (rows.length === 0) return [];
 
   const ids = [...new Set(rows.map((r) => r.user_id))];
-  const { data: profiles } = await db
-    .from("profiles")
-    .select("id, full_name, email")
-    .in("id", ids);
+  const { data: profiles } = await db.from("profiles").select("id, full_name, email").in("id", ids);
   const byId = new Map((profiles ?? []).map((p) => [p.id, p]));
 
   return rows.map((row) => ({

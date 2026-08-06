@@ -14,10 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  decideSocialVerification,
-  listSocialVerifications,
-} from "../verification.functions";
+import { decideSocialVerification, listSocialVerifications } from "../verification.functions";
 import { PLATFORM_LABELS, type PendingVerification } from "../types";
 import { VerificationBadge } from "./social-accounts-panel";
 
@@ -135,9 +132,7 @@ export function VerificationQueue() {
                   <Button
                     size="sm"
                     disabled={mutation.isPending}
-                    onClick={() =>
-                      mutation.mutate({ accountId: row.id, decision: "approve" })
-                    }
+                    onClick={() => mutation.mutate({ accountId: row.id, decision: "approve" })}
                   >
                     Approve
                   </Button>
