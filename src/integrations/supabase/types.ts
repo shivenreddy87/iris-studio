@@ -1162,13 +1162,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      contest_application_counts: {
-        Args: { _contest_id: string }
-        Returns: {
-          count: number
-          status: Database["public"]["Enums"]["contest_application_status"]
-        }[]
-      }
       next_approval_reference: { Args: never; Returns: string }
       refresh_analytics_rollups: {
         Args: { _org_id: string }
