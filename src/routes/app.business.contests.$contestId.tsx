@@ -13,6 +13,7 @@ import { ContestTimeline } from "@/features/contests/components/contest-timeline
 import { Panel } from "@/features/contests/components/detail-row";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 import { ApplicationCountsCard } from "@/features/contest-applications/components/application-counts-card";
+import { SelectionSummaryCard } from "@/features/contest-applications/components/selection-summary-card";
 
 
 export const Route = createFileRoute("/app/business/contests/$contestId")({
@@ -80,6 +81,12 @@ function BusinessContestDetailPage() {
             <ContestHeader contest={contest} />
             <ContestSummary contest={contest} />
             <ApplicationCountsCard contestId={contest.id} />
+            {contest.status === "participant_selection" ||
+            contest.status === "live" ||
+            contest.status === "completed" ? (
+              <SelectionSummaryCard contestId={contest.id} />
+            ) : null}
+
             <Panel title="History">
               <ContestTimeline events={events} />
             </Panel>
