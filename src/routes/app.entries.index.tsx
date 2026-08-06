@@ -4,11 +4,13 @@ import { useServerFn } from "@tanstack/react-start";
 import { ClipboardList } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
-import { listMyContestEntries } from "@/features/contest-entries/entries.functions";
-import { ContestEntryList } from "@/features/contest-entries/components/contest-entry-list";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
+import { listMyApplications } from "@/features/contest-applications/application.functions";
+import { applicationKeys, useInvalidateApplications } from "@/features/contest-applications/hooks/use-applications";
+import { ApplicationCard } from "@/features/contest-applications/components/application-card";
+import { WithdrawApplicationDialog } from "@/features/contest-applications/components/withdraw-application-dialog";
+import { canWithdraw } from "@/features/contest-applications/types";
 
 export const Route = createFileRoute("/app/entries/")({
   head: () => ({
@@ -35,22 +37,27 @@ export const Route = createFileRoute("/app/entries/")({
 });
 
 function MyApplicationsPage() {
-  const fetchItems = useServerFn(listMyContestEntries);
+  const fetchItems = useServerFn(listMyApplications);
+  const invalidate = useInvalidateApplications();
+
   const {
     data = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["/app/entries/"],
+    queryKey: applicationKeys.mine,
     queryFn: () => fetchItems(),
   });
 
+  const active = data.filter((item) => item.status !== "withdrawn");
+  const withdrawn = data.filter((item) => item.status === "withdrawn");
+
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
       <PageHeader
         eyebrow="Influencer"
         title="My Applications"
-        description="Every contest entry you have submitted, with its current selection status."
+        description="Every contest application you have submitted, with its current status and history."
       />
       <DataSection
         loading={isLoading}
@@ -60,19 +67,45 @@ function MyApplicationsPage() {
           <EmptyState
             icon={<ClipboardList className="size-8" />}
             title="No applications yet"
-            hint="Enter an available contest and your application will appear here."
+            hint="Apply to an available contest and your application will appear here."
           />
         }
       >
-        <ContestEntryList entries={data} />
+        <div className="space-y-10">
+          {active.length > 0 ? (
+            <section className="space-y-4">
+              <h2 className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">
+                Active
+              </h2>
+              {active.map((application) => (
+                <ApplicationCard
+                  key={application.id}
+                  application={application}
+                  action={
+                    canWithdraw(application, application.contestStatus) ? (
+                      <WithdrawApplicationDialog
+                        application={application}
+                        onWithdrawn={() => invalidate(application.contestId, application.id)}
+                      />
+                    ) : null
+                  }
+                />
+              ))}
+            </section>
+          ) : null}
+
+          {withdrawn.length > 0 ? (
+            <section className="space-y-4">
+              <h2 className="font-mono text-[10px] uppercase tracking-widest text-ink-mute">
+                Withdrawn
+              </h2>
+              {withdrawn.map((application) => (
+                <ApplicationCard key={application.id} application={application} />
+              ))}
+            </section>
+          ) : null}
+        </div>
       </DataSection>
-      <MilestoneNotice
-        items={[
-          "Application status timeline",
-          "Withdraw an application before selection",
-          "Notification when you are selected",
-        ]}
-      />
     </div>
   );
 }
