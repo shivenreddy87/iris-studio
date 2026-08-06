@@ -106,13 +106,13 @@ export function CampaignRequestForm({
 }) {
   const modeRef = useRef<"draft" | "submit">("draft");
 
-  const resolver: Resolver<CampaignRequestFormValues> = async (values, ctx, options) => {
+  const resolver: Resolver<CampaignRequestFormValues> = (values, ctx, options) => {
     const schema =
       modeRef.current === "submit" ? campaignRequestSubmitSchema : campaignRequestDraftSchema;
-    return zodResolver(schema as never)(values, ctx, options) as ReturnType<
-      Resolver<CampaignRequestFormValues>
-    >;
+    const zr = zodResolver(schema as never) as unknown as Resolver<CampaignRequestFormValues>;
+    return zr(values, ctx, options);
   };
+
 
   const { register, handleSubmit, formState, setValue, watch } = useForm<CampaignRequestFormValues>(
     {
