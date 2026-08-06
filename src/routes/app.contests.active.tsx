@@ -4,10 +4,10 @@ import { useServerFn } from "@tanstack/react-start";
 import { PlayCircle } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
-import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
-import { listMyActiveContests } from "@/features/contests/contests.functions";
-import { ContestList } from "@/features/contests/components/contest-list";
+import { listMyContestExecutions } from "@/features/contest-submissions/submission.functions";
+import { submissionKeys } from "@/features/contest-submissions/hooks/use-submissions";
+import { ExecutionList } from "@/features/contest-submissions/components/execution-list";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
 export const Route = createFileRoute("/app/contests/active")({
@@ -32,14 +32,14 @@ export const Route = createFileRoute("/app/contests/active")({
 });
 
 function ActiveContestsPage() {
-  const fetchItems = useServerFn(listMyActiveContests);
+  const fetchItems = useServerFn(listMyContestExecutions);
   const {
     data = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["/app/contests/active"],
-    queryFn: () => fetchItems(),
+    queryKey: submissionKeys.executions("active"),
+    queryFn: () => fetchItems({ data: { scope: "active" as const } }),
   });
 
   return (
@@ -47,7 +47,7 @@ function ActiveContestsPage() {
       <PageHeader
         eyebrow="Influencer"
         title="Active Contests"
-        description="Contests you were selected for that are currently running."
+        description="Contests you were selected for that are currently running. Publish your content, then submit it for verification."
       />
       <DataSection
         loading={isLoading}
@@ -61,15 +61,8 @@ function ActiveContestsPage() {
           />
         }
       >
-        <ContestList contests={data} />
+        <ExecutionList executions={data} />
       </DataSection>
-      <MilestoneNotice
-        items={[
-          "Deliverable checklist per contest",
-          "Submission upload and status",
-          "Countdown to the contest end date",
-        ]}
-      />
     </div>
   );
 }
