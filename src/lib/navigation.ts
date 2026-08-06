@@ -2,14 +2,18 @@ import type { LinkProps } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
 import {
   Award,
+  BarChart3,
   Bell,
   Bookmark,
   Building2,
   ClipboardList,
   FileText,
   Home,
+  LayoutTemplate,
   ListChecks,
   PlayCircle,
+  Settings,
+  ShieldAlert,
   Trophy,
   UserCircle,
   Users,
@@ -29,6 +33,7 @@ const businessNav: NavItem[] = [
   { to: "/app", label: "Dashboard", Icon: Home },
   { to: "/app/business/requests", label: "Campaign Requests", Icon: FileText, nested: true },
   { to: "/app/business/contests", label: "My Contests", Icon: Trophy, nested: true },
+  { to: "/app/analytics", label: "Analytics", Icon: BarChart3 },
   { to: "/app/notifications", label: "Notifications", Icon: Bell },
   { to: "/app/profile", label: "Profile", Icon: UserCircle },
 ];
@@ -42,6 +47,7 @@ const influencerNav: NavItem[] = [
   { to: "/app/contests/completed", label: "Completed Contests", Icon: ListChecks },
   { to: "/app/contests/won", label: "Won Contests", Icon: Award },
   { to: "/app/rewards", label: "My Rewards", Icon: Wallet },
+  { to: "/app/analytics", label: "Analytics", Icon: BarChart3 },
   { to: "/app/notifications", label: "Notifications", Icon: Bell },
   { to: "/app/profile", label: "Profile", Icon: UserCircle },
 ];
@@ -55,6 +61,11 @@ const adminNav: NavItem[] = [
   { to: "/app/admin/entries", label: "Participants", Icon: ClipboardList },
   { to: "/app/admin/winners", label: "Winners", Icon: Award },
   { to: "/app/admin/payouts", label: "Manual Payouts", Icon: Wallet },
+  { to: "/app/admin/analytics", label: "Analytics", Icon: BarChart3 },
+  { to: "/app/admin/reports", label: "Reports", Icon: FileText },
+  { to: "/app/admin/moderation", label: "Moderation", Icon: ShieldAlert },
+  { to: "/app/admin/templates", label: "Templates", Icon: LayoutTemplate },
+  { to: "/app/admin/settings", label: "Platform Settings", Icon: Settings },
   { to: "/app/notifications", label: "Notifications", Icon: Bell },
 ];
 
