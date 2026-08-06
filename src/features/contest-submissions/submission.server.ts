@@ -433,6 +433,16 @@ export async function notifySubmissionCreated(input: {
       link: `/app/business/contests/${input.contest.id}`,
     },
   ];
+  const { createActivity } = await import("@/features/activity/notification.server");
+  await createActivity({
+    actorId: input.influencerId,
+    targetUserId: input.contest.businessId,
+    action: "submission.created",
+    entityType: "contest",
+    entityId: input.contest.id,
+    summary: `New content submitted for “${input.contest.title}”.`,
+    metadata: { contestTitle: input.contest.title },
+  });
   for (const id of await adminUserIds()) {
     rows.push({
       user_id: id,
@@ -452,6 +462,15 @@ export async function notifySubmissionReviewed(input: {
   note?: string | null;
 }): Promise<void> {
   const verified = input.status === "verified";
+  const { createActivity } = await import("@/features/activity/notification.server");
+  await createActivity({
+    targetUserId: input.influencerId,
+    action: `submission.${input.status}`,
+    entityType: "contest",
+    entityId: input.contest.id,
+    summary: `A submission for “${input.contest.title}” was ${verified ? "verified" : "flagged"}.`,
+    metadata: { contestTitle: input.contest.title },
+  });
   await insertNotifications([
     {
       user_id: input.influencerId,

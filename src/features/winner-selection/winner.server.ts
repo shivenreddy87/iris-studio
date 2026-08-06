@@ -600,6 +600,15 @@ export async function notifyContestCompleted(input: {
     });
   }
 
+  const { createActivity } = await import("@/features/activity/notification.server");
+  await createActivity({
+    targetUserId: contest.businessId,
+    action: "contest.completed",
+    entityType: "contest",
+    entityId: contest.id,
+    summary: `Winners finalized for “${contest.title}”.`,
+    metadata: { contestTitle: contest.title, winnerCount: input.winners.length },
+  });
   await insertNotifications(rows);
 }
 
