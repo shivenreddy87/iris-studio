@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trophy } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
+import { EmptyState } from "@/components/ui/list-skeleton";
 import { Button } from "@/components/ui/button";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 import { getContestForInfluencer } from "@/features/contests/discovery.functions";
