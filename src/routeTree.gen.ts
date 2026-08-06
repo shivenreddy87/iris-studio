@@ -15,6 +15,7 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as OnboardingInfluencerRouteImport } from './routes/onboarding.influencer'
 import { Route as OnboardingBusinessRouteImport } from './routes/onboarding.business'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
@@ -97,6 +98,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const OnboardingInfluencerRoute = OnboardingInfluencerRouteImport.update({
+  id: '/onboarding/influencer',
+  path: '/onboarding/influencer',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingBusinessRoute = OnboardingBusinessRouteImport.update({
   id: '/onboarding/business',
@@ -388,6 +394,7 @@ export interface FileRoutesByFullPath {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/invite/$token': typeof InviteTokenRoute
   '/onboarding/business': typeof OnboardingBusinessRoute
+  '/onboarding/influencer': typeof OnboardingInfluencerRoute
   '/app/': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
@@ -446,6 +453,7 @@ export interface FileRoutesByTo {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/invite/$token': typeof InviteTokenRoute
   '/onboarding/business': typeof OnboardingBusinessRoute
+  '/onboarding/influencer': typeof OnboardingInfluencerRoute
   '/app': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
@@ -507,6 +515,7 @@ export interface FileRoutesById {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/invite/$token': typeof InviteTokenRoute
   '/onboarding/business': typeof OnboardingBusinessRoute
+  '/onboarding/influencer': typeof OnboardingInfluencerRoute
   '/app/': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
@@ -569,6 +578,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/invite/$token'
     | '/onboarding/business'
+    | '/onboarding/influencer'
     | '/app/'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
@@ -627,6 +637,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/invite/$token'
     | '/onboarding/business'
+    | '/onboarding/influencer'
     | '/app'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
@@ -687,6 +698,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/invite/$token'
     | '/onboarding/business'
+    | '/onboarding/influencer'
     | '/app/'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
@@ -738,6 +750,7 @@ export interface RootRouteChildren {
   AuthSignUpRoute: typeof AuthSignUpRoute
   InviteTokenRoute: typeof InviteTokenRoute
   OnboardingBusinessRoute: typeof OnboardingBusinessRoute
+  OnboardingInfluencerRoute: typeof OnboardingInfluencerRoute
   ApiPublicRobotsDottxtRoute: typeof ApiPublicRobotsDottxtRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
 }
@@ -785,6 +798,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/onboarding/influencer': {
+      id: '/onboarding/influencer'
+      path: '/onboarding/influencer'
+      fullPath: '/onboarding/influencer'
+      preLoaderRoute: typeof OnboardingInfluencerRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/onboarding/business': {
       id: '/onboarding/business'
@@ -1289,6 +1309,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthSignUpRoute: AuthSignUpRoute,
   InviteTokenRoute: InviteTokenRoute,
   OnboardingBusinessRoute: OnboardingBusinessRoute,
+  OnboardingInfluencerRoute: OnboardingInfluencerRoute,
   ApiPublicRobotsDottxtRoute: ApiPublicRobotsDottxtRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
 }
