@@ -740,3 +740,38 @@ export async function fetchMySubmissionMetrics(
     published,
   };
 }
+
+/** Admin: every declared winner across finalized contests, newest first. */
+export async function fetchAllWinners(): Promise<ContestWinnerEntry[]> {
+  const sb = await admin();
+  const { data, error } = await sb
+    .from("contest_winners")
+    .select(WINNER_COLUMNS)
+    .order("selected_at", { ascending: false })
+    .limit(200)
+    .returns<WinnerRow[]>();
+  if (error) throw new Error(error.message);
+  const winners = data ?? [];
+  if (winners.length === 0) return [];
+
+  const { CONTEST_COLUMNS, toContest } = await import("@/features/contests/contest.server");
+  const { data: contestRows } = await sb
+    .from("contests")
+    .select(CONTEST_COLUMNS)
+    .in("id", [...new Set(winners.map((w) => w.contest_id))]);
+  const contests = new Map(
+    ((contestRows ?? []) as Parameters<typeof toContest>[0][]).map((row) => {
+      const contest = toContest(row);
+      return [contest.id, contest];
+    }),
+  );
+
+  const entries: ContestWinnerEntry[] = [];
+  for (const winner of winners) {
+    const contest = contests.get(winner.contest_id);
+    if (!contest) continue;
+    const [entry] = await buildWinnerEntries(contest, [winner]);
+    if (entry) entries.push(entry);
+  }
+  return entries;
+}

@@ -10,6 +10,7 @@ import {
   fetchMyOutcome,
   fetchMySubmissionMetrics,
   fetchMyWins,
+  fetchAllWinners,
   fetchResultEvents,
   fetchVerifiedSubmission,
   finalizeContestWinners,
@@ -220,4 +221,17 @@ export const getMySubmissionMetrics = createServerFn({ method: "GET" })
     const { supabase, userId } = context;
     const contest = await fetchContestOrThrow(supabase, data.contestId);
     return fetchMySubmissionMetrics(contest, userId);
+  });
+
+/** Influencer: every contest they have won. */
+export const listMyWins = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<ContestWinnerEntry[]> => fetchMyWins(context.userId));
+
+/** Admin: every declared winner across the platform. */
+export const listAllWinners = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<ContestWinnerEntry[]> => {
+    await assertAdmin(context.supabase, context.userId);
+    return fetchAllWinners();
   });
