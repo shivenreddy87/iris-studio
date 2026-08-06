@@ -276,14 +276,6 @@ export async function buildSelectionSummary(
 /* Notifications                                                       */
 /* ------------------------------------------------------------------ */
 
-type NotificationRow = {
-  user_id: string;
-  kind: "system";
-  title: string;
-  body: string;
-  link: string;
-};
-
 export async function notifyInfluencerDecision(input: {
   status: Extract<ApplicationStatus, "shortlisted" | "selected" | "rejected">;
   influencerId: string;
@@ -291,7 +283,6 @@ export async function notifyInfluencerDecision(input: {
   contestId: string;
   contestTitle: string;
 }): Promise<void> {
-  const sb = await admin();
   const copy: Record<typeof input.status, { title: string; body: string }> = {
     shortlisted: {
       title: "You have been shortlisted",
@@ -306,13 +297,25 @@ export async function notifyInfluencerDecision(input: {
       body: `You were not selected for “${input.contestTitle}” this time. Keep an eye out for new contests.`,
     },
   };
-  const row: NotificationRow = {
-    user_id: input.influencerId,
-    kind: "system",
-    ...copy[input.status],
+  const { createNotification, createActivity } = await import("@/features/activity/notification.server");
+  await createActivity({
+    targetUserId: input.influencerId,
+    action: `application.${input.status}`,
+    entityType: "contest_application",
+    entityId: input.applicationId,
+    summary: `${copy[input.status].title} for "${input.contestTitle}".`,
+    metadata: { contestId: input.contestId, contestTitle: input.contestTitle },
+  });
+  await createNotification({
+    userId: input.influencerId,
+    category: "contest",
+    priority: input.status === "selected" ? "high" : "normal",
+    title: copy[input.status].title,
+    body: copy[input.status].body,
     link: `/app/entries/${input.applicationId}`,
-  };
-  await sb.from("notifications").insert([row]);
+    actionLabel: "View application",
+    metadata: { contestId: input.contestId },
+  });
 }
 
 export async function notifyContestActivated(input: {
@@ -323,43 +326,56 @@ export async function notifyContestActivated(input: {
   actorId: string;
   participantCount: number;
 }): Promise<void> {
-  const sb = await admin();
-  const rows: NotificationRow[] = [];
+  const { createNotifications, createActivity, notifyAdmins } = await import(
+    "@/features/activity/notification.server"
+  );
 
-  for (const influencerId of input.participantIds) {
-    rows.push({
-      user_id: influencerId,
-      kind: "system",
+  await createActivity({
+    actorId: input.actorId,
+    targetUserId: input.businessId,
+    action: "contest.activated",
+    entityType: "contest",
+    entityId: input.contestId,
+    summary: `“${input.contestTitle}” was activated with ${input.participantCount} participant${
+      input.participantCount === 1 ? "" : "s"
+    }.`,
+    metadata: { contestTitle: input.contestTitle, participantCount: input.participantCount },
+  });
+
+  await createNotifications([
+    ...input.participantIds.map((influencerId) => ({
+      userId: influencerId,
+      category: "contest" as const,
+      priority: "high" as const,
       title: "Contest is live",
       body: `“${input.contestTitle}” has started. You can find it under Active Contests.`,
       link: `/app/contests/${input.contestId}`,
-    });
-  }
-
-  rows.push({
-    user_id: input.businessId,
-    kind: "system",
-    title: "Contest activated",
-    body: `“${input.contestTitle}” is now live with ${input.participantCount} participant${
-      input.participantCount === 1 ? "" : "s"
-    }.`,
-    link: `/app/business/contests/${input.contestId}`,
-  });
-
-  const { data: admins } = await sb.from("user_roles").select("user_id").eq("role", "admin");
-  for (const row of admins ?? []) {
-    rows.push({
-      user_id: row.user_id,
-      kind: "system",
-      title: "Participant selection completed",
-      body: `“${input.contestTitle}” was activated with ${input.participantCount} participant${
+      actionLabel: "Submit content",
+      metadata: { contestId: input.contestId },
+    })),
+    {
+      userId: input.businessId,
+      category: "contest" as const,
+      title: "Contest activated",
+      body: `“${input.contestTitle}” is now live with ${input.participantCount} participant${
         input.participantCount === 1 ? "" : "s"
       }.`,
-      link: `/app/admin/contests/${input.contestId}`,
-    });
-  }
+      link: `/app/business/contests/${input.contestId}`,
+      actionLabel: "View contest",
+      metadata: { contestId: input.contestId },
+    },
+  ]);
 
-  await sb.from("notifications").insert(rows);
+  await notifyAdmins({
+    category: "contest",
+    title: "Participant selection completed",
+    body: `“${input.contestTitle}” was activated with ${input.participantCount} participant${
+      input.participantCount === 1 ? "" : "s"
+    }.`,
+    link: `/app/admin/contests/${input.contestId}`,
+    actionLabel: "Open contest",
+    metadata: { contestId: input.contestId },
+  });
 }
 
 /** Marks every selected participant active and stamps the activation time. */

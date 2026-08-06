@@ -271,21 +271,34 @@ const NOTIFICATION_COPY: Partial<Record<ContestStatus, { title: string; body: (t
     },
   };
 
-/** In-app notification for the owning business (cross-user write needs admin access). */
+/** In-app notification for the owning business, routed through the shared activity engine. */
 export async function notifyBusinessOfContest(input: {
   businessId: string;
   contestId: string;
   contestTitle: string;
   status: ContestStatus;
+  actorId?: string | null;
 }): Promise<void> {
   const copy = NOTIFICATION_COPY[input.status];
   if (!copy) return;
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  await supabaseAdmin.from("notifications").insert({
-    user_id: input.businessId,
-    kind: "system",
+  const { createNotification, createActivity } = await import("@/features/activity/notification.server");
+  await createActivity({
+    actorId: input.actorId ?? null,
+    targetUserId: input.businessId,
+    action: `contest.${input.status}`,
+    entityType: "contest",
+    entityId: input.contestId,
+    summary: `${copy.title}: "${input.contestTitle}"`,
+    metadata: { contestTitle: input.contestTitle, status: input.status },
+  });
+  await createNotification({
+    userId: input.businessId,
+    category: "contest",
+    priority: input.status === "published" ? "high" : "normal",
     title: copy.title,
     body: copy.body(input.contestTitle),
     link: `/app/business/contests/${input.contestId}`,
+    actionLabel: "View contest",
+    metadata: { contestId: input.contestId, contestTitle: input.contestTitle },
   });
 }

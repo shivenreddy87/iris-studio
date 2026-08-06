@@ -15,6 +15,11 @@ import { listCampaignRequests } from "@/features/campaign-requests/requests.func
 import { listOpenContests } from "@/features/contests/contests.functions";
 import { listMyWins } from "@/features/winner-selection/winner.functions";
 import { listMyContestEntries } from "@/features/contest-entries/entries.functions";
+import {
+  PlatformActivityCard,
+  RecentActivityCard,
+} from "@/features/activity/components/activity-feed-card";
+import { UpcomingActionsCard } from "@/features/activity/components/upcoming-actions-card";
 
 
 export const Route = createFileRoute("/app/")({
@@ -157,6 +162,11 @@ function DashboardPage() {
             <StatCard icon={Award} label="Winners" value={0} to="/app/admin/winners" />
           </>
         ) : null}
+      </div>
+
+      <div className={`mt-6 grid gap-4 lg:grid-cols-2 ${profileReady ? "" : "hidden"}`}>
+        {platformRole === "influencer" ? <UpcomingActionsCard /> : null}
+        {platformRole === "admin" ? <PlatformActivityCard /> : <RecentActivityCard />}
       </div>
 
       <MilestoneNotice

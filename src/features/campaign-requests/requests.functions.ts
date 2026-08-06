@@ -98,6 +98,8 @@ export const updateCampaignRequestDraft = createServerFn({ method: "POST" })
     return toModel(row);
   });
 
+
+
 /**
  * Creates or updates an editable request and moves it to Submitted.
  * Valid sources: no id (new), `draft`, or `changes_requested` (a resubmission).
@@ -142,6 +144,13 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
         actorId: context.userId,
         kind: current.status === "changes_requested" ? "resubmitted" : "submitted",
       });
+      const { announceSubmission } = await import("./requests.server");
+      await announceSubmission({
+        requestId: row.id,
+        title: row.title,
+        businessId: context.userId,
+        resubmission: current.status === "changes_requested",
+      });
       return toModel(row);
     }
 
@@ -155,6 +164,13 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
       requestId: row.id,
       actorId: context.userId,
       kind: "submitted",
+    });
+    const { announceSubmission } = await import("./requests.server");
+    await announceSubmission({
+      requestId: row.id,
+      title: row.title,
+      businessId: context.userId,
+      resubmission: false,
     });
     return toModel(row);
   });

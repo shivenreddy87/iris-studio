@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_feed: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          metadata: Json
+          summary: string
+          target_user_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          metadata?: Json
+          summary: string
+          target_user_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          metadata?: Json
+          summary?: string
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
       analytics_rollups: {
         Row: {
           active_campaigns: number
@@ -1266,33 +1302,90 @@ export type Database = {
           },
         ]
       }
+      notification_preferences: {
+        Row: {
+          campaign_updates: boolean
+          contest_updates: boolean
+          created_at: string
+          email_enabled: boolean
+          in_app_enabled: boolean
+          marketing: boolean
+          payout_updates: boolean
+          system: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          campaign_updates?: boolean
+          contest_updates?: boolean
+          created_at?: string
+          email_enabled?: boolean
+          in_app_enabled?: boolean
+          marketing?: boolean
+          payout_updates?: boolean
+          system?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          campaign_updates?: boolean
+          contest_updates?: boolean
+          created_at?: string
+          email_enabled?: boolean
+          in_app_enabled?: boolean
+          marketing?: boolean
+          payout_updates?: boolean
+          system?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
+          action_label: string | null
+          action_url: string | null
+          archived_at: string | null
           body: string | null
           created_at: string
+          deleted_at: string | null
           id: string
           kind: Database["public"]["Enums"]["notification_kind"]
           link: string | null
+          metadata: Json
+          priority: string
           read_at: string | null
           title: string
           user_id: string
         }
         Insert: {
+          action_label?: string | null
+          action_url?: string | null
+          archived_at?: string | null
           body?: string | null
           created_at?: string
+          deleted_at?: string | null
           id?: string
           kind: Database["public"]["Enums"]["notification_kind"]
           link?: string | null
+          metadata?: Json
+          priority?: string
           read_at?: string | null
           title: string
           user_id: string
         }
         Update: {
+          action_label?: string | null
+          action_url?: string | null
+          archived_at?: string | null
           body?: string | null
           created_at?: string
+          deleted_at?: string | null
           id?: string
           kind?: Database["public"]["Enums"]["notification_kind"]
           link?: string | null
+          metadata?: Json
+          priority?: string
           read_at?: string | null
           title?: string
           user_id?: string

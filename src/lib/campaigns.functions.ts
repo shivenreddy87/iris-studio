@@ -114,12 +114,15 @@ export const createCampaign = createServerFn({ method: "POST" })
         });
       }
       // Notify creator
-      await supabase.from("notifications").insert({
-        user_id: creatorId,
+      const { createNotification } = await import("@/features/activity/notification.server");
+      await createNotification({
+        userId: creatorId,
         kind: "invitation",
+        category: "campaign",
         title: `New campaign invitation`,
         body: `You've been invited to "${campaign.name}"`,
         link: `/app/creator/opportunities`,
+        actionLabel: "View invitation",
       });
     }
 
