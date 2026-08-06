@@ -38,6 +38,7 @@ import { Route as AppEntriesIndexRouteImport } from './routes/app.entries.index'
 import { Route as AppContestsIndexRouteImport } from './routes/app.contests.index'
 import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
 import { Route as AppAdminIndexRouteImport } from './routes/app.admin.index'
+import { Route as AppResultsContestIdRouteImport } from './routes/app.results.$contestId'
 import { Route as AppIrisThreadIdRouteImport } from './routes/app.iris.$threadId'
 import { Route as AppDealsIdRouteImport } from './routes/app.deals.$id'
 import { Route as AppCreatorsIdRouteImport } from './routes/app.creators.$id'
@@ -217,6 +218,11 @@ const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
 const AppAdminIndexRoute = AppAdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResultsContestIdRoute = AppResultsContestIdRouteImport.update({
+  id: '/results/$contestId',
+  path: '/results/$contestId',
   getParentRoute: () => AppRoute,
 } as any)
 const AppIrisThreadIdRoute = AppIrisThreadIdRouteImport.update({
@@ -451,6 +457,7 @@ export interface FileRoutesByFullPath {
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
   '/app/iris/$threadId': typeof AppIrisThreadIdRoute
+  '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/admin/': typeof AppAdminIndexRoute
   '/app/campaigns/': typeof AppCampaignsIndexRoute
   '/app/contests/': typeof AppContestsIndexRoute
@@ -515,6 +522,7 @@ export interface FileRoutesByTo {
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
   '/app/iris/$threadId': typeof AppIrisThreadIdRoute
+  '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/admin': typeof AppAdminIndexRoute
   '/app/campaigns': typeof AppCampaignsIndexRoute
   '/app/contests': typeof AppContestsIndexRoute
@@ -582,6 +590,7 @@ export interface FileRoutesById {
   '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/deals/$id': typeof AppDealsIdRoute
   '/app/iris/$threadId': typeof AppIrisThreadIdRoute
+  '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/admin/': typeof AppAdminIndexRoute
   '/app/campaigns/': typeof AppCampaignsIndexRoute
   '/app/contests/': typeof AppContestsIndexRoute
@@ -650,6 +659,7 @@ export interface FileRouteTypes {
     | '/app/creators/$id'
     | '/app/deals/$id'
     | '/app/iris/$threadId'
+    | '/app/results/$contestId'
     | '/app/admin/'
     | '/app/campaigns/'
     | '/app/contests/'
@@ -714,6 +724,7 @@ export interface FileRouteTypes {
     | '/app/creators/$id'
     | '/app/deals/$id'
     | '/app/iris/$threadId'
+    | '/app/results/$contestId'
     | '/app/admin'
     | '/app/campaigns'
     | '/app/contests'
@@ -780,6 +791,7 @@ export interface FileRouteTypes {
     | '/app/creators/$id'
     | '/app/deals/$id'
     | '/app/iris/$threadId'
+    | '/app/results/$contestId'
     | '/app/admin/'
     | '/app/campaigns/'
     | '/app/contests/'
@@ -1022,6 +1034,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/app/admin/'
       preLoaderRoute: typeof AppAdminIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/results/$contestId': {
+      id: '/app/results/$contestId'
+      path: '/results/$contestId'
+      fullPath: '/app/results/$contestId'
+      preLoaderRoute: typeof AppResultsContestIdRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/iris/$threadId': {
@@ -1337,6 +1356,7 @@ interface AppRouteChildren {
   AppCreatorOpportunitiesRoute: typeof AppCreatorOpportunitiesRoute
   AppCreatorsIdRoute: typeof AppCreatorsIdRoute
   AppDealsIdRoute: typeof AppDealsIdRoute
+  AppResultsContestIdRoute: typeof AppResultsContestIdRoute
   AppAdminIndexRoute: typeof AppAdminIndexRoute
   AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
   AppContestsIndexRoute: typeof AppContestsIndexRoute
@@ -1385,6 +1405,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCreatorOpportunitiesRoute: AppCreatorOpportunitiesRoute,
   AppCreatorsIdRoute: AppCreatorsIdRoute,
   AppDealsIdRoute: AppDealsIdRoute,
+  AppResultsContestIdRoute: AppResultsContestIdRoute,
   AppAdminIndexRoute: AppAdminIndexRoute,
   AppCampaignsIndexRoute: AppCampaignsIndexRoute,
   AppContestsIndexRoute: AppContestsIndexRoute,
@@ -1426,13 +1447,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

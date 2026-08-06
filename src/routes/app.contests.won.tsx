@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
 import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
-import { listMyWins } from "@/features/contests/contests.functions";
+import { listMyWins } from "@/features/winner-selection/winner.functions";
 import { ContestWinnerList } from "@/features/contests/components/contest-winner-list";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
@@ -66,13 +66,7 @@ function WonContestsPage() {
       >
         <ContestWinnerList winners={data} />
       </DataSection>
-      <MilestoneNotice
-        items={[
-          "Winner announcement details",
-          "Reward amount and payout status",
-          "Winner notifications",
-        ]}
-      />
+      <MilestoneNotice items={["Reward payout tracking", "Downloadable win history"]} />
     </div>
   );
 }
