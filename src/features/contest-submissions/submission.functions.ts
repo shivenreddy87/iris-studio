@@ -130,24 +130,38 @@ export const listSubmissionEvents = createServerFn({ method: "GET" })
 export const verifySubmission = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => reviewInputSchema.parse(data))
-  .handler(({ data, context }): Promise<ContestSubmission> =>
-    reviewSubmission(context.supabase, context.userId, data.submissionId, "verified", data.note),
-  );
+  .handler(async ({ data, context }): Promise<ContestSubmission> => {
+    await assertNotSuspended(context.userId);
+    return reviewSubmission(
+      context.supabase,
+      context.userId,
+      data.submissionId,
+      "verified",
+      data.note,
+    );
+  });
 
 /** Admin: flag a submission for follow-up. */
 export const flagSubmission = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => reviewInputSchema.parse(data))
-  .handler(({ data, context }): Promise<ContestSubmission> =>
-    reviewSubmission(context.supabase, context.userId, data.submissionId, "flagged", data.note),
-  );
+  .handler(async ({ data, context }): Promise<ContestSubmission> => {
+    await assertNotSuspended(context.userId);
+    return reviewSubmission(
+      context.supabase,
+      context.userId,
+      data.submissionId,
+      "flagged",
+      data.note,
+    );
+  });
 
 /** Contest owner or admin: aggregate execution progress, no identities. */
 export const getContestProgress = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { contestId: string }) => data)
   .handler(async ({ data, context }): Promise<ContestProgress> => {
-    await assertNotSuspended(context.userId);
+
     const { supabase, userId } = context;
     const contest = await fetchContestOrThrow(supabase, data.contestId);
     if (contest.businessId !== userId) await assertAdmin(supabase, userId);
