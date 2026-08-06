@@ -5,6 +5,7 @@ Published contests become discoverable to influencers, with search, filters, sor
 ## Database
 
 New table `saved_contests` (id, contest_id, influencer_id, created_at):
+
 - Unique on (contest_id, influencer_id) so a contest can only be saved once.
 - Contest deletion cascades and removes saved rows.
 - Influencers can read, add and remove only their own saved rows; admins get read-only access.
@@ -22,6 +23,7 @@ Inputs are the contest row plus the influencer's creator profile (niche/category
 ## Server functions
 
 `discovery.functions.ts` (all authenticated):
+
 - `listDiscoverableContests` — search + filters + sort + pagination in one call, returning `{ items: [{ contest, eligibility, saved }], total, page, pageSize }`.
 - `getContestForInfluencer` — one contest plus eligibility, saved status and timeline events.
 - `searchContests`, `filterContests`, `calculateEligibility` — thin typed wrappers over the same query/eligibility core so the contracts named in the spec exist.
@@ -47,4 +49,36 @@ Reused as-is: `ContestStatusBadge`, `ContestTimeline`, `RewardCard`, `Eligibilit
 
 ## Verification
 
-Typecheck, lint, and a preview walkthrough confirming: only Published/Applications Open contests surface; draft, completed and archived stay hidden; search, filters, sorting and pagination behave; eligibility reasons match profile variations; duplicate saves are rejected; countdowns render; business read-only access intact.
+Typecheck, lint, and a preview walkthrough confirming: only Published/Applications Open contests surface; draft, completed and archived stay hidden; search, filters, sorting and pagination behave; eligibility reasons match profile variations; duplicate saves are rejected; countdowns render; business read-only access intact.  
+  
+TECHNICAL NOTES:  
+  
+## Contest Availability
+
+A contest is considered available only when:
+
+- Status is Applications Open.
+
+- Current date falls between Application Start and Application Deadline.
+
+- Contest is not Archived.
+
+Published contests outside the application window remain visible but clearly display "Applications Not Yet Open" or "Applications Closed" depending on the current timeline.
+
+This availability state should be exposed by the server together with the eligibility result so future application validation can reuse it.  
+  
+## Future-proofing
+
+Reserve an Application Summary section on the Contest Detail page.
+
+Until the next milestone it displays:
+
+- Application Status: Not Available
+
+- Applications Open: Date
+
+- Applications Close: Date
+
+- Disabled Apply button
+
+No application logic is implemented yet, but the layout should not require structural changes once Contest Applications are added.
