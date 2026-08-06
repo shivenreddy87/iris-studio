@@ -715,8 +715,17 @@ export async function fetchMySubmissionMetrics(
   if (!data) return null;
 
   const published = contest.status === "completed" || contest.status === "archived";
-  const engagementRate = calculateEngagementRate(data);
-  const performanceScore = calculatePerformanceScore(data, engagementRate);
+  const metrics = {
+    views: data.views,
+    likes: data.likes,
+    comments: data.comments,
+    shares: data.shares,
+    reviewScore: data.review_score,
+  };
+  const engagementRate = calculateEngagementRate(metrics);
+  const performanceScore = calculatePerformanceScore(metrics, {
+    requiredViews: contest.requiredViews,
+  });
   return {
     submissionId: data.id,
     contestId: contest.id,
