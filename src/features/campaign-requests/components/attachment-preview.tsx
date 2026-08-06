@@ -1,36 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FileText, Paperclip, Upload, X } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-
-const MAX_BYTES = 10 * 1024 * 1024;
-const ALLOWED = ["image/png", "image/jpeg", "image/webp", "application/pdf"];
-
-function useSignedUrl(path: string | null | undefined) {
-  const [url, setUrl] = useState<string | null>(null);
-  useEffect(() => {
-    let cancelled = false;
-    if (!path) {
-      setUrl(null);
-      return;
-    }
-    supabase.storage
-      .from("campaign-attachments")
-      .createSignedUrl(path, 60 * 60)
-      .then(({ data }) => {
-        if (!cancelled) setUrl(data?.signedUrl ?? null);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [path]);
-  return url;
-}
+import { BUCKET_RULES, uploadToBucket, useSignedUrl } from "@/lib/storage";
 
 /** Read-only preview used on detail pages. */
 export function AttachmentPreview({ path }: { path: string | null }) {
-  const url = useSignedUrl(path);
+  const url = useSignedUrl("campaign-attachments", path);
   const isImage = Boolean(path && /\.(png|jpe?g|webp|gif)$/i.test(path));
 
   if (!path) return <p className="text-sm text-ink-mute">No attachment provided.</p>;
@@ -73,26 +49,14 @@ export function AttachmentUpload({
   const [uploading, setUploading] = useState(false);
 
   async function handleFile(file: File) {
-    if (!ALLOWED.includes(file.type)) {
-      toast.error("Attach a PNG, JPG, WEBP or PDF file.");
-      return;
-    }
-    if (file.size > MAX_BYTES) {
-      toast.error("Attachment must be smaller than 10MB.");
-      return;
-    }
     setUploading(true);
-    const ext = file.name.split(".").pop()?.toLowerCase() ?? "bin";
-    const path = `${userId}/${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabase.storage
-      .from("campaign-attachments")
-      .upload(path, file, { upsert: true });
+    const result = await uploadToBucket("campaign-attachments", file, userId);
     setUploading(false);
-    if (error) {
-      toast.error(error.message);
+    if (!result.ok) {
+      toast.error(result.error);
       return;
     }
-    onChange(path);
+    onChange(result.path);
     toast.success("Attachment uploaded.");
   }
 
@@ -115,7 +79,7 @@ export function AttachmentUpload({
         <label className="inline-flex">
           <input
             type="file"
-            accept=".png,.jpg,.jpeg,.webp,.pdf"
+            accept={BUCKET_RULES["campaign-attachments"].accept}
             className="hidden"
             onChange={(e) => {
               const file = e.target.files?.[0];
@@ -130,7 +94,7 @@ export function AttachmentUpload({
           </Button>
         </label>
       )}
-      <p className="text-xs text-ink-mute">PNG, JPG, WEBP or PDF, up to 10MB.</p>
+      <p className="text-xs text-ink-mute">{BUCKET_RULES["campaign-attachments"].label}</p>
     </div>
   );
 }

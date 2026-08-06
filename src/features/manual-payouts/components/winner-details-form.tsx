@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { BUCKET_RULES, uploadToBucket } from "@/lib/storage";
 import { Field, fieldClass } from "@/features/profiles/components/field";
 import { payoutDetailsSchema, type PayoutDetailsInput } from "../payout.schema";
 
@@ -52,20 +52,14 @@ export function WinnerDetailsForm({
   const idPath = watch("governmentIdUrl");
 
   async function handleFile(file: File) {
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("File must be smaller than 5MB.");
-      return;
-    }
     setUploading(true);
-    const ext = file.name.split(".").pop()?.toLowerCase() ?? "pdf";
-    const path = `${userId}/${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("payout-documents").upload(path, file);
+    const result = await uploadToBucket("payout-documents", file, userId);
     setUploading(false);
-    if (error) {
-      toast.error(error.message);
+    if (!result.ok) {
+      toast.error(result.error);
       return;
     }
-    setValue("governmentIdUrl", path, { shouldValidate: true });
+    setValue("governmentIdUrl", result.path, { shouldValidate: true });
     toast.success("Document uploaded.");
   }
 
