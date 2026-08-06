@@ -1,3 +1,5 @@
+import type { ContestAvailability, EligibilityResult } from "./eligibility";
+
 export const CONTEST_STATUSES = [
   "draft",
   "published",
@@ -150,4 +152,55 @@ export type ContestWinner = {
   currency: string;
   announcedAt: string | null;
   createdAt: string;
+};
+
+/* ---------- Discovery ---------- */
+
+export const CONTEST_SORTS = [
+  { key: "newest", label: "Newest" },
+  { key: "highest_reward", label: "Highest Reward" },
+  { key: "earliest_deadline", label: "Earliest Deadline" },
+  { key: "contest_start", label: "Contest Start" },
+] as const;
+
+export type ContestSortKey = (typeof CONTEST_SORTS)[number]["key"];
+
+/** Statuses an influencer can filter discovery by. */
+export const DISCOVERABLE_STATUSES = ["published", "applications_open"] as const;
+export type DiscoverableStatus = (typeof DISCOVERABLE_STATUSES)[number];
+
+export type ContestDiscoveryFilters = {
+  search?: string;
+  platform?: string;
+  creatorCategory?: string;
+  location?: string;
+  status?: DiscoverableStatus | "all";
+  minReward?: number | null;
+  maxReward?: number | null;
+  minFollowers?: number | null;
+  maxFollowers?: number | null;
+  /** Only contests whose application deadline falls on or before this date. */
+  deadlineBefore?: string | null;
+  sort?: ContestSortKey;
+  page?: number;
+  pageSize?: number;
+};
+
+/** One discovery row: contest + server-evaluated eligibility + saved state. */
+export type DiscoveryContest = {
+  contest: Contest;
+  eligibility: EligibilityResult;
+  availability: ContestAvailability;
+  saved: boolean;
+};
+
+export type DiscoveryPage = {
+  items: DiscoveryContest[];
+  total: number;
+  page: number;
+  pageSize: number;
+};
+
+export type ContestDetailForInfluencer = DiscoveryContest & {
+  events: ContestEvent[];
 };
