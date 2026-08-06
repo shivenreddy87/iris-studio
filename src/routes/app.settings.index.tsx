@@ -46,10 +46,20 @@ function SettingsPage() {
         </Section>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <NavCard to="/app/team" Icon={Users} title={role === "creator" ? "Collaborators" : "Team"} desc="Invite and manage members" />
-          <NavCard to="/app/connections" Icon={Link2} title="Connected accounts" desc="Link social platforms" />
-          <NavCard to="/app/settings/notifications" Icon={Bell} title="Notifications" desc="Choose what you hear about" />
+          <NavCard
+            to="/app/profile"
+            Icon={UserCircle}
+            title="Profile"
+            desc="Keep your details up to date"
+          />
+          <NavCard
+            to="/app/settings/notifications"
+            Icon={Bell}
+            title="Notifications"
+            desc="Choose what you hear about"
+          />
         </div>
+
 
         <Section title="Security">
           <div className="flex items-center gap-3">
