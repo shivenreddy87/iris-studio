@@ -24,13 +24,14 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
   const nav = navigationFor(platformRole);
   const { unlocked } = useProfileGate();
 
-  const { data: notifications = [] } = useQuery({
+  const { data: notifResult } = useQuery({
     queryKey: ["notifications"],
-    queryFn: () => fetchNotifs(),
+    queryFn: () => fetchNotifs({ data: { limit: 10 } }),
     enabled: !!user,
     refetchInterval: 30000,
   });
-  const unreadCount = notifications.filter((n) => !n.read_at).length;
+  const notifications = notifResult?.items ?? [];
+  const unreadCount = notifResult?.unreadCount ?? 0;
 
   // Realtime notifications
   useEffect(() => {
@@ -184,10 +185,10 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                     notifications.map((n) => (
                       <Link
                         key={n.id}
-                        to={n.link ?? "/app"}
+                        to={n.actionUrl ?? n.link ?? "/app"}
                         onClick={() => setNotifOpen(false)}
                         className={`block border-b border-white/5 p-3 text-sm hover:bg-white/5 ${
-                          n.read_at ? "opacity-60" : ""
+                          n.readAt ? "opacity-60" : ""
                         }`}
                       >
                         <div className="font-semibold text-white">{n.title}</div>
@@ -195,7 +196,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                           <div className="text-xs text-white/60 line-clamp-2">{n.body}</div>
                         ) : null}
                         <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-white/40">
-                          {new Date(n.created_at).toLocaleString()}
+                          {new Date(n.createdAt).toLocaleString()}
                         </div>
                       </Link>
                     ))
