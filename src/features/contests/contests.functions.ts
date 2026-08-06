@@ -43,13 +43,3 @@ export const listMyActiveContests = createServerFn({ method: "GET" })
     if (error) throw new Error(error.message);
     return decorate(supabase, data ?? []);
   });
-
-
-export const listMyCompletedContests = createServerFn({ method: "GET" }).handler(
-  async (): Promise<Contest[]> => [],
-);
-
-export const listAllContests = createServerFn({ method: "GET" }).handler(
-  async (): Promise<Contest[]> => [],
-);
-
