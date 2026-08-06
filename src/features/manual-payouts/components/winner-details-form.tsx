@@ -138,7 +138,7 @@ export function WinnerDetailsForm({
         <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-hairline bg-surface-2 px-4 py-2 text-sm text-ink-dim">
           <input
             type="file"
-            accept="image/*,application/pdf"
+            accept={BUCKET_RULES["payout-documents"].accept}
             className="hidden"
             onChange={(e) => {
               const file = e.target.files?.[0];

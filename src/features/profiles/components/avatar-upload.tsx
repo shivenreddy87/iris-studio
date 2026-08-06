@@ -52,7 +52,7 @@ export function AvatarUpload({
         <label className="inline-flex">
           <input
             type="file"
-            accept="image/*"
+            accept={BUCKET_RULES.avatars.accept}
             className="hidden"
             onChange={(e) => {
               const file = e.target.files?.[0];
