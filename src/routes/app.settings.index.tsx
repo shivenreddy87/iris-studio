@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Users, Link2, ShieldCheck, ArrowRight, Bell } from "lucide-react";
+import type { LinkProps } from "@tanstack/react-router";
+import type { LucideIcon } from "lucide-react";
+import { UserCircle, ShieldCheck, ArrowRight, Bell } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -7,12 +9,16 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/app/settings/")({
   head: () => ({
     meta: [
-      { title: "Settings — Iris AI" },
-      { name: "description", content: "Manage your account, team, and connected accounts on Iris AI." },
+      { title: "Settings — Project Eros" },
+      {
+        name: "description",
+        content: "Manage your account, profile and notification preferences on Project Eros.",
+      },
     ],
   }),
   component: SettingsPage,
 });
+
 
 function SettingsPage() {
   const { user, role } = useAuth();
