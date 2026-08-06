@@ -142,7 +142,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
           <div className="relative min-w-0 flex-1 max-w-lg">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/40" />
             <input
-              placeholder="Search or ask Iris…"
+              placeholder="Search contests, requests and people…"
               className="w-full rounded-full border border-white/10 bg-white/5 py-2 pl-10 pr-4 text-sm text-white placeholder:text-white/40 focus:border-violet focus:outline-none focus:ring-4 focus:ring-violet/20"
             />
           </div>
