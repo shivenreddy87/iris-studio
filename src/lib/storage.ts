@@ -58,17 +58,19 @@ export async function uploadToBucket(
     return { ok: false, error: `File is too large. Allowed: ${rule.label}.` };
   }
 
-  const ext = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "bin";
+  const ext =
+    file.name
+      .split(".")
+      .pop()
+      ?.toLowerCase()
+      .replace(/[^a-z0-9]/g, "") || "bin";
   const path = `${userId}/${crypto.randomUUID()}.${ext}`;
   const { error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
   if (error) return { ok: false, error: error.message };
   return { ok: true, path };
 }
 
-export async function createSignedUrl(
-  bucket: StorageBucket,
-  path: string,
-): Promise<string | null> {
+export async function createSignedUrl(bucket: StorageBucket, path: string): Promise<string | null> {
   const { data } = await supabase.storage
     .from(bucket)
     .createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
