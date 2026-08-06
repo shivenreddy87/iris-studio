@@ -2,12 +2,13 @@ import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-route
 import { useEffect, useState } from "react";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Search, Bell, Menu, X, LogOut } from "lucide-react";
+import { Search, Bell, Menu, X, LogOut, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { listNotifications, markAllNotificationsRead } from "@/lib/notifications.functions";
 import { isNavItemActive, navigationFor } from "@/lib/navigation";
 import { roleLabel, toPlatformRole } from "@/lib/roles";
+import { isGatedPath, useProfileGate } from "@/features/profiles/components/profile-gate";
 
 export function AppShell({ children }: { children?: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -21,6 +22,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
 
   const platformRole = toPlatformRole(role);
   const nav = navigationFor(platformRole);
+  const { unlocked } = useProfileGate();
 
   const { data: notifications = [] } = useQuery({
     queryKey: ["notifications"],
@@ -108,6 +110,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
         <nav className="flex-1 space-y-1 p-4">
           {nav.map((item) => {
             const active = isNavItemActive(item, pathname);
+            const locked = !unlocked && isGatedPath(String(item.to));
             return (
               <Link
                 key={item.to}
@@ -117,14 +120,16 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                   active
                     ? "bg-white text-midnight"
                     : "text-white/70 hover:bg-white/5 hover:text-white"
-                }`}
+                } ${locked && !active ? "opacity-40" : ""}`}
               >
                 <item.Icon className="size-4" />
-                {item.label}
+                <span className="flex-1">{item.label}</span>
+                {locked ? <Lock className="size-3.5" /> : null}
               </Link>
             );
           })}
         </nav>
+
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">

@@ -8,6 +8,7 @@ import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { listCampaignRequests } from "@/features/campaign-requests/requests.functions";
 import { CampaignRequestList } from "@/features/campaign-requests/components/campaign-request-list";
+import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
 export const Route = createFileRoute("/app/business/requests/")({
   head: () => ({
@@ -26,7 +27,11 @@ export const Route = createFileRoute("/app/business/requests/")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: BusinessCampaignRequestsPage,
+  component: () => (
+    <ProfileGate>
+      <BusinessCampaignRequestsPage />
+    </ProfileGate>
+  ),
 });
 
 function BusinessCampaignRequestsPage() {

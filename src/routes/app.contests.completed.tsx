@@ -8,6 +8,7 @@ import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
 import { listMyCompletedContests } from "@/features/contests/contests.functions";
 import { ContestList } from "@/features/contests/components/contest-list";
+import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
 export const Route = createFileRoute("/app/contests/completed")({
   head: () => ({
@@ -23,7 +24,11 @@ export const Route = createFileRoute("/app/contests/completed")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: CompletedContestsPage,
+  component: () => (
+    <ProfileGate>
+      <CompletedContestsPage />
+    </ProfileGate>
+  ),
 });
 
 function CompletedContestsPage() {
