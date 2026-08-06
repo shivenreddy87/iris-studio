@@ -275,10 +275,13 @@ export function emptyCounts(): ApplicationSummaryCounts {
  * the contest or is an admin — no applicant rows ever leave this function.
  */
 export async function countApplications(
-  db: Db,
+  _db: Db,
   contestId: string,
 ): Promise<ApplicationSummaryCounts> {
-  const { data, error } = await db
+  // Businesses cannot read applicant rows under RLS, so counting runs with the
+  // admin client after the caller has been authorized.
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin
     .from("contest_applications")
     .select("status")
     .eq("contest_id", contestId);
@@ -290,6 +293,7 @@ export async function countApplications(
   }
   return counts;
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Writes                                                              */
