@@ -69,7 +69,7 @@ export const createCampaignRequestDraft = createServerFn({ method: "POST" })
     await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("campaign_requests")
-      .insert({ ...toPayload(data), business_id: context.userId, status: "draft" })
+      .insert({ ...toPayload(data, context.userId), business_id: context.userId, status: "draft" })
       .select(COLUMNS)
       .single<Row>();
     if (error) throw new Error(error.message);
@@ -91,7 +91,7 @@ export const updateCampaignRequestDraft = createServerFn({ method: "POST" })
     await assertNotSuspended(context.userId);
     const { data: row, error } = await context.supabase
       .from("campaign_requests")
-      .update(toPayload(data.values))
+      .update(toPayload(data.values, context.userId))
       .eq("id", data.id)
       .eq("business_id", context.userId)
       .in("status", ["draft", "changes_requested"])
@@ -117,7 +117,7 @@ export const submitCampaignRequest = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<CampaignRequest> => {
     await assertNotSuspended(context.userId);
     const payload = {
-      ...toPayload(data.values),
+      ...toPayload(data.values, context.userId),
       status: "submitted" as const,
       submitted_at: new Date().toISOString(),
     };

@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import type {
+import { assertOwnedStoragePath } from "@/lib/storage.server";
   CampaignRequest,
   CampaignRequestEvent,
   CampaignRequestStatus,
@@ -109,7 +110,7 @@ export function toPayload(v: {
   maximumFollowers?: number | undefined;
   campaignDescription?: string | undefined;
   attachmentUrl?: string | undefined;
-}): Payload {
+}, ownerId: string): Payload {
   const text = (s?: string) => (s && s.trim() !== "" ? s.trim() : null);
   const num = (n?: number) => (typeof n === "number" && Number.isFinite(n) ? n : null);
   return {
@@ -126,7 +127,7 @@ export function toPayload(v: {
     minimum_followers: num(v.minimumFollowers),
     maximum_followers: num(v.maximumFollowers),
     campaign_description: text(v.campaignDescription),
-    attachment_url: text(v.attachmentUrl),
+    attachment_url: assertOwnedStoragePath(text(v.attachmentUrl), ownerId),
   };
 }
 
