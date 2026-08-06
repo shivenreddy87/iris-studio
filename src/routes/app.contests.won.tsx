@@ -66,13 +66,7 @@ function WonContestsPage() {
       >
         <ContestWinnerList winners={data} />
       </DataSection>
-      <MilestoneNotice
-        items={[
-          "Winner announcement details",
-          "Reward amount and payout status",
-          "Winner notifications",
-        ]}
-      />
+      <MilestoneNotice items={["Reward payout tracking", "Downloadable win history"]} />
     </div>
   );
 }
