@@ -171,10 +171,13 @@ export function ContestWizard({ contest }: { contest: Contest }) {
             </Field>
             <div className="sm:col-span-2">
               <p className="mb-2 text-sm font-medium text-ink">Attachment</p>
-              <AttachmentUpload
-                value={watch("attachmentUrl") ?? ""}
-                onChange={(path) => setValue("attachmentUrl", path)}
-              />
+              {userId ? (
+                <AttachmentUpload
+                  userId={userId}
+                  value={watch("attachmentUrl") ?? ""}
+                  onChange={(path) => setValue("attachmentUrl", path ?? "")}
+                />
+              ) : null}
             </div>
           </StepCard>
         ) : null}
