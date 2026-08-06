@@ -52,6 +52,54 @@ export type Database = {
           },
         ]
       }
+      business_profiles: {
+        Row: {
+          business_name: string | null
+          category: string | null
+          contact_email: string | null
+          contact_person: string | null
+          created_at: string
+          description: string | null
+          instagram: string | null
+          location: string | null
+          logo_url: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          business_name?: string | null
+          category?: string | null
+          contact_email?: string | null
+          contact_person?: string | null
+          created_at?: string
+          description?: string | null
+          instagram?: string | null
+          location?: string | null
+          logo_url?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          business_name?: string | null
+          category?: string | null
+          contact_email?: string | null
+          contact_person?: string | null
+          created_at?: string
+          description?: string | null
+          instagram?: string | null
+          location?: string | null
+          logo_url?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           brief: string
@@ -296,54 +344,72 @@ export type Database = {
       creator_profiles: {
         Row: {
           accent: Database["public"]["Enums"]["creator_accent"]
+          avatar_url: string | null
           avg_rate: number
           bio: string | null
           created_at: string
           display_name: string | null
           engagement_rate: number
+          follower_range: string | null
           followers: number
           handle: string | null
           location: string | null
           match_score: number
           niche: string | null
+          primary_platform: string | null
           socials: Json
           tags: string[]
+          tiktok_handle: string | null
           updated_at: string
           user_id: string
+          username: string | null
+          youtube_channel: string | null
         }
         Insert: {
           accent?: Database["public"]["Enums"]["creator_accent"]
+          avatar_url?: string | null
           avg_rate?: number
           bio?: string | null
           created_at?: string
           display_name?: string | null
           engagement_rate?: number
+          follower_range?: string | null
           followers?: number
           handle?: string | null
           location?: string | null
           match_score?: number
           niche?: string | null
+          primary_platform?: string | null
           socials?: Json
           tags?: string[]
+          tiktok_handle?: string | null
           updated_at?: string
           user_id: string
+          username?: string | null
+          youtube_channel?: string | null
         }
         Update: {
           accent?: Database["public"]["Enums"]["creator_accent"]
+          avatar_url?: string | null
           avg_rate?: number
           bio?: string | null
           created_at?: string
           display_name?: string | null
           engagement_rate?: number
+          follower_range?: string | null
           followers?: number
           handle?: string | null
           location?: string | null
           match_score?: number
           niche?: string | null
+          primary_platform?: string | null
           socials?: Json
           tags?: string[]
+          tiktok_handle?: string | null
           updated_at?: string
           user_id?: string
+          username?: string | null
+          youtube_channel?: string | null
         }
         Relationships: []
       }
@@ -670,6 +736,7 @@ export type Database = {
           full_name: string | null
           id: string
           last_seen_at: string | null
+          onboarding_completed_at: string | null
           updated_at: string
         }
         Insert: {
@@ -679,6 +746,7 @@ export type Database = {
           full_name?: string | null
           id: string
           last_seen_at?: string | null
+          onboarding_completed_at?: string | null
           updated_at?: string
         }
         Update: {
@@ -688,6 +756,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           last_seen_at?: string | null
+          onboarding_completed_at?: string | null
           updated_at?: string
         }
         Relationships: []
