@@ -28,7 +28,6 @@ const INFLUENCER_FIELDS: Array<{ key: keyof InfluencerProfile; label: string }> 
   { key: "primaryPlatform", label: "Primary platform" },
   { key: "followerRange", label: "Follower range" },
   { key: "bio", label: "Bio" },
-  { key: "instagramHandle", label: "Instagram handle" },
 ];
 
 
@@ -58,7 +57,21 @@ export function businessCompletion(profile: BusinessProfile | null): ProfileComp
 }
 
 export function influencerCompletion(profile: InfluencerProfile | null): ProfileCompletion {
-  return score(profile as Record<string, unknown> | null, INFLUENCER_FIELDS);
+  const base = score(profile as Record<string, unknown> | null, INFLUENCER_FIELDS);
+  const hasSocial = Boolean(
+    profile?.instagramHandle?.trim() ||
+      profile?.tiktokHandle?.trim() ||
+      profile?.youtubeChannel?.trim(),
+  );
+
+  const total = base.total + 1;
+  const completed = base.completed + (hasSocial ? 1 : 0);
+  return {
+    percent: Math.round((completed / total) * 100),
+    completed,
+    total,
+    missing: hasSocial ? base.missing : [...base.missing, "At least one social handle"],
+  };
 }
 
 export function profileCompletion(profile: MyProfile | null | undefined): ProfileCompletion {

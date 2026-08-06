@@ -64,7 +64,8 @@ export const businessProfileSchema = z.object({
   logoUrl: z.string().trim().max(500).optional(),
 });
 
-export const influencerProfileSchema = z.object({
+export const influencerProfileSchema = z
+  .object({
   fullName: z.string().trim().min(2, "Full name is required").max(120),
   username: z
     .string()
@@ -81,11 +82,19 @@ export const influencerProfileSchema = z.object({
     .trim()
     .min(20, "Tell brands a little about you")
     .max(1000, "Keep it under 1000 characters"),
-  instagramHandle: z.string().trim().min(1, "Instagram handle is required").max(60),
-  tiktokHandle: optionalText,
-  youtubeChannel: optionalText,
-  avatarUrl: z.string().trim().max(500).optional(),
-});
+    instagramHandle: optionalText,
+    tiktokHandle: optionalText,
+    youtubeChannel: optionalText,
+    avatarUrl: z.string().trim().max(500).optional(),
+  })
+  .refine(
+    (value) =>
+      Boolean(value.instagramHandle || value.tiktokHandle || value.youtubeChannel),
+    {
+      message: "Add at least one social handle or URL",
+      path: ["instagramHandle"],
+    },
+  );
 
 export type BusinessProfileInput = z.input<typeof businessProfileSchema>;
 export type InfluencerProfileInput = z.input<typeof influencerProfileSchema>;
