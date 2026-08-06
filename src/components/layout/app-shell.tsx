@@ -108,6 +108,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
         <nav className="flex-1 space-y-1 p-4">
           {nav.map((item) => {
             const active = isNavItemActive(item, pathname);
+            const locked = !unlocked && isGatedPath(String(item.to));
             return (
               <Link
                 key={item.to}
@@ -117,14 +118,16 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
                   active
                     ? "bg-white text-midnight"
                     : "text-white/70 hover:bg-white/5 hover:text-white"
-                }`}
+                } ${locked && !active ? "opacity-40" : ""}`}
               >
                 <item.Icon className="size-4" />
-                {item.label}
+                <span className="flex-1">{item.label}</span>
+                {locked ? <Lock className="size-3.5" /> : null}
               </Link>
             );
           })}
         </nav>
+
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
