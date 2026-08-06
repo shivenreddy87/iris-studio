@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
+import { assertOwnedStoragePath } from "@/lib/storage.server";
   businessProfileSchema,
   influencerProfileSchema,
   type BusinessProfile,
@@ -85,7 +86,7 @@ export const upsertBusinessProfile = createServerFn({ method: "POST" })
         website: data.website ?? null,
         instagram: data.instagram ?? null,
         description: data.description,
-        logo_url: data.logoUrl ?? null,
+        logo_url: assertOwnedStoragePath(data.logoUrl, userId),
       },
       { onConflict: "user_id" },
     );
@@ -112,7 +113,7 @@ export const upsertInfluencerProfile = createServerFn({ method: "POST" })
         handle: data.instagramHandle,
         tiktok_handle: data.tiktokHandle ?? null,
         youtube_channel: data.youtubeChannel ?? null,
-        avatar_url: data.avatarUrl ?? null,
+        avatar_url: assertOwnedStoragePath(data.avatarUrl, userId),
       },
       { onConflict: "user_id" },
     );
