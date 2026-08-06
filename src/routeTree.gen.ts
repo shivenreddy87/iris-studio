@@ -57,10 +57,15 @@ import { Route as AppContestsContestIdRouteImport } from './routes/app.contests.
 import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
 import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
 import { Route as AppAdminWinnersRouteImport } from './routes/app.admin.winners'
+import { Route as AppAdminTemplatesRouteImport } from './routes/app.admin.templates'
+import { Route as AppAdminSettingsRouteImport } from './routes/app.admin.settings'
+import { Route as AppAdminReportsRouteImport } from './routes/app.admin.reports'
 import { Route as AppAdminPayoutsRouteImport } from './routes/app.admin.payouts'
+import { Route as AppAdminModerationRouteImport } from './routes/app.admin.moderation'
 import { Route as AppAdminInfluencersRouteImport } from './routes/app.admin.influencers'
 import { Route as AppAdminEntriesRouteImport } from './routes/app.admin.entries'
 import { Route as AppAdminBusinessesRouteImport } from './routes/app.admin.businesses'
+import { Route as AppAdminAnalyticsRouteImport } from './routes/app.admin.analytics'
 import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/sitemap[.]xml'
 import { Route as ApiPublicRobotsDottxtRouteImport } from './routes/api/public/robots[.]txt'
 import { Route as AppBusinessRequestsIndexRouteImport } from './routes/app.business.requests.index'
@@ -319,9 +324,29 @@ const AppAdminWinnersRoute = AppAdminWinnersRouteImport.update({
   path: '/admin/winners',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdminTemplatesRoute = AppAdminTemplatesRouteImport.update({
+  id: '/admin/templates',
+  path: '/admin/templates',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminSettingsRoute = AppAdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminReportsRoute = AppAdminReportsRouteImport.update({
+  id: '/admin/reports',
+  path: '/admin/reports',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAdminPayoutsRoute = AppAdminPayoutsRouteImport.update({
   id: '/admin/payouts',
   path: '/admin/payouts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminModerationRoute = AppAdminModerationRouteImport.update({
+  id: '/admin/moderation',
+  path: '/admin/moderation',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAdminInfluencersRoute = AppAdminInfluencersRouteImport.update({
@@ -337,6 +362,11 @@ const AppAdminEntriesRoute = AppAdminEntriesRouteImport.update({
 const AppAdminBusinessesRoute = AppAdminBusinessesRouteImport.update({
   id: '/admin/businesses',
   path: '/admin/businesses',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminAnalyticsRoute = AppAdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
   getParentRoute: () => AppRoute,
 } as any)
 const ApiPublicSitemapDotxmlRoute = ApiPublicSitemapDotxmlRouteImport.update({
@@ -458,10 +488,15 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
+  '/app/admin/analytics': typeof AppAdminAnalyticsRoute
   '/app/admin/businesses': typeof AppAdminBusinessesRouteWithChildren
   '/app/admin/entries': typeof AppAdminEntriesRoute
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
+  '/app/admin/moderation': typeof AppAdminModerationRoute
   '/app/admin/payouts': typeof AppAdminPayoutsRoute
+  '/app/admin/reports': typeof AppAdminReportsRoute
+  '/app/admin/settings': typeof AppAdminSettingsRoute
+  '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
@@ -525,10 +560,15 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
+  '/app/admin/analytics': typeof AppAdminAnalyticsRoute
   '/app/admin/businesses': typeof AppAdminBusinessesRouteWithChildren
   '/app/admin/entries': typeof AppAdminEntriesRoute
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
+  '/app/admin/moderation': typeof AppAdminModerationRoute
   '/app/admin/payouts': typeof AppAdminPayoutsRoute
+  '/app/admin/reports': typeof AppAdminReportsRoute
+  '/app/admin/settings': typeof AppAdminSettingsRoute
+  '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
@@ -596,10 +636,15 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexRoute
   '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
   '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
+  '/app/admin/analytics': typeof AppAdminAnalyticsRoute
   '/app/admin/businesses': typeof AppAdminBusinessesRouteWithChildren
   '/app/admin/entries': typeof AppAdminEntriesRoute
   '/app/admin/influencers': typeof AppAdminInfluencersRouteWithChildren
+  '/app/admin/moderation': typeof AppAdminModerationRoute
   '/app/admin/payouts': typeof AppAdminPayoutsRoute
+  '/app/admin/reports': typeof AppAdminReportsRoute
+  '/app/admin/settings': typeof AppAdminSettingsRoute
+  '/app/admin/templates': typeof AppAdminTemplatesRoute
   '/app/admin/winners': typeof AppAdminWinnersRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
@@ -668,10 +713,15 @@ export interface FileRouteTypes {
     | '/app/'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
+    | '/app/admin/analytics'
     | '/app/admin/businesses'
     | '/app/admin/entries'
     | '/app/admin/influencers'
+    | '/app/admin/moderation'
     | '/app/admin/payouts'
+    | '/app/admin/reports'
+    | '/app/admin/settings'
+    | '/app/admin/templates'
     | '/app/admin/winners'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
@@ -735,10 +785,15 @@ export interface FileRouteTypes {
     | '/app'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
+    | '/app/admin/analytics'
     | '/app/admin/businesses'
     | '/app/admin/entries'
     | '/app/admin/influencers'
+    | '/app/admin/moderation'
     | '/app/admin/payouts'
+    | '/app/admin/reports'
+    | '/app/admin/settings'
+    | '/app/admin/templates'
     | '/app/admin/winners'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
@@ -805,10 +860,15 @@ export interface FileRouteTypes {
     | '/app/'
     | '/api/public/robots.txt'
     | '/api/public/sitemap.xml'
+    | '/app/admin/analytics'
     | '/app/admin/businesses'
     | '/app/admin/entries'
     | '/app/admin/influencers'
+    | '/app/admin/moderation'
     | '/app/admin/payouts'
+    | '/app/admin/reports'
+    | '/app/admin/settings'
+    | '/app/admin/templates'
     | '/app/admin/winners'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
@@ -1204,11 +1264,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminWinnersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/admin/templates': {
+      id: '/app/admin/templates'
+      path: '/admin/templates'
+      fullPath: '/app/admin/templates'
+      preLoaderRoute: typeof AppAdminTemplatesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/settings': {
+      id: '/app/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/app/admin/settings'
+      preLoaderRoute: typeof AppAdminSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/reports': {
+      id: '/app/admin/reports'
+      path: '/admin/reports'
+      fullPath: '/app/admin/reports'
+      preLoaderRoute: typeof AppAdminReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/admin/payouts': {
       id: '/app/admin/payouts'
       path: '/admin/payouts'
       fullPath: '/app/admin/payouts'
       preLoaderRoute: typeof AppAdminPayoutsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/moderation': {
+      id: '/app/admin/moderation'
+      path: '/admin/moderation'
+      fullPath: '/app/admin/moderation'
+      preLoaderRoute: typeof AppAdminModerationRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/admin/influencers': {
@@ -1230,6 +1318,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/businesses'
       fullPath: '/app/admin/businesses'
       preLoaderRoute: typeof AppAdminBusinessesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/analytics': {
+      id: '/app/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/app/admin/analytics'
+      preLoaderRoute: typeof AppAdminAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
     '/api/public/sitemap.xml': {
@@ -1409,10 +1504,15 @@ interface AppRouteChildren {
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppTeamRoute: typeof AppTeamRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppAdminAnalyticsRoute: typeof AppAdminAnalyticsRoute
   AppAdminBusinessesRoute: typeof AppAdminBusinessesRouteWithChildren
   AppAdminEntriesRoute: typeof AppAdminEntriesRoute
   AppAdminInfluencersRoute: typeof AppAdminInfluencersRouteWithChildren
+  AppAdminModerationRoute: typeof AppAdminModerationRoute
   AppAdminPayoutsRoute: typeof AppAdminPayoutsRoute
+  AppAdminReportsRoute: typeof AppAdminReportsRoute
+  AppAdminSettingsRoute: typeof AppAdminSettingsRoute
+  AppAdminTemplatesRoute: typeof AppAdminTemplatesRoute
   AppAdminWinnersRoute: typeof AppAdminWinnersRoute
   AppCampaignsIdRoute: typeof AppCampaignsIdRoute
   AppCampaignsNewRoute: typeof AppCampaignsNewRoute
@@ -1459,10 +1559,15 @@ const AppRouteChildren: AppRouteChildren = {
   AppSettingsRoute: AppSettingsRouteWithChildren,
   AppTeamRoute: AppTeamRoute,
   AppIndexRoute: AppIndexRoute,
+  AppAdminAnalyticsRoute: AppAdminAnalyticsRoute,
   AppAdminBusinessesRoute: AppAdminBusinessesRouteWithChildren,
   AppAdminEntriesRoute: AppAdminEntriesRoute,
   AppAdminInfluencersRoute: AppAdminInfluencersRouteWithChildren,
+  AppAdminModerationRoute: AppAdminModerationRoute,
   AppAdminPayoutsRoute: AppAdminPayoutsRoute,
+  AppAdminReportsRoute: AppAdminReportsRoute,
+  AppAdminSettingsRoute: AppAdminSettingsRoute,
+  AppAdminTemplatesRoute: AppAdminTemplatesRoute,
   AppAdminWinnersRoute: AppAdminWinnersRoute,
   AppCampaignsIdRoute: AppCampaignsIdRoute,
   AppCampaignsNewRoute: AppCampaignsNewRoute,
@@ -1519,13 +1624,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

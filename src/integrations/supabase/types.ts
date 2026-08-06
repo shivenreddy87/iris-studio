@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievement_definitions: {
+        Row: {
+          code: string
+          created_at: string
+          description: string
+          icon: string | null
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description: string
+          icon?: string | null
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string
+          icon?: string | null
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
       activity_feed: {
         Row: {
           action: string
@@ -451,6 +478,13 @@ export type Database = {
             foreignKeyName: "contest_applications_contest_id_fkey"
             columns: ["contest_id"]
             isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
+          {
+            foreignKeyName: "contest_applications_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
             referencedRelation: "contests"
             referencedColumns: ["id"]
           },
@@ -482,6 +516,13 @@ export type Database = {
           note?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "contest_events_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
           {
             foreignKeyName: "contest_events_contest_id_fkey"
             columns: ["contest_id"]
@@ -534,6 +575,13 @@ export type Database = {
             foreignKeyName: "contest_participants_contest_id_fkey"
             columns: ["contest_id"]
             isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
+          {
+            foreignKeyName: "contest_participants_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
             referencedRelation: "contests"
             referencedColumns: ["id"]
           },
@@ -565,6 +613,13 @@ export type Database = {
           note?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "contest_result_events_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
           {
             foreignKeyName: "contest_result_events_contest_id_fkey"
             columns: ["contest_id"]
@@ -684,6 +739,13 @@ export type Database = {
             foreignKeyName: "contest_submissions_contest_id_fkey"
             columns: ["contest_id"]
             isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
+          {
+            foreignKeyName: "contest_submissions_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
             referencedRelation: "contests"
             referencedColumns: ["id"]
           },
@@ -695,6 +757,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      contest_templates: {
+        Row: {
+          contest_brief: string | null
+          contest_rules: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          eligibility: Json
+          id: string
+          is_active: boolean
+          name: string
+          participant_limit: number | null
+          preferred_creator_category: string | null
+          reward_pool: number | null
+          target_platform: string | null
+          updated_at: string
+          winner_count: number | null
+        }
+        Insert: {
+          contest_brief?: string | null
+          contest_rules?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          eligibility?: Json
+          id?: string
+          is_active?: boolean
+          name: string
+          participant_limit?: number | null
+          preferred_creator_category?: string | null
+          reward_pool?: number | null
+          target_platform?: string | null
+          updated_at?: string
+          winner_count?: number | null
+        }
+        Update: {
+          contest_brief?: string | null
+          contest_rules?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          eligibility?: Json
+          id?: string
+          is_active?: boolean
+          name?: string
+          participant_limit?: number | null
+          preferred_creator_category?: string | null
+          reward_pool?: number | null
+          target_platform?: string | null
+          updated_at?: string
+          winner_count?: number | null
+        }
+        Relationships: []
       }
       contest_winners: {
         Row: {
@@ -749,6 +865,13 @@ export type Database = {
           winner_notes?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "contest_winners_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
           {
             foreignKeyName: "contest_winners_contest_id_fkey"
             columns: ["contest_id"]
@@ -1302,6 +1425,39 @@ export type Database = {
           },
         ]
       }
+      moderation_records: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          id: string
+          note: string | null
+          reason: string | null
+          target_id: string
+          target_type: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          reason?: string | null
+          target_id: string
+          target_type: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          reason?: string | null
+          target_id?: string
+          target_type?: string
+        }
+        Relationships: []
+      }
       notification_preferences: {
         Row: {
           campaign_updates: boolean
@@ -1650,6 +1806,13 @@ export type Database = {
             foreignKeyName: "payouts_contest_id_fkey"
             columns: ["contest_id"]
             isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
+          {
+            foreignKeyName: "payouts_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
             referencedRelation: "contests"
             referencedColumns: ["id"]
           },
@@ -1661,6 +1824,96 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      platform_categories: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          kind: string
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          kind: string
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          kind?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      platform_channels: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      platform_settings: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          note: string | null
+          settings: Json
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          settings?: Json
+          version: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          settings?: Json
+          version?: number
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -1719,8 +1972,50 @@ export type Database = {
             foreignKeyName: "saved_contests_contest_id_fkey"
             columns: ["contest_id"]
             isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
+          {
+            foreignKeyName: "saved_contests_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
             referencedRelation: "contests"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_achievements: {
+        Row: {
+          awarded_at: string
+          code: string
+          created_at: string
+          id: string
+          metadata: Json
+          user_id: string
+        }
+        Insert: {
+          awarded_at?: string
+          code: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          user_id: string
+        }
+        Update: {
+          awarded_at?: string
+          code?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_code_fkey"
+            columns: ["code"]
+            isOneToOne: false
+            referencedRelation: "achievement_definitions"
+            referencedColumns: ["code"]
           },
         ]
       }
@@ -1745,9 +2040,216 @@ export type Database = {
         }
         Relationships: []
       }
+      user_suspensions: {
+        Row: {
+          created_at: string
+          id: string
+          lifted_at: string | null
+          lifted_by: string | null
+          reason: string
+          role: string | null
+          suspended_at: string
+          suspended_by: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lifted_at?: string | null
+          lifted_by?: string | null
+          reason: string
+          role?: string | null
+          suspended_at?: string
+          suspended_by?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lifted_at?: string | null
+          lifted_by?: string | null
+          reason?: string
+          role?: string | null
+          suspended_at?: string
+          suspended_by?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      business_statistics: {
+        Row: {
+          application_count: number | null
+          approved_request_count: number | null
+          avg_engagement: number | null
+          business_id: string | null
+          completed_contest_count: number | null
+          contest_count: number | null
+          participant_count: number | null
+          request_count: number | null
+          reward_distributed: number | null
+          submission_count: number | null
+          verified_submission_count: number | null
+        }
+        Insert: {
+          application_count?: never
+          approved_request_count?: never
+          avg_engagement?: never
+          business_id?: string | null
+          completed_contest_count?: never
+          contest_count?: never
+          participant_count?: never
+          request_count?: never
+          reward_distributed?: never
+          submission_count?: never
+          verified_submission_count?: never
+        }
+        Update: {
+          application_count?: never
+          approved_request_count?: never
+          avg_engagement?: never
+          business_id?: string | null
+          completed_contest_count?: never
+          contest_count?: never
+          participant_count?: never
+          request_count?: never
+          reward_distributed?: never
+          submission_count?: never
+          verified_submission_count?: never
+        }
+        Relationships: []
+      }
+      contest_statistics: {
+        Row: {
+          application_count: number | null
+          avg_engagement: number | null
+          business_id: string | null
+          contest_end_date: string | null
+          contest_id: string | null
+          created_at: string | null
+          participant_count: number | null
+          participant_limit: number | null
+          reward_awarded: number | null
+          reward_paid: number | null
+          reward_pool: number | null
+          shortlisted_count: number | null
+          status: Database["public"]["Enums"]["contest_status"] | null
+          submission_count: number | null
+          title: string | null
+          verified_count: number | null
+          winner_count: number | null
+          winner_count_actual: number | null
+        }
+        Insert: {
+          application_count?: never
+          avg_engagement?: never
+          business_id?: string | null
+          contest_end_date?: string | null
+          contest_id?: string | null
+          created_at?: string | null
+          participant_count?: never
+          participant_limit?: number | null
+          reward_awarded?: never
+          reward_paid?: never
+          reward_pool?: number | null
+          shortlisted_count?: never
+          status?: Database["public"]["Enums"]["contest_status"] | null
+          submission_count?: never
+          title?: string | null
+          verified_count?: never
+          winner_count?: number | null
+          winner_count_actual?: never
+        }
+        Update: {
+          application_count?: never
+          avg_engagement?: never
+          business_id?: string | null
+          contest_end_date?: string | null
+          contest_id?: string | null
+          created_at?: string | null
+          participant_count?: never
+          participant_limit?: number | null
+          reward_awarded?: never
+          reward_paid?: never
+          reward_pool?: number | null
+          shortlisted_count?: never
+          status?: Database["public"]["Enums"]["contest_status"] | null
+          submission_count?: never
+          title?: string | null
+          verified_count?: never
+          winner_count?: number | null
+          winner_count_actual?: never
+        }
+        Relationships: []
+      }
+      influencer_statistics: {
+        Row: {
+          accepted_count: number | null
+          application_count: number | null
+          avg_engagement: number | null
+          first_place_count: number | null
+          influencer_id: string | null
+          reward_paid: number | null
+          reward_won: number | null
+          selected_count: number | null
+          submission_count: number | null
+          verified_count: number | null
+          win_count: number | null
+        }
+        Insert: {
+          accepted_count?: never
+          application_count?: never
+          avg_engagement?: never
+          first_place_count?: never
+          influencer_id?: string | null
+          reward_paid?: never
+          reward_won?: never
+          selected_count?: never
+          submission_count?: never
+          verified_count?: never
+          win_count?: never
+        }
+        Update: {
+          accepted_count?: never
+          application_count?: never
+          avg_engagement?: never
+          first_place_count?: never
+          influencer_id?: string | null
+          reward_paid?: never
+          reward_won?: never
+          selected_count?: never
+          submission_count?: never
+          verified_count?: never
+          win_count?: never
+        }
+        Relationships: []
+      }
+      platform_statistics: {
+        Row: {
+          active_suspension_count: number | null
+          application_count: number | null
+          business_count: number | null
+          completed_contest_count: number | null
+          contest_count: number | null
+          influencer_count: number | null
+          live_contest_count: number | null
+          participant_count: number | null
+          pending_request_count: number | null
+          request_count: number | null
+          reward_awarded: number | null
+          reward_paid: number | null
+          reward_pending: number | null
+          submission_count: number | null
+          user_count: number | null
+          verified_submission_count: number | null
+          winner_count: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       next_approval_reference: { Args: never; Returns: string }
