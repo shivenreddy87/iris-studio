@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const PUBLIC_PATHS = ["/", "/pricing", "/privacy", "/terms", "/auth/sign-in", "/auth/sign-up"];
+const PUBLIC_PATHS = ["/", "/privacy", "/terms", "/auth/sign-in", "/auth/sign-up"];
 
 export const Route = createFileRoute("/api/public/sitemap.xml")({
   server: {
