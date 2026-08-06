@@ -392,8 +392,17 @@ type NotificationRow = {
 
 async function insertNotifications(rows: NotificationRow[]): Promise<void> {
   if (rows.length === 0) return;
-  const sb = await admin();
-  await sb.from("notifications").insert(rows);
+  const { createNotifications } = await import("@/features/activity/notification.server");
+  await createNotifications(
+    rows.map((row) => ({
+      userId: row.user_id,
+      category: "contest" as const,
+      title: row.title,
+      body: row.body,
+      link: row.link,
+      actionLabel: "Open contest",
+    })),
+  );
 }
 
 async function adminUserIds(): Promise<string[]> {
