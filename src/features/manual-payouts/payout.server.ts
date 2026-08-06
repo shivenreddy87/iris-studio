@@ -318,6 +318,15 @@ async function adminUserIds(): Promise<string[]> {
 }
 
 async function notifyInfluencer(payout: PayoutRow, title: string, body: string): Promise<void> {
+  const { createActivity } = await import("@/features/activity/notification.server");
+  await createActivity({
+    targetUserId: payout.influencer_id,
+    action: `payout.${payout.status}`,
+    entityType: "payout",
+    entityId: payout.id,
+    summary: `${title} — ${body}`,
+    metadata: { contestId: payout.contest_id, amount: payout.amount },
+  });
   await insertNotifications([
     { user_id: payout.influencer_id, kind: "system", title, body, link: "/app/rewards" },
   ]);
