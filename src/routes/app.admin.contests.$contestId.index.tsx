@@ -17,6 +17,8 @@ import { ApplicationCountsCard } from "@/features/contest-applications/component
 import { ParticipantSelectionTable } from "@/features/contest-applications/components/participant-selection-table";
 import { SubmissionReviewTable } from "@/features/contest-submissions/components/submission-review-table";
 import { ContestProgressCard } from "@/features/contest-submissions/components/contest-progress-card";
+import { WinnerEvaluationTable } from "@/features/winner-selection/components/winner-evaluation-table";
+import { ContestResultsCard } from "@/features/winner-selection/components/contest-results-card";
 import type { ContestStatus } from "@/features/contests/types";
 
 /** Contest states where content submission is in play. */
@@ -104,6 +106,8 @@ function AdminContestDetailPage() {
                 <Panel title="Content submissions">
                   <SubmissionReviewTable contest={contest} />
                 </Panel>
+                <WinnerEvaluationTable contest={contest} />
+                <ContestResultsCard contestId={contest.id} rewardPool={contest.rewardPool} />
               </>
             ) : null}
 
