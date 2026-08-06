@@ -54,7 +54,7 @@ export function InfluencerProfileForm({
       <div className="rounded-3xl border border-hairline bg-surface-2 p-6">
         <AvatarUpload
           userId={userId}
-          label="Profile photo"
+          label="Profile photo (optional)"
           value={avatarUrl || undefined}
           onChange={(path) =>
             setValue("avatarUrl", path ?? "", { shouldDirty: true, shouldValidate: true })
