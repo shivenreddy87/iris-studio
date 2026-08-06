@@ -169,9 +169,11 @@ export async function applyContestTransition(
   if (!current) throw new Error("Contest not found.");
   assertTransition(current.status, input.to);
 
-  const patch: Record<string, unknown> = { status: input.to };
-  if (input.to === "published") patch["published_at"] = new Date().toISOString();
-  if (input.to === "archived") patch["archived_at"] = new Date().toISOString();
+  const patch: { status: ContestStatus; published_at?: string; archived_at?: string } = {
+    status: input.to,
+  };
+  if (input.to === "published") patch.published_at = new Date().toISOString();
+  if (input.to === "archived") patch.archived_at = new Date().toISOString();
 
   const { data: row, error } = await db
     .from("contests")
