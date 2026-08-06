@@ -18,6 +18,7 @@ import {
 } from "@/features/profiles/profiles.functions";
 import type { BusinessProfile, InfluencerProfile } from "@/features/profiles/types";
 import { roleLabel } from "@/lib/roles";
+import { SocialAccountsPanel } from "@/features/social-verification/components/social-accounts-panel";
 
 export const Route = createFileRoute("/app/profile")({
   head: () => ({
@@ -123,6 +124,8 @@ function ProfilePage() {
           ) : (
             <InfluencerSummary profile={profile.influencer} email={profile.email} />
           )}
+
+          {isInfluencer ? <SocialAccountsPanel /> : null}
         </div>
       ) : (
         <EmptyState

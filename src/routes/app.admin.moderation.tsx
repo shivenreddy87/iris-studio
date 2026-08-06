@@ -13,6 +13,7 @@ import {
 } from "@/features/platform-admin/hooks/use-admin";
 import { generatePlatformReport } from "@/features/platform-admin/admin.functions";
 import { ExportButton } from "@/features/analytics/components/export-button";
+import { VerificationQueue } from "@/features/social-verification/components/verification-queue";
 
 export const Route = createFileRoute("/app/admin/moderation")({
   head: () => ({
