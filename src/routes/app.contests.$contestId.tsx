@@ -12,7 +12,7 @@ import { ContestDetailHeader } from "@/features/contests/components/contest-deta
 import { ContestCountdown } from "@/features/contests/components/contest-countdown";
 import { ContestMetaCard } from "@/features/contests/components/contest-meta-card";
 import { EligibilityBanner } from "@/features/contests/components/eligibility-banner";
-import { ContestApplicationPanel } from "@/features/contests/components/contest-application-panel";
+import { ApplyPanel } from "@/features/contest-applications/components/apply-panel";
 import { SavedContestButton } from "@/features/contests/components/saved-contest-button";
 import { EligibilityCard } from "@/features/contests/components/eligibility-card";
 import { RewardCard } from "@/features/contests/components/reward-card";
@@ -104,10 +104,8 @@ function ContestDetailPage() {
                 <EligibilityCard contest={data.contest} />
                 <RewardCard contest={data.contest} />
                 <ContestDates contest={data.contest} />
-                <ContestApplicationPanel
-                  eligibility={data.eligibility}
-                  availability={data.availability}
-                />
+                <ApplyPanel contest={data.contest} />
+
                 <Panel title="Attachment">
                   <AttachmentPreview path={data.contest.attachmentUrl} />
                 </Panel>

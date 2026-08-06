@@ -12,6 +12,8 @@ import { ContestSummary } from "@/features/contests/components/contest-summary";
 import { ContestTimeline } from "@/features/contests/components/contest-timeline";
 import { Panel } from "@/features/contests/components/detail-row";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
+import { ApplicationCountsCard } from "@/features/contest-applications/components/application-counts-card";
+
 
 export const Route = createFileRoute("/app/business/contests/$contestId")({
   head: () => ({
@@ -77,11 +79,13 @@ function BusinessContestDetailPage() {
           <div className="space-y-6">
             <ContestHeader contest={contest} />
             <ContestSummary contest={contest} />
+            <ApplicationCountsCard contestId={contest.id} />
             <Panel title="History">
               <ContestTimeline events={events} />
             </Panel>
           </div>
         ) : null}
+
       </DataSection>
     </div>
   );

@@ -335,6 +335,91 @@ export type Database = {
         }
         Relationships: []
       }
+      contest_application_events: {
+        Row: {
+          actor_id: string | null
+          application_id: string
+          created_at: string
+          event_type: string
+          id: string
+          note: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          application_id: string
+          created_at?: string
+          event_type: string
+          id?: string
+          note?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          application_id?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_application_events_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "contest_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contest_applications: {
+        Row: {
+          content_idea: string
+          contest_id: string
+          created_at: string
+          id: string
+          influencer_id: string
+          notes: string | null
+          portfolio_url: string
+          status: Database["public"]["Enums"]["contest_application_status"]
+          submitted_at: string
+          updated_at: string
+          withdrawn_at: string | null
+        }
+        Insert: {
+          content_idea: string
+          contest_id: string
+          created_at?: string
+          id?: string
+          influencer_id: string
+          notes?: string | null
+          portfolio_url: string
+          status?: Database["public"]["Enums"]["contest_application_status"]
+          submitted_at?: string
+          updated_at?: string
+          withdrawn_at?: string | null
+        }
+        Update: {
+          content_idea?: string
+          contest_id?: string
+          created_at?: string
+          id?: string
+          influencer_id?: string
+          notes?: string | null
+          portfolio_url?: string
+          status?: Database["public"]["Enums"]["contest_application_status"]
+          submitted_at?: string
+          updated_at?: string
+          withdrawn_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_applications_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contest_events: {
         Row: {
           actor_id: string | null
@@ -1094,6 +1179,12 @@ export type Database = {
         | "cancelled"
         | "changes_requested"
       campaign_status: "draft" | "live" | "review" | "completed" | "archived"
+      contest_application_status:
+        | "submitted"
+        | "withdrawn"
+        | "shortlisted"
+        | "selected"
+        | "rejected"
       contest_status:
         | "draft"
         | "published"
@@ -1252,6 +1343,13 @@ export const Constants = {
         "changes_requested",
       ],
       campaign_status: ["draft", "live", "review", "completed", "archived"],
+      contest_application_status: [
+        "submitted",
+        "withdrawn",
+        "shortlisted",
+        "selected",
+        "rejected",
+      ],
       contest_status: [
         "draft",
         "published",

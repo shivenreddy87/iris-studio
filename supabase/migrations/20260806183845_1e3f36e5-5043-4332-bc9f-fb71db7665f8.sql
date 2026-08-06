@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS public.contest_application_counts(uuid);
