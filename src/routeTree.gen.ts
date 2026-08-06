@@ -34,6 +34,7 @@ import { Route as AppDiscoverRouteImport } from './routes/app.discover'
 import { Route as AppConnectionsRouteImport } from './routes/app.connections'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.index'
 import { Route as AppIrisIndexRouteImport } from './routes/app.iris.index'
 import { Route as AppEntriesIndexRouteImport } from './routes/app.entries.index'
 import { Route as AppContestsIndexRouteImport } from './routes/app.contests.index'
@@ -201,6 +202,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppSettingsRoute,
 } as any)
 const AppIrisIndexRoute = AppIrisIndexRouteImport.update({
   id: '/',
@@ -478,6 +484,7 @@ export interface FileRoutesByFullPath {
   '/app/contests/': typeof AppContestsIndexRoute
   '/app/entries/': typeof AppEntriesIndexRoute
   '/app/iris/': typeof AppIrisIndexRoute
+  '/app/settings/': typeof AppSettingsIndexRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
@@ -507,7 +514,6 @@ export interface FileRoutesByTo {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
-  '/app/settings': typeof AppSettingsRouteWithChildren
   '/app/team': typeof AppTeamRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
@@ -545,6 +551,7 @@ export interface FileRoutesByTo {
   '/app/contests': typeof AppContestsIndexRoute
   '/app/entries': typeof AppEntriesIndexRoute
   '/app/iris': typeof AppIrisIndexRoute
+  '/app/settings': typeof AppSettingsIndexRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
@@ -615,6 +622,7 @@ export interface FileRoutesById {
   '/app/contests/': typeof AppContestsIndexRoute
   '/app/entries/': typeof AppEntriesIndexRoute
   '/app/iris/': typeof AppIrisIndexRoute
+  '/app/settings/': typeof AppSettingsIndexRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
@@ -686,6 +694,7 @@ export interface FileRouteTypes {
     | '/app/contests/'
     | '/app/entries/'
     | '/app/iris/'
+    | '/app/settings/'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
@@ -715,7 +724,6 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/profile'
     | '/app/rewards'
-    | '/app/settings'
     | '/app/team'
     | '/auth/reset-password'
     | '/auth/role'
@@ -753,6 +761,7 @@ export interface FileRouteTypes {
     | '/app/contests'
     | '/app/entries'
     | '/app/iris'
+    | '/app/settings'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
@@ -822,6 +831,7 @@ export interface FileRouteTypes {
     | '/app/contests/'
     | '/app/entries/'
     | '/app/iris/'
+    | '/app/settings/'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
@@ -1032,6 +1042,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/chat'
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/settings/': {
+      id: '/app/settings/'
+      path: '/'
+      fullPath: '/app/settings/'
+      preLoaderRoute: typeof AppSettingsIndexRouteImport
+      parentRoute: typeof AppSettingsRoute
     }
     '/app/iris/': {
       id: '/app/iris/'
@@ -1345,10 +1362,12 @@ const AppIrisRouteWithChildren =
 
 interface AppSettingsRouteChildren {
   AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
+  AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppSettingsRouteChildren: AppSettingsRouteChildren = {
   AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
+  AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 
 const AppSettingsRouteWithChildren = AppSettingsRoute._addFileChildren(
