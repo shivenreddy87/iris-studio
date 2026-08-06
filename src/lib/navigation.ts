@@ -41,6 +41,7 @@ const influencerNav: NavItem[] = [
   { to: "/app/contests/active", label: "Active Contests", Icon: PlayCircle },
   { to: "/app/contests/completed", label: "Completed Contests", Icon: ListChecks },
   { to: "/app/contests/won", label: "Won Contests", Icon: Award },
+  { to: "/app/rewards", label: "My Rewards", Icon: Wallet },
   { to: "/app/notifications", label: "Notifications", Icon: Bell },
   { to: "/app/profile", label: "Profile", Icon: UserCircle },
 ];

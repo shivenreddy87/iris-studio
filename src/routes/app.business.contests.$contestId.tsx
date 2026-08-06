@@ -16,6 +16,7 @@ import { ApplicationCountsCard } from "@/features/contest-applications/component
 import { SelectionSummaryCard } from "@/features/contest-applications/components/selection-summary-card";
 import { ContestProgressCard } from "@/features/contest-submissions/components/contest-progress-card";
 import { ContestResultsCard } from "@/features/winner-selection/components/contest-results-card";
+import { ContestPayoutProgress } from "@/features/manual-payouts/components/contest-payout-progress";
 
 
 export const Route = createFileRoute("/app/business/contests/$contestId")({
@@ -94,7 +95,10 @@ function BusinessContestDetailPage() {
               <ContestProgressCard contestId={contest.id} />
             ) : null}
             {contest.status === "completed" || contest.status === "archived" ? (
-              <ContestResultsCard contestId={contest.id} rewardPool={contest.rewardPool} />
+              <>
+                <ContestResultsCard contestId={contest.id} rewardPool={contest.rewardPool} />
+                <ContestPayoutProgress contestId={contest.id} />
+              </>
             ) : null}
 
 

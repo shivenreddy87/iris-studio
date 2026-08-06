@@ -632,6 +632,10 @@ export async function finalizeContestWinners(
     note: null,
   });
   await notifyContestCompleted({ contest, winners });
+
+  // Open a manual payout ledger entry for every declared winner.
+  const { createPayoutsForContest } = await import("@/features/manual-payouts/payout.server");
+  await createPayoutsForContest({ ...contest, status: "completed" }, actorId);
   return winners;
 }
 
