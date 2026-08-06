@@ -79,10 +79,13 @@ function AdminContestDetailPage() {
           <div className="space-y-6">
             <ContestHeader contest={contest} actions={<ContestLifecycleActions contest={contest} />} />
             <ContestSummary contest={contest} />
+            <ApplicationCountsCard contestId={contest.id} />
+            <AdminApplicationsPanel contestId={contest.id} />
             <Panel title="History">
               <ContestTimeline events={events} />
             </Panel>
           </div>
+
         ) : null}
       </DataSection>
     </div>
