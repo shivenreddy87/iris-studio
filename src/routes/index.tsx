@@ -43,15 +43,15 @@ function LandingPage() {
             <Link to="/" className="flex items-center">
               <img
                 src={logoUrl}
-                alt="Iris AI"
+                alt="Project Eros"
                 height={56}
                 width={190}
                 style={{ height: 56, width: "auto" }}
               />
             </Link>
-            <Link to="/auth/sign-in">
+            <Link to="/auth/sign-in" aria-label="Login to Project Eros">
               <Button variant="heroSecondary" className="rounded-full px-5 py-2">
-                Sign In
+                Login
               </Button>
             </Link>
           </nav>
@@ -69,42 +69,44 @@ function LandingPage() {
                 letterSpacing: "-0.024em",
               }}
             >
-              Iris{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(to left, #6366f1, #a855f7, #fcd34d)",
-                }}
-              >
-                AI
-              </span>
+              <span className="sr-only">Project Eros</span>
+              <img
+                src={logoUrl}
+                alt="Project Eros logo"
+                aria-hidden="true"
+                className="mx-auto block w-full max-w-[900px]"
+                style={{ height: "auto" }}
+              />
             </h1>
             <p className="mt-[9px] max-w-md text-lg leading-8 text-hero-sub opacity-80">
-              An embedded strategist that plans campaigns,
-              <br />
-              discovers creators, and negotiates deals for you.
+              Connect businesses and creators through a streamlined campaign marketplace. Create
+              campaigns, discover opportunities, collaborate with confidence, and manage every
+              stage—from campaign requests to payouts—in one secure platform.
             </p>
-            <Link to="/auth/role" search={{ role: "brand" }} className="mt-[25px]">
+            <p className="mt-3 text-xs text-foreground/50">
+              Built for Businesses • Creators • Platform Administrators
+            </p>
+            <Link
+              to="/auth/role"
+              search={{ role: "brand" }}
+              className="mt-[25px]"
+              aria-label="Get started with Project Eros"
+            >
               <Button
                 variant="heroSecondary"
                 className="rounded-full text-base"
                 style={{ paddingLeft: 29, paddingRight: 29, paddingTop: 24, paddingBottom: 24 }}
               >
-                Sign up to access
+                Get Started
               </Button>
             </Link>
           </div>
         </div>
 
-        <footer className="relative z-10 mt-auto flex flex-col items-center gap-3 border-t border-white/8 px-8 py-8 text-xs text-foreground/50 sm:flex-row sm:justify-between">
+        <footer className="relative z-10 mt-auto flex flex-col items-center gap-3 border-t border-white/8 px-8 py-8 text-xs text-foreground/50 sm:flex-row sm:justify-center">
           <p>© {new Date().getFullYear()} Project Eros. All rights reserved.</p>
-          <nav className="flex items-center gap-6">
-            <Link to="/pricing" className="hover:text-foreground">Pricing</Link>
-            <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
-            <Link to="/terms" className="hover:text-foreground">Terms</Link>
-          </nav>
         </footer>
+
       </div>
     </section>
   );
