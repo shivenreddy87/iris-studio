@@ -312,13 +312,13 @@ export async function updateCategoryRow(input: {
   sortOrder?: number;
 }): Promise<void> {
   const db = await admin();
-  const patch: Record<string, unknown> = {};
+  const patch: { name?: string; slug?: string; is_active?: boolean; sort_order?: number } = {};
   if (input.name !== undefined) {
-    patch["name"] = input.name;
-    patch["slug"] = slugify(input.name);
+    patch.name = input.name;
+    patch.slug = slugify(input.name);
   }
-  if (input.isActive !== undefined) patch["is_active"] = input.isActive;
-  if (input.sortOrder !== undefined) patch["sort_order"] = input.sortOrder;
+  if (input.isActive !== undefined) patch.is_active = input.isActive;
+  if (input.sortOrder !== undefined) patch.sort_order = input.sortOrder;
   const { error } = await db.from("platform_categories").update(patch).eq("id", input.id);
   if (error) throw new Error(error.message);
 }
@@ -362,13 +362,13 @@ export async function updateChannelRow(input: {
   sortOrder?: number;
 }): Promise<void> {
   const db = await admin();
-  const patch: Record<string, unknown> = {};
+  const patch: { name?: string; slug?: string; is_active?: boolean; sort_order?: number } = {};
   if (input.name !== undefined) {
-    patch["name"] = input.name;
-    patch["slug"] = slugify(input.name);
+    patch.name = input.name;
+    patch.slug = slugify(input.name);
   }
-  if (input.isActive !== undefined) patch["is_active"] = input.isActive;
-  if (input.sortOrder !== undefined) patch["sort_order"] = input.sortOrder;
+  if (input.isActive !== undefined) patch.is_active = input.isActive;
+  if (input.sortOrder !== undefined) patch.sort_order = input.sortOrder;
   const { error } = await db.from("platform_channels").update(patch).eq("id", input.id);
   if (error) throw new Error(error.message);
 }
@@ -511,7 +511,7 @@ export async function saveSettings(
     .from("platform_settings")
     .insert({
       version: current.version + 1,
-      settings: values as unknown as Record<string, unknown>,
+      settings: values as unknown as import("@/integrations/supabase/types").Json,
       note,
       created_by: actorId,
     })
