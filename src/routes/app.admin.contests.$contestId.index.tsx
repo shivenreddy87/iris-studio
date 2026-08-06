@@ -14,6 +14,13 @@ import { ContestLifecycleActions } from "@/features/contests/components/contest-
 import { Panel } from "@/features/contests/components/detail-row";
 import { AdminApplicationsPanel } from "@/features/contest-applications/components/admin-applications-panel";
 import { ApplicationCountsCard } from "@/features/contest-applications/components/application-counts-card";
+import { ParticipantSelectionTable } from "@/features/contest-applications/components/participant-selection-table";
+import type { ContestStatus } from "@/features/contests/types";
+
+/** Statuses where the admin manages participant selection instead of read-only review. */
+const SELECTION_STATUSES: ContestStatus[] = ["applications_closed", "participant_selection"];
+
+
 
 
 export const Route = createFileRoute("/app/admin/contests/$contestId/")({
@@ -80,13 +87,18 @@ function AdminContestDetailPage() {
             <ContestHeader contest={contest} actions={<ContestLifecycleActions contest={contest} />} />
             <ContestSummary contest={contest} />
             <ApplicationCountsCard contestId={contest.id} />
-            <AdminApplicationsPanel contestId={contest.id} />
+            {SELECTION_STATUSES.includes(contest.status) ? (
+              <ParticipantSelectionTable contest={contest} />
+            ) : (
+              <AdminApplicationsPanel contestId={contest.id} />
+            )}
             <Panel title="History">
               <ContestTimeline events={events} />
             </Panel>
           </div>
 
         ) : null}
+
       </DataSection>
     </div>
   );

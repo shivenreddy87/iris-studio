@@ -45,10 +45,19 @@ type ContestFacts = Pick<
   "id" | "title" | "businessCategory" | "applicationDeadline" | "status"
 >;
 
+export type Applicant = {
+  name: string | null;
+  handle: string | null;
+  followers: number | null;
+  niche: string | null;
+};
+
+const EMPTY_APPLICANT: Applicant = { name: null, handle: null, followers: null, niche: null };
+
 function toApplication(
   row: ApplicationRow,
   contest: ContestFacts,
-  applicant: { name: string | null; handle: string | null } = { name: null, handle: null },
+  applicant: Applicant = EMPTY_APPLICANT,
 ): ContestApplication {
   return {
     id: row.id,
@@ -60,6 +69,8 @@ function toApplication(
     influencerId: row.influencer_id,
     influencerName: applicant.name,
     influencerHandle: applicant.handle,
+    influencerFollowers: applicant.followers,
+    influencerNiche: applicant.niche,
     portfolioUrl: row.portfolio_url,
     contentIdea: row.content_idea,
     notes: row.notes,
@@ -102,22 +113,29 @@ async function loadContestFacts(db: Db, contestIds: string[]): Promise<Map<strin
   );
 }
 
-async function loadApplicants(
+export async function loadApplicants(
   db: Db,
   userIds: string[],
-): Promise<Map<string, { name: string | null; handle: string | null }>> {
-  const map = new Map<string, { name: string | null; handle: string | null }>();
+): Promise<Map<string, Applicant>> {
+  const map = new Map<string, Applicant>();
   if (userIds.length === 0) return map;
   const [{ data: profiles }, { data: creators }] = await Promise.all([
     db.from("profiles").select("id, full_name").in("id", userIds),
-    db.from("creator_profiles").select("user_id, display_name, handle").in("user_id", userIds),
+    db
+      .from("creator_profiles")
+      .select("user_id, display_name, handle, followers, niche")
+      .in("user_id", userIds),
   ]);
-  for (const p of profiles ?? []) map.set(p.id, { name: p.full_name, handle: null });
+  for (const p of profiles ?? []) {
+    map.set(p.id, { name: p.full_name, handle: null, followers: null, niche: null });
+  }
   for (const c of creators ?? []) {
     const existing = map.get(c.user_id);
     map.set(c.user_id, {
       name: c.display_name ?? existing?.name ?? null,
       handle: c.handle ?? null,
+      followers: c.followers ?? null,
+      niche: c.niche ?? null,
     });
   }
   return map;
@@ -132,13 +150,13 @@ export async function decorateApplications(
   const contests = await loadContestFacts(db, [...new Set(rows.map((r) => r.contest_id))]);
   const applicants = options.withApplicants
     ? await loadApplicants(db, [...new Set(rows.map((r) => r.influencer_id))])
-    : new Map<string, { name: string | null; handle: string | null }>();
+    : new Map<string, Applicant>();
 
   return rows.flatMap((row) => {
     const contest = contests.get(row.contest_id);
     if (!contest) return [];
     return [
-      toApplication(row, contest, applicants.get(row.influencer_id) ?? { name: null, handle: null }),
+      toApplication(row, contest, applicants.get(row.influencer_id) ?? EMPTY_APPLICANT),
     ];
   });
 }
