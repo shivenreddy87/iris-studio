@@ -370,60 +370,60 @@ export async function notifyApplicationActivity(input: {
   applicantName: string | null;
   totalApplications: number;
 }): Promise<void> {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const applicant = input.applicantName ?? "An influencer";
+  const { createNotification, createNotifications, createActivity, notifyAdmins } = await import(
+    "@/features/activity/notification.server"
+  );
 
-  const rows: {
-    user_id: string;
-    kind: "system";
-    title: string;
-    body: string;
-    link: string;
-  }[] = [];
-
-  if (input.kind === "submitted") {
-    rows.push({
-      user_id: input.influencerId,
-      kind: "system",
-      title: "Application submitted",
-      body: `Your application for "${input.contestTitle}" was submitted.`,
-      link: `/app/entries/${input.applicationId}`,
-    });
-  } else {
-    rows.push({
-      user_id: input.influencerId,
-      kind: "system",
-      title: "Application withdrawn",
-      body: `You withdrew your application for "${input.contestTitle}".`,
-      link: `/app/entries/${input.applicationId}`,
-    });
-  }
-
-  if (input.kind === "submitted") {
-    const { data: admins } = await supabaseAdmin
-      .from("user_roles")
-      .select("user_id")
-      .eq("role", "admin");
-    for (const admin of admins ?? []) {
-      rows.push({
-        user_id: admin.user_id,
-        kind: "system",
-        title: "New contest application",
-        body: `${applicant} applied to "${input.contestTitle}".`,
-        link: `/app/admin/contests/${input.contestId}`,
-      });
-    }
-  }
-
-  rows.push({
-    user_id: input.businessId,
-    kind: "system",
-    title: "Application count updated",
-    body: `"${input.contestTitle}" now has ${input.totalApplications} application${
-      input.totalApplications === 1 ? "" : "s"
-    }.`,
-    link: `/app/business/contests/${input.contestId}`,
+  await createActivity({
+    actorId: input.influencerId,
+    targetUserId: input.businessId,
+    action: `application.${input.kind}`,
+    entityType: "contest_application",
+    entityId: input.applicationId,
+    summary:
+      input.kind === "submitted"
+        ? `${applicant} applied to "${input.contestTitle}".`
+        : `${applicant} withdrew from "${input.contestTitle}".`,
+    metadata: { contestId: input.contestId, contestTitle: input.contestTitle },
   });
 
-  await supabaseAdmin.from("notifications").insert(rows);
+  await createNotification({
+    userId: input.influencerId,
+    category: "contest",
+    title: input.kind === "submitted" ? "Application submitted" : "Application withdrawn",
+    body:
+      input.kind === "submitted"
+        ? `Your application for "${input.contestTitle}" was submitted.`
+        : `You withdrew your application for "${input.contestTitle}".`,
+    link: `/app/entries/${input.applicationId}`,
+    actionLabel: "View application",
+    metadata: { contestId: input.contestId },
+  });
+
+  if (input.kind === "submitted") {
+    await notifyAdmins({
+      category: "contest",
+      priority: "normal",
+      title: "New contest application",
+      body: `${applicant} applied to "${input.contestTitle}".`,
+      link: `/app/admin/contests/${input.contestId}`,
+      actionLabel: "Review applications",
+      metadata: { contestId: input.contestId },
+    });
+  }
+
+  await createNotifications([
+    {
+      userId: input.businessId,
+      category: "contest",
+      title: "Application count updated",
+      body: `"${input.contestTitle}" now has ${input.totalApplications} application${
+        input.totalApplications === 1 ? "" : "s"
+      }.`,
+      link: `/app/business/contests/${input.contestId}`,
+      actionLabel: "View contest",
+      metadata: { contestId: input.contestId, totalApplications: input.totalApplications },
+    },
+  ]);
 }
