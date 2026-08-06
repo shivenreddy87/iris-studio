@@ -21,6 +21,7 @@ import { ContestRules } from "@/features/contests/components/contest-rules";
 import { ContestTimeline } from "@/features/contests/components/contest-timeline";
 import { Panel, dash } from "@/features/contests/components/detail-row";
 import { AttachmentPreview } from "@/features/campaign-requests/components/attachment-preview";
+import { SubmissionPanel } from "@/features/contest-submissions/components/submission-panel";
 
 export const Route = createFileRoute("/app/contests/$contestId")({
   head: () => ({
@@ -67,6 +68,11 @@ function ContestDetailPage() {
           </Button>
         }
       />
+
+      {/* Renders only for selected participants; live contests may be filtered out of discovery. */}
+      <div className="mb-6">
+        <SubmissionPanel contestId={contestId} />
+      </div>
 
       <DataSection
         loading={isLoading}

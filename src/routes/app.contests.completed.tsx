@@ -6,8 +6,9 @@ import { PageHeader } from "@/components/shared/page-header";
 import { DataSection } from "@/components/shared/data-section";
 import { MilestoneNotice } from "@/components/shared/milestone-notice";
 import { EmptyState } from "@/components/ui/list-skeleton";
-import { listMyCompletedContests } from "@/features/contests/contests.functions";
-import { ContestList } from "@/features/contests/components/contest-list";
+import { listMyContestExecutions } from "@/features/contest-submissions/submission.functions";
+import { submissionKeys } from "@/features/contest-submissions/hooks/use-submissions";
+import { ExecutionList } from "@/features/contest-submissions/components/execution-list";
 import { ProfileGate } from "@/features/profiles/components/profile-gate";
 
 export const Route = createFileRoute("/app/contests/completed")({
@@ -32,14 +33,14 @@ export const Route = createFileRoute("/app/contests/completed")({
 });
 
 function CompletedContestsPage() {
-  const fetchItems = useServerFn(listMyCompletedContests);
+  const fetchItems = useServerFn(listMyContestExecutions);
   const {
     data = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["/app/contests/completed"],
-    queryFn: () => fetchItems(),
+    queryKey: submissionKeys.executions("completed"),
+    queryFn: () => fetchItems({ data: { scope: "completed" as const } }),
   });
 
   return (
@@ -47,7 +48,7 @@ function CompletedContestsPage() {
       <PageHeader
         eyebrow="Influencer"
         title="Completed Contests"
-        description="Every contest you participated in that has finished, with its final result."
+        description="Every contest you participated in that has finished, with your submission outcome."
       />
       <DataSection
         loading={isLoading}
@@ -61,14 +62,10 @@ function CompletedContestsPage() {
           />
         }
       >
-        <ContestList contests={data} />
+        <ExecutionList executions={data} />
       </DataSection>
       <MilestoneNotice
-        items={[
-          "Result and ranking per contest",
-          "Judging summary from the admin team",
-          "Downloadable participation history",
-        ]}
+        items={["Winner announcements", "Reward payouts", "Downloadable participation history"]}
       />
     </div>
   );

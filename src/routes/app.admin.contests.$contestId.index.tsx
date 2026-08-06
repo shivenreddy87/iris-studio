@@ -15,7 +15,13 @@ import { Panel } from "@/features/contests/components/detail-row";
 import { AdminApplicationsPanel } from "@/features/contest-applications/components/admin-applications-panel";
 import { ApplicationCountsCard } from "@/features/contest-applications/components/application-counts-card";
 import { ParticipantSelectionTable } from "@/features/contest-applications/components/participant-selection-table";
+import { SubmissionReviewTable } from "@/features/contest-submissions/components/submission-review-table";
+import { ContestProgressCard } from "@/features/contest-submissions/components/contest-progress-card";
 import type { ContestStatus } from "@/features/contests/types";
+
+/** Contest states where content submission is in play. */
+const EXECUTION_STATUSES: ContestStatus[] = ["live", "completed", "archived"];
+
 
 /** Statuses where the admin manages participant selection instead of read-only review. */
 const SELECTION_STATUSES: ContestStatus[] = ["applications_closed", "participant_selection"];
@@ -92,6 +98,15 @@ function AdminContestDetailPage() {
             ) : (
               <AdminApplicationsPanel contestId={contest.id} />
             )}
+            {EXECUTION_STATUSES.includes(contest.status) ? (
+              <>
+                <ContestProgressCard contestId={contest.id} />
+                <Panel title="Content submissions">
+                  <SubmissionReviewTable contest={contest} />
+                </Panel>
+              </>
+            ) : null}
+
             <Panel title="History">
               <ContestTimeline events={events} />
             </Panel>
