@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { recordAdminAudit } from "@/lib/audit.server";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { AdminReviewSummary, CampaignRequest, CampaignRequestEvent } from "./types";
@@ -66,6 +67,10 @@ export const approveRequest = createServerFn({ method: "POST" })
         reason: data.reason ?? null,
       });
     }
+    await recordAdminAudit(context.userId, "campaign_request", "approved", {
+      entityId: data.id,
+      newValues: { status: "approved", reason: data.reason ?? null },
+    });
     return request;
   });
 
@@ -99,6 +104,10 @@ export const rejectRequest = createServerFn({ method: "POST" })
         reason: data.reason ?? null,
       });
     }
+    await recordAdminAudit(context.userId, "campaign_request", "rejected", {
+      entityId: data.id,
+      newValues: { status: "rejected", reason: data.reason ?? null },
+    });
     return request;
   });
 
@@ -132,6 +141,10 @@ export const requestChanges = createServerFn({ method: "POST" })
         reason: data.reason ?? null,
       });
     }
+    await recordAdminAudit(context.userId, "campaign_request", "changes_requested", {
+      entityId: data.id,
+      newValues: { status: "changes_requested", reason: data.reason ?? null },
+    });
     return request;
   });
 
