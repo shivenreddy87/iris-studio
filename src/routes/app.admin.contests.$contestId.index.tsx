@@ -22,7 +22,6 @@ import type { ContestStatus } from "@/features/contests/types";
 /** Contest states where content submission is in play. */
 const EXECUTION_STATUSES: ContestStatus[] = ["live", "completed", "archived"];
 
-import type { ContestStatus } from "@/features/contests/types";
 
 /** Statuses where the admin manages participant selection instead of read-only review. */
 const SELECTION_STATUSES: ContestStatus[] = ["applications_closed", "participant_selection"];
