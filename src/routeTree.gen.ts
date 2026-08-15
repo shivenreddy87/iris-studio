@@ -29,6 +29,7 @@ import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.inde
 import { Route as AppEntriesIndexRouteImport } from './routes/app.entries.index'
 import { Route as AppContestsIndexRouteImport } from './routes/app.contests.index'
 import { Route as AppAdminIndexRouteImport } from './routes/app.admin.index'
+import { Route as AppSettingsSocialRouteImport } from './routes/app.settings.social'
 import { Route as AppSettingsNotificationsRouteImport } from './routes/app.settings.notifications'
 import { Route as AppResultsContestIdRouteImport } from './routes/app.results.$contestId'
 import { Route as AppContestsWonRouteImport } from './routes/app.contests.won'
@@ -162,6 +163,11 @@ const AppAdminIndexRoute = AppAdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
   getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsSocialRoute = AppSettingsSocialRouteImport.update({
+  id: '/social',
+  path: '/social',
+  getParentRoute: () => AppSettingsRoute,
 } as any)
 const AppSettingsNotificationsRoute =
   AppSettingsNotificationsRouteImport.update({
@@ -376,6 +382,7 @@ export interface FileRoutesByFullPath {
   '/app/contests/won': typeof AppContestsWonRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/app/settings/social': typeof AppSettingsSocialRoute
   '/app/admin/': typeof AppAdminIndexRoute
   '/app/contests/': typeof AppContestsIndexRoute
   '/app/entries/': typeof AppEntriesIndexRoute
@@ -429,6 +436,7 @@ export interface FileRoutesByTo {
   '/app/contests/won': typeof AppContestsWonRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/app/settings/social': typeof AppSettingsSocialRoute
   '/app/admin': typeof AppAdminIndexRoute
   '/app/contests': typeof AppContestsIndexRoute
   '/app/entries': typeof AppEntriesIndexRoute
@@ -485,6 +493,7 @@ export interface FileRoutesById {
   '/app/contests/won': typeof AppContestsWonRoute
   '/app/results/$contestId': typeof AppResultsContestIdRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
+  '/app/settings/social': typeof AppSettingsSocialRoute
   '/app/admin/': typeof AppAdminIndexRoute
   '/app/contests/': typeof AppContestsIndexRoute
   '/app/entries/': typeof AppEntriesIndexRoute
@@ -542,6 +551,7 @@ export interface FileRouteTypes {
     | '/app/contests/won'
     | '/app/results/$contestId'
     | '/app/settings/notifications'
+    | '/app/settings/social'
     | '/app/admin/'
     | '/app/contests/'
     | '/app/entries/'
@@ -595,6 +605,7 @@ export interface FileRouteTypes {
     | '/app/contests/won'
     | '/app/results/$contestId'
     | '/app/settings/notifications'
+    | '/app/settings/social'
     | '/app/admin'
     | '/app/contests'
     | '/app/entries'
@@ -650,6 +661,7 @@ export interface FileRouteTypes {
     | '/app/contests/won'
     | '/app/results/$contestId'
     | '/app/settings/notifications'
+    | '/app/settings/social'
     | '/app/admin/'
     | '/app/contests/'
     | '/app/entries/'
@@ -826,6 +838,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/admin/'
       preLoaderRoute: typeof AppAdminIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/settings/social': {
+      id: '/app/settings/social'
+      path: '/social'
+      fullPath: '/app/settings/social'
+      preLoaderRoute: typeof AppSettingsSocialRouteImport
+      parentRoute: typeof AppSettingsRoute
     }
     '/app/settings/notifications': {
       id: '/app/settings/notifications'
@@ -1063,11 +1082,13 @@ declare module '@tanstack/react-router' {
 
 interface AppSettingsRouteChildren {
   AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
+  AppSettingsSocialRoute: typeof AppSettingsSocialRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppSettingsRouteChildren: AppSettingsRouteChildren = {
   AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
+  AppSettingsSocialRoute: AppSettingsSocialRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 
