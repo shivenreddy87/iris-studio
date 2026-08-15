@@ -57,6 +57,14 @@ function SettingsPage() {
             title="Notifications"
             desc="Choose what you hear about"
           />
+          {role === "creator" ? (
+            <NavCard
+              to="/app/settings/social"
+              Icon={Instagram}
+              title="Social accounts"
+              desc="Connect Instagram and set your primary account"
+            />
+          ) : null}
         </div>
 
         <Section title="Security">
