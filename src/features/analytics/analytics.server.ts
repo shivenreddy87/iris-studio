@@ -397,6 +397,9 @@ export async function fetchInfluencerAnalytics(
     (a) => a.status === "shortlisted" || a.status === "selected",
   ).length;
 
+  // Verified metrics only: unverified content never counts toward performance.
+  const verifiedSubmissions = submissionRows.filter((s) => s.submission_status === "verified");
+
   const earnedMap = new Map((earned.data ?? []).map((row) => [row.code, row.awarded_at]));
   const achievements: Achievement[] = (definitions.data ?? []).map((def) => ({
     code: def.code,
