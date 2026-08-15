@@ -60,7 +60,8 @@ export function BusinessContentList({ contestId }: { contestId: string }) {
             </a>
           </li>
         ))}
-      </ul>
-    </DataSection>
+        </ul>
+      </DataSection>
+    </section>
   );
 }
