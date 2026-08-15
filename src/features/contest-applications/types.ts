@@ -155,6 +155,7 @@ export const APPLICATION_ERROR_CODES = [
   "applications_not_open",
   "outside_application_window",
   "not_eligible",
+  "missing_primary_account",
   "already_applied",
   "application_not_found",
   "withdraw_window_closed",
@@ -170,6 +171,8 @@ export const APPLICATION_ERROR_MESSAGES: Record<ApplicationErrorCode, string> = 
   applications_not_open: "This contest is not accepting applications right now.",
   outside_application_window: "The application window for this contest is not open.",
   not_eligible: "Your profile does not meet this contest's requirements.",
+  missing_primary_account:
+    "Connect the contest's social platform as your primary account before applying.",
   already_applied: "You have already applied to this contest.",
   application_not_found: "Application not found.",
   withdraw_window_closed: "Applications can only be withdrawn while the contest is open.",
