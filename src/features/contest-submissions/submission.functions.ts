@@ -22,6 +22,7 @@ import {
   validateSubmissionPlatform,
   validateSubmissionWindow,
   type SubmissionRow,
+  type BusinessContentItem,
 } from "./submission.server";
 import { reviewInputSchema, submissionInputSchema } from "./submission.schema";
 import {
