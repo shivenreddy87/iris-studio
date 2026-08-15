@@ -245,6 +245,14 @@ function AnalyticsPage() {
                 <MetricCard label="Active contests" value={influencer.activeContests} />
                 <MetricCard label="Completed" value={influencer.completedContests} />
                 <MetricCard
+                  label="Verified views"
+                  value={influencer.verifiedViews.toLocaleString("en-IN")}
+                />
+                <MetricCard
+                  label="Avg views per content"
+                  value={influencer.avgVerifiedViews.toLocaleString("en-IN")}
+                />
+                <MetricCard
                   label="Avg engagement"
                   value={formatPercent(influencer.avgEngagement)}
                 />
