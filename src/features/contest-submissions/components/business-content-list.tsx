@@ -21,14 +21,17 @@ export function BusinessContentList({ contestId }: { contestId: string }) {
   const items = data ?? [];
 
   return (
-    <DataSection
-      title="Contest content & performance"
-      description="Published content approved by our review team, with verified performance."
-      loading={isLoading}
-      empty={items.length === 0}
-      emptyMessage="No content has been approved for this contest yet."
-    >
-      <ul className="divide-y divide-hairline">
+    <section className="rounded-2xl border border-hairline bg-surface-2 p-5">
+      <h2 className="font-display text-lg font-bold text-ink">Contest content &amp; performance</h2>
+      <p className="mt-1 text-sm text-ink-mute">
+        Published content approved by our review team, with verified performance.
+      </p>
+      <DataSection
+        loading={isLoading}
+        isEmpty={items.length === 0}
+        empty="No content has been approved for this contest yet."
+      >
+        <ul className="divide-y divide-hairline">
         {items.map((item) => (
           <li
             key={item.submissionId}
