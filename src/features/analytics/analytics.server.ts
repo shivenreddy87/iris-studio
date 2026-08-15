@@ -429,9 +429,16 @@ export async function fetchInfluencerAnalytics(
     avgSubmissionHours: submissionHours.length ? avg(submissionHours) : 0,
     rewardsWon: sum(winnerRows.map((w) => w.reward_amount)),
     rewardsPaid: sum(payoutRows.filter((p) => p.status === "paid").map((p) => p.amount)),
+    verifiedViews: verifiedSubmissions.reduce((total, s) => total + Number(s.views ?? 0), 0),
+    avgVerifiedViews: verifiedSubmissions.length
+      ? Math.round(
+          verifiedSubmissions.reduce((total, s) => total + Number(s.views ?? 0), 0) /
+            verifiedSubmissions.length,
+        )
+      : 0,
     activeContests: (contestRows ?? []).filter((c) => c.status === "live").length,
     completedContests: (contestRows ?? []).filter((c) => c.status === "completed").length,
-    avgEngagement: avg(submissionRows.map((s) => s.engagement_rate)),
+    avgEngagement: avg(verifiedSubmissions.map((s) => s.engagement_rate)),
     scoreTrend,
     applicationsOverTime: dailySeries(
       applicationRows.map((a) => a.created_at),
