@@ -91,7 +91,10 @@ function BusinessContestDetailPage() {
             {contest.status === "live" ||
             contest.status === "completed" ||
             contest.status === "archived" ? (
-              <ContestProgressCard contestId={contest.id} />
+              <>
+                <ContestProgressCard contestId={contest.id} />
+                <BusinessContentList contestId={contest.id} />
+              </>
             ) : null}
             {contest.status === "completed" || contest.status === "archived" ? (
               <>
