@@ -3,22 +3,41 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, fieldClass } from "@/features/profiles/components/field";
+import { getProvider } from "@/features/social-verification/providers";
 import { submissionSchema, type SubmissionFormValues } from "../submission.schema";
-import { SUBMISSION_PLATFORMS, SUBMISSION_PLATFORM_LABELS } from "../types";
+import {
+  SUBMISSION_PLATFORMS,
+  SUBMISSION_PLATFORM_LABELS,
+  type SubmissionPlatform,
+} from "../types";
 
-/** One-way submission form: content can be submitted once and never edited. */
+function isSubmissionPlatform(value: string | null | undefined): value is SubmissionPlatform {
+  return !!value && (SUBMISSION_PLATFORMS as readonly string[]).includes(value.toLowerCase());
+}
+
+/**
+ * One-way submission form: content can be submitted once and never edited.
+ * When the contest declares a platform, the form locks to it and asks for the
+ * exact artefact that platform expects (Instagram Reel URL / YouTube video URL).
+ */
 export function ContestSubmissionForm({
   submitting,
+  contestPlatform,
   onSubmit,
 }: {
   submitting: boolean;
+  contestPlatform?: string | null;
   onSubmit: (values: SubmissionFormValues) => Promise<void>;
 }) {
+  const locked = isSubmissionPlatform(contestPlatform)
+    ? (contestPlatform.toLowerCase() as SubmissionPlatform)
+    : null;
+
   const form = useForm<SubmissionFormValues>({
     resolver: zodResolver(submissionSchema),
     mode: "onChange",
     defaultValues: {
-      platform: "instagram",
+      platform: locked ?? "instagram",
       contentUrl: "",
       caption: "",
       notes: "",
@@ -26,36 +45,51 @@ export function ContestSubmissionForm({
     },
   });
 
-  const { register, handleSubmit, formState } = form;
+  const { register, handleSubmit, formState, watch } = form;
   const errors = formState.errors;
+  const active = locked ?? watch("platform");
+  const provider = getProvider(active);
+  const urlLabel =
+    provider?.contentLabel ??
+    (active === "instagram" ? "Instagram Reel URL" : "Published content URL");
+  const placeholder = provider?.contentPlaceholder ?? "https://";
 
   return (
     <form
       onSubmit={handleSubmit(async (values) => {
-        await onSubmit(values);
+        await onSubmit({ ...values, platform: locked ?? values.platform });
       })}
       className="space-y-5"
     >
-      <Field label="Platform" htmlFor="platform" error={errors.platform?.message}>
-        <select id="platform" className={fieldClass} {...register("platform")}>
-          {SUBMISSION_PLATFORMS.map((platform) => (
-            <option key={platform} value={platform}>
-              {SUBMISSION_PLATFORM_LABELS[platform]}
-            </option>
-          ))}
-        </select>
-      </Field>
+      {locked ? (
+        <input type="hidden" value={locked} {...register("platform")} />
+      ) : (
+        <Field label="Platform" htmlFor="platform" error={errors.platform?.message}>
+          <select id="platform" className={fieldClass} {...register("platform")}>
+            {SUBMISSION_PLATFORMS.map((platform) => (
+              <option key={platform} value={platform}>
+                {SUBMISSION_PLATFORM_LABELS[platform]}
+              </option>
+            ))}
+          </select>
+        </Field>
+      )}
 
       <Field
-        label="Published content URL"
+        label={urlLabel}
         htmlFor="contentUrl"
         error={errors.contentUrl?.message}
-        hint="A public link to the live post, reel or video you published for this contest."
+        hint={
+          locked
+            ? `This contest runs on ${SUBMISSION_PLATFORM_LABELS[locked]}. Paste the public link to the content you published there — it is verified against ${SUBMISSION_PLATFORM_LABELS[locked]} and cannot be changed afterwards.`
+            : "A public link to the live post, reel or video you published for this contest."
+        }
       >
         <input
           id="contentUrl"
+          inputMode="url"
           className={fieldClass}
-          placeholder="https://instagram.com/reel/..."
+          placeholder={placeholder}
           {...register("contentUrl")}
         />
       </Field>
