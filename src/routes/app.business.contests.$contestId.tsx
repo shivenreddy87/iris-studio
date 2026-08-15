@@ -15,6 +15,7 @@ import { ProfileGate } from "@/features/profiles/components/profile-gate";
 import { ApplicationCountsCard } from "@/features/contest-applications/components/application-counts-card";
 import { SelectionSummaryCard } from "@/features/contest-applications/components/selection-summary-card";
 import { ContestProgressCard } from "@/features/contest-submissions/components/contest-progress-card";
+import { BusinessContentList } from "@/features/contest-submissions/components/business-content-list";
 import { ContestResultsCard } from "@/features/winner-selection/components/contest-results-card";
 import { ContestPayoutProgress } from "@/features/manual-payouts/components/contest-payout-progress";
 
@@ -91,7 +92,10 @@ function BusinessContestDetailPage() {
             {contest.status === "live" ||
             contest.status === "completed" ||
             contest.status === "archived" ? (
-              <ContestProgressCard contestId={contest.id} />
+              <>
+                <ContestProgressCard contestId={contest.id} />
+                <BusinessContentList contestId={contest.id} />
+              </>
             ) : null}
             {contest.status === "completed" || contest.status === "archived" ? (
               <>

@@ -563,3 +563,60 @@ export async function reviewSubmission(
 
   return decorateSubmission(contest, row);
 }
+
+/* ------------------------------------------------------------------ */
+/* Business content visibility                                         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * What a business may see about the content produced for its contest.
+ * Deliberately free of identity and payment data: no email, phone, payout,
+ * bank or private profile fields ever enter this shape.
+ */
+export type BusinessContentItem = {
+  submissionId: string;
+  platform: string;
+  contentUrl: string;
+  /** Public display handle only — never the influencer's account identity. */
+  creatorHandle: string;
+  submittedAt: string;
+  verifiedViews: number | null;
+  engagementRate: number | null;
+  metricsPending: boolean;
+};
+
+/**
+ * Verified content only. Pending and flagged submissions stay invisible to the
+ * business until an admin approves them.
+ */
+export async function loadBusinessContent(contest: Contest): Promise<BusinessContentItem[]> {
+  const sb = await admin();
+  const { data, error } = await sb
+    .from("contest_submissions")
+    .select("id, influencer_id, platform, content_url, submitted_at, views, engagement_rate")
+    .eq("contest_id", contest.id)
+    .eq("submission_status", "verified")
+    .order("submitted_at", { ascending: true });
+  if (error) throw new Error(error.message);
+
+  const rows = data ?? [];
+  const info = await loadInfluencerInfo([...new Set(rows.map((r) => r.influencer_id as string))]);
+
+  return rows.map((row, index) => {
+    const detail = info.get(row.influencer_id as string);
+    const views = row.views === null || row.views === undefined ? null : Number(row.views);
+    return {
+      submissionId: row.id as string,
+      platform: row.platform as string,
+      contentUrl: row.content_url as string,
+      creatorHandle: detail?.handle ? `@${detail.handle}` : `Creator ${index + 1}`,
+      submittedAt: row.submitted_at as string,
+      verifiedViews: views && views > 0 ? views : null,
+      engagementRate:
+        row.engagement_rate === null || Number(row.engagement_rate) === 0
+          ? null
+          : Number(row.engagement_rate),
+      metricsPending: !views || views <= 0,
+    } satisfies BusinessContentItem;
+  });
+}

@@ -22,6 +22,7 @@ import {
   validateSubmissionPlatform,
   validateSubmissionWindow,
   type SubmissionRow,
+  type BusinessContentItem,
 } from "./submission.server";
 import { reviewInputSchema, submissionInputSchema } from "./submission.schema";
 import {
@@ -286,4 +287,16 @@ export const listMyContestExecutions = createServerFn({ method: "GET" })
     return executions.sort((a, b) =>
       (a.contest.contestEndDate ?? "").localeCompare(b.contest.contestEndDate ?? ""),
     );
+  });
+
+/** Contest owner or admin: approved public content for the contest. */
+export const listBusinessContestContent = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { contestId: string }) => data)
+  .handler(async ({ data, context }): Promise<BusinessContentItem[]> => {
+    const { supabase, userId } = context;
+    const contest = await fetchContestOrThrow(supabase, data.contestId);
+    if (contest.businessId !== userId) await assertAdmin(supabase, userId);
+    const { loadBusinessContent } = await import("./submission.server");
+    return loadBusinessContent(contest);
   });

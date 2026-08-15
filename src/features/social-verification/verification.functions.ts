@@ -34,6 +34,16 @@ export const saveSocialAccount = createServerFn({ method: "POST" })
       action: "social_account.saved",
       newValues: { platform: account.platform, handle: account.handle },
     });
+    const { notifySocialAccountConnected } = await import(
+      "@/features/activity/platform-notifications.server"
+    );
+    const { PLATFORM_LABELS } = await import("./types");
+    await notifySocialAccountConnected({
+      userId: context.userId,
+      platformLabel: PLATFORM_LABELS[account.platform] ?? account.platform,
+      handle: account.handle,
+      isPrimary: account.isPrimary,
+    });
     return account;
   });
 

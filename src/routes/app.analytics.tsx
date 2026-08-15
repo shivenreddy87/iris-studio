@@ -159,10 +159,22 @@ function AnalyticsPage() {
               />
             </AnalyticsCard>
             <AnalyticsCard
-              title="Engagement"
-              description="Average engagement rate across verified content."
+              title="Verified performance"
+              description="Computed from admin-verified metrics only."
             >
               <StatisticsGrid columns={2}>
+                <MetricCard
+                  label="Verified views"
+                  value={business.verifiedViews.toLocaleString("en-IN")}
+                />
+                <MetricCard
+                  label="Avg views per content"
+                  value={business.avgVerifiedViews.toLocaleString("en-IN")}
+                />
+                <MetricCard
+                  label="Cost per verified view"
+                  value={formatCurrency(business.costPerVerifiedView)}
+                />
                 <MetricCard label="Avg engagement" value={formatPercent(business.avgEngagement)} />
                 <MetricCard
                   label="Submission progress"
@@ -172,8 +184,13 @@ function AnalyticsPage() {
                   label="Contest success rate"
                   value={formatPercent(business.contestSuccessRate)}
                 />
-                <MetricCard label="Requests approved" value={business.requestsApproved} />
               </StatisticsGrid>
+            </AnalyticsCard>
+            <AnalyticsCard
+              title="Reward tier distribution"
+              description="Finalized rewards grouped by tier amount."
+            >
+              <AnalyticsChart kind="pie" data={business.rewardTierDistribution} />
             </AnalyticsCard>
           </div>
 
@@ -227,6 +244,14 @@ function AnalyticsPage() {
               <StatisticsGrid columns={2}>
                 <MetricCard label="Active contests" value={influencer.activeContests} />
                 <MetricCard label="Completed" value={influencer.completedContests} />
+                <MetricCard
+                  label="Verified views"
+                  value={influencer.verifiedViews.toLocaleString("en-IN")}
+                />
+                <MetricCard
+                  label="Avg views per content"
+                  value={influencer.avgVerifiedViews.toLocaleString("en-IN")}
+                />
                 <MetricCard
                   label="Avg engagement"
                   value={formatPercent(influencer.avgEngagement)}

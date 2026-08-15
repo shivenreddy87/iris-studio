@@ -85,6 +85,10 @@ export type BusinessAnalytics = {
   verifiedContent: number;
   completionRate: number;
   rewardDistributed: number;
+  verifiedViews: number;
+  avgVerifiedViews: number;
+  costPerVerifiedView: number;
+  rewardTierDistribution: SeriesPoint[];
   avgEngagement: number;
   avgCompletionDays: number;
   applicationsOverTime: SeriesPoint[];
@@ -121,6 +125,8 @@ export type InfluencerAnalytics = {
   avgSubmissionHours: number;
   rewardsWon: number;
   rewardsPaid: number;
+  verifiedViews: number;
+  avgVerifiedViews: number;
   activeContests: number;
   completedContests: number;
   avgEngagement: number;

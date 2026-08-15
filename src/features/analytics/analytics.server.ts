@@ -240,15 +240,19 @@ export async function fetchBusinessAnalytics(
   const contestRows = contests.data ?? [];
   const contestIds = contestRows.map((c) => c.id);
 
-  const [applications, participants, submissions, payouts] = contestIds.length
+  const [applications, participants, submissions, payouts, winners] = contestIds.length
     ? await Promise.all([
         db.from("contest_applications").select("id, created_at").in("contest_id", contestIds),
         db.from("contest_participants").select("id").in("contest_id", contestIds),
         db
           .from("contest_submissions")
-          .select("id, submission_status, engagement_rate")
+          .select("id, submission_status, engagement_rate, views")
           .in("contest_id", contestIds),
         db.from("payouts").select("id, amount, status").in("contest_id", contestIds),
+        db
+          .from("contest_winners")
+          .select("id, reward_amount")
+          .in("contest_id", contestIds),
       ])
     : [
         { data: [] as { id: string; created_at: string }[] },
@@ -258,15 +262,32 @@ export async function fetchBusinessAnalytics(
             id: string;
             submission_status: string;
             engagement_rate: number | null;
+            views: number | null;
           }[],
         },
         { data: [] as { id: string; amount: number; status: string }[] },
+        { data: [] as { id: string; reward_amount: number | null }[] },
       ];
 
   const applicationRows = applications.data ?? [];
   const participantRows = participants.data ?? [];
   const submissionRows = submissions.data ?? [];
   const payoutRows = payouts.data ?? [];
+  const winnerRows = winners.data ?? [];
+
+  // Verified metrics only: pending content contributes nothing to performance.
+  const verifiedRows = submissionRows.filter((s) => s.submission_status === "verified");
+  const verifiedViews = sum(verifiedRows.map((s) => Number(s.views ?? 0)));
+  const rewardCommitted = sum(winnerRows.map((w) => Number(w.reward_amount ?? 0)));
+  const tierDistribution = toSeries(
+    winnerRows.reduce<Record<string, number>>((acc, w) => {
+      const amount = Number(w.reward_amount ?? 0);
+      if (!amount) return acc;
+      const label = `₹${amount.toLocaleString("en-IN")}`;
+      acc[label] = (acc[label] ?? 0) + 1;
+      return acc;
+    }, {}),
+  );
 
   const completed = contestRows.filter((c) => c.status === "completed");
   const completionDays = completed
@@ -298,7 +319,13 @@ export async function fetchBusinessAnalytics(
     verifiedContent: verified,
     completionRate: pct(verified, submissionRows.length),
     rewardDistributed: sum(payoutRows.filter((p) => p.status === "paid").map((p) => p.amount)),
-    avgEngagement: avg(submissionRows.map((s) => s.engagement_rate)),
+    verifiedViews,
+    avgVerifiedViews: verifiedRows.length ? Math.round(verifiedViews / verifiedRows.length) : 0,
+    costPerVerifiedView: verifiedViews
+      ? Math.round((rewardCommitted / verifiedViews) * 100) / 100
+      : 0,
+    rewardTierDistribution: tierDistribution,
+    avgEngagement: avg(verifiedRows.map((s) => s.engagement_rate)),
     avgCompletionDays: completionDays.length ? avg(completionDays) : 0,
     applicationsOverTime: dailySeries(
       applicationRows.map((a) => a.created_at),
@@ -327,7 +354,9 @@ export async function fetchInfluencerAnalytics(
         .eq("influencer_id", influencerId),
       db
         .from("contest_submissions")
-        .select("id, contest_id, submission_status, engagement_rate, submitted_at, created_at")
+        .select(
+          "id, contest_id, submission_status, engagement_rate, views, submitted_at, created_at",
+        )
         .eq("influencer_id", influencerId),
       db
         .from("contest_winners")
@@ -368,6 +397,9 @@ export async function fetchInfluencerAnalytics(
     (a) => a.status === "shortlisted" || a.status === "selected",
   ).length;
 
+  // Verified metrics only: unverified content never counts toward performance.
+  const verifiedSubmissions = submissionRows.filter((s) => s.submission_status === "verified");
+
   const earnedMap = new Map((earned.data ?? []).map((row) => [row.code, row.awarded_at]));
   const achievements: Achievement[] = (definitions.data ?? []).map((def) => ({
     code: def.code,
@@ -400,9 +432,16 @@ export async function fetchInfluencerAnalytics(
     avgSubmissionHours: submissionHours.length ? avg(submissionHours) : 0,
     rewardsWon: sum(winnerRows.map((w) => w.reward_amount)),
     rewardsPaid: sum(payoutRows.filter((p) => p.status === "paid").map((p) => p.amount)),
+    verifiedViews: verifiedSubmissions.reduce((total, s) => total + Number(s.views ?? 0), 0),
+    avgVerifiedViews: verifiedSubmissions.length
+      ? Math.round(
+          verifiedSubmissions.reduce((total, s) => total + Number(s.views ?? 0), 0) /
+            verifiedSubmissions.length,
+        )
+      : 0,
     activeContests: (contestRows ?? []).filter((c) => c.status === "live").length,
     completedContests: (contestRows ?? []).filter((c) => c.status === "completed").length,
-    avgEngagement: avg(submissionRows.map((s) => s.engagement_rate)),
+    avgEngagement: avg(verifiedSubmissions.map((s) => s.engagement_rate)),
     scoreTrend,
     applicationsOverTime: dailySeries(
       applicationRows.map((a) => a.created_at),

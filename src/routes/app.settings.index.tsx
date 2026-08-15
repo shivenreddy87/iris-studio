@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
-import { UserCircle, ShieldCheck, ArrowRight, Bell } from "lucide-react";
+import { UserCircle, ShieldCheck, ArrowRight, Bell, Instagram } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -57,6 +57,14 @@ function SettingsPage() {
             title="Notifications"
             desc="Choose what you hear about"
           />
+          {role === "creator" ? (
+            <NavCard
+              to="/app/settings/social"
+              Icon={Instagram}
+              title="Social accounts"
+              desc="Connect Instagram and set your primary account"
+            />
+          ) : null}
         </div>
 
         <Section title="Security">
