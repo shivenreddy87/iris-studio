@@ -6,17 +6,17 @@ import logoUrl from "@/assets/logo.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Project Eros | Influencer Campaign Platform" },
+      { title: "Creoinfo | Influencer Campaign Platform" },
       {
         name: "description",
         content:
-          "Project Eros is an influencer collaboration platform where businesses create campaigns, creators discover opportunities, administrators manage contests, and every campaign is tracked from request to payout.",
+          "Creoinfo connects Hyderabad businesses with Instagram creators through performance contests. Publish a brief, pick creators, and reward them for the views their content actually earns.",
       },
-      { property: "og:title", content: "Project Eros | Influencer Campaign Platform" },
+      { property: "og:title", content: "Creoinfo | Influencer Campaign Platform" },
       {
         property: "og:description",
         content:
-          "Project Eros is an influencer collaboration platform where businesses create campaigns, creators discover opportunities, administrators manage contests, and every campaign is tracked from request to payout.",
+          "Creoinfo connects Hyderabad businesses with Instagram creators through performance contests. Publish a brief, pick creators, and reward them for the views their content actually earns.",
       },
     ],
   }),
@@ -42,13 +42,13 @@ function LandingPage() {
             <Link to="/" className="flex items-center">
               <img
                 src={logoUrl}
-                alt="Project Eros"
+                alt="Creoinfo"
                 height={56}
                 width={190}
                 style={{ height: 56, width: "auto" }}
               />
             </Link>
-            <Link to="/auth/sign-in" aria-label="Login to Project Eros">
+            <Link to="/auth/sign-in" aria-label="Login to Creoinfo">
               <Button variant="heroSecondary" className="rounded-full px-5 py-2">
                 Login
               </Button>
@@ -68,28 +68,29 @@ function LandingPage() {
                 letterSpacing: "-0.024em",
               }}
             >
-              <span className="sr-only">Project Eros</span>
+              <span className="sr-only">Creoinfo</span>
               <img
                 src={logoUrl}
-                alt="Project Eros logo"
+                alt="Creoinfo logo"
                 aria-hidden="true"
                 className="mx-auto block w-full max-w-[900px]"
                 style={{ height: "auto" }}
               />
             </h1>
             <p className="mt-[9px] max-w-md text-lg leading-8 text-hero-sub opacity-80">
-              Connect businesses and creators through a streamlined campaign marketplace. Create
-              campaigns, discover opportunities, collaborate with confidence, and manage every
-              stage—from campaign requests to payouts—in one secure platform.
+              Creoinfo connects Hyderabad businesses with Instagram creators through performance
+              contests. Publish a brief, choose your creators, and reward them for the views their
+              content actually earns.
             </p>
             <p className="mt-3 text-xs text-foreground/50">
-              Built for Businesses • Creators • Platform Administrators
+              Instagram-first, launching in Hyderabad • Businesses • Creators • Administrators
             </p>
+
             <Link
               to="/auth/role"
               search={{ role: "brand" }}
               className="mt-[25px]"
-              aria-label="Get started with Project Eros"
+              aria-label="Get started with Creoinfo"
             >
               <Button
                 variant="heroSecondary"
@@ -103,7 +104,7 @@ function LandingPage() {
         </div>
 
         <footer className="relative z-10 mt-auto flex flex-col items-center gap-3 border-t border-white/8 px-8 py-8 text-xs text-foreground/50 sm:flex-row sm:justify-center">
-          <p>© {new Date().getFullYear()} Project Eros. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Creoinfo. All rights reserved.</p>
         </footer>
       </div>
     </section>

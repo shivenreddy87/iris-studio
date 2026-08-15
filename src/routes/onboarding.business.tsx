@@ -20,12 +20,12 @@ export const Route = createFileRoute("/onboarding/business")({
   },
   head: () => ({
     meta: [
-      { title: "Business profile setup — Project Eros" },
+      { title: "Business profile setup — Creoinfo" },
       {
         name: "description",
         content: "Set up your business profile so our team can match you with the right contests.",
       },
-      { property: "og:title", content: "Business profile setup — Project Eros" },
+      { property: "og:title", content: "Business profile setup — Creoinfo" },
       {
         property: "og:description",
         content: "Set up your business profile so our team can match you with the right contests.",

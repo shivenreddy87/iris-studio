@@ -13,15 +13,15 @@ import type { NotificationPreferences } from "@/features/activity/types";
 export const Route = createFileRoute("/app/settings/notifications")({
   head: () => ({
     meta: [
-      { title: "Notification preferences — Project Eros" },
+      { title: "Notification preferences — Creoinfo" },
       {
         name: "description",
-        content: "Choose which campaign, contest and payout updates reach you on Project Eros.",
+        content: "Choose which campaign, contest and payout updates reach you on Creoinfo.",
       },
-      { property: "og:title", content: "Notification preferences — Project Eros" },
+      { property: "og:title", content: "Notification preferences — Creoinfo" },
       {
         property: "og:description",
-        content: "Choose which campaign, contest and payout updates reach you on Project Eros.",
+        content: "Choose which campaign, contest and payout updates reach you on Creoinfo.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

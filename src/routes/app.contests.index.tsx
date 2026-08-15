@@ -23,12 +23,12 @@ import type { ContestSortKey } from "@/features/contests/types";
 export const Route = createFileRoute("/app/contests/")({
   head: () => ({
     meta: [
-      { title: "Available Contests — Project Eros" },
+      { title: "Available Contests — Creoinfo" },
       {
         name: "description",
         content: "Discover published contests, filter by reward, platform and audience fit.",
       },
-      { property: "og:title", content: "Available Contests — Project Eros" },
+      { property: "og:title", content: "Available Contests — Creoinfo" },
       {
         property: "og:description",
         content: "Discover published contests, filter by reward, platform and audience fit.",

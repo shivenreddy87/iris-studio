@@ -12,12 +12,12 @@ import { ProfileGate } from "@/features/profiles/components/profile-gate";
 export const Route = createFileRoute("/app/contests/won")({
   head: () => ({
     meta: [
-      { title: "Won Contests — Project Eros" },
+      { title: "Won Contests — Creoinfo" },
       {
         name: "description",
         content: "The contests you have won and the rewards attached to them.",
       },
-      { property: "og:title", content: "Won Contests — Project Eros" },
+      { property: "og:title", content: "Won Contests — Creoinfo" },
       {
         property: "og:description",
         content: "The contests you have won and the rewards attached to them.",

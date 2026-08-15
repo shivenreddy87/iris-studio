@@ -25,17 +25,17 @@ import { UpcomingActionsCard } from "@/features/activity/components/upcoming-act
 export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
-      { title: "Dashboard — Project Eros" },
+      { title: "Dashboard — Creoinfo" },
       {
         name: "description",
         content:
-          "Your Project Eros workspace: campaign requests, contests and results at a glance.",
+          "Your Creoinfo workspace: campaign requests, contests and results at a glance.",
       },
-      { property: "og:title", content: "Dashboard — Project Eros" },
+      { property: "og:title", content: "Dashboard — Creoinfo" },
       {
         property: "og:description",
         content:
-          "Your Project Eros workspace: campaign requests, contests and results at a glance.",
+          "Your Creoinfo workspace: campaign requests, contests and results at a glance.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

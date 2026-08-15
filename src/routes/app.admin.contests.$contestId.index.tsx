@@ -30,12 +30,12 @@ const SELECTION_STATUSES: ContestStatus[] = ["applications_closed", "participant
 export const Route = createFileRoute("/app/admin/contests/$contestId/")({
   head: () => ({
     meta: [
-      { title: "Manage Contest — Project Eros" },
+      { title: "Manage Contest — Creoinfo" },
       {
         name: "description",
         content: "Manage the lifecycle, rules and history of a single contest.",
       },
-      { property: "og:title", content: "Manage Contest — Project Eros" },
+      { property: "og:title", content: "Manage Contest — Creoinfo" },
       {
         property: "og:description",
         content: "Manage the lifecycle, rules and history of a single contest.",

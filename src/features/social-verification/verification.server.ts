@@ -26,17 +26,21 @@ type Row = {
   platform: string;
   handle: string | null;
   profile_url: string | null;
+  provider_user_id: string | null;
   followers: number | null;
   verification_status: string;
+  connection_status: string;
+  is_primary: boolean;
   verification_code: string | null;
   verification_requested_at: string | null;
   verified_at: string | null;
   rejection_reason: string | null;
+  created_at: string;
   updated_at: string;
 };
 
 const COLUMNS =
-  "id, user_id, platform, handle, profile_url, followers, verification_status, verification_code, verification_requested_at, verified_at, rejection_reason, updated_at";
+  "id, user_id, platform, handle, profile_url, provider_user_id, followers, verification_status, connection_status, is_primary, verification_code, verification_requested_at, verified_at, rejection_reason, created_at, updated_at";
 
 function mapRow(row: Row): SocialAccount {
   return {
@@ -45,8 +49,14 @@ function mapRow(row: Row): SocialAccount {
     platform: row.platform as SocialPlatform,
     handle: row.handle ?? "",
     profileUrl: row.profile_url,
+    providerUserId: row.provider_user_id ?? null,
     followers: row.followers,
     status: row.verification_status as VerificationStatus,
+    connectionStatus: (row.connection_status === "disconnected"
+      ? "disconnected"
+      : "connected") as SocialAccount["connectionStatus"],
+    isPrimary: Boolean(row.is_primary),
+    connectedAt: row.created_at ?? null,
     verificationCode: row.verification_code,
     requestedAt: row.verification_requested_at,
     verifiedAt: row.verified_at,
@@ -54,6 +64,7 @@ function mapRow(row: Row): SocialAccount {
     updatedAt: row.updated_at,
   };
 }
+
 
 /** Short, human-readable, unambiguous proof code. */
 export function makeVerificationCode(): string {
@@ -81,8 +92,15 @@ export async function saveAccount(input: {
   handle: string;
   profileUrl?: string;
   followers?: number;
+  makePrimary?: boolean;
 }): Promise<SocialAccount> {
   const db = await admin();
+  const { getProvider } = await import("./providers");
+  const provider = getProvider(input.platform);
+  const connection = provider
+    ? provider.connectAccount({ handle: input.handle, profileUrl: input.profileUrl ?? null })
+    : { handle: input.handle, profileUrl: input.profileUrl ?? null, providerUserId: null };
+
   const existing = (
     await db
       .from("connected_accounts")
@@ -95,16 +113,27 @@ export async function saveAccount(input: {
   // Editing an approved handle invalidates the approval.
   const changed =
     !existing ||
-    existing.handle !== input.handle ||
-    (existing.profile_url ?? null) !== (input.profileUrl ?? null);
+    existing.handle !== connection.handle ||
+    (existing.profile_url ?? null) !== (connection.profileUrl ?? null);
+
+  // First account for the influencer becomes primary automatically.
+  const { count } = await db
+    .from("connected_accounts")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", input.userId);
+  const primary = input.makePrimary ?? (existing?.is_primary || (count ?? 0) === 0);
+  if (primary) await clearPrimary(input.userId);
 
   const payload = {
     user_id: input.userId,
     platform: input.platform,
-    handle: input.handle,
-    profile_url: input.profileUrl ?? null,
+    handle: connection.handle,
+    profile_url: connection.profileUrl,
+    provider_user_id: connection.providerUserId,
     followers: input.followers ?? null,
     status: "connected",
+    connection_status: "connected",
+    is_primary: primary,
     verification_status: changed ? "unverified" : existing.verification_status,
     verification_code: changed ? makeVerificationCode() : existing.verification_code,
     verification_requested_at: changed ? null : existing.verification_requested_at,
@@ -122,6 +151,39 @@ export async function saveAccount(input: {
   if (error) throw new Error(error.message);
   return mapRow(data as Row);
 }
+
+async function clearPrimary(userId: string): Promise<void> {
+  const db = await admin();
+  await db
+    .from("connected_accounts")
+    .update({ is_primary: false } as never)
+    .eq("user_id", userId)
+    .eq("is_primary", true);
+}
+
+/** Exactly one primary account per influencer. */
+export async function setPrimaryAccount(userId: string, accountId: string): Promise<SocialAccount> {
+  const db = await admin();
+  const existing = (
+    await db
+      .from("connected_accounts")
+      .select(COLUMNS)
+      .eq("id", accountId)
+      .eq("user_id", userId)
+      .maybeSingle()
+  ).data as Row | null;
+  if (!existing) throw new Error("Social account not found.");
+  await clearPrimary(userId);
+  const { data, error } = await db
+    .from("connected_accounts")
+    .update({ is_primary: true, connection_status: "connected" } as never)
+    .eq("id", accountId)
+    .select(COLUMNS)
+    .single();
+  if (error) throw new Error(error.message);
+  return mapRow(data as Row);
+}
+
 
 export async function removeAccount(userId: string, accountId: string): Promise<void> {
   const db = await admin();

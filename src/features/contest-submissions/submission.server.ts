@@ -125,6 +125,32 @@ export function validateSubmissionWindow(contest: Contest, now: Date = new Date(
   }
 }
 
+/**
+ * The submitted content must live on the contest's platform, be a valid public
+ * URL for that platform, and come from the influencer's primary linked account.
+ */
+export async function validateSubmissionPlatform(
+  contest: Contest,
+  influencerId: string,
+  platform: string,
+  contentUrl: string,
+): Promise<void> {
+  const target = (contest.targetPlatform ?? "").toLowerCase();
+  if (target && platform !== target) {
+    throw new Error(`This contest only accepts ${target} content.`);
+  }
+  const { validateContentUrlFor } = await import("@/features/social-verification/providers");
+  const result = validateContentUrlFor(platform, contentUrl);
+  if (!result.ok) throw new Error(result.message);
+
+  const { requirePrimarySocialAccount } = await import(
+    "@/features/social-verification/social-verification.server"
+  );
+  const account = await requirePrimarySocialAccount(influencerId, platform);
+  if (!account.ok) throw new Error(account.message);
+}
+
+
 export async function checkDuplicateSubmission(participantId: string): Promise<void> {
   const sb = await admin();
   const { count, error } = await sb

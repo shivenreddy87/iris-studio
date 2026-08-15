@@ -9,12 +9,12 @@ import { getAdminReviewSummary } from "@/features/campaign-requests/admin-review
 export const Route = createFileRoute("/app/admin/")({
   head: () => ({
     meta: [
-      { title: "Admin Dashboard — Project Eros" },
+      { title: "Admin Dashboard — Creoinfo" },
       {
         name: "description",
         content: "Operational overview of businesses, requests, contests and payouts.",
       },
-      { property: "og:title", content: "Admin Dashboard — Project Eros" },
+      { property: "og:title", content: "Admin Dashboard — Creoinfo" },
       {
         property: "og:description",
         content: "Operational overview of businesses, requests, contests and payouts.",

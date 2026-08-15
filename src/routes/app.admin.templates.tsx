@@ -6,12 +6,12 @@ import { useContestTemplates, useTemplateActions } from "@/features/platform-adm
 export const Route = createFileRoute("/app/admin/templates")({
   head: () => ({
     meta: [
-      { title: "Contest Templates — Project Eros" },
+      { title: "Contest Templates — Creoinfo" },
       {
         name: "description",
         content: "Reusable contest briefs, rules, rewards and eligibility presets.",
       },
-      { property: "og:title", content: "Contest Templates — Project Eros" },
+      { property: "og:title", content: "Contest Templates — Creoinfo" },
       {
         property: "og:description",
         content: "Reusable contest briefs, rules, rewards and eligibility presets.",

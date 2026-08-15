@@ -8,13 +8,13 @@ import { lovable } from "@/integrations/lovable";
 export const Route = createFileRoute("/auth/sign-in")({
   head: () => ({
     meta: [
-      { title: "Sign in — Project Eros" },
+      { title: "Sign in — Creoinfo" },
       {
         name: "description",
-        content: "Sign in to Project Eros to manage your campaigns and contests.",
+        content: "Sign in to Creoinfo to manage your campaigns and contests.",
       },
-      { property: "og:title", content: "Sign in — Project Eros" },
-      { property: "og:description", content: "Sign in to your Project Eros account." },
+      { property: "og:title", content: "Sign in — Creoinfo" },
+      { property: "og:description", content: "Sign in to your Creoinfo account." },
     ],
   }),
   component: SignIn,

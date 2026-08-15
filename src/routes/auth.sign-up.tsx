@@ -14,15 +14,15 @@ export const Route = createFileRoute("/auth/sign-up")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Create your account — Project Eros" },
+      { title: "Create your account — Creoinfo" },
       {
         name: "description",
-        content: "Create your Project Eros account to run or join campaigns.",
+        content: "Create your Creoinfo account to run or join campaigns.",
       },
-      { property: "og:title", content: "Create your account — Project Eros" },
+      { property: "og:title", content: "Create your account — Creoinfo" },
       {
         property: "og:description",
-        content: "Join Project Eros — the AI OS for influencer marketing.",
+        content: "Join Creoinfo — the AI OS for influencer marketing.",
       },
     ],
   }),
@@ -62,7 +62,7 @@ function SignUp() {
       toast.error(error.message);
       return;
     }
-    toast.success("Welcome to Project Eros.");
+    toast.success("Welcome to Creoinfo.");
     navigate({ to: "/app" });
   }
 

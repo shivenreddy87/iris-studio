@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { BadgeCheck, Clock, Copy, Plus, ShieldAlert, Trash2 } from "lucide-react";
+import { BadgeCheck, Clock, Copy, Plus, ShieldAlert, Star, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,10 +19,11 @@ import {
   getMySocialAccounts,
   requestSocialVerification,
   saveSocialAccount,
+  setPrimarySocialAccount,
 } from "../verification.functions";
 import {
   PLATFORM_LABELS,
-  SOCIAL_PLATFORMS,
+  SUPPORTED_PLATFORMS,
   type SocialAccount,
   type SocialPlatform,
 } from "../types";
@@ -59,6 +60,7 @@ export function SocialAccountsPanel() {
   const save = useServerFn(saveSocialAccount);
   const remove = useServerFn(deleteSocialAccount);
   const request = useServerFn(requestSocialVerification);
+  const makePrimary = useServerFn(setPrimarySocialAccount);
 
   const [adding, setAdding] = useState(false);
   const [platform, setPlatform] = useState<SocialPlatform>("instagram");
@@ -94,6 +96,15 @@ export function SocialAccountsPanel() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const primaryMutation = useMutation({
+    mutationFn: (accountId: string) => makePrimary({ data: { accountId } }),
+    onSuccess: async () => {
+      await refresh();
+      toast.success("Primary account updated.");
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
   const removeMutation = useMutation({
     mutationFn: (accountId: string) => remove({ data: { accountId } }),
     onSuccess: async () => {
@@ -109,7 +120,9 @@ export function SocialAccountsPanel() {
         <div className="min-w-0">
           <h2 className="text-base font-semibold text-ink">Social accounts</h2>
           <p className="mt-1 text-sm text-ink-mute">
-            Verified accounts prove you own the profile you enter contests with.
+            Link the account you publish from and mark it primary — contests are open only to
+            influencers with a primary account on the contest&apos;s platform. Instagram is
+            supported today, with YouTube next.
           </p>
         </div>
         <Button size="sm" variant="outline" onClick={() => setAdding((v) => !v)}>
@@ -132,7 +145,7 @@ export function SocialAccountsPanel() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {SOCIAL_PLATFORMS.map((p) => (
+                {SUPPORTED_PLATFORMS.map((p) => (
                   <SelectItem key={p} value={p}>
                     {PLATFORM_LABELS[p]}
                   </SelectItem>
@@ -189,7 +202,14 @@ export function SocialAccountsPanel() {
                     <p className="truncate text-xs text-ink-mute">{account.profileUrl}</p>
                   ) : null}
                 </div>
-                <VerificationBadge status={account.status} />
+                <div className="flex flex-col items-end gap-1.5">
+                  <VerificationBadge status={account.status} />
+                  {account.isPrimary ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-violet/15 px-2.5 py-1 text-xs text-violet">
+                      <Star className="size-3.5" /> Primary
+                    </span>
+                  ) : null}
+                </div>
               </div>
 
               {account.status === "rejected" && account.rejectionReason ? (
@@ -231,6 +251,16 @@ export function SocialAccountsPanel() {
                     disabled={requestMutation.isPending}
                   >
                     Request verification
+                  </Button>
+                )}
+                {account.isPrimary ? null : (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => primaryMutation.mutate(account.id)}
+                    disabled={primaryMutation.isPending}
+                  >
+                    <Star className="mr-1.5 size-3.5" /> Make primary
                   </Button>
                 )}
                 <Button

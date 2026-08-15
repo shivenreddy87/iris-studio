@@ -395,15 +395,18 @@ export type Database = {
       connected_accounts: {
         Row: {
           avatar_url: string | null
+          connection_status: string
           created_at: string
           engagement_rate: number | null
           followers: number | null
           handle: string | null
           id: string
+          is_primary: boolean
           last_synced_at: string | null
           metadata: Json
           platform: string
           profile_url: string | null
+          provider_user_id: string | null
           rejection_reason: string | null
           status: string
           updated_at: string
@@ -416,15 +419,18 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          connection_status?: string
           created_at?: string
           engagement_rate?: number | null
           followers?: number | null
           handle?: string | null
           id?: string
+          is_primary?: boolean
           last_synced_at?: string | null
           metadata?: Json
           platform: string
           profile_url?: string | null
+          provider_user_id?: string | null
           rejection_reason?: string | null
           status?: string
           updated_at?: string
@@ -437,15 +443,18 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          connection_status?: string
           created_at?: string
           engagement_rate?: number | null
           followers?: number | null
           handle?: string | null
           id?: string
+          is_primary?: boolean
           last_synced_at?: string | null
           metadata?: Json
           platform?: string
           profile_url?: string | null
+          provider_user_id?: string | null
           rejection_reason?: string | null
           status?: string
           updated_at?: string
@@ -689,6 +698,54 @@ export type Database = {
           },
         ]
       }
+      contest_reward_tiers: {
+        Row: {
+          contest_id: string
+          created_at: string
+          currency: string
+          id: string
+          maximum_views: number | null
+          minimum_views: number
+          reward_amount: number
+          updated_at: string
+        }
+        Insert: {
+          contest_id: string
+          created_at?: string
+          currency?: string
+          id?: string
+          maximum_views?: number | null
+          minimum_views: number
+          reward_amount: number
+          updated_at?: string
+        }
+        Update: {
+          contest_id?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          maximum_views?: number | null
+          minimum_views?: number
+          reward_amount?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_reward_tiers_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contest_statistics"
+            referencedColumns: ["contest_id"]
+          },
+          {
+            foreignKeyName: "contest_reward_tiers_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "contests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contest_submission_events: {
         Row: {
           actor_id: string | null
@@ -735,9 +792,13 @@ export type Database = {
           id: string
           influencer_id: string
           likes: number
+          metrics_last_synced_at: string | null
+          metrics_source: string
+          metrics_status: string
           notes: string | null
           participant_id: string
           platform: string
+          reach: number | null
           review_notes: string | null
           review_score: number | null
           reviewed_at: string | null
@@ -758,9 +819,13 @@ export type Database = {
           id?: string
           influencer_id: string
           likes?: number
+          metrics_last_synced_at?: string | null
+          metrics_source?: string
+          metrics_status?: string
           notes?: string | null
           participant_id: string
           platform: string
+          reach?: number | null
           review_notes?: string | null
           review_score?: number | null
           reviewed_at?: string | null
@@ -781,9 +846,13 @@ export type Database = {
           id?: string
           influencer_id?: string
           likes?: number
+          metrics_last_synced_at?: string | null
+          metrics_source?: string
+          metrics_status?: string
           notes?: string | null
           participant_id?: string
           platform?: string
+          reach?: number | null
           review_notes?: string | null
           review_score?: number | null
           reviewed_at?: string | null
@@ -884,10 +953,12 @@ export type Database = {
           performance_score: number
           rank: number
           reward_amount: number | null
+          reward_tier_id: string | null
           selected_at: string
           selected_by: string | null
           submission_id: string
           updated_at: string
+          verified_views: number | null
           winner_notes: string | null
         }
         Insert: {
@@ -901,10 +972,12 @@ export type Database = {
           performance_score?: number
           rank: number
           reward_amount?: number | null
+          reward_tier_id?: string | null
           selected_at?: string
           selected_by?: string | null
           submission_id: string
           updated_at?: string
+          verified_views?: number | null
           winner_notes?: string | null
         }
         Update: {
@@ -918,10 +991,12 @@ export type Database = {
           performance_score?: number
           rank?: number
           reward_amount?: number | null
+          reward_tier_id?: string | null
           selected_at?: string
           selected_by?: string | null
           submission_id?: string
           updated_at?: string
+          verified_views?: number | null
           winner_notes?: string | null
         }
         Relationships: [

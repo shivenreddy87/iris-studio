@@ -23,12 +23,12 @@ import type { DateRangeKey } from "@/features/analytics/types";
 export const Route = createFileRoute("/app/admin/analytics")({
   head: () => ({
     meta: [
-      { title: "Platform Analytics — Project Eros" },
+      { title: "Platform Analytics — Creoinfo" },
       {
         name: "description",
         content: "Growth, contest, submission, winner and payout analytics for the platform.",
       },
-      { property: "og:title", content: "Platform Analytics — Project Eros" },
+      { property: "og:title", content: "Platform Analytics — Creoinfo" },
       {
         property: "og:description",
         content: "Growth, contest, submission, winner and payout analytics for the platform.",

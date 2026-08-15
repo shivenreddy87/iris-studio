@@ -492,6 +492,16 @@ export async function insertWinner(input: {
     { requiredViews: contest.requiredViews },
   );
 
+  // Tiered contests derive the reward from verified views; a manual override
+  // still wins, and contests without tiers fall back to the even split.
+  const { calculateRewardForContest } = await import("@/features/rewards/rewards.server");
+  const tiered = await calculateRewardForContest(contest.id, submission.views ?? null);
+  const resolvedReward =
+    input.rewardAmount ??
+    (tiered.tiers.length > 0
+      ? tiered.amount
+      : defaultRewardAmount(contest.rewardPool, contest.winnerCount));
+
   const sb = await admin();
   const { error } = await sb.from("contest_winners").insert({
     contest_id: contest.id,
@@ -502,8 +512,7 @@ export async function insertWinner(input: {
     performance_score: performanceScore,
     manual_score: input.manualScore,
     final_score: resolveFinalScore(performanceScore, input.manualScore),
-    reward_amount:
-      input.rewardAmount ?? defaultRewardAmount(contest.rewardPool, contest.winnerCount),
+    reward_amount: resolvedReward,
     winner_notes: input.winnerNotes,
     selected_by: input.actorId,
   });

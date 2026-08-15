@@ -85,7 +85,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#050110" },
       { name: "color-scheme", content: "dark" },
       { name: "mobile-web-app-capable", content: "yes" },
-      { name: "author", content: "Project Eros" },
+      { name: "author", content: "Creoinfo" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

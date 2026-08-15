@@ -1,12 +1,12 @@
 import type { Contest } from "@/features/contests/types";
 
-export const SUBMISSION_PLATFORMS = ["instagram", "tiktok", "youtube"] as const;
+/** Phase 1 supports Instagram, with YouTube prepared as the next platform. */
+export const SUBMISSION_PLATFORMS = ["instagram", "youtube"] as const;
 
 export type SubmissionPlatform = (typeof SUBMISSION_PLATFORMS)[number];
 
 export const SUBMISSION_PLATFORM_LABELS: Record<SubmissionPlatform, string> = {
   instagram: "Instagram",
-  tiktok: "TikTok",
   youtube: "YouTube",
 };
 

@@ -6,12 +6,12 @@ import { EmptyState } from "@/components/ui/list-skeleton";
 export const Route = createFileRoute("/app/admin/businesses/$businessId")({
   head: () => ({
     meta: [
-      { title: "Business — Project Eros" },
+      { title: "Business — Creoinfo" },
       {
         name: "description",
         content: "Profile, campaign requests and contest history for a single business.",
       },
-      { property: "og:title", content: "Business — Project Eros" },
+      { property: "og:title", content: "Business — Creoinfo" },
       {
         property: "og:description",
         content: "Profile, campaign requests and contest history for a single business.",

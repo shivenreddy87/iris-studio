@@ -23,12 +23,12 @@ import { SocialAccountsPanel } from "@/features/social-verification/components/s
 export const Route = createFileRoute("/app/profile")({
   head: () => ({
     meta: [
-      { title: "Profile — Project Eros" },
+      { title: "Profile — Creoinfo" },
       {
         name: "description",
         content: "Manage your account details and how you appear on the platform.",
       },
-      { property: "og:title", content: "Profile — Project Eros" },
+      { property: "og:title", content: "Profile — Creoinfo" },
       {
         property: "og:description",
         content: "Manage your account details and how you appear on the platform.",
@@ -75,7 +75,7 @@ function ProfilePage() {
       <PageHeader
         eyebrow={roleLabel(profile.role)}
         title="Profile"
-        description="Your account details and the information shown to the Project Eros team."
+        description="Your account details and the information shown to the Creoinfo team."
         actions={
           isBusiness || isInfluencer ? (
             <Button variant={editing ? "outline" : "default"} onClick={() => setEditing(!editing)}>
@@ -131,7 +131,7 @@ function ProfilePage() {
         <EmptyState
           icon={<UserCircle className="size-8" />}
           title="Admin accounts have no public profile"
-          hint="Admin details are managed by the Project Eros team."
+          hint="Admin details are managed by the Creoinfo team."
         />
       )}
     </div>
