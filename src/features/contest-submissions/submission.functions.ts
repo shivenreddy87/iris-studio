@@ -19,6 +19,7 @@ import {
   reviewSubmission,
   toSubmission,
   validateParticipant,
+  validateSubmissionPlatform,
   validateSubmissionWindow,
   type SubmissionRow,
 } from "./submission.server";
@@ -41,6 +42,7 @@ export const submitContestContent = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     const contest = await fetchContestOrThrow(supabase, data.contestId);
     validateSubmissionWindow(contest);
+    await validateSubmissionPlatform(contest, userId, data.platform, data.contentUrl);
     const participant = await validateParticipant(contest.id, userId);
     await checkDuplicateSubmission(participant.id);
 
