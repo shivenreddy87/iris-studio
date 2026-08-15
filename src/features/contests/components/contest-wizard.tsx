@@ -15,6 +15,7 @@ import { contestPublishSchema, type ContestFormInput } from "../contest.schema";
 import { publishContest, updateDraftContest } from "../contest.functions";
 import { useInvalidateContest } from "../hooks/use-contests";
 import { isDraft, type Contest } from "../types";
+import { RewardTierEditor } from "@/features/rewards/components/reward-tier-editor";
 
 const STEPS = [
   "Campaign information",
@@ -289,6 +290,8 @@ export function ContestWizard({ contest }: { contest: Contest }) {
             </Field>
           </StepCard>
         ) : null}
+
+        {step === 2 ? <RewardTierEditor contestId={contest.id} /> : null}
 
         {step === 3 ? (
           <StepCard title="Timeline" description="Application window and contest run dates.">
