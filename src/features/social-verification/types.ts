@@ -75,7 +75,7 @@ export interface PendingVerification extends SocialAccount {
 }
 
 export const saveAccountSchema = z.object({
-  platform: z.enum(SOCIAL_PLATFORMS),
+  platform: z.enum(SUPPORTED_PLATFORMS),
   handle: z
     .string()
     .trim()

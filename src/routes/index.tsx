@@ -10,13 +10,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Creoinfo is an influencer collaboration platform where businesses create campaigns, creators discover opportunities, administrators manage contests, and every campaign is tracked from request to payout.",
+          "Creoinfo connects Hyderabad businesses with Instagram creators through performance contests. Publish a brief, pick creators, and reward them for the views their content actually earns.",
       },
       { property: "og:title", content: "Creoinfo | Influencer Campaign Platform" },
       {
         property: "og:description",
         content:
-          "Creoinfo is an influencer collaboration platform where businesses create campaigns, creators discover opportunities, administrators manage contests, and every campaign is tracked from request to payout.",
+          "Creoinfo connects Hyderabad businesses with Instagram creators through performance contests. Publish a brief, pick creators, and reward them for the views their content actually earns.",
       },
     ],
   }),
