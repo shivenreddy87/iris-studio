@@ -202,6 +202,22 @@ export async function checkDuplicateApplication(
   return data ? applicationFailure("already_applied") : { ok: true };
 }
 
+/**
+ * Server-side social-account gate. The client's connected state is never
+ * trusted: the influencer must hold a primary account on the contest platform.
+ */
+export async function checkPrimarySocialAccount(
+  contest: Contest,
+  influencerId: string,
+): Promise<ApplicationValidation> {
+  const { requirePrimarySocialAccount } = await import(
+    "@/features/social-verification/social-verification.server"
+  );
+  const result = await requirePrimarySocialAccount(influencerId, contest.targetPlatform);
+  if (result.ok) return { ok: true };
+  return { ok: false, code: "missing_primary_account", message: result.message };
+}
+
 /** Every rule in order, so callers never re-implement the sequence. */
 export async function validateApplication(
   db: Db,
@@ -213,8 +229,11 @@ export async function validateApplication(
   if (!availability.ok) return availability;
   const duplicate = await checkDuplicateApplication(db, contest.id, influencerId);
   if (!duplicate.ok) return duplicate;
+  const social = await checkPrimarySocialAccount(contest, influencerId);
+  if (!social.ok) return social;
   return validateApplicationEligibility(db, contest, influencerId, now);
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Reads                                                               */
