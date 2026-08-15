@@ -61,6 +61,8 @@ export const updateSubmissionMetrics = createServerFn({ method: "POST" })
       throw new Error("Only verified submissions can be scored.");
     }
 
+    const previousViews = submission.views ?? 0;
+
     await saveSubmissionMetrics({
       submissionId: data.submissionId,
       contest,
@@ -70,6 +72,45 @@ export const updateSubmissionMetrics = createServerFn({ method: "POST" })
       shares: data.shares,
       reviewScore: data.reviewScore ?? null,
       reviewNotes: data.reviewNotes ?? null,
+    });
+
+    const { calculateRewardForContest } = await import("@/features/rewards/rewards.server");
+    const { findRewardTier } = await import("@/features/rewards/reward-calculation");
+    const { notifyMetricsUpdated, notifyRewardTierReached } = await import(
+      "@/features/activity/platform-notifications.server"
+    );
+    const next = await calculateRewardForContest(contest.id, data.views);
+    const previousTier =
+      next.tiers.length > 0 ? findRewardTier(previousViews, next.tiers) : null;
+
+    await notifyMetricsUpdated({
+      influencerId: submission.influencer_id,
+      businessId: contest.businessId,
+      contestId: contest.id,
+      contestTitle: contest.title,
+      views: data.views,
+    });
+
+    if (next.tier && next.tier.id !== previousTier?.id) {
+      await notifyRewardTierReached({
+        influencerId: submission.influencer_id,
+        businessId: contest.businessId,
+        contestId: contest.id,
+        contestTitle: contest.title,
+        views: data.views,
+        amount: next.amount,
+        currency: next.tier.currency,
+      });
+    }
+
+    await recordAuditLog({
+      actorId: userId,
+      actorRole: "admin",
+      entityType: "contest_submission",
+      entityId: data.submissionId,
+      action: "metrics.update",
+      previousValues: { views: previousViews },
+      newValues: { views: data.views, rewardTierId: next.tier?.id ?? null },
     });
 
     return buildEvaluationBoard(contest);
