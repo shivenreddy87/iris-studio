@@ -201,6 +201,16 @@ export function SocialAccountsPanel() {
                   {account.profileUrl ? (
                     <p className="truncate text-xs text-ink-mute">{account.profileUrl}</p>
                   ) : null}
+                  <p className="mt-1 text-xs text-ink-mute">
+                    {account.connectionStatus === "connected" ? "Connected" : "Disconnected"}
+                    {account.connectedAt
+                      ? ` · since ${new Date(account.connectedAt).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}`
+                      : ""}
+                  </p>
                 </div>
                 <div className="flex flex-col items-end gap-1.5">
                   <VerificationBadge status={account.status} />
