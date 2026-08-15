@@ -78,13 +78,14 @@ function LandingPage() {
               />
             </h1>
             <p className="mt-[9px] max-w-md text-lg leading-8 text-hero-sub opacity-80">
-              Connect businesses and creators through a streamlined campaign marketplace. Create
-              campaigns, discover opportunities, collaborate with confidence, and manage every
-              stage—from campaign requests to payouts—in one secure platform.
+              Creoinfo connects Hyderabad businesses with Instagram creators through performance
+              contests. Publish a brief, choose your creators, and reward them for the views their
+              content actually earns.
             </p>
             <p className="mt-3 text-xs text-foreground/50">
-              Built for Businesses • Creators • Platform Administrators
+              Instagram-first, launching in Hyderabad • Businesses • Creators • Administrators
             </p>
+
             <Link
               to="/auth/role"
               search={{ role: "brand" }}
