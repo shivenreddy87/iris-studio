@@ -22,12 +22,12 @@ import {
 export const Route = createFileRoute("/app/admin/settings")({
   head: () => ({
     meta: [
-      { title: "Platform Settings — Project Eros" },
+      { title: "Platform Settings — Creoinfo" },
       {
         name: "description",
         content: "Contest defaults, categories, platforms and notification defaults.",
       },
-      { property: "og:title", content: "Platform Settings — Project Eros" },
+      { property: "og:title", content: "Platform Settings — Creoinfo" },
       {
         property: "og:description",
         content: "Contest defaults, categories, platforms and notification defaults.",

@@ -14,9 +14,9 @@ import { MyResultCard } from "@/features/winner-selection/components/my-result-c
 export const Route = createFileRoute("/app/results/$contestId")({
   head: () => ({
     meta: [
-      { title: "Contest Result — Project Eros" },
+      { title: "Contest Result — Creoinfo" },
       { name: "description", content: "Your final result and performance for this contest." },
-      { property: "og:title", content: "Contest Result — Project Eros" },
+      { property: "og:title", content: "Contest Result — Creoinfo" },
       {
         property: "og:description",
         content: "Your final result and performance for this contest.",

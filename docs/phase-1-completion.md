@@ -1,4 +1,4 @@
-# Phase 1 Completion Report — Project Eros
+# Phase 1 Completion Report — Creoinfo
 
 Date: 2026-08-06
 
@@ -16,7 +16,7 @@ Date: 2026-08-06
 
 1. **Legacy architecture removal** — deleted orphaned routes, server functions and components from the pre-contest model (campaigns, creators, deals, lists, messages, team, connections, invites, Iris workspace) that were unreachable from `src/lib/navigation.ts`.
 2. **Roadmap placeholders** — removed every `MilestoneNotice` block from admin and user dashboards, plus the component itself.
-3. **Branding consistency** — replaced all remaining "Iris Studio" / "Iris AI" copy and page titles with Project Eros across routes, auth screens, payout copy and legal pages.
+3. **Branding consistency** — replaced all remaining "Iris Studio" / "Creoinfo" copy and page titles with Creoinfo across routes, auth screens, payout copy and legal pages.
 4. **Fabricated marketing content** — the auth shell testimonial and invented platform stats ("2.4k campaigns", "94% match rate") were replaced with factual product copy.
 5. **Placeholder pricing page** — deleted `src/routes/pricing.tsx` (unlinked, listed non-existent plans) and removed `/pricing` from the sitemap.
 6. **Stubbed data layer** — `listOpenContests` returned an empty array; it now queries contests with status `applications_open`. Unused stubs `listMyCompletedContests` and `listAllContests` were removed.

@@ -6,12 +6,12 @@ import { EmptyState } from "@/components/ui/list-skeleton";
 export const Route = createFileRoute("/app/admin/influencers/$influencerId")({
   head: () => ({
     meta: [
-      { title: "Influencer — Project Eros" },
+      { title: "Influencer — Creoinfo" },
       {
         name: "description",
         content: "Profile, contest entries and wins for a single influencer.",
       },
-      { property: "og:title", content: "Influencer — Project Eros" },
+      { property: "og:title", content: "Influencer — Creoinfo" },
       {
         property: "og:description",
         content: "Profile, contest entries and wins for a single influencer.",

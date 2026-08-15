@@ -18,12 +18,12 @@ import { VerificationQueue } from "@/features/social-verification/components/ver
 export const Route = createFileRoute("/app/admin/moderation")({
   head: () => ({
     meta: [
-      { title: "Moderation — Project Eros" },
+      { title: "Moderation — Creoinfo" },
       {
         name: "description",
         content: "Suspend or reactivate accounts and review the platform moderation log.",
       },
-      { property: "og:title", content: "Moderation — Project Eros" },
+      { property: "og:title", content: "Moderation — Creoinfo" },
       {
         property: "og:description",
         content: "Suspend or reactivate accounts and review the platform moderation log.",

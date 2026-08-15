@@ -16,12 +16,12 @@ import { CONTEST_STATUSES, CONTEST_STATUS_LABELS } from "@/features/contests/typ
 export const Route = createFileRoute("/app/admin/contests/")({
   head: () => ({
     meta: [
-      { title: "Contests — Project Eros Admin" },
+      { title: "Contests — Creoinfo Admin" },
       {
         name: "description",
         content: "Create and manage contests across every stage of their lifecycle.",
       },
-      { property: "og:title", content: "Contests — Project Eros Admin" },
+      { property: "og:title", content: "Contests — Creoinfo Admin" },
       {
         property: "og:description",
         content: "Create and manage contests across every stage of their lifecycle.",

@@ -9,10 +9,10 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/app/settings/")({
   head: () => ({
     meta: [
-      { title: "Settings — Project Eros" },
+      { title: "Settings — Creoinfo" },
       {
         name: "description",
-        content: "Manage your account, profile and notification preferences on Project Eros.",
+        content: "Manage your account, profile and notification preferences on Creoinfo.",
       },
     ],
   }),

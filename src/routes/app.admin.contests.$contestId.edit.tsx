@@ -13,9 +13,9 @@ import { ContestWizard } from "@/features/contests/components/contest-wizard";
 export const Route = createFileRoute("/app/admin/contests/$contestId/edit")({
   head: () => ({
     meta: [
-      { title: "Contest Builder — Project Eros" },
+      { title: "Contest Builder — Creoinfo" },
       { name: "description", content: "Configure eligibility, rewards, timeline and rules." },
-      { property: "og:title", content: "Contest Builder — Project Eros" },
+      { property: "og:title", content: "Contest Builder — Creoinfo" },
       {
         property: "og:description",
         content: "Configure eligibility, rewards, timeline and rules.",

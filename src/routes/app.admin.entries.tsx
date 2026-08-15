@@ -11,9 +11,9 @@ import { ContestEntryList } from "@/features/contest-entries/components/contest-
 export const Route = createFileRoute("/app/admin/entries")({
   head: () => ({
     meta: [
-      { title: "Participants — Project Eros Admin" },
+      { title: "Participants — Creoinfo Admin" },
       { name: "description", content: "Review contest entries and select participants." },
-      { property: "og:title", content: "Participants — Project Eros Admin" },
+      { property: "og:title", content: "Participants — Creoinfo Admin" },
       { property: "og:description", content: "Review contest entries and select participants." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

@@ -13,12 +13,12 @@ import { ProfileGate } from "@/features/profiles/components/profile-gate";
 export const Route = createFileRoute("/app/business/requests/$requestId/")({
   head: () => ({
     meta: [
-      { title: "Campaign Request — Project Eros" },
+      { title: "Campaign Request — Creoinfo" },
       {
         name: "description",
         content: "Review the details, status and review notes of a campaign request.",
       },
-      { property: "og:title", content: "Campaign Request — Project Eros" },
+      { property: "og:title", content: "Campaign Request — Creoinfo" },
       {
         property: "og:description",
         content: "Review the details, status and review notes of a campaign request.",

@@ -19,12 +19,12 @@ import {
 export const Route = createFileRoute("/app/admin/payouts")({
   head: () => ({
     meta: [
-      { title: "Reward Payouts — Project Eros Admin" },
+      { title: "Reward Payouts — Creoinfo Admin" },
       {
         name: "description",
         content: "Record, track and audit every manual winner reward payout.",
       },
-      { property: "og:title", content: "Reward Payouts — Project Eros Admin" },
+      { property: "og:title", content: "Reward Payouts — Creoinfo Admin" },
       {
         property: "og:description",
         content: "Record, track and audit every manual winner reward payout.",

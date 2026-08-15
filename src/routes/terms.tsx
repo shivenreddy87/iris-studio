@@ -3,10 +3,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms of Service — Project Eros" },
-      { name: "description", content: "The terms governing your use of Project Eros." },
-      { property: "og:title", content: "Terms of Service — Project Eros" },
-      { property: "og:description", content: "The terms governing your use of Project Eros." },
+      { title: "Terms of Service — Creoinfo" },
+      { name: "description", content: "The terms governing your use of Creoinfo." },
+      { property: "og:title", content: "Terms of Service — Creoinfo" },
+      { property: "og:description", content: "The terms governing your use of Creoinfo." },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -42,7 +42,7 @@ function TermsPage() {
           <section>
             <h2 className="font-display text-2xl font-bold text-foreground">Your content</h2>
             <p>
-              You retain ownership of the content you upload. You grant Project Eros a license to
+              You retain ownership of the content you upload. You grant Creoinfo a license to
               host, display, and process it to operate the service.
             </p>
           </section>

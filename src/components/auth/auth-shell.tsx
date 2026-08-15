@@ -37,7 +37,7 @@ export function AuthShell({
         <div className="pointer-events-none absolute -bottom-32 -left-20 size-96 rounded-full bg-rose/20 blur-[120px]" />
         <div className="relative z-10 flex h-full flex-col justify-between p-16 text-white">
           <div className="font-mono text-xs uppercase tracking-[0.25em] text-white/40">
-            Project Eros
+            Creoinfo
           </div>
           <div className="max-w-md">
             <p className="mb-6 font-mono text-xs uppercase tracking-widest text-violet">

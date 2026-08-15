@@ -19,12 +19,12 @@ import {
 export const Route = createFileRoute("/app/admin/requests/")({
   head: () => ({
     meta: [
-      { title: "Campaign Requests — Project Eros Admin" },
+      { title: "Campaign Requests — Creoinfo Admin" },
       {
         name: "description",
         content: "Browse, search and filter every campaign request submitted by businesses.",
       },
-      { property: "og:title", content: "Campaign Requests — Project Eros Admin" },
+      { property: "og:title", content: "Campaign Requests — Creoinfo Admin" },
       {
         property: "og:description",
         content: "Browse, search and filter every campaign request submitted by businesses.",

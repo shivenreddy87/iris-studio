@@ -3,12 +3,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy — Project Eros" },
-      { name: "description", content: "How Project Eros collects, uses, and protects your data." },
-      { property: "og:title", content: "Privacy Policy — Project Eros" },
+      { title: "Privacy Policy — Creoinfo" },
+      { name: "description", content: "How Creoinfo collects, uses, and protects your data." },
+      { property: "og:title", content: "Privacy Policy — Creoinfo" },
       {
         property: "og:description",
-        content: "How Project Eros collects, uses, and protects your data.",
+        content: "How Creoinfo collects, uses, and protects your data.",
       },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
