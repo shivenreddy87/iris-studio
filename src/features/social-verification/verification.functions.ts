@@ -52,6 +52,25 @@ export const deleteSocialAccount = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+/** Exactly one primary account decides which contests the influencer may enter. */
+export const setPrimarySocialAccount = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => z.object({ accountId: z.string().uuid() }).parse(data))
+  .handler(async ({ context, data }): Promise<SocialAccount> => {
+    await assertNotSuspended(context.userId);
+    const { setPrimaryAccount } = await import("./verification.server");
+    const account = await setPrimaryAccount(context.userId, data.accountId);
+    await recordAuditLog({
+      actorId: context.userId,
+      entityType: "connected_account",
+      entityId: account.id,
+      action: "social_account.set_primary",
+      newValues: { platform: account.platform },
+    });
+    return account;
+  });
+
+
 export const requestSocialVerification = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ accountId: z.string().uuid() }).parse(data))
