@@ -11,6 +11,24 @@ export const SOCIAL_PLATFORMS = [
 
 export type SocialPlatform = (typeof SOCIAL_PLATFORMS)[number];
 
+/**
+ * Phase 1 (Hyderabad demo) supports Instagram, with YouTube prepared as the
+ * next integration. Every picker uses this list — TikTok is deliberately not
+ * presented as a supported primary platform.
+ */
+export const SUPPORTED_PLATFORMS = ["instagram", "youtube"] as const satisfies readonly [
+  SocialPlatform,
+  ...SocialPlatform[],
+];
+
+export type SupportedPlatform = (typeof SUPPORTED_PLATFORMS)[number];
+
+export const PRIMARY_PLATFORM = "instagram" as const satisfies SupportedPlatform;
+
+export function isSupportedPlatform(value: string | null | undefined): value is SupportedPlatform {
+  return !!value && (SUPPORTED_PLATFORMS as readonly string[]).includes(value.toLowerCase());
+}
+
 export const PLATFORM_LABELS: Record<SocialPlatform, string> = {
   instagram: "Instagram",
   tiktok: "TikTok",
@@ -29,20 +47,27 @@ export const VERIFICATION_LABELS: Record<VerificationStatus, string> = {
   rejected: "Rejected",
 };
 
+export type ConnectionStatus = "connected" | "disconnected";
+
 export interface SocialAccount {
   id: string;
   userId: string;
   platform: SocialPlatform;
   handle: string;
   profileUrl: string | null;
+  providerUserId: string | null;
   followers: number | null;
   status: VerificationStatus;
+  connectionStatus: ConnectionStatus;
+  isPrimary: boolean;
+  connectedAt: string | null;
   verificationCode: string | null;
   requestedAt: string | null;
   verifiedAt: string | null;
   rejectionReason: string | null;
   updatedAt: string;
 }
+
 
 export interface PendingVerification extends SocialAccount {
   ownerName: string | null;
