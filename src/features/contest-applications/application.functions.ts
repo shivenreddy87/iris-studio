@@ -70,7 +70,19 @@ export const applyToContest = createServerFn({ method: "POST" })
     if (!contest) throw new Error(APPLICATION_ERROR_MESSAGES.contest_not_found);
 
     const validation = await validateApplication(supabase, contest, userId);
-    if (!validation.ok) throw new Error(validation.message);
+    if (!validation.ok) {
+      const { notifyApplicationBlocked } = await import(
+        "@/features/activity/platform-notifications.server"
+      );
+      await notifyApplicationBlocked({
+        userId,
+        contestId: contest.id,
+        contestTitle: contest.title,
+        reason: validation.message,
+        code: validation.code,
+      });
+      throw new Error(validation.message);
+    }
 
     const { data: row, error } = await supabase
       .from("contest_applications")
