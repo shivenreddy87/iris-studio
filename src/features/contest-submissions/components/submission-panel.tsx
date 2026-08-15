@@ -95,6 +95,7 @@ export function SubmissionPanel({ contestId }: { contestId: string }) {
   return (
     <Panel title="Submit your content">
       <ContestSubmissionForm
+        contestPlatform={data.contest?.targetPlatform ?? null}
         submitting={mutation.isPending}
         onSubmit={async (values) => {
           await mutation.mutateAsync(values);
