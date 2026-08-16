@@ -48,7 +48,10 @@ export type CampaignRequestPayload = {
   attachmentUrl?: string;
 };
 
-function num(value: string): number | undefined {
+/** Resolver output can already be numeric (zod transforms), so accept both. */
+function num(value: string | number | undefined | null): number | undefined {
+  if (value === undefined || value === null) return undefined;
+  if (typeof value === "number") return Number.isFinite(value) ? value : undefined;
   if (value.trim() === "") return undefined;
   const n = Number(value);
   return Number.isFinite(n) ? n : undefined;
