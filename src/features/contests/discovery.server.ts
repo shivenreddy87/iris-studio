@@ -5,6 +5,7 @@ import {
   isDiscoverable,
   type InfluencerEligibilityProfile,
 } from "./eligibility";
+import { resolveFollowerCount } from "./follower-count";
 import type { Contest, ContestDiscoveryFilters, DiscoveryContest, DiscoveryPage } from "./types";
 
 const DEFAULT_PAGE_SIZE = 12;
