@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { BackgroundVideo } from "@/components/hero/BackgroundVideo";
 import logoUrl from "@/assets/creoinfo-logo.png";
+import markUrl from "@/assets/creoinfo-mark.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -40,11 +41,7 @@ function LandingPage() {
         <header className="relative">
           <nav className="flex items-center justify-between px-8 py-5">
             <Link to="/" className="flex items-center">
-              <img
-                src={logoUrl}
-                alt="Creoinfo"
-                style={{ height: 48, width: "auto" }}
-              />
+              <img src={markUrl} alt="Creoinfo" style={{ height: 40, width: "auto" }} />
             </Link>
             <Link to="/auth/sign-in" aria-label="Login to Creoinfo">
               <Button variant="heroSecondary" className="rounded-full px-5 py-2">

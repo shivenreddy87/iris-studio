@@ -1,4 +1,4 @@
-import logoUrl from "@/assets/creoinfo-logo.png";
+import logoUrl from "@/assets/creoinfo-mark.png";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { Sparkles, Camera, ArrowRight } from "lucide-react";

@@ -1,4 +1,4 @@
-import logoUrl from "@/assets/creoinfo-logo.png";
+import logoUrl from "@/assets/creoinfo-mark.png";
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
@@ -103,7 +103,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
       >
         <div className="flex h-16 shrink-0 items-center justify-between px-5 lg:px-6">
           <Link to="/" className="flex items-center">
-            <img src={logoUrl} alt="Creoinfo" className="h-8 w-auto" />
+            <img src={logoUrl} alt="Creoinfo" className="h-9 w-auto" />
           </Link>
           <button
             onClick={() => setOpen(false)}

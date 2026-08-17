@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logoUrl from "@/assets/creoinfo-logo.png";
+import logoUrl from "@/assets/creoinfo-mark.png";
 import type { ReactNode } from "react";
 
 export function AuthShell({
