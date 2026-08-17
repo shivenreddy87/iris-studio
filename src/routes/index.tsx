@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { BackgroundVideo } from "@/components/hero/BackgroundVideo";
-import logoUrl from "@/assets/logo.png";
+import logoUrl from "@/assets/creoinfo-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -43,9 +43,7 @@ function LandingPage() {
               <img
                 src={logoUrl}
                 alt="Creoinfo"
-                height={56}
-                width={190}
-                style={{ height: 56, width: "auto" }}
+                style={{ height: 48, width: "auto" }}
               />
             </Link>
             <Link to="/auth/sign-in" aria-label="Login to Creoinfo">
@@ -73,7 +71,7 @@ function LandingPage() {
                 src={logoUrl}
                 alt="Creoinfo logo"
                 aria-hidden="true"
-                className="mx-auto block w-full max-w-[900px]"
+                className="mx-auto block w-full max-w-[560px]"
                 style={{ height: "auto" }}
               />
             </h1>

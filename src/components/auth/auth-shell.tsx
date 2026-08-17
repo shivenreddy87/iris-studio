@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import logoUrl from "@/assets/creoinfo-logo.png";
 import type { ReactNode } from "react";
 
 export function AuthShell({
@@ -16,8 +17,8 @@ export function AuthShell({
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* Left: form */}
       <div className="flex flex-col bg-surface-2 px-6 py-10 lg:px-16">
-        <Link to="/" className="font-display text-xl font-extrabold tracking-tighter text-ink">
-          EROS.
+        <Link to="/" className="flex items-center">
+          <img src={logoUrl} alt="Creoinfo" className="h-9 w-auto" />
         </Link>
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
           <h1 className="mb-3 font-display text-4xl font-extrabold tracking-tight text-ink">

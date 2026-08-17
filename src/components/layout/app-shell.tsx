@@ -1,3 +1,4 @@
+import logoUrl from "@/assets/creoinfo-logo.png";
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
@@ -101,8 +102,8 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
         }`}
       >
         <div className="flex h-16 shrink-0 items-center justify-between px-5 lg:px-6">
-          <Link to="/" className="font-display text-xl font-extrabold tracking-tighter text-white">
-            EROS.
+          <Link to="/" className="flex items-center">
+            <img src={logoUrl} alt="Creoinfo" className="h-8 w-auto" />
           </Link>
           <button
             onClick={() => setOpen(false)}

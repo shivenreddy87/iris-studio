@@ -1,3 +1,4 @@
+import logoUrl from "@/assets/creoinfo-logo.png";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { Sparkles, Camera, ArrowRight } from "lucide-react";
@@ -55,9 +56,9 @@ function RolePicker() {
     <div className="min-h-screen bg-surface-2 px-6 py-10">
       <Link
         to="/"
-        className="mx-auto block max-w-6xl font-display text-xl font-extrabold tracking-tighter text-ink"
+        className="mx-auto block max-w-6xl"
       >
-        EROS.
+        <img src={logoUrl} alt="Creoinfo" className="h-9 w-auto" />
       </Link>
 
       <div className="mx-auto mt-16 max-w-6xl">
@@ -66,7 +67,7 @@ function RolePicker() {
             Step 1 of 3
           </p>
           <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink md:text-5xl">
-            How will you use Eros?
+            How will you use Creoinfo?
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-ink-dim">
             Pick your path. You can always join the other side later.
