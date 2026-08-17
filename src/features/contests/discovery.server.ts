@@ -5,6 +5,7 @@ import {
   isDiscoverable,
   type InfluencerEligibilityProfile,
 } from "./eligibility";
+import { resolveFollowerCount } from "./follower-count";
 import type { Contest, ContestDiscoveryFilters, DiscoveryContest, DiscoveryPage } from "./types";
 
 const DEFAULT_PAGE_SIZE = 12;
@@ -19,12 +20,30 @@ export async function loadInfluencerProfile(
 ): Promise<InfluencerEligibilityProfile> {
   const { data } = await db
     .from("creator_profiles")
-    .select("niche, followers, location")
+    .select("niche, followers, follower_range, location")
     .eq("user_id", userId)
-    .maybeSingle<{ niche: string | null; followers: number | null; location: string | null }>();
+    .maybeSingle<{
+      niche: string | null;
+      followers: number | null;
+      follower_range: string | null;
+      location: string | null;
+    }>();
+
+  // A linked social account is the most trustworthy follower source.
+  const { data: account } = await db
+    .from("connected_accounts")
+    .select("followers")
+    .eq("user_id", userId)
+    .eq("is_primary", true)
+    .maybeSingle<{ followers: number | null }>();
+
   return {
     category: data?.niche ?? null,
-    followers: data?.followers ?? null,
+    followers: resolveFollowerCount({
+      connectedFollowers: account?.followers ?? null,
+      profileFollowers: data?.followers ?? null,
+      followerRange: data?.follower_range ?? null,
+    }),
     location: data?.location ?? null,
   };
 }

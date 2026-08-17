@@ -72,7 +72,7 @@ export function makeVerificationCode(): string {
   let out = "";
   const bytes = crypto.getRandomValues(new Uint8Array(8));
   for (const b of bytes) out += alphabet[b % alphabet.length];
-  return `EROS-${out.slice(0, 4)}-${out.slice(4, 8)}`;
+  return `CREO-${out.slice(0, 4)}-${out.slice(4, 8)}`;
 }
 
 export async function listAccountsForUser(userId: string): Promise<SocialAccount[]> {
@@ -149,6 +149,16 @@ export async function saveAccount(input: {
     .select(COLUMNS)
     .single();
   if (error) throw new Error(error.message);
+
+  // Keep the profile follower count in step with the primary linked account so
+  // contest eligibility uses the real number.
+  if (primary && input.followers && input.followers > 0) {
+    await db
+      .from("creator_profiles")
+      .update({ followers: input.followers } as never)
+      .eq("user_id", input.userId);
+  }
+
   return mapRow(data as Row);
 }
 

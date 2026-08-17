@@ -66,6 +66,7 @@ export function SocialAccountsPanel() {
   const [platform, setPlatform] = useState<SocialPlatform>("instagram");
   const [handle, setHandle] = useState("");
   const [profileUrl, setProfileUrl] = useState("");
+  const [followers, setFollowers] = useState("");
 
   const { data: accounts, isLoading } = useQuery({
     queryKey: ["social-accounts"],
@@ -76,11 +77,19 @@ export function SocialAccountsPanel() {
 
   const saveMutation = useMutation({
     mutationFn: () =>
-      save({ data: { platform, handle, profileUrl: profileUrl || undefined } as never }),
+      save({
+        data: {
+          platform,
+          handle,
+          profileUrl: profileUrl || undefined,
+          followers: followers.trim() === "" ? undefined : Number(followers),
+        } as never,
+      }),
     onSuccess: async () => {
       setAdding(false);
       setHandle("");
       setProfileUrl("");
+      setFollowers("");
       await refresh();
       toast.success("Social account saved.");
     },
@@ -174,6 +183,20 @@ export function SocialAccountsPanel() {
               placeholder="https://instagram.com/yourhandle"
             />
           </div>
+          <div className="space-y-1.5 sm:col-span-2">
+            <Label htmlFor="sv-followers">Follower count</Label>
+            <Input
+              id="sv-followers"
+              inputMode="numeric"
+              value={followers}
+              onChange={(e) => setFollowers(e.target.value.replace(/[^0-9]/g, ""))}
+              placeholder="e.g. 24500"
+            />
+            <p className="text-xs text-ink-mute">
+              Pulled from your profile when you link the account. This is the number contests check
+              your eligibility against.
+            </p>
+          </div>
           <div className="sm:col-span-2">
             <Button type="submit" disabled={saveMutation.isPending} className="w-full sm:w-auto">
               {saveMutation.isPending ? "Saving…" : "Save account"}
@@ -200,6 +223,11 @@ export function SocialAccountsPanel() {
                   </p>
                   {account.profileUrl ? (
                     <p className="truncate text-xs text-ink-mute">{account.profileUrl}</p>
+                  ) : null}
+                  {account.followers ? (
+                    <p className="mt-1 text-xs text-ink-mute">
+                      {new Intl.NumberFormat("en-IN").format(account.followers)} followers
+                    </p>
                   ) : null}
                   <p className="mt-1 text-xs text-ink-mute">
                     {account.connectionStatus === "connected" ? "Connected" : "Disconnected"}
