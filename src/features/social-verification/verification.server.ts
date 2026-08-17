@@ -72,7 +72,7 @@ export function makeVerificationCode(): string {
   let out = "";
   const bytes = crypto.getRandomValues(new Uint8Array(8));
   for (const b of bytes) out += alphabet[b % alphabet.length];
-  return `EROS-${out.slice(0, 4)}-${out.slice(4, 8)}`;
+  return `CREO-${out.slice(0, 4)}-${out.slice(4, 8)}`;
 }
 
 export async function listAccountsForUser(userId: string): Promise<SocialAccount[]> {
