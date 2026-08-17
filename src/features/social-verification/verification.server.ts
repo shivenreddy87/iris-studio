@@ -149,6 +149,16 @@ export async function saveAccount(input: {
     .select(COLUMNS)
     .single();
   if (error) throw new Error(error.message);
+
+  // Keep the profile follower count in step with the primary linked account so
+  // contest eligibility uses the real number.
+  if (primary && input.followers && input.followers > 0) {
+    await db
+      .from("creator_profiles")
+      .update({ followers: input.followers } as never)
+      .eq("user_id", input.userId);
+  }
+
   return mapRow(data as Row);
 }
 
