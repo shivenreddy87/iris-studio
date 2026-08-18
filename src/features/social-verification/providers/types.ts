@@ -4,6 +4,15 @@
  * Nothing here talks to an official API yet. Each provider implements the same
  * interface so an official Instagram/Meta or YouTube integration can be dropped
  * in later without touching contest, submission, reward or payout logic.
+ *
+ * SOCIAL SAFETY CONTRACT — read before extending this interface:
+ * Creoinfo only requests and uses the minimum social-platform data required for
+ * account verification, contest eligibility and content-performance
+ * verification. Creoinfo does not automatically modify users' social accounts.
+ * The integration is strictly READ-ONLY: no following/unfollowing, no accepting
+ * follow requests, no likes, comments, messages, posting or any other write or
+ * interaction on the user's behalf. Any future official-API integration must
+ * stay read-only and request only read scopes explicitly authorized by the user.
  */
 
 import type { SocialPlatform } from "../types";

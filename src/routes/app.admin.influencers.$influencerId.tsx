@@ -34,7 +34,7 @@ function AdminInfluencerDetailPage() {
       <EmptyState
         icon={<Users className="size-8" />}
         title="Influencer details unavailable"
-        hint="Influencer records land in the next milestone; this page is already wired to its final URL."
+        hint="Detailed influencer records are not available on this page yet."
       />
     </div>
   );

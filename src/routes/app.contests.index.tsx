@@ -97,7 +97,7 @@ function AvailableContestsPage() {
       <PageHeader
         eyebrow="Influencer"
         title="Available Contests"
-        description="Published contests you can explore now. Applications open in the next milestone."
+        description="Published contests you can explore and apply to right now."
         actions={
           <Button variant="outline" asChild>
             <Link to="/app/contests/saved">

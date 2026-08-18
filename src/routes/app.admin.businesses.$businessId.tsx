@@ -34,7 +34,7 @@ function AdminBusinessDetailPage() {
       <EmptyState
         icon={<Building2 className="size-8" />}
         title="Business details unavailable"
-        hint="Business records land in the next milestone; this page is already wired to its final URL."
+        hint="Detailed business records are not available on this page yet."
       />
     </div>
   );

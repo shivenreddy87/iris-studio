@@ -25,7 +25,7 @@ export function ContestApplicationPanel({
         <Button type="button" disabled>
           Apply to contest
         </Button>
-        <p className="text-sm text-ink-mute">Applications will open in the next milestone.</p>
+        <p className="text-sm text-ink-mute">Applications have not opened for this contest yet.</p>
       </div>
     </Panel>
   );

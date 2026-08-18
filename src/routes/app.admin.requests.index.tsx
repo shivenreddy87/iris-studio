@@ -64,7 +64,7 @@ function AdminCampaignRequestsPage() {
       <PageHeader
         eyebrow="Admin"
         title="Campaign Requests"
-        description="Every brief submitted by businesses. Approval actions arrive in the next milestone."
+        description="Every brief submitted by businesses. Review, approve or request changes from here."
       />
 
       <div className="mb-6 flex flex-wrap gap-3">

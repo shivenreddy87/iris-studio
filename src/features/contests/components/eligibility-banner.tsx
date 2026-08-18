@@ -47,9 +47,10 @@ export function EligibilityBanner({
             {opening ? "Applications opening soon" : availability.label}
           </p>
           <p className="mt-1 text-sm text-ink-dim">
-            You meet every requirement for this contest. Applications open in the next milestone —
-            we will notify you the moment entries go live.
+            You meet every requirement for this contest. Applications have not opened yet — we will
+            notify you the moment entries go live.
           </p>
+
         </div>
       </div>
     </div>
