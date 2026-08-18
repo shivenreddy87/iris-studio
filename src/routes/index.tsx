@@ -68,11 +68,11 @@ function LandingPage() {
                 src={logoUrl}
                 alt="Creoinfo logo"
                 aria-hidden="true"
-                className="mx-auto block w-full max-w-[560px]"
+                className="mx-auto block w-full max-w-[260px] sm:max-w-[340px] lg:max-w-[420px]"
                 style={{ height: "auto" }}
               />
             </h1>
-            <p className="mt-[9px] max-w-md text-lg leading-8 text-hero-sub opacity-80">
+            <p className="mt-[9px] max-w-[92vw] text-balance text-base leading-7 text-hero-sub opacity-80 sm:max-w-xl sm:text-lg sm:leading-8 lg:max-w-3xl">
               Creoinfo connects Hyderabad businesses with Instagram creators through performance
               contests. Publish a brief, choose your creators, and reward them for the views their
               content actually earns.
