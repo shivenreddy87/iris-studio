@@ -43,8 +43,8 @@ export async function encryptToken(plaintext: string): Promise<string> {
 export async function decryptToken(stored: string): Promise<string> {
   const key = await aesKey();
   const packed = unb64(stored);
-  const iv = packed.subarray(0, 12);
-  const cipher = packed.subarray(12);
+  const iv = packed.slice(0, 12) as unknown as BufferSource;
+  const cipher = packed.slice(12) as unknown as BufferSource;
   const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, cipher);
   return decoder.decode(plain);
 }
