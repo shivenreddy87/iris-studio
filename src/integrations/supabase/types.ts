@@ -394,7 +394,10 @@ export type Database = {
       }
       connected_accounts: {
         Row: {
+          access_token_encrypted: string | null
+          account_type: string | null
           avatar_url: string | null
+          connection_method: string
           connection_status: string
           created_at: string
           engagement_rate: number | null
@@ -403,12 +406,14 @@ export type Database = {
           id: string
           is_primary: boolean
           last_synced_at: string | null
+          media_count: number | null
           metadata: Json
           platform: string
           profile_url: string | null
           provider_user_id: string | null
           rejection_reason: string | null
           status: string
+          token_expires_at: string | null
           updated_at: string
           user_id: string
           verification_code: string | null
@@ -418,7 +423,10 @@ export type Database = {
           verified_by: string | null
         }
         Insert: {
+          access_token_encrypted?: string | null
+          account_type?: string | null
           avatar_url?: string | null
+          connection_method?: string
           connection_status?: string
           created_at?: string
           engagement_rate?: number | null
@@ -427,12 +435,14 @@ export type Database = {
           id?: string
           is_primary?: boolean
           last_synced_at?: string | null
+          media_count?: number | null
           metadata?: Json
           platform: string
           profile_url?: string | null
           provider_user_id?: string | null
           rejection_reason?: string | null
           status?: string
+          token_expires_at?: string | null
           updated_at?: string
           user_id: string
           verification_code?: string | null
@@ -442,7 +452,10 @@ export type Database = {
           verified_by?: string | null
         }
         Update: {
+          access_token_encrypted?: string | null
+          account_type?: string | null
           avatar_url?: string | null
+          connection_method?: string
           connection_status?: string
           created_at?: string
           engagement_rate?: number | null
@@ -451,12 +464,14 @@ export type Database = {
           id?: string
           is_primary?: boolean
           last_synced_at?: string | null
+          media_count?: number | null
           metadata?: Json
           platform?: string
           profile_url?: string | null
           provider_user_id?: string | null
           rejection_reason?: string | null
           status?: string
+          token_expires_at?: string | null
           updated_at?: string
           user_id?: string
           verification_code?: string | null
