@@ -20,6 +20,7 @@ import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth.sign-in'
 import { Route as AuthRoleRouteImport } from './routes/auth.role'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth.reset-password'
+import { Route as AuthInstagramRouteImport } from './routes/auth.instagram'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppRewardsRouteImport } from './routes/app.rewards'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
@@ -59,6 +60,8 @@ import { Route as AppAdminRequestsRequestIdRouteImport } from './routes/app.admi
 import { Route as AppAdminInfluencersInfluencerIdRouteImport } from './routes/app.admin.influencers.$influencerId'
 import { Route as AppAdminContestsNewRouteImport } from './routes/app.admin.contests.new'
 import { Route as AppAdminBusinessesBusinessIdRouteImport } from './routes/app.admin.businesses.$businessId'
+import { Route as ApiPublicInstagramStartRouteImport } from './routes/api/public/instagram/start'
+import { Route as ApiPublicInstagramCallbackRouteImport } from './routes/api/public/instagram/callback'
 import { Route as AppBusinessRequestsRequestIdIndexRouteImport } from './routes/app.business.requests.$requestId.index'
 import { Route as AppAdminContestsContestIdIndexRouteImport } from './routes/app.admin.contests.$contestId.index'
 import { Route as AppBusinessRequestsRequestIdEditRouteImport } from './routes/app.business.requests.$requestId.edit'
@@ -117,6 +120,11 @@ const AuthRoleRoute = AuthRoleRouteImport.update({
 const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
   id: '/auth/reset-password',
   path: '/auth/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthInstagramRoute = AuthInstagramRouteImport.update({
+  id: '/auth/instagram',
+  path: '/auth/instagram',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
@@ -321,6 +329,17 @@ const AppAdminBusinessesBusinessIdRoute =
     path: '/$businessId',
     getParentRoute: () => AppAdminBusinessesRoute,
   } as any)
+const ApiPublicInstagramStartRoute = ApiPublicInstagramStartRouteImport.update({
+  id: '/api/public/instagram/start',
+  path: '/api/public/instagram/start',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicInstagramCallbackRoute =
+  ApiPublicInstagramCallbackRouteImport.update({
+    id: '/api/public/instagram/callback',
+    path: '/api/public/instagram/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AppBusinessRequestsRequestIdIndexRoute =
   AppBusinessRequestsRequestIdIndexRouteImport.update({
     id: '/business/requests/$requestId/',
@@ -356,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
   '/app/settings': typeof AppSettingsRouteWithChildren
+  '/auth/instagram': typeof AuthInstagramRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
@@ -387,6 +407,8 @@ export interface FileRoutesByFullPath {
   '/app/contests/': typeof AppContestsIndexRoute
   '/app/entries/': typeof AppEntriesIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/api/public/instagram/callback': typeof ApiPublicInstagramCallbackRoute
+  '/api/public/instagram/start': typeof ApiPublicInstagramStartRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
@@ -410,6 +432,7 @@ export interface FileRoutesByTo {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
+  '/auth/instagram': typeof AuthInstagramRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
@@ -441,6 +464,8 @@ export interface FileRoutesByTo {
   '/app/contests': typeof AppContestsIndexRoute
   '/app/entries': typeof AppEntriesIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
+  '/api/public/instagram/callback': typeof ApiPublicInstagramCallbackRoute
+  '/api/public/instagram/start': typeof ApiPublicInstagramStartRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
@@ -467,6 +492,7 @@ export interface FileRoutesById {
   '/app/profile': typeof AppProfileRoute
   '/app/rewards': typeof AppRewardsRoute
   '/app/settings': typeof AppSettingsRouteWithChildren
+  '/auth/instagram': typeof AuthInstagramRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/role': typeof AuthRoleRoute
   '/auth/sign-in': typeof AuthSignInRoute
@@ -498,6 +524,8 @@ export interface FileRoutesById {
   '/app/contests/': typeof AppContestsIndexRoute
   '/app/entries/': typeof AppEntriesIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/api/public/instagram/callback': typeof ApiPublicInstagramCallbackRoute
+  '/api/public/instagram/start': typeof ApiPublicInstagramStartRoute
   '/app/admin/businesses/$businessId': typeof AppAdminBusinessesBusinessIdRoute
   '/app/admin/contests/new': typeof AppAdminContestsNewRoute
   '/app/admin/influencers/$influencerId': typeof AppAdminInfluencersInfluencerIdRoute
@@ -525,6 +553,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/rewards'
     | '/app/settings'
+    | '/auth/instagram'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
@@ -556,6 +585,8 @@ export interface FileRouteTypes {
     | '/app/contests/'
     | '/app/entries/'
     | '/app/settings/'
+    | '/api/public/instagram/callback'
+    | '/api/public/instagram/start'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
@@ -579,6 +610,7 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/profile'
     | '/app/rewards'
+    | '/auth/instagram'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
@@ -610,6 +642,8 @@ export interface FileRouteTypes {
     | '/app/contests'
     | '/app/entries'
     | '/app/settings'
+    | '/api/public/instagram/callback'
+    | '/api/public/instagram/start'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
@@ -635,6 +669,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/rewards'
     | '/app/settings'
+    | '/auth/instagram'
     | '/auth/reset-password'
     | '/auth/role'
     | '/auth/sign-in'
@@ -666,6 +701,8 @@ export interface FileRouteTypes {
     | '/app/contests/'
     | '/app/entries/'
     | '/app/settings/'
+    | '/api/public/instagram/callback'
+    | '/api/public/instagram/start'
     | '/app/admin/businesses/$businessId'
     | '/app/admin/contests/new'
     | '/app/admin/influencers/$influencerId'
@@ -687,6 +724,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
+  AuthInstagramRoute: typeof AuthInstagramRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthRoleRoute: typeof AuthRoleRoute
   AuthSignInRoute: typeof AuthSignInRoute
@@ -695,6 +733,8 @@ export interface RootRouteChildren {
   OnboardingInfluencerRoute: typeof OnboardingInfluencerRoute
   ApiPublicRobotsDottxtRoute: typeof ApiPublicRobotsDottxtRoute
   ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
+  ApiPublicInstagramCallbackRoute: typeof ApiPublicInstagramCallbackRoute
+  ApiPublicInstagramStartRoute: typeof ApiPublicInstagramStartRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -774,6 +814,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/reset-password'
       fullPath: '/auth/reset-password'
       preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/instagram': {
+      id: '/auth/instagram'
+      path: '/auth/instagram'
+      fullPath: '/auth/instagram'
+      preLoaderRoute: typeof AuthInstagramRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/settings': {
@@ -1049,6 +1096,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminBusinessesBusinessIdRouteImport
       parentRoute: typeof AppAdminBusinessesRoute
     }
+    '/api/public/instagram/start': {
+      id: '/api/public/instagram/start'
+      path: '/api/public/instagram/start'
+      fullPath: '/api/public/instagram/start'
+      preLoaderRoute: typeof ApiPublicInstagramStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/instagram/callback': {
+      id: '/api/public/instagram/callback'
+      path: '/api/public/instagram/callback'
+      fullPath: '/api/public/instagram/callback'
+      preLoaderRoute: typeof ApiPublicInstagramCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/business/requests/$requestId/': {
       id: '/app/business/requests/$requestId/'
       path: '/business/requests/$requestId'
@@ -1206,6 +1267,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
+  AuthInstagramRoute: AuthInstagramRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthRoleRoute: AuthRoleRoute,
   AuthSignInRoute: AuthSignInRoute,
@@ -1214,6 +1276,8 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingInfluencerRoute: OnboardingInfluencerRoute,
   ApiPublicRobotsDottxtRoute: ApiPublicRobotsDottxtRoute,
   ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
+  ApiPublicInstagramCallbackRoute: ApiPublicInstagramCallbackRoute,
+  ApiPublicInstagramStartRoute: ApiPublicInstagramStartRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
