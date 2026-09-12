@@ -1,11 +1,14 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 import { toast } from "sonner";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
+import { InstagramButton } from "@/components/auth/instagram-button";
 
 export const Route = createFileRoute("/auth/sign-in")({
+  validateSearch: z.object({ instagram_error: z.string().optional() }),
   head: () => ({
     meta: [
       { title: "Sign in — Creoinfo" },
