@@ -77,6 +77,17 @@ export const submitContestContent = createServerFn({ method: "POST" })
       eventType: "submission_created",
     });
 
+    // Verified numbers when their Instagram is connected; manual review otherwise.
+    const { syncSubmissionMetricsFromInstagram } = await import(
+      "@/features/social-verification/instagram/metrics.server"
+    );
+    await syncSubmissionMetricsFromInstagram({
+      userId,
+      submissionId: row.id,
+      contentUrl: data.contentUrl,
+      platform: data.platform,
+    });
+
     const progress = await buildContestProgress(contest);
     await notifySubmissionCreated({ contest, influencerId: userId, progress });
     await recordAuditLog({
