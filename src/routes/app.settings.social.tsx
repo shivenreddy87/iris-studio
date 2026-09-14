@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
+import { InstagramConnectCard } from "@/features/social-verification/components/instagram-connect-card";
 import { SocialAccountsPanel } from "@/features/social-verification/components/social-accounts-panel";
 
 export const Route = createFileRoute("/app/settings/social")({
@@ -39,7 +40,8 @@ function SocialSettingsPage() {
         title="Social accounts"
         description="Link the account you publish from, mark it primary and keep track of its verification status."
       />
-      <div className="mt-6">
+      <div className="mt-6 space-y-6">
+        <InstagramConnectCard />
         <SocialAccountsPanel />
       </div>
     </div>
