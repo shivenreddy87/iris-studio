@@ -25,7 +25,12 @@ export const Route = createFileRoute("/auth/sign-in")({
 
 function SignIn() {
   const navigate = useNavigate();
+  const { instagram_error: instagramError } = useSearch({ from: "/auth/sign-in" });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (instagramError) toast.error(instagramError);
+  }, [instagramError]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -94,6 +99,8 @@ function SignIn() {
       >
         Continue with Google
       </button>
+
+      <InstagramButton />
     </AuthShell>
   );
 }
