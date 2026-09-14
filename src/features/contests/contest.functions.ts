@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
 import { assertNotSuspended } from "@/features/platform-admin/admin.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { contestDraftSchema, contestPublishSchema } from "./contest.schema";
@@ -323,4 +324,100 @@ export const listContestEvents = createServerFn({ method: "GET" })
     // Admins and the owning business both pass RLS; anyone else gets nothing.
     await isAdmin(context.supabase, context.userId);
     return fetchContestEvents(context.supabase, data.id);
+  });
+
+/* ------------------------ admin-created contests ------------------------- */
+
+const adminContestSchema = z.object({
+  businessId: z.string().uuid(),
+  title: z.string().trim().min(3).max(140),
+  description: z.string().trim().max(4000).optional(),
+  campaignGoal: z.string().trim().max(200).optional(),
+  businessCategory: z.string().trim().max(120).optional(),
+  targetPlatform: z.enum(["instagram", "youtube"]),
+  targetLocation: z.string().trim().max(120).optional(),
+  requiredViews: z.number().int().positive().optional(),
+  budget: z.number().nonnegative().optional(),
+  minimumFollowers: z.number().int().nonnegative().optional(),
+  maximumFollowers: z.number().int().nonnegative().optional(),
+});
+
+export type AdminContestInput = z.infer<typeof adminContestSchema>;
+
+/**
+ * Admin-only: creates the contest without waiting for a business request by
+ * recording an internal, auto-approved request behind it, so every contest
+ * still traces back to one.
+ */
+export const createAdminContest = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => adminContestSchema.parse(data))
+  .handler(async ({ data, context }): Promise<Contest> => {
+    await assertNotSuspended(context.userId);
+    await assertAdmin(context.supabase, context.userId);
+
+    const now = new Date().toISOString();
+    const approvalReference = `ADM-${Date.now().toString(36).toUpperCase()}`;
+
+    const { data: request, error: requestError } = await context.supabase
+      .from("campaign_requests")
+      .insert({
+        business_id: data.businessId,
+        title: data.title,
+        campaign_description: data.description ?? null,
+        campaign_goal: data.campaignGoal ?? null,
+        business_category: data.businessCategory ?? null,
+        target_platform: data.targetPlatform,
+        target_location: data.targetLocation ?? null,
+        required_views: data.requiredViews ?? null,
+        budget: data.budget ?? null,
+        minimum_followers: data.minimumFollowers ?? null,
+        maximum_followers: data.maximumFollowers ?? null,
+        status: "approved",
+        submitted_at: now,
+        reviewed_at: now,
+        reviewed_by: context.userId,
+        approval_reference: approvalReference,
+        review_notes: "Created directly by an admin.",
+      } as never)
+      .select("id, business_id")
+      .single<{ id: string; business_id: string }>();
+    if (requestError) throw new Error(requestError.message);
+
+    const { data: row, error } = await context.supabase
+      .from("contests")
+      .insert({
+        campaign_request_id: request.id,
+        business_id: request.business_id,
+        title: data.title,
+        description: data.description ?? null,
+        campaign_goal: data.campaignGoal ?? null,
+        business_category: data.businessCategory ?? null,
+        target_platform: data.targetPlatform,
+        target_location: data.targetLocation ?? null,
+        required_views: data.requiredViews ?? null,
+        reward_pool: data.budget ?? null,
+        minimum_followers: data.minimumFollowers ?? null,
+        maximum_followers: data.maximumFollowers ?? null,
+        status: "draft",
+        created_by: context.userId,
+      } as never)
+      .select(CONTEST_COLUMNS)
+      .maybeSingle<ContestRow>();
+    if (error) throw new Error(error.message);
+    if (!row) throw new Error("Could not create the contest.");
+
+    await logContestEvent(context.supabase, {
+      contestId: row.id,
+      actorId: context.userId,
+      eventType: "created",
+    });
+    await notifyBusinessOfContest({
+      businessId: row.business_id,
+      contestId: row.id,
+      contestTitle: row.title,
+      status: "draft",
+    });
+
+    return toContest(row, { approvalReference });
   });

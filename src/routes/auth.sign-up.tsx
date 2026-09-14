@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
+import { InstagramButton } from "@/components/auth/instagram-button";
 
 const searchSchema = z.object({
   role: z.enum(["brand", "creator"]).optional(),
@@ -130,6 +131,8 @@ function SignUp() {
       >
         Continue with Google
       </button>
+
+      <InstagramButton label="Sign up with Instagram" />
 
       <p className="mt-4 text-xs leading-relaxed text-ink-mute">
         By signing up you agree to our Terms and acknowledge our Privacy Policy.
