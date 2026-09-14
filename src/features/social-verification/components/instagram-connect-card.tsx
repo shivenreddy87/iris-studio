@@ -7,6 +7,7 @@ import {
   disconnectInstagram,
   getInstagramStatus,
   refreshInstagramData,
+  startInstagramLink,
 } from "../instagram/instagram.functions";
 
 const nf = new Intl.NumberFormat("en-IN");
@@ -23,7 +24,7 @@ function when(value: string | null): string {
 export function InstagramConnectCard() {
   const queryClient = useQueryClient();
   const status = useServerFn(getInstagramStatus);
-  const startLink = useServerFn(startInstagramLinkFn());
+  const startLink = useServerFn(startInstagramLink);
   const refreshFn = useServerFn(refreshInstagramData);
   const disconnectFn = useServerFn(disconnectInstagram);
 
@@ -38,7 +39,7 @@ export function InstagramConnectCard() {
   };
 
   const connect = useMutation({
-    mutationFn: () => startLink({ data: {} }),
+    mutationFn: () => startLink(),
     onSuccess: (result: { url: string }) => {
       window.location.href = result.url;
     },
@@ -46,7 +47,7 @@ export function InstagramConnectCard() {
   });
 
   const refresh = useMutation({
-    mutationFn: () => refreshFn({ data: {} }),
+    mutationFn: () => refreshFn(),
     onSuccess: async () => {
       await invalidate();
       toast.success("Instagram data refreshed.");
@@ -145,9 +146,4 @@ export function InstagramConnectCard() {
       </div>
     </section>
   );
-}
-
-/* Keeps the import list tidy while preserving the server-function identity. */
-function startInstagramLinkFn() {
-  return startInstagramLinkRef;
 }
