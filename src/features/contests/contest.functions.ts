@@ -359,7 +359,10 @@ export const createAdminContest = createServerFn({ method: "POST" })
     const now = new Date().toISOString();
     const approvalReference = `ADM-${Date.now().toString(36).toUpperCase()}`;
 
-    const { data: request, error: requestError } = await context.supabase
+    // The internal request is written on the business's behalf, so it goes
+    // through the privileged client — admins are not owners of that row.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: request, error: requestError } = await supabaseAdmin
       .from("campaign_requests")
       .insert({
         business_id: data.businessId,
