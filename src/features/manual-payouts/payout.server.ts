@@ -469,6 +469,7 @@ export async function createPayoutsForContest(
   contest: Contest,
   actorId: string | null,
 ): Promise<number> {
+  lastCreatedPayoutIds = [];
   if (contest.status !== "completed" && contest.status !== "archived") {
     throw new Error("Payouts can only be created for completed contests.");
   }
