@@ -682,7 +682,20 @@ export async function finalizeContestWinners(
     // Announcements are the last durable write, so nobody is told before it is true.
     await notifyContestCompleted({ contest, winners });
   } catch (error) {
+    // Compensate every durable write so the contest never rests half-finalized.
     await rollbackPayouts(createdPayoutIds);
+    if (transitioned) {
+      const sb = await admin();
+      await sb
+        .from("contests")
+        .update({ status: contest.status, updated_at: new Date().toISOString() })
+        .eq("id", contest.id);
+      await sb
+        .from("contest_result_events")
+        .delete()
+        .eq("contest_id", contest.id)
+        .in("event_type", ["winner_finalized", "contest_completed"]);
+    }
     throw error;
   }
 
