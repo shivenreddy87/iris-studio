@@ -656,6 +656,7 @@ export async function finalizeContestWinners(
   await createPayoutsForContest({ ...contest, status: "completed" }, actorId);
   const createdPayoutIds = takeLastCreatedPayoutIds();
 
+  let transitioned = false;
   try {
     const { applyContestTransition } = await import("@/features/contests/contest.server");
     await applyContestTransition(db, {
