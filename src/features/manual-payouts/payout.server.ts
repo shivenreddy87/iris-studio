@@ -507,15 +507,40 @@ export async function createPayoutsForContest(
     .returns<{ id: string }[]>();
   if (insertError) throw new Error(insertError.message);
 
-  for (const row of inserted ?? []) {
-    await logPayoutEvent({
-      payoutId: row.id,
-      actorId,
-      eventType: "payout_created",
-      note: `Payout opened for “${contest.title}”.`,
-    });
+  const createdIds = (inserted ?? []).map((row) => row.id);
+  try {
+    for (const id of createdIds) {
+      await logPayoutEvent({
+        payoutId: id,
+        actorId,
+        eventType: "payout_created",
+        note: `Payout opened for “${contest.title}”.`,
+      });
+    }
+  } catch (error) {
+    // Never leave payouts without their audit trail: undo the batch.
+    await rollbackPayouts(createdIds);
+    throw error;
   }
-  return (inserted ?? []).length;
+  lastCreatedPayoutIds = createdIds;
+  return createdIds.length;
+}
+
+/** Ids created by the most recent createPayoutsForContest call (finalization rollback). */
+let lastCreatedPayoutIds: string[] = [];
+
+export function takeLastCreatedPayoutIds(): string[] {
+  const ids = lastCreatedPayoutIds;
+  lastCreatedPayoutIds = [];
+  return ids;
+}
+
+/** Compensating delete used when a surrounding workflow fails after payout creation. */
+export async function rollbackPayouts(payoutIds: string[]): Promise<void> {
+  if (payoutIds.length === 0) return;
+  const sb = await admin();
+  await sb.from("payout_events").delete().in("payout_id", payoutIds);
+  await sb.from("payouts").delete().in("id", payoutIds);
 }
 
 type PayoutPatch = Partial<Database["public"]["Tables"]["payouts"]["Update"]>;
