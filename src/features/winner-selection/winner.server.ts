@@ -665,6 +665,7 @@ export async function finalizeContestWinners(
       to: "completed",
       ...(note ? { note } : {}),
     });
+    transitioned = true;
 
     await logResultEvent({
       contestId: contest.id,
