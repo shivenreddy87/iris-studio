@@ -649,31 +649,41 @@ export async function finalizeContestWinners(
     );
   }
 
-  const { applyContestTransition } = await import("@/features/contests/contest.server");
-  await applyContestTransition(db, {
-    contestId: contest.id,
-    actorId,
-    to: "completed",
-    ...(note ? { note } : {}),
-  });
-
-  await logResultEvent({
-    contestId: contest.id,
-    actorId,
-    eventType: "winner_finalized",
-    note: note ?? null,
-  });
-  await logResultEvent({
-    contestId: contest.id,
-    actorId,
-    eventType: "contest_completed",
-    note: null,
-  });
-  await notifyContestCompleted({ contest, winners });
-
-  // Open a manual payout ledger entry for every declared winner.
-  const { createPayoutsForContest } = await import("@/features/manual-payouts/payout.server");
+  // Money first: if the payout ledger cannot be opened, the contest never completes.
+  const { createPayoutsForContest, takeLastCreatedPayoutIds, rollbackPayouts } = await import(
+    "@/features/manual-payouts/payout.server"
+  );
   await createPayoutsForContest({ ...contest, status: "completed" }, actorId);
+  const createdPayoutIds = takeLastCreatedPayoutIds();
+
+  try {
+    const { applyContestTransition } = await import("@/features/contests/contest.server");
+    await applyContestTransition(db, {
+      contestId: contest.id,
+      actorId,
+      to: "completed",
+      ...(note ? { note } : {}),
+    });
+
+    await logResultEvent({
+      contestId: contest.id,
+      actorId,
+      eventType: "winner_finalized",
+      note: note ?? null,
+    });
+    await logResultEvent({
+      contestId: contest.id,
+      actorId,
+      eventType: "contest_completed",
+      note: null,
+    });
+    // Announcements are the last durable write, so nobody is told before it is true.
+    await notifyContestCompleted({ contest, winners });
+  } catch (error) {
+    await rollbackPayouts(createdPayoutIds);
+    throw error;
+  }
+
   return winners;
 }
 
