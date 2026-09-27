@@ -9,7 +9,6 @@ DECLARE
   b2 uuid := '99f85a59-0e14-4395-8a01-f3b6a3e6c311'; -- brand
   report text := '';
   n int;
-  PROCEDURE_OK boolean;
 BEGIN
   -- helper: act as a user
   PERFORM set_config('role', 'authenticated', true);
