@@ -9,72 +9,67 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AppIndexRouteImport } from './routes/app.index'
-import { Route as OnboardingInfluencerRouteImport } from './routes/onboarding.influencer'
-import { Route as OnboardingBusinessRouteImport } from './routes/onboarding.business'
-import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
-import { Route as AuthSignInRouteImport } from './routes/auth.sign-in'
-import { Route as AuthRoleRouteImport } from './routes/auth.role'
-import { Route as AuthResetPasswordRouteImport } from './routes/auth.reset-password'
-import { Route as AuthInstagramRouteImport } from './routes/auth.instagram'
-import { Route as AppSettingsRouteImport } from './routes/app.settings'
-import { Route as AppRewardsRouteImport } from './routes/app.rewards'
-import { Route as AppProfileRouteImport } from './routes/app.profile'
-import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
-import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.index'
-import { Route as AppEntriesIndexRouteImport } from './routes/app.entries.index'
-import { Route as AppContestsIndexRouteImport } from './routes/app.contests.index'
-import { Route as AppAdminIndexRouteImport } from './routes/app.admin.index'
-import { Route as AppSettingsSocialRouteImport } from './routes/app.settings.social'
-import { Route as AppSettingsNotificationsRouteImport } from './routes/app.settings.notifications'
-import { Route as AppResultsContestIdRouteImport } from './routes/app.results.$contestId'
-import { Route as AppContestsWonRouteImport } from './routes/app.contests.won'
-import { Route as AppContestsSavedRouteImport } from './routes/app.contests.saved'
-import { Route as AppContestsCompletedRouteImport } from './routes/app.contests.completed'
-import { Route as AppContestsActiveRouteImport } from './routes/app.contests.active'
-import { Route as AppContestsContestIdRouteImport } from './routes/app.contests.$contestId'
-import { Route as AppAdminWinnersRouteImport } from './routes/app.admin.winners'
-import { Route as AppAdminTemplatesRouteImport } from './routes/app.admin.templates'
-import { Route as AppAdminSettingsRouteImport } from './routes/app.admin.settings'
-import { Route as AppAdminReportsRouteImport } from './routes/app.admin.reports'
-import { Route as AppAdminPayoutsRouteImport } from './routes/app.admin.payouts'
-import { Route as AppAdminModerationRouteImport } from './routes/app.admin.moderation'
-import { Route as AppAdminInfluencersRouteImport } from './routes/app.admin.influencers'
-import { Route as AppAdminEntriesRouteImport } from './routes/app.admin.entries'
-import { Route as AppAdminBusinessesRouteImport } from './routes/app.admin.businesses'
-import { Route as AppAdminAnalyticsRouteImport } from './routes/app.admin.analytics'
-import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/sitemap[.]xml'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
+import { Route as AppRewardsRouteImport } from './routes/app.rewards'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AuthInstagramRouteImport } from './routes/auth.instagram'
+import { Route as AuthResetPasswordRouteImport } from './routes/auth.reset-password'
+import { Route as AuthRoleRouteImport } from './routes/auth.role'
+import { Route as AuthSignInRouteImport } from './routes/auth.sign-in'
+import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
+import { Route as OnboardingBusinessRouteImport } from './routes/onboarding.business'
+import { Route as OnboardingInfluencerRouteImport } from './routes/onboarding.influencer'
 import { Route as ApiPublicRobotsDottxtRouteImport } from './routes/api/public/robots[.]txt'
-import { Route as AppBusinessRequestsIndexRouteImport } from './routes/app.business.requests.index'
-import { Route as AppBusinessContestsIndexRouteImport } from './routes/app.business.contests.index'
-import { Route as AppAdminRequestsIndexRouteImport } from './routes/app.admin.requests.index'
-import { Route as AppAdminContestsIndexRouteImport } from './routes/app.admin.contests.index'
-import { Route as AppBusinessRequestsNewRouteImport } from './routes/app.business.requests.new'
-import { Route as AppBusinessContestsContestIdRouteImport } from './routes/app.business.contests.$contestId'
-import { Route as AppAdminRequestsRequestIdRouteImport } from './routes/app.admin.requests.$requestId'
-import { Route as AppAdminInfluencersInfluencerIdRouteImport } from './routes/app.admin.influencers.$influencerId'
-import { Route as AppAdminContestsNewRouteImport } from './routes/app.admin.contests.new'
-import { Route as AppAdminBusinessesBusinessIdRouteImport } from './routes/app.admin.businesses.$businessId'
-import { Route as ApiPublicInstagramStartRouteImport } from './routes/api/public/instagram/start'
+import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/sitemap[.]xml'
+import { Route as AppAdminIndexRouteImport } from './routes/app.admin.index'
+import { Route as AppAdminAnalyticsRouteImport } from './routes/app.admin.analytics'
+import { Route as AppAdminBusinessesRouteImport } from './routes/app.admin.businesses'
+import { Route as AppAdminEntriesRouteImport } from './routes/app.admin.entries'
+import { Route as AppAdminInfluencersRouteImport } from './routes/app.admin.influencers'
+import { Route as AppAdminModerationRouteImport } from './routes/app.admin.moderation'
+import { Route as AppAdminPayoutsRouteImport } from './routes/app.admin.payouts'
+import { Route as AppAdminReportsRouteImport } from './routes/app.admin.reports'
+import { Route as AppAdminSettingsRouteImport } from './routes/app.admin.settings'
+import { Route as AppAdminTemplatesRouteImport } from './routes/app.admin.templates'
+import { Route as AppAdminWinnersRouteImport } from './routes/app.admin.winners'
+import { Route as AppContestsIndexRouteImport } from './routes/app.contests.index'
+import { Route as AppContestsContestIdRouteImport } from './routes/app.contests.$contestId'
+import { Route as AppContestsActiveRouteImport } from './routes/app.contests.active'
+import { Route as AppContestsCompletedRouteImport } from './routes/app.contests.completed'
+import { Route as AppContestsSavedRouteImport } from './routes/app.contests.saved'
+import { Route as AppContestsWonRouteImport } from './routes/app.contests.won'
+import { Route as AppEntriesIndexRouteImport } from './routes/app.entries.index'
+import { Route as AppResultsContestIdRouteImport } from './routes/app.results.$contestId'
+import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.index'
+import { Route as AppSettingsNotificationsRouteImport } from './routes/app.settings.notifications'
+import { Route as AppSettingsSocialRouteImport } from './routes/app.settings.social'
 import { Route as ApiPublicInstagramCallbackRouteImport } from './routes/api/public/instagram/callback'
-import { Route as AppBusinessRequestsRequestIdIndexRouteImport } from './routes/app.business.requests.$requestId.index'
+import { Route as ApiPublicInstagramStartRouteImport } from './routes/api/public/instagram/start'
+import { Route as AppAdminBusinessesBusinessIdRouteImport } from './routes/app.admin.businesses.$businessId'
+import { Route as AppAdminContestsIndexRouteImport } from './routes/app.admin.contests.index'
+import { Route as AppAdminContestsNewRouteImport } from './routes/app.admin.contests.new'
+import { Route as AppAdminInfluencersInfluencerIdRouteImport } from './routes/app.admin.influencers.$influencerId'
+import { Route as AppAdminRequestsIndexRouteImport } from './routes/app.admin.requests.index'
+import { Route as AppAdminRequestsRequestIdRouteImport } from './routes/app.admin.requests.$requestId'
+import { Route as AppBusinessContestsIndexRouteImport } from './routes/app.business.contests.index'
+import { Route as AppBusinessContestsContestIdRouteImport } from './routes/app.business.contests.$contestId'
+import { Route as AppBusinessRequestsIndexRouteImport } from './routes/app.business.requests.index'
+import { Route as AppBusinessRequestsNewRouteImport } from './routes/app.business.requests.new'
 import { Route as AppAdminContestsContestIdIndexRouteImport } from './routes/app.admin.contests.$contestId.index'
-import { Route as AppBusinessRequestsRequestIdEditRouteImport } from './routes/app.business.requests.$requestId.edit'
 import { Route as AppAdminContestsContestIdEditRouteImport } from './routes/app.admin.contests.$contestId.edit'
+import { Route as AppBusinessRequestsRequestIdIndexRouteImport } from './routes/app.business.requests.$requestId.index'
+import { Route as AppBusinessRequestsRequestIdEditRouteImport } from './routes/app.business.requests.$requestId.edit'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -82,9 +77,14 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -92,54 +92,9 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
-const OnboardingInfluencerRoute = OnboardingInfluencerRouteImport.update({
-  id: '/onboarding/influencer',
-  path: '/onboarding/influencer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingBusinessRoute = OnboardingBusinessRouteImport.update({
-  id: '/onboarding/business',
-  path: '/onboarding/business',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthSignUpRoute = AuthSignUpRouteImport.update({
-  id: '/auth/sign-up',
-  path: '/auth/sign-up',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthSignInRoute = AuthSignInRouteImport.update({
-  id: '/auth/sign-in',
-  path: '/auth/sign-in',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoleRoute = AuthRoleRouteImport.update({
-  id: '/auth/role',
-  path: '/auth/role',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
-  id: '/auth/reset-password',
-  path: '/auth/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthInstagramRoute = AuthInstagramRouteImport.update({
-  id: '/auth/instagram',
-  path: '/auth/instagram',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppSettingsRoute = AppSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppRewardsRoute = AppRewardsRouteImport.update({
-  id: '/rewards',
-  path: '/rewards',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppProfileRoute = AppProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
 const AppNotificationsRoute = AppNotificationsRouteImport.update({
@@ -147,19 +102,119 @@ const AppNotificationsRoute = AppNotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
-  id: '/analytics',
-  path: '/analytics',
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AppRoute,
 } as any)
-const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppSettingsRoute,
+const AppRewardsRoute = AppRewardsRouteImport.update({
+  id: '/rewards',
+  path: '/rewards',
+  getParentRoute: () => AppRoute,
 } as any)
-const AppEntriesIndexRoute = AppEntriesIndexRouteImport.update({
-  id: '/entries/',
-  path: '/entries/',
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AuthInstagramRoute = AuthInstagramRouteImport.update({
+  id: '/auth/instagram',
+  path: '/auth/instagram',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
+  id: '/auth/reset-password',
+  path: '/auth/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoleRoute = AuthRoleRouteImport.update({
+  id: '/auth/role',
+  path: '/auth/role',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignInRoute = AuthSignInRouteImport.update({
+  id: '/auth/sign-in',
+  path: '/auth/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignUpRoute = AuthSignUpRouteImport.update({
+  id: '/auth/sign-up',
+  path: '/auth/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingBusinessRoute = OnboardingBusinessRouteImport.update({
+  id: '/onboarding/business',
+  path: '/onboarding/business',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingInfluencerRoute = OnboardingInfluencerRouteImport.update({
+  id: '/onboarding/influencer',
+  path: '/onboarding/influencer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicRobotsDottxtRoute = ApiPublicRobotsDottxtRouteImport.update({
+  id: '/api/public/robots.txt',
+  path: '/api/public/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicSitemapDotxmlRoute = ApiPublicSitemapDotxmlRouteImport.update({
+  id: '/api/public/sitemap.xml',
+  path: '/api/public/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppAdminIndexRoute = AppAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminAnalyticsRoute = AppAdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminBusinessesRoute = AppAdminBusinessesRouteImport.update({
+  id: '/admin/businesses',
+  path: '/admin/businesses',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminEntriesRoute = AppAdminEntriesRouteImport.update({
+  id: '/admin/entries',
+  path: '/admin/entries',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminInfluencersRoute = AppAdminInfluencersRouteImport.update({
+  id: '/admin/influencers',
+  path: '/admin/influencers',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminModerationRoute = AppAdminModerationRouteImport.update({
+  id: '/admin/moderation',
+  path: '/admin/moderation',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminPayoutsRoute = AppAdminPayoutsRouteImport.update({
+  id: '/admin/payouts',
+  path: '/admin/payouts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminReportsRoute = AppAdminReportsRouteImport.update({
+  id: '/admin/reports',
+  path: '/admin/reports',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminSettingsRoute = AppAdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminTemplatesRoute = AppAdminTemplatesRouteImport.update({
+  id: '/admin/templates',
+  path: '/admin/templates',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminWinnersRoute = AppAdminWinnersRouteImport.update({
+  id: '/admin/winners',
+  path: '/admin/winners',
   getParentRoute: () => AppRoute,
 } as any)
 const AppContestsIndexRoute = AppContestsIndexRouteImport.update({
@@ -167,14 +222,44 @@ const AppContestsIndexRoute = AppContestsIndexRouteImport.update({
   path: '/contests/',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAdminIndexRoute = AppAdminIndexRouteImport.update({
-  id: '/admin/',
-  path: '/admin/',
+const AppContestsContestIdRoute = AppContestsContestIdRouteImport.update({
+  id: '/contests/$contestId',
+  path: '/contests/$contestId',
   getParentRoute: () => AppRoute,
 } as any)
-const AppSettingsSocialRoute = AppSettingsSocialRouteImport.update({
-  id: '/social',
-  path: '/social',
+const AppContestsActiveRoute = AppContestsActiveRouteImport.update({
+  id: '/contests/active',
+  path: '/contests/active',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContestsCompletedRoute = AppContestsCompletedRouteImport.update({
+  id: '/contests/completed',
+  path: '/contests/completed',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContestsSavedRoute = AppContestsSavedRouteImport.update({
+  id: '/contests/saved',
+  path: '/contests/saved',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContestsWonRoute = AppContestsWonRouteImport.update({
+  id: '/contests/won',
+  path: '/contests/won',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEntriesIndexRoute = AppEntriesIndexRouteImport.update({
+  id: '/entries/',
+  path: '/entries/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResultsContestIdRoute = AppResultsContestIdRouteImport.update({
+  id: '/results/$contestId',
+  path: '/results/$contestId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => AppSettingsRoute,
 } as any)
 const AppSettingsNotificationsRoute =
@@ -183,100 +268,53 @@ const AppSettingsNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AppSettingsRoute,
   } as any)
-const AppResultsContestIdRoute = AppResultsContestIdRouteImport.update({
-  id: '/results/$contestId',
-  path: '/results/$contestId',
-  getParentRoute: () => AppRoute,
+const AppSettingsSocialRoute = AppSettingsSocialRouteImport.update({
+  id: '/social',
+  path: '/social',
+  getParentRoute: () => AppSettingsRoute,
 } as any)
-const AppContestsWonRoute = AppContestsWonRouteImport.update({
-  id: '/contests/won',
-  path: '/contests/won',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppContestsSavedRoute = AppContestsSavedRouteImport.update({
-  id: '/contests/saved',
-  path: '/contests/saved',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppContestsCompletedRoute = AppContestsCompletedRouteImport.update({
-  id: '/contests/completed',
-  path: '/contests/completed',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppContestsActiveRoute = AppContestsActiveRouteImport.update({
-  id: '/contests/active',
-  path: '/contests/active',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppContestsContestIdRoute = AppContestsContestIdRouteImport.update({
-  id: '/contests/$contestId',
-  path: '/contests/$contestId',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminWinnersRoute = AppAdminWinnersRouteImport.update({
-  id: '/admin/winners',
-  path: '/admin/winners',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminTemplatesRoute = AppAdminTemplatesRouteImport.update({
-  id: '/admin/templates',
-  path: '/admin/templates',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminSettingsRoute = AppAdminSettingsRouteImport.update({
-  id: '/admin/settings',
-  path: '/admin/settings',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminReportsRoute = AppAdminReportsRouteImport.update({
-  id: '/admin/reports',
-  path: '/admin/reports',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminPayoutsRoute = AppAdminPayoutsRouteImport.update({
-  id: '/admin/payouts',
-  path: '/admin/payouts',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminModerationRoute = AppAdminModerationRouteImport.update({
-  id: '/admin/moderation',
-  path: '/admin/moderation',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminInfluencersRoute = AppAdminInfluencersRouteImport.update({
-  id: '/admin/influencers',
-  path: '/admin/influencers',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminEntriesRoute = AppAdminEntriesRouteImport.update({
-  id: '/admin/entries',
-  path: '/admin/entries',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminBusinessesRoute = AppAdminBusinessesRouteImport.update({
-  id: '/admin/businesses',
-  path: '/admin/businesses',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminAnalyticsRoute = AppAdminAnalyticsRouteImport.update({
-  id: '/admin/analytics',
-  path: '/admin/analytics',
-  getParentRoute: () => AppRoute,
-} as any)
-const ApiPublicSitemapDotxmlRoute = ApiPublicSitemapDotxmlRouteImport.update({
-  id: '/api/public/sitemap.xml',
-  path: '/api/public/sitemap.xml',
+const ApiPublicInstagramCallbackRoute =
+  ApiPublicInstagramCallbackRouteImport.update({
+    id: '/api/public/instagram/callback',
+    path: '/api/public/instagram/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicInstagramStartRoute = ApiPublicInstagramStartRouteImport.update({
+  id: '/api/public/instagram/start',
+  path: '/api/public/instagram/start',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicRobotsDottxtRoute = ApiPublicRobotsDottxtRouteImport.update({
-  id: '/api/public/robots.txt',
-  path: '/api/public/robots.txt',
-  getParentRoute: () => rootRouteImport,
+const AppAdminBusinessesBusinessIdRoute =
+  AppAdminBusinessesBusinessIdRouteImport.update({
+    id: '/$businessId',
+    path: '/$businessId',
+    getParentRoute: () => AppAdminBusinessesRoute,
+  } as any)
+const AppAdminContestsIndexRoute = AppAdminContestsIndexRouteImport.update({
+  id: '/admin/contests/',
+  path: '/admin/contests/',
+  getParentRoute: () => AppRoute,
 } as any)
-const AppBusinessRequestsIndexRoute =
-  AppBusinessRequestsIndexRouteImport.update({
-    id: '/business/requests/',
-    path: '/business/requests/',
+const AppAdminContestsNewRoute = AppAdminContestsNewRouteImport.update({
+  id: '/admin/contests/new',
+  path: '/admin/contests/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminInfluencersInfluencerIdRoute =
+  AppAdminInfluencersInfluencerIdRouteImport.update({
+    id: '/$influencerId',
+    path: '/$influencerId',
+    getParentRoute: () => AppAdminInfluencersRoute,
+  } as any)
+const AppAdminRequestsIndexRoute = AppAdminRequestsIndexRouteImport.update({
+  id: '/admin/requests/',
+  path: '/admin/requests/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminRequestsRequestIdRoute =
+  AppAdminRequestsRequestIdRouteImport.update({
+    id: '/admin/requests/$requestId',
+    path: '/admin/requests/$requestId',
     getParentRoute: () => AppRoute,
   } as any)
 const AppBusinessContestsIndexRoute =
@@ -285,60 +323,34 @@ const AppBusinessContestsIndexRoute =
     path: '/business/contests/',
     getParentRoute: () => AppRoute,
   } as any)
-const AppAdminRequestsIndexRoute = AppAdminRequestsIndexRouteImport.update({
-  id: '/admin/requests/',
-  path: '/admin/requests/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAdminContestsIndexRoute = AppAdminContestsIndexRouteImport.update({
-  id: '/admin/contests/',
-  path: '/admin/contests/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppBusinessRequestsNewRoute = AppBusinessRequestsNewRouteImport.update({
-  id: '/business/requests/new',
-  path: '/business/requests/new',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppBusinessContestsContestIdRoute =
   AppBusinessContestsContestIdRouteImport.update({
     id: '/business/contests/$contestId',
     path: '/business/contests/$contestId',
     getParentRoute: () => AppRoute,
   } as any)
-const AppAdminRequestsRequestIdRoute =
-  AppAdminRequestsRequestIdRouteImport.update({
-    id: '/admin/requests/$requestId',
-    path: '/admin/requests/$requestId',
+const AppBusinessRequestsIndexRoute =
+  AppBusinessRequestsIndexRouteImport.update({
+    id: '/business/requests/',
+    path: '/business/requests/',
     getParentRoute: () => AppRoute,
   } as any)
-const AppAdminInfluencersInfluencerIdRoute =
-  AppAdminInfluencersInfluencerIdRouteImport.update({
-    id: '/$influencerId',
-    path: '/$influencerId',
-    getParentRoute: () => AppAdminInfluencersRoute,
-  } as any)
-const AppAdminContestsNewRoute = AppAdminContestsNewRouteImport.update({
-  id: '/admin/contests/new',
-  path: '/admin/contests/new',
+const AppBusinessRequestsNewRoute = AppBusinessRequestsNewRouteImport.update({
+  id: '/business/requests/new',
+  path: '/business/requests/new',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAdminBusinessesBusinessIdRoute =
-  AppAdminBusinessesBusinessIdRouteImport.update({
-    id: '/$businessId',
-    path: '/$businessId',
-    getParentRoute: () => AppAdminBusinessesRoute,
+const AppAdminContestsContestIdIndexRoute =
+  AppAdminContestsContestIdIndexRouteImport.update({
+    id: '/admin/contests/$contestId/',
+    path: '/admin/contests/$contestId/',
+    getParentRoute: () => AppRoute,
   } as any)
-const ApiPublicInstagramStartRoute = ApiPublicInstagramStartRouteImport.update({
-  id: '/api/public/instagram/start',
-  path: '/api/public/instagram/start',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicInstagramCallbackRoute =
-  ApiPublicInstagramCallbackRouteImport.update({
-    id: '/api/public/instagram/callback',
-    path: '/api/public/instagram/callback',
-    getParentRoute: () => rootRouteImport,
+const AppAdminContestsContestIdEditRoute =
+  AppAdminContestsContestIdEditRouteImport.update({
+    id: '/admin/contests/$contestId/edit',
+    path: '/admin/contests/$contestId/edit',
+    getParentRoute: () => AppRoute,
   } as any)
 const AppBusinessRequestsRequestIdIndexRoute =
   AppBusinessRequestsRequestIdIndexRouteImport.update({
@@ -346,22 +358,10 @@ const AppBusinessRequestsRequestIdIndexRoute =
     path: '/business/requests/$requestId/',
     getParentRoute: () => AppRoute,
   } as any)
-const AppAdminContestsContestIdIndexRoute =
-  AppAdminContestsContestIdIndexRouteImport.update({
-    id: '/admin/contests/$contestId/',
-    path: '/admin/contests/$contestId/',
-    getParentRoute: () => AppRoute,
-  } as any)
 const AppBusinessRequestsRequestIdEditRoute =
   AppBusinessRequestsRequestIdEditRouteImport.update({
     id: '/business/requests/$requestId/edit',
     path: '/business/requests/$requestId/edit',
-    getParentRoute: () => AppRoute,
-  } as any)
-const AppAdminContestsContestIdEditRoute =
-  AppAdminContestsContestIdEditRouteImport.update({
-    id: '/admin/contests/$contestId/edit',
-    path: '/admin/contests/$contestId/edit',
     getParentRoute: () => AppRoute,
   } as any)
 
@@ -739,18 +739,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -760,11 +753,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -774,74 +774,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/onboarding/influencer': {
-      id: '/onboarding/influencer'
-      path: '/onboarding/influencer'
-      fullPath: '/onboarding/influencer'
-      preLoaderRoute: typeof OnboardingInfluencerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding/business': {
-      id: '/onboarding/business'
-      path: '/onboarding/business'
-      fullPath: '/onboarding/business'
-      preLoaderRoute: typeof OnboardingBusinessRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/sign-up': {
-      id: '/auth/sign-up'
-      path: '/auth/sign-up'
-      fullPath: '/auth/sign-up'
-      preLoaderRoute: typeof AuthSignUpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/sign-in': {
-      id: '/auth/sign-in'
-      path: '/auth/sign-in'
-      fullPath: '/auth/sign-in'
-      preLoaderRoute: typeof AuthSignInRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/role': {
-      id: '/auth/role'
-      path: '/auth/role'
-      fullPath: '/auth/role'
-      preLoaderRoute: typeof AuthRoleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/reset-password': {
-      id: '/auth/reset-password'
-      path: '/auth/reset-password'
-      fullPath: '/auth/reset-password'
-      preLoaderRoute: typeof AuthResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/instagram': {
-      id: '/auth/instagram'
-      path: '/auth/instagram'
-      fullPath: '/auth/instagram'
-      preLoaderRoute: typeof AuthInstagramRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app/settings': {
-      id: '/app/settings'
-      path: '/settings'
-      fullPath: '/app/settings'
-      preLoaderRoute: typeof AppSettingsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/rewards': {
-      id: '/app/rewards'
-      path: '/rewards'
-      fullPath: '/app/rewards'
-      preLoaderRoute: typeof AppRewardsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/profile': {
-      id: '/app/profile'
-      path: '/profile'
-      fullPath: '/app/profile'
-      preLoaderRoute: typeof AppProfileRouteImport
+    '/app/analytics': {
+      id: '/app/analytics'
+      path: '/analytics'
+      fullPath: '/app/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/notifications': {
@@ -851,172 +788,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNotificationsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/analytics': {
-      id: '/app/analytics'
-      path: '/analytics'
-      fullPath: '/app/analytics'
-      preLoaderRoute: typeof AppAnalyticsRouteImport
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/settings/': {
-      id: '/app/settings/'
-      path: '/'
-      fullPath: '/app/settings/'
-      preLoaderRoute: typeof AppSettingsIndexRouteImport
-      parentRoute: typeof AppSettingsRoute
-    }
-    '/app/entries/': {
-      id: '/app/entries/'
-      path: '/entries'
-      fullPath: '/app/entries/'
-      preLoaderRoute: typeof AppEntriesIndexRouteImport
+    '/app/rewards': {
+      id: '/app/rewards'
+      path: '/rewards'
+      fullPath: '/app/rewards'
+      preLoaderRoute: typeof AppRewardsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/contests/': {
-      id: '/app/contests/'
-      path: '/contests'
-      fullPath: '/app/contests/'
-      preLoaderRoute: typeof AppContestsIndexRouteImport
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/admin/': {
-      id: '/app/admin/'
-      path: '/admin'
-      fullPath: '/app/admin/'
-      preLoaderRoute: typeof AppAdminIndexRouteImport
-      parentRoute: typeof AppRoute
+    '/auth/instagram': {
+      id: '/auth/instagram'
+      path: '/auth/instagram'
+      fullPath: '/auth/instagram'
+      preLoaderRoute: typeof AuthInstagramRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/settings/social': {
-      id: '/app/settings/social'
-      path: '/social'
-      fullPath: '/app/settings/social'
-      preLoaderRoute: typeof AppSettingsSocialRouteImport
-      parentRoute: typeof AppSettingsRoute
+    '/auth/reset-password': {
+      id: '/auth/reset-password'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/settings/notifications': {
-      id: '/app/settings/notifications'
-      path: '/notifications'
-      fullPath: '/app/settings/notifications'
-      preLoaderRoute: typeof AppSettingsNotificationsRouteImport
-      parentRoute: typeof AppSettingsRoute
+    '/auth/role': {
+      id: '/auth/role'
+      path: '/auth/role'
+      fullPath: '/auth/role'
+      preLoaderRoute: typeof AuthRoleRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/results/$contestId': {
-      id: '/app/results/$contestId'
-      path: '/results/$contestId'
-      fullPath: '/app/results/$contestId'
-      preLoaderRoute: typeof AppResultsContestIdRouteImport
-      parentRoute: typeof AppRoute
+    '/auth/sign-in': {
+      id: '/auth/sign-in'
+      path: '/auth/sign-in'
+      fullPath: '/auth/sign-in'
+      preLoaderRoute: typeof AuthSignInRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/contests/won': {
-      id: '/app/contests/won'
-      path: '/contests/won'
-      fullPath: '/app/contests/won'
-      preLoaderRoute: typeof AppContestsWonRouteImport
-      parentRoute: typeof AppRoute
+    '/auth/sign-up': {
+      id: '/auth/sign-up'
+      path: '/auth/sign-up'
+      fullPath: '/auth/sign-up'
+      preLoaderRoute: typeof AuthSignUpRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/contests/saved': {
-      id: '/app/contests/saved'
-      path: '/contests/saved'
-      fullPath: '/app/contests/saved'
-      preLoaderRoute: typeof AppContestsSavedRouteImport
-      parentRoute: typeof AppRoute
+    '/onboarding/business': {
+      id: '/onboarding/business'
+      path: '/onboarding/business'
+      fullPath: '/onboarding/business'
+      preLoaderRoute: typeof OnboardingBusinessRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/contests/completed': {
-      id: '/app/contests/completed'
-      path: '/contests/completed'
-      fullPath: '/app/contests/completed'
-      preLoaderRoute: typeof AppContestsCompletedRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/contests/active': {
-      id: '/app/contests/active'
-      path: '/contests/active'
-      fullPath: '/app/contests/active'
-      preLoaderRoute: typeof AppContestsActiveRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/contests/$contestId': {
-      id: '/app/contests/$contestId'
-      path: '/contests/$contestId'
-      fullPath: '/app/contests/$contestId'
-      preLoaderRoute: typeof AppContestsContestIdRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/winners': {
-      id: '/app/admin/winners'
-      path: '/admin/winners'
-      fullPath: '/app/admin/winners'
-      preLoaderRoute: typeof AppAdminWinnersRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/templates': {
-      id: '/app/admin/templates'
-      path: '/admin/templates'
-      fullPath: '/app/admin/templates'
-      preLoaderRoute: typeof AppAdminTemplatesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/settings': {
-      id: '/app/admin/settings'
-      path: '/admin/settings'
-      fullPath: '/app/admin/settings'
-      preLoaderRoute: typeof AppAdminSettingsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/reports': {
-      id: '/app/admin/reports'
-      path: '/admin/reports'
-      fullPath: '/app/admin/reports'
-      preLoaderRoute: typeof AppAdminReportsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/payouts': {
-      id: '/app/admin/payouts'
-      path: '/admin/payouts'
-      fullPath: '/app/admin/payouts'
-      preLoaderRoute: typeof AppAdminPayoutsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/moderation': {
-      id: '/app/admin/moderation'
-      path: '/admin/moderation'
-      fullPath: '/app/admin/moderation'
-      preLoaderRoute: typeof AppAdminModerationRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/influencers': {
-      id: '/app/admin/influencers'
-      path: '/admin/influencers'
-      fullPath: '/app/admin/influencers'
-      preLoaderRoute: typeof AppAdminInfluencersRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/entries': {
-      id: '/app/admin/entries'
-      path: '/admin/entries'
-      fullPath: '/app/admin/entries'
-      preLoaderRoute: typeof AppAdminEntriesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/businesses': {
-      id: '/app/admin/businesses'
-      path: '/admin/businesses'
-      fullPath: '/app/admin/businesses'
-      preLoaderRoute: typeof AppAdminBusinessesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/analytics': {
-      id: '/app/admin/analytics'
-      path: '/admin/analytics'
-      fullPath: '/app/admin/analytics'
-      preLoaderRoute: typeof AppAdminAnalyticsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/api/public/sitemap.xml': {
-      id: '/api/public/sitemap.xml'
-      path: '/api/public/sitemap.xml'
-      fullPath: '/api/public/sitemap.xml'
-      preLoaderRoute: typeof ApiPublicSitemapDotxmlRouteImport
+    '/onboarding/influencer': {
+      id: '/onboarding/influencer'
+      path: '/onboarding/influencer'
+      fullPath: '/onboarding/influencer'
+      preLoaderRoute: typeof OnboardingInfluencerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/robots.txt': {
@@ -1026,26 +865,187 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicRobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/business/requests/': {
-      id: '/app/business/requests/'
-      path: '/business/requests'
-      fullPath: '/app/business/requests/'
-      preLoaderRoute: typeof AppBusinessRequestsIndexRouteImport
+    '/api/public/sitemap.xml': {
+      id: '/api/public/sitemap.xml'
+      path: '/api/public/sitemap.xml'
+      fullPath: '/api/public/sitemap.xml'
+      preLoaderRoute: typeof ApiPublicSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/admin/': {
+      id: '/app/admin/'
+      path: '/admin'
+      fullPath: '/app/admin/'
+      preLoaderRoute: typeof AppAdminIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/business/contests/': {
-      id: '/app/business/contests/'
-      path: '/business/contests'
-      fullPath: '/app/business/contests/'
-      preLoaderRoute: typeof AppBusinessContestsIndexRouteImport
+    '/app/admin/analytics': {
+      id: '/app/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/app/admin/analytics'
+      preLoaderRoute: typeof AppAdminAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/admin/requests/': {
-      id: '/app/admin/requests/'
-      path: '/admin/requests'
-      fullPath: '/app/admin/requests/'
-      preLoaderRoute: typeof AppAdminRequestsIndexRouteImport
+    '/app/admin/businesses': {
+      id: '/app/admin/businesses'
+      path: '/admin/businesses'
+      fullPath: '/app/admin/businesses'
+      preLoaderRoute: typeof AppAdminBusinessesRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/admin/entries': {
+      id: '/app/admin/entries'
+      path: '/admin/entries'
+      fullPath: '/app/admin/entries'
+      preLoaderRoute: typeof AppAdminEntriesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/influencers': {
+      id: '/app/admin/influencers'
+      path: '/admin/influencers'
+      fullPath: '/app/admin/influencers'
+      preLoaderRoute: typeof AppAdminInfluencersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/moderation': {
+      id: '/app/admin/moderation'
+      path: '/admin/moderation'
+      fullPath: '/app/admin/moderation'
+      preLoaderRoute: typeof AppAdminModerationRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/payouts': {
+      id: '/app/admin/payouts'
+      path: '/admin/payouts'
+      fullPath: '/app/admin/payouts'
+      preLoaderRoute: typeof AppAdminPayoutsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/reports': {
+      id: '/app/admin/reports'
+      path: '/admin/reports'
+      fullPath: '/app/admin/reports'
+      preLoaderRoute: typeof AppAdminReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/settings': {
+      id: '/app/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/app/admin/settings'
+      preLoaderRoute: typeof AppAdminSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/templates': {
+      id: '/app/admin/templates'
+      path: '/admin/templates'
+      fullPath: '/app/admin/templates'
+      preLoaderRoute: typeof AppAdminTemplatesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin/winners': {
+      id: '/app/admin/winners'
+      path: '/admin/winners'
+      fullPath: '/app/admin/winners'
+      preLoaderRoute: typeof AppAdminWinnersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contests/': {
+      id: '/app/contests/'
+      path: '/contests'
+      fullPath: '/app/contests/'
+      preLoaderRoute: typeof AppContestsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contests/$contestId': {
+      id: '/app/contests/$contestId'
+      path: '/contests/$contestId'
+      fullPath: '/app/contests/$contestId'
+      preLoaderRoute: typeof AppContestsContestIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contests/active': {
+      id: '/app/contests/active'
+      path: '/contests/active'
+      fullPath: '/app/contests/active'
+      preLoaderRoute: typeof AppContestsActiveRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contests/completed': {
+      id: '/app/contests/completed'
+      path: '/contests/completed'
+      fullPath: '/app/contests/completed'
+      preLoaderRoute: typeof AppContestsCompletedRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contests/saved': {
+      id: '/app/contests/saved'
+      path: '/contests/saved'
+      fullPath: '/app/contests/saved'
+      preLoaderRoute: typeof AppContestsSavedRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contests/won': {
+      id: '/app/contests/won'
+      path: '/contests/won'
+      fullPath: '/app/contests/won'
+      preLoaderRoute: typeof AppContestsWonRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/entries/': {
+      id: '/app/entries/'
+      path: '/entries'
+      fullPath: '/app/entries/'
+      preLoaderRoute: typeof AppEntriesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/results/$contestId': {
+      id: '/app/results/$contestId'
+      path: '/results/$contestId'
+      fullPath: '/app/results/$contestId'
+      preLoaderRoute: typeof AppResultsContestIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings/': {
+      id: '/app/settings/'
+      path: '/'
+      fullPath: '/app/settings/'
+      preLoaderRoute: typeof AppSettingsIndexRouteImport
+      parentRoute: typeof AppSettingsRoute
+    }
+    '/app/settings/notifications': {
+      id: '/app/settings/notifications'
+      path: '/notifications'
+      fullPath: '/app/settings/notifications'
+      preLoaderRoute: typeof AppSettingsNotificationsRouteImport
+      parentRoute: typeof AppSettingsRoute
+    }
+    '/app/settings/social': {
+      id: '/app/settings/social'
+      path: '/social'
+      fullPath: '/app/settings/social'
+      preLoaderRoute: typeof AppSettingsSocialRouteImport
+      parentRoute: typeof AppSettingsRoute
+    }
+    '/api/public/instagram/callback': {
+      id: '/api/public/instagram/callback'
+      path: '/api/public/instagram/callback'
+      fullPath: '/api/public/instagram/callback'
+      preLoaderRoute: typeof ApiPublicInstagramCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/instagram/start': {
+      id: '/api/public/instagram/start'
+      path: '/api/public/instagram/start'
+      fullPath: '/api/public/instagram/start'
+      preLoaderRoute: typeof ApiPublicInstagramStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/admin/businesses/$businessId': {
+      id: '/app/admin/businesses/$businessId'
+      path: '/$businessId'
+      fullPath: '/app/admin/businesses/$businessId'
+      preLoaderRoute: typeof AppAdminBusinessesBusinessIdRouteImport
+      parentRoute: typeof AppAdminBusinessesRoute
     }
     '/app/admin/contests/': {
       id: '/app/admin/contests/'
@@ -1054,25 +1054,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminContestsIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/business/requests/new': {
-      id: '/app/business/requests/new'
-      path: '/business/requests/new'
-      fullPath: '/app/business/requests/new'
-      preLoaderRoute: typeof AppBusinessRequestsNewRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/business/contests/$contestId': {
-      id: '/app/business/contests/$contestId'
-      path: '/business/contests/$contestId'
-      fullPath: '/app/business/contests/$contestId'
-      preLoaderRoute: typeof AppBusinessContestsContestIdRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/admin/requests/$requestId': {
-      id: '/app/admin/requests/$requestId'
-      path: '/admin/requests/$requestId'
-      fullPath: '/app/admin/requests/$requestId'
-      preLoaderRoute: typeof AppAdminRequestsRequestIdRouteImport
+    '/app/admin/contests/new': {
+      id: '/app/admin/contests/new'
+      path: '/admin/contests/new'
+      fullPath: '/app/admin/contests/new'
+      preLoaderRoute: typeof AppAdminContestsNewRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/admin/influencers/$influencerId': {
@@ -1082,39 +1068,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminInfluencersInfluencerIdRouteImport
       parentRoute: typeof AppAdminInfluencersRoute
     }
-    '/app/admin/contests/new': {
-      id: '/app/admin/contests/new'
-      path: '/admin/contests/new'
-      fullPath: '/app/admin/contests/new'
-      preLoaderRoute: typeof AppAdminContestsNewRouteImport
+    '/app/admin/requests/': {
+      id: '/app/admin/requests/'
+      path: '/admin/requests'
+      fullPath: '/app/admin/requests/'
+      preLoaderRoute: typeof AppAdminRequestsIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/admin/businesses/$businessId': {
-      id: '/app/admin/businesses/$businessId'
-      path: '/$businessId'
-      fullPath: '/app/admin/businesses/$businessId'
-      preLoaderRoute: typeof AppAdminBusinessesBusinessIdRouteImport
-      parentRoute: typeof AppAdminBusinessesRoute
+    '/app/admin/requests/$requestId': {
+      id: '/app/admin/requests/$requestId'
+      path: '/admin/requests/$requestId'
+      fullPath: '/app/admin/requests/$requestId'
+      preLoaderRoute: typeof AppAdminRequestsRequestIdRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/api/public/instagram/start': {
-      id: '/api/public/instagram/start'
-      path: '/api/public/instagram/start'
-      fullPath: '/api/public/instagram/start'
-      preLoaderRoute: typeof ApiPublicInstagramStartRouteImport
-      parentRoute: typeof rootRouteImport
+    '/app/business/contests/': {
+      id: '/app/business/contests/'
+      path: '/business/contests'
+      fullPath: '/app/business/contests/'
+      preLoaderRoute: typeof AppBusinessContestsIndexRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/api/public/instagram/callback': {
-      id: '/api/public/instagram/callback'
-      path: '/api/public/instagram/callback'
-      fullPath: '/api/public/instagram/callback'
-      preLoaderRoute: typeof ApiPublicInstagramCallbackRouteImport
-      parentRoute: typeof rootRouteImport
+    '/app/business/contests/$contestId': {
+      id: '/app/business/contests/$contestId'
+      path: '/business/contests/$contestId'
+      fullPath: '/app/business/contests/$contestId'
+      preLoaderRoute: typeof AppBusinessContestsContestIdRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/app/business/requests/$requestId/': {
-      id: '/app/business/requests/$requestId/'
-      path: '/business/requests/$requestId'
-      fullPath: '/app/business/requests/$requestId/'
-      preLoaderRoute: typeof AppBusinessRequestsRequestIdIndexRouteImport
+    '/app/business/requests/': {
+      id: '/app/business/requests/'
+      path: '/business/requests'
+      fullPath: '/app/business/requests/'
+      preLoaderRoute: typeof AppBusinessRequestsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/business/requests/new': {
+      id: '/app/business/requests/new'
+      path: '/business/requests/new'
+      fullPath: '/app/business/requests/new'
+      preLoaderRoute: typeof AppBusinessRequestsNewRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/admin/contests/$contestId/': {
@@ -1124,18 +1117,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminContestsContestIdIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/business/requests/$requestId/edit': {
-      id: '/app/business/requests/$requestId/edit'
-      path: '/business/requests/$requestId/edit'
-      fullPath: '/app/business/requests/$requestId/edit'
-      preLoaderRoute: typeof AppBusinessRequestsRequestIdEditRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/admin/contests/$contestId/edit': {
       id: '/app/admin/contests/$contestId/edit'
       path: '/admin/contests/$contestId/edit'
       fullPath: '/app/admin/contests/$contestId/edit'
       preLoaderRoute: typeof AppAdminContestsContestIdEditRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/business/requests/$requestId/': {
+      id: '/app/business/requests/$requestId/'
+      path: '/business/requests/$requestId'
+      fullPath: '/app/business/requests/$requestId/'
+      preLoaderRoute: typeof AppBusinessRequestsRequestIdIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/business/requests/$requestId/edit': {
+      id: '/app/business/requests/$requestId/edit'
+      path: '/business/requests/$requestId/edit'
+      fullPath: '/app/business/requests/$requestId/edit'
+      preLoaderRoute: typeof AppBusinessRequestsRequestIdEditRouteImport
       parentRoute: typeof AppRoute
     }
   }
